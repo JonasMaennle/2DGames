@@ -32,6 +32,8 @@ public class Player implements Entity{
 	private Animation anim_jumpLeft;
 	
 	
+	
+	
 	public Player(float x, float y, TileGrid grid)
 	{
 		this.grid = grid;
