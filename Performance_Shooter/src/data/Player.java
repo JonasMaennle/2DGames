@@ -20,10 +20,16 @@ public class Player implements Entity{
 	private final float MAX_SPEED = 30;
 	private int frameCount;
 	private String currentAnimation;
+	private String direction;
 	
 	// Animations
-	private Animation anim_idleRightw;
+	private Animation anim_idleRight;
 	private Animation anim_walkRight;
+	private Animation anim_jumpRight;
+	
+	private Animation anim_idleLeft;
+	private Animation anim_walkLeft;
+	private Animation anim_jumpLeft;
 	
 	
 	public Player(float x, float y, TileGrid grid)
@@ -34,17 +40,25 @@ public class Player implements Entity{
 		this.velY = 0;
 		this.x = x; 
 		this.y = y;
+		this.direction = "right";
 		this.jumping = false;
+		this.falling = true;
 		this.frameCount = 110;
 		this.gravity = 4;
 		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectRight = new Rectangle((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
+		// Animation stuff
+		this.anim_walkRight = new Animation(loadSpriteSheet("player/player_walkRight", TILE_SIZE, TILE_SIZE * 2), 50);
+		this.anim_idleRight = new Animation(loadSpriteSheet("player/player_idleRight", TILE_SIZE, TILE_SIZE * 2), 40);
+		this.anim_jumpRight = new Animation(loadSpriteSheet("player/player_jumpRight", TILE_SIZE, TILE_SIZE * 2), 20);
 		
-		this.anim_walkRight = new Animation(loadSpriteSheet("player_walk", TILE_SIZE, TILE_SIZE * 2), 80);
-		this.anim_idleRightw = new Animation();
-		this.currentAnimation = "walkRight";
+		this.anim_walkLeft = new Animation(loadSpriteSheet("player/player_walkLeft", TILE_SIZE, TILE_SIZE * 2), 60);
+		this.anim_idleLeft = new Animation(loadSpriteSheet("player/player_idleLeft", TILE_SIZE, TILE_SIZE * 2), 40);
+		this.anim_jumpLeft = new Animation(loadSpriteSheet("player/player_jumpLeft", TILE_SIZE, TILE_SIZE * 2), 20);
+		
+		this.currentAnimation = "anim_idleRight";
 	}
 	
 	public void update()
@@ -55,13 +69,31 @@ public class Player implements Entity{
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
 		{
 			velX += 1;
-			
+			currentAnimation = "anim_walkRight";
+			direction = "right";
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+		{
 			velX -= 1;
-		if(Keyboard.isKeyDown(Keyboard.KEY_UP) && !jumping)
+			currentAnimation = "anim_walkLeft";
+			direction = "left";
+		}		
+		
+		if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && !Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+		{
+			if(direction.equals("right"))
+				currentAnimation = "anim_idleRight";
+			else
+				currentAnimation = "anim_idleLeft";
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP) && !jumping && falling)
 		{
 			jumping = true;
+			falling = false;
+		}
+		if(!Keyboard.isKeyDown(Keyboard.KEY_UP))
+		{
+			falling = true;
 		}
 
 		jump();
@@ -77,16 +109,62 @@ public class Player implements Entity{
 	public void draw()
 	{	
 		switch (currentAnimation) {
-		case "idleRight":
-			drawQuadImage(anim_walkRight.getImage(0), x, y, TILE_SIZE, TILE_SIZE * 2);
+		case "anim_idleRight":
+			//drawQuadImage(anim_walkRight.getImage(0), x, y, TILE_SIZE, TILE_SIZE * 2);
+			anim_idleRight.stopAt(9);
+			drawAnimation(anim_idleRight, x, y, TILE_SIZE, TILE_SIZE * 2);
+			anim_walkRight.restart();
+			anim_jumpRight.restart();
+			anim_walkLeft.restart();
+			anim_idleLeft.restart();
+			anim_jumpLeft.restart();
 			break;
-		case "walkRight":
+		case "anim_walkRight":
 			drawAnimation(anim_walkRight, x, y, TILE_SIZE, TILE_SIZE * 2);
+			anim_idleRight.restart();
+			anim_jumpRight.restart();
+			anim_walkLeft.restart();
+			anim_idleLeft.restart();
+			anim_jumpLeft.restart();
+			break;
+		case "anim_jumpRight":
+			anim_jumpRight.stopAt(4);
+			drawAnimation(anim_jumpRight, x, y, TILE_SIZE, TILE_SIZE * 2);
+			anim_idleRight.restart();
+			anim_walkRight.restart();
+			anim_walkLeft.restart();
+			anim_idleLeft.restart();
+			anim_jumpLeft.restart();
+			break;
+		case "anim_walkLeft":
+			drawAnimation(anim_walkLeft, x, y, TILE_SIZE, TILE_SIZE * 2);
+			anim_idleRight.restart();
+			anim_jumpRight.restart();
+			anim_walkRight.restart();
+			anim_idleLeft.restart();
+			anim_jumpLeft.restart();
+			break;
+		case "anim_idleLeft":
+			anim_idleLeft.stopAt(9);
+			drawAnimation(anim_idleLeft, x, y, TILE_SIZE, TILE_SIZE * 2);
+			anim_walkRight.restart();
+			anim_jumpRight.restart();
+			anim_walkLeft.restart();
+			anim_idleRight.restart();
+			anim_jumpLeft.restart();
+			break;
+		case "anim_jumpLeft":
+			anim_jumpLeft.stopAt(4);
+			drawAnimation(anim_jumpLeft, x, y, TILE_SIZE, TILE_SIZE * 2);
+			anim_idleRight.restart();
+			anim_walkRight.restart();
+			anim_walkLeft.restart();
+			anim_idleLeft.restart();
+			anim_jumpRight.restart();
 			break;
 		default:
 			break;
 		}
-		//drawQuadImage(img, x, y, TILE_SIZE, TILE_SIZE * 2);
 		//drawBounds();
 	}
 	
@@ -137,8 +215,14 @@ public class Player implements Entity{
 	{
 		if(jumping)
 		{
-			if(falling || jumping && frameCount >= 0)
+			if(direction.equals("right"))
+				currentAnimation = "anim_jumpRight";
+			else
+				currentAnimation = "anim_jumpLeft";
+			
+			if(jumping && frameCount >= 0)
 			{
+				
 				velY -= frameCount * 0.1;
 				frameCount -= 4;
 				if(velY > MAX_SPEED)
