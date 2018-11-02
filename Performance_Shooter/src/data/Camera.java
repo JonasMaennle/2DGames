@@ -2,6 +2,8 @@ package data;
 
 import static helpers.Artist.*;
 
+import object.Player;
+
 public class Camera {
 	
 	private Player player;

@@ -40,7 +40,7 @@ public class Artist {
 	
 	public static void beginSession()
 	{
-		Display.setTitle("Sickes Games");
+		Display.setTitle("StarWars Shooter");
 		//Display.setLocation((Display.getDisplayMode().getWidth()-WIDTH) / 2, 0);
 		try {
 			@SuppressWarnings("unused")
@@ -173,6 +173,30 @@ public class Artist {
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		tex.bind();
 		glTranslatef(x + width/2, y + height/2, 0);
+		glRotatef(angle, 0, 0, 1);
+		glTranslatef(- width / 2, - height / 2, 0);
+				
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1, 0);
+		glVertex2f(width, 0);
+		glTexCoord2f(1, 1);
+		glVertex2f(width, height);
+		glTexCoord2f(0, 1);
+		glVertex2f(0, height);
+		glEnd();
+		
+		glLoadIdentity();
+		glDisable(GL_BLEND);
+	}
+	
+	public static void drawQuadImageRot(Image image, float x, float y, float width, float height, float angle)
+	{	
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		image.bind();
+		glTranslatef(x + (width / 2) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
 		glRotatef(angle, 0, 0, 1);
 		glTranslatef(- width / 2, - height / 2, 0);
 				

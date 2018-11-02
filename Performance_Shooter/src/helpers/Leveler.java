@@ -56,6 +56,13 @@ public class Leveler {
 					grid.setTile(x, y, TileType.Grass_Round);
 					obstacleList.add(grid.getTile(x, y));
 				}
+		// Dirt Tile
+				// Grey -> Dirt_Basic
+				if(red == 127 && green == 50 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.Dirt_Basic);
+					obstacleList.add(grid.getTile(x, y));
+				}
 		// Rock Tile
 				// Grey -> Rock_Basic
 				if(red == 196 && green == 196 && blue == 196)
@@ -73,7 +80,7 @@ public class Leveler {
 				}
 			}
 		}
-		//System.out.println(helpers.Artist.tileCounter);
+		System.out.println("Anzahl Tiles: " + helpers.Artist.tileCounter);
 		return grid;
 	}
 	

@@ -19,7 +19,7 @@ public class Tile {
 		this.width = width;
 		this.height = height;
 		this.type = type;
-		this.image = quickLoaderImage(type.textureName);
+		this.image = quickLoaderImage("tiles/" + type.textureName);
 		tileCounter++;
 	}
 	

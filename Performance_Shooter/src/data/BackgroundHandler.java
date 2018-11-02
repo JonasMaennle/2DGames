@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
 import object.Cloud;
+import object.Player;
 
 public class BackgroundHandler {
 	
@@ -19,10 +20,10 @@ public class BackgroundHandler {
 	
 	public BackgroundHandler(Player player)
 	{
-		this.background_mountain = quickLoaderImage("background_00");
-		this.background_forest = quickLoaderImage("background_01");
-		this.sky = quickLoaderImage("sky");
-		this.filter = quickLoaderImage("filter");
+		this.background_mountain = quickLoaderImage("background/background_00");
+		this.background_forest = quickLoaderImage("background/background_01");
+		this.sky = quickLoaderImage("background/sky");
+		this.filter = quickLoaderImage("background/filter");
 		this.player = player;
 		
 		this.cloud = new Cloud(Display.getX() + Display.getWidth(), 0);

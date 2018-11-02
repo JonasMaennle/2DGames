@@ -1,9 +1,13 @@
-package data;
+package object;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
+
+import data.Entity;
+import data.Tile;
+import data.TileGrid;
 
 import static helpers.Leveler.*;
 import static helpers.Artist.*;
@@ -13,10 +17,11 @@ import java.awt.Rectangle;
 public class Player implements Entity{
 	
 	private TileGrid grid;
-	private float x, y, velX, velY;
-	//public static final int PLAYER_WIDTH = 64, PLAYER_HEIGHT = 128;
-	private float speed, gravity;
+	private Weapon weapon;
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
+	
+	private float x, y, velX, velY;
+	private float speed, gravity;
 	private boolean falling, jumping;
 	private final float MAX_SPEED = 30;
 	private int frameCount;
@@ -31,9 +36,6 @@ public class Player implements Entity{
 	private Animation anim_idleLeft;
 	private Animation anim_walkLeft;
 	private Animation anim_jumpLeft;
-	
-	
-	
 	
 	public Player(float x, float y, TileGrid grid)
 	{
@@ -52,13 +54,15 @@ public class Player implements Entity{
 		this.rectRight = new Rectangle((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
+		this.weapon = new Weapon(x, y, 70, 35, this);
+		
 		// Animation stuff
 		this.anim_walkRight = new Animation(loadSpriteSheet("player/player_walkRight", TILE_SIZE, TILE_SIZE * 2), 50);
-		this.anim_idleRight = new Animation(loadSpriteSheet("player/player_idleRight", TILE_SIZE, TILE_SIZE * 2), 40);
+		this.anim_idleRight = new Animation(loadSpriteSheet("player/player_idleRight", TILE_SIZE, TILE_SIZE * 2), 25);
 		this.anim_jumpRight = new Animation(loadSpriteSheet("player/player_jumpRight", TILE_SIZE, TILE_SIZE * 2), 20);
 		
-		this.anim_walkLeft = new Animation(loadSpriteSheet("player/player_walkLeft", TILE_SIZE, TILE_SIZE * 2), 60);
-		this.anim_idleLeft = new Animation(loadSpriteSheet("player/player_idleLeft", TILE_SIZE, TILE_SIZE * 2), 40);
+		this.anim_walkLeft = new Animation(loadSpriteSheet("player/player_walkLeft", TILE_SIZE, TILE_SIZE * 2), 50);
+		this.anim_idleLeft = new Animation(loadSpriteSheet("player/player_idleLeft", TILE_SIZE, TILE_SIZE * 2), 25);
 		this.anim_jumpLeft = new Animation(loadSpriteSheet("player/player_jumpLeft", TILE_SIZE, TILE_SIZE * 2), 20);
 		
 		this.currentAnimation = "anim_idleRight";
@@ -167,6 +171,8 @@ public class Player implements Entity{
 		default:
 			break;
 		}
+		
+		weapon.draw();
 		//drawBounds();
 	}
 	
@@ -327,5 +333,56 @@ public class Player implements Entity{
 		this.velX = velX;
 	}
 	
-	
+	public String getCurrentAnimation()
+	{
+		return currentAnimation;
+	}
+
+	public Animation getAnim_idleRight() {
+		return anim_idleRight;
+	}
+
+	public void setAnim_idleRight(Animation anim_idleRight) {
+		this.anim_idleRight = anim_idleRight;
+	}
+
+	public Animation getAnim_walkRight() {
+		return anim_walkRight;
+	}
+
+	public void setAnim_walkRight(Animation anim_walkRight) {
+		this.anim_walkRight = anim_walkRight;
+	}
+
+	public Animation getAnim_jumpRight() {
+		return anim_jumpRight;
+	}
+
+	public void setAnim_jumpRight(Animation anim_jumpRight) {
+		this.anim_jumpRight = anim_jumpRight;
+	}
+
+	public Animation getAnim_idleLeft() {
+		return anim_idleLeft;
+	}
+
+	public void setAnim_idleLeft(Animation anim_idleLeft) {
+		this.anim_idleLeft = anim_idleLeft;
+	}
+
+	public Animation getAnim_walkLeft() {
+		return anim_walkLeft;
+	}
+
+	public void setAnim_walkLeft(Animation anim_walkLeft) {
+		this.anim_walkLeft = anim_walkLeft;
+	}
+
+	public Animation getAnim_jumpLeft() {
+		return anim_jumpLeft;
+	}
+
+	public void setAnim_jumpLeft(Animation anim_jumpLeft) {
+		this.anim_jumpLeft = anim_jumpLeft;
+	}
 }

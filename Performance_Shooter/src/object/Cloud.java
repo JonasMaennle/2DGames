@@ -19,7 +19,7 @@ public class Cloud implements Entity{
 		this.y = y;
 		this.width = 800;
 		this.height = 800;
-		this.image = quickLoaderImage("Cloud");
+		this.image = quickLoaderImage("background/Cloud");
 	}
 	
 	public void update() 

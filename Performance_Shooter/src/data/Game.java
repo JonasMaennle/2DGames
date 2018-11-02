@@ -12,6 +12,7 @@ import org.lwjgl.opengl.Display;
 import UI.UI;
 import helpers.Leveler;
 import helpers.StateManager;
+import object.Player;
 import shader.Shader;
 
 public class Game {
