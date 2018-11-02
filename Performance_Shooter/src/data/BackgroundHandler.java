@@ -25,15 +25,15 @@ public class BackgroundHandler {
 		this.filter = quickLoaderImage("filter");
 		this.player = player;
 		
-		this.cloud = new Cloud(Display.getX() + WIDTH, 0);
+		this.cloud = new Cloud(Display.getX() + Display.getWidth(), 0);
 		
-		this.bg00_offset = Display.getX() - WIDTH;
+		this.bg00_offset = Display.getX() - Display.getWidth();
 		this.bg01_offset = Display.getX();
-		this.bg02_offset = Display.getX() + WIDTH;
+		this.bg02_offset = Display.getX() + Display.getWidth();
 		
-		this.bg03_offset = Display.getX() - WIDTH;
+		this.bg03_offset = Display.getX() - Display.getWidth();
 		this.bg04_offset = Display.getX();
-		this.bg05_offset = Display.getX() + WIDTH;
+		this.bg05_offset = Display.getX() + Display.getWidth();
 		
 		this.alpha = 0.2f;
 	}
@@ -56,28 +56,28 @@ public class BackgroundHandler {
 			bg02_offset += 0.1f;
 		}
 		// Left image
-		if(bg00_offset < (-WIDTH * 2))
+		if(bg00_offset < (-Display.getWidth() * 2))
 		{
-			bg00_offset = Display.getX()-WIDTH;
+			bg00_offset = Display.getX()-Display.getWidth();
 		}else if(bg00_offset > Display.getX())
 		{
-			bg00_offset = Display.getX()-WIDTH;
+			bg00_offset = Display.getX()-Display.getWidth();
 		}
 		// Middle image
-		if(bg01_offset < -WIDTH)
+		if(bg01_offset < -Display.getWidth())
 		{
 			bg01_offset = Display.getX();
-		}else if(bg01_offset > WIDTH)
+		}else if(bg01_offset > Display.getWidth())
 		{
 			bg01_offset = Display.getX();
 		}
 		// Right image
 		if(bg02_offset < Display.getX())
 		{
-			bg02_offset = Display.getX() + WIDTH;
-		}else if(bg02_offset > (WIDTH * 2))
+			bg02_offset = Display.getX() + Display.getWidth();
+		}else if(bg02_offset > (Display.getWidth() * 2))
 		{
-			bg02_offset = Display.getX() + WIDTH;
+			bg02_offset = Display.getX() + Display.getWidth();
 		}
 		drawQuadImageStatic(background_mountain, bg00_offset, 0, 2048, 2048);
 		drawQuadImageStatic(background_mountain, bg01_offset, 0, 2048, 2048);
@@ -100,28 +100,28 @@ public class BackgroundHandler {
 			bg05_offset += 0.5f;
 		}
 		// Left image
-		if(bg03_offset < (-WIDTH * 2))
+		if(bg03_offset < (-Display.getWidth() * 2))
 		{
-			bg03_offset = Display.getX()-WIDTH;
+			bg03_offset = Display.getX()-Display.getWidth();
 		}else if(bg03_offset > Display.getX())
 		{
-			bg03_offset = Display.getX()-WIDTH;
+			bg03_offset = Display.getX()-Display.getWidth();
 		}
 		// Middle image
-		if(bg04_offset < -WIDTH)
+		if(bg04_offset < -Display.getWidth())
 		{
 			bg04_offset = Display.getX();
-		}else if(bg04_offset > WIDTH)
+		}else if(bg04_offset > Display.getWidth())
 		{
 			bg04_offset = Display.getX();
 		}
 		// Right image
 		if(bg05_offset < Display.getX())
 		{
-			bg05_offset = Display.getX() + WIDTH;
-		}else if(bg05_offset > (WIDTH * 2))
+			bg05_offset = Display.getX() + Display.getWidth();
+		}else if(bg05_offset > (Display.getWidth() * 2))
 		{
-			bg05_offset = Display.getX() + WIDTH;
+			bg05_offset = Display.getX() + Display.getWidth();
 		}
 		drawQuadImageStatic(background_forest, bg03_offset, 0, 2048, 2048);
 		drawQuadImageStatic(background_forest, bg04_offset, 0, 2048, 2048);

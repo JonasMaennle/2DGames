@@ -26,7 +26,7 @@ public class Cloud implements Entity{
 	{
 		if(x < Display.getX() - image.getWidth())
 		{
-			x = Display.getX() + WIDTH;
+			x = Display.getX() + Display.getWidth();
 		}else{
 			x -= 0.3;
 		}
