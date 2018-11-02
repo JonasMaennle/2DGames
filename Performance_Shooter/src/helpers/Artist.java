@@ -24,7 +24,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import data.Entity;
+import Enity.Entity;
 import shader.Light;
 import shader.Shader;
 

@@ -2,6 +2,7 @@ package data;
 
 import org.newdawn.slick.Image;
 
+import Enity.TileType;
 
 import static helpers.Artist.*;
 

@@ -1,4 +1,4 @@
-package data;
+package Enity;
 
 import org.lwjgl.util.vector.Vector2f;
 

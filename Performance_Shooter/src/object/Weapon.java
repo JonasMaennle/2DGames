@@ -3,9 +3,9 @@ package object;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
-import static helpers.Artist.*;
+import Enity.Entity;
 
-import data.Entity;
+import static helpers.Artist.*;
 
 public class Weapon implements Entity{
 	
@@ -55,10 +55,8 @@ public class Weapon implements Entity{
 		default:
 			break;
 		}
-		
 	}
 	
-
 	@Override
 	public float getX() 
 	{

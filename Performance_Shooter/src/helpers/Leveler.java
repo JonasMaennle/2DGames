@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
+import Enity.TileType;
 import data.Tile;
 import data.TileGrid;
-import data.TileType;
 
 public class Leveler {
 	

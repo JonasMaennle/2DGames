@@ -2,9 +2,10 @@ package object.obstacle;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
-import static helpers.Artist.*;
 
-import data.Entity;
+import Enity.Entity;
+
+import static helpers.Artist.*;
 
 public class Obstacle implements Entity{
 

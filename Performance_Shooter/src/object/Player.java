@@ -5,7 +5,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
-import data.Entity;
+import Enity.Entity;
 import data.Tile;
 import data.TileGrid;
 

@@ -1,4 +1,4 @@
-package data;
+package Enity;
 
 public enum TileType {
 
@@ -8,7 +8,7 @@ public enum TileType {
 	NULL("Blank"), 
 	Default("Filler");
 	
-	String textureName;
+	public String textureName;
 	
 	TileType(String textureName)
 	{

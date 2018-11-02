@@ -1,9 +1,10 @@
-package data;
+package object;
 
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.Image;
 
-import object.Enemy;
+import Enity.Entity;
+import Enity.ProjectileType;
 import shader.Light;
 
 import static helpers.Clock.*;
@@ -11,7 +12,7 @@ import static helpers.Artist.*;
 
 public abstract class Projectile implements Entity{
 	
-	private Texture texture;
+	private Image image;
 	private float x, y, speed, xVelocity, yVelocity;
 	private int width, height;
 	private int damage;
@@ -21,7 +22,7 @@ public abstract class Projectile implements Entity{
 	
 	public Projectile(ProjectileType type, Enemy target, float x, float y, int width, int height)
 	{
-		this.texture = type.texture;
+		this.image = type.image;
 		this.x = x;
 		this.y = y;
 		this.speed = type.speed;
@@ -90,7 +91,7 @@ public abstract class Projectile implements Entity{
 	
 	public void draw()
 	{
-		drawQuadTex(texture, x, y, width, height);
+		drawQuadImage(image, x, y, width, height);
 	}
 	
 	private boolean isProjectileOutOfMap()

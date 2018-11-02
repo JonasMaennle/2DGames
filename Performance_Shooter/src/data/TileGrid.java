@@ -3,6 +3,8 @@ package data;
 import static helpers.Artist.*;
 import static helpers.Leveler.*;
 
+import Enity.TileType;
+
 public class TileGrid {
 	
 	public Tile[][] map;
