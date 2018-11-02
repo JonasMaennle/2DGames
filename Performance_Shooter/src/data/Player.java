@@ -318,4 +318,14 @@ public class Player implements Entity{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public float getVelX() {
+		return velX;
+	}
+
+	public void setVelX(float velX) {
+		this.velX = velX;
+	}
+	
+	
 }

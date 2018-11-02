@@ -20,6 +20,8 @@ public class Obstacle implements Entity{
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		
+		///// !!! NOT USED !!!!
 	}
 	
 	@Override
@@ -31,7 +33,7 @@ public class Obstacle implements Entity{
 	@Override
 	public void draw() 
 	{
-		drawQuadTex(texture, x, y, width, height);
+		//drawQuadImage(img, x, y, width, height);
 	}
 	
 	@Override

@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
@@ -28,9 +29,10 @@ public class Game {
 	private Shader shader;
 	private Camera camera;
 	private UI ingame_HUD;
-	private Texture background_grass_1,background_grass_0, sky, background_lp;
+	private Texture background_grass_1,background_grass_0, sky, background_lp, background_mountain;
 	private float alpha;
-	private int background_offset1, background_offset2;
+	private float background_offset1, background_offset2;
+	private float bg00_offset, bg01_offset, bg02_offset;
 	private CopyOnWriteArrayList<Cloud> cloudList;
 	private Random rand;
 	
@@ -45,12 +47,17 @@ public class Game {
 		this.background_grass_1 = quickLoad("Background_lp3");
 		this.background_grass_0 = quickLoad("Background_lp3");
 		this.background_lp = quickLoad("Background_lp");
+		this.background_mountain = quickLoad("background_00");
 		this.sky = quickLoad("Himmel");
 		this.alpha = 0.9f;
 		this.background_offset1 = 0;
 		this.background_offset2 = WIDTH;
 		this.cloudList = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
+		
+		this.bg00_offset = Display.getX()-WIDTH;
+		this.bg01_offset = Display.getX();
+		this.bg02_offset = Display.getX()+WIDTH;
 		
 		setupUI();
 		initShader();
@@ -106,18 +113,51 @@ public class Game {
 	
 	private void drawBackground()
 	{
-		drawQuadTex(sky, 0 - MOVEMENT_X, 0, 2048, 2048);
-		drawQuadTex(background_lp, 0 - MOVEMENT_X, -350, WIDTH, 2048);
+		// Draw blue sky
+		drawQuadTex(sky, 0, 0, 2048, 2048);
 		
-		// moving forground
-		int invertMX = MOVEMENT_X * -1;
-		if(invertMX % WIDTH == 0)
+		// Calculate and draw mountains
+		if(player.getVelX() > 0)
 		{
-			background_offset1 = invertMX;
-			background_offset2 = invertMX + WIDTH;
+			bg00_offset -= 0.1f;
+			bg01_offset -= 0.1f; 
+			bg02_offset -= 0.1f;
+		}else if(player.getVelX() < 0)
+		{
+			bg00_offset += 0.1f;
+			bg01_offset += 0.1f; 
+			bg02_offset += 0.1f;
 		}
-		drawQuadTex(background_grass_0, 0 + background_offset1, -240, WIDTH, 2048);
-		drawQuadTex(background_grass_1, 0 + background_offset2, -240, WIDTH, 2048);
+		// Left image
+		if(bg00_offset < (-WIDTH * 2))
+		{
+			bg00_offset = Display.getX()-WIDTH;
+		}else if(bg00_offset > Display.getX())
+		{
+			bg00_offset = Display.getX()-WIDTH;
+		}
+		// Middle image
+		if(bg01_offset < -WIDTH)
+		{
+			bg01_offset = Display.getX();
+		}else if(bg01_offset > WIDTH)
+		{
+			bg01_offset = Display.getX();
+		}
+		// Right image
+		if(bg02_offset < Display.getX())
+		{
+			bg02_offset = Display.getX() + WIDTH;
+		}else if(bg02_offset > (WIDTH * 2))
+		{
+			bg02_offset = Display.getX() + WIDTH;
+		}
+		drawQuadTex(background_mountain, bg00_offset, 0, 2048, 2048);
+		drawQuadTex(background_mountain, bg01_offset, 0, 2048, 2048);
+		drawQuadTex(background_mountain, bg02_offset, 0, 2048, 2048);
+
+		
+		// Draw forest
 	}
 	
 	private void initShader()

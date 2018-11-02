@@ -25,6 +25,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import data.Entity;
+import data.Player;
 import shader.Light;
 import shader.Shader;
 
@@ -36,7 +37,7 @@ public class Artist {
 	
 	public static final int TILE_SIZE = 64;
 	public static ArrayList<Light> lights = new ArrayList<Light>();
-	public static int MOVEMENT_X, MOVEMENT_Y = 0;
+	public static float MOVEMENT_X, MOVEMENT_Y = 0;
 	
 	public static void beginSession()
 	{
@@ -100,7 +101,7 @@ public class Artist {
 		tex.bind();
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE); // Removes weird line above texture
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-		glTranslatef(x + MOVEMENT_X, y + MOVEMENT_Y, 0);
+		glTranslatef(x, y, 0);
 		
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
@@ -125,6 +126,32 @@ public class Artist {
 		img.bind();
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE); // Removes weird line above texture
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+		glTranslatef(x + MOVEMENT_X, y + MOVEMENT_Y, 0);
+		
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1, 0);
+		glVertex2f(width, 0);
+		glTexCoord2f(1, 1);
+		glVertex2f(width, height);
+		glTexCoord2f(0, 1);
+		glVertex2f(0, height);
+		glEnd();
+		
+		glLoadIdentity();
+		glDisable(GL_BLEND);
+	}
+	
+	public static void drawQuadImageRelToPlayer(Image img, float x, float y, float width, float height, Player p)
+	{	
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		img.bind();
+		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE); // Removes weird line above texture
+		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+		
 		glTranslatef(x + MOVEMENT_X, y + MOVEMENT_Y, 0);
 		
 		glBegin(GL_QUADS);
@@ -174,6 +201,14 @@ public class Artist {
 		glDisable(GL_BLEND);
 	}
 	
+	public static void drawAnimationCenter(Animation anim, float x, float y, float width, float height)
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // WICHTIG! -> wenn Texture/Image mit transarentem Hintergrund gemalt werden soll
+		anim.draw(x, y, width, height);
+		glDisable(GL_BLEND);
+	}
+	
 	public static Texture loadTexture(String path, String fileType)
 	{
 		Texture tex = null;
@@ -214,6 +249,26 @@ public class Artist {
 			e.printStackTrace();
 		}
 		return tempSheet;
+	}
+	
+	public static float getLeftBoarder()
+	{
+		return MOVEMENT_X * -1;
+	}
+	
+	public static float getRightBoarder()
+	{
+		return (MOVEMENT_X * -1) + WIDTH;
+	}
+	
+	public static float getTopBoarder()
+	{
+		return (MOVEMENT_Y * -1);
+	}
+	
+	public static float getBottomBoarder()
+	{
+		return (MOVEMENT_Y * -1) + HEIGHT;
 	}
 	
 	public static void renderLightEntity(ArrayList<?> objectList, Shader shader)

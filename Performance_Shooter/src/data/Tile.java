@@ -1,6 +1,6 @@
 package data;
 
-import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.Image;
 
 
 import static helpers.Artist.*;
@@ -10,7 +10,7 @@ public class Tile {
 	private float x, y;
 	private int width, height;
 	private TileType type;
-	private Texture texture;
+	private Image image;
 	private boolean occupied;
 	
 	public Tile(float x, float y, int width, int height, TileType type)
@@ -20,7 +20,7 @@ public class Tile {
 		this.width = width;
 		this.height = height;
 		this.type = type;
-		this.texture = quickLoad(type.textureName);
+		this.image = quickLoaderImage(type.textureName);
 		if(type.buildable)
 			occupied = false;
 		else
@@ -29,7 +29,7 @@ public class Tile {
 	
 	public void draw()
 	{
-		drawQuadTex(texture, x, y, width, height);
+		drawQuadImage(image, x, y, width, height);
 	}
 	
 	public void testDraw()
@@ -87,12 +87,12 @@ public class Tile {
 		this.type = type;
 	}
 
-	public Texture getTexture() {
-		return texture;
+	public Image getImage() {
+		return image;
 	}
 
-	public void setTexture(Texture texture) {
-		this.texture = texture;
+	public void setImage(Image image) {
+		this.image = image;
 	}
 	
 	public boolean getOccupied()
