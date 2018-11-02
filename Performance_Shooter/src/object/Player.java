@@ -27,6 +27,9 @@ public class Player implements Entity{
 	private int frameCount;
 	private String currentAnimation;
 	private String direction;
+	private boolean shooting;
+	private long timer1, timer2;
+	private int idleStop;
 	
 	// Animations
 	private Animation anim_idleRight;
@@ -50,11 +53,15 @@ public class Player implements Entity{
 		this.falling = true;
 		this.frameCount = 110;
 		this.gravity = 4;
+		this.idleStop = 9;
+		this.shooting = false;
 		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectRight = new Rectangle((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
 		this.weapon = new Weapon(x, y, 70, 35, this);
+		this.timer1 = System.currentTimeMillis();
+		this.timer2 = timer1;
 		
 		// Animation stuff
 		this.anim_walkRight = new Animation(loadSpriteSheet("player/player_walkRight", TILE_SIZE, TILE_SIZE * 2), 50);
@@ -102,6 +109,38 @@ public class Player implements Entity{
 		{
 			falling = true;
 		}
+		
+
+		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !shooting)
+		{
+			weapon.shoot();
+			shooting = true;
+			anim_idleRight.restart();
+			anim_idleLeft.restart();
+			idleStop = 0;
+		}
+		if(!Keyboard.isKeyDown(Keyboard.KEY_SPACE))
+		{
+			shooting = false;
+		}
+		
+		// every three sec
+		timer1 = System.currentTimeMillis();
+		if(timer1 - timer2 > 3000)
+		{
+			timer2 = timer1;
+			if(anim_idleRight.getFrame() == 0 && currentAnimation.equals("anim_idleRight"))
+			{
+				anim_idleRight.restart();
+				idleStop = 9;
+			}
+			if(anim_idleLeft.getFrame() == 0 && currentAnimation.equals("anim_idleLeft"))
+			{
+				anim_idleLeft.restart();
+				idleStop = 9;
+			}
+		}
+		
 
 		jump();
 		
@@ -109,6 +148,7 @@ public class Player implements Entity{
 		y += velY * speed;
 		
 		mapCollision();
+		weapon.update();
 		//System.out.println("x :  " + x + " y: " + y);
 	}
 	
@@ -116,8 +156,7 @@ public class Player implements Entity{
 	{	
 		switch (currentAnimation) {
 		case "anim_idleRight":
-			//drawQuadImage(anim_walkRight.getImage(0), x, y, TILE_SIZE, TILE_SIZE * 2);
-			anim_idleRight.stopAt(9);
+			anim_idleRight.stopAt(idleStop);
 			drawAnimation(anim_idleRight, x, y, TILE_SIZE, TILE_SIZE * 2);
 			anim_walkRight.restart();
 			anim_jumpRight.restart();
@@ -151,7 +190,7 @@ public class Player implements Entity{
 			anim_jumpLeft.restart();
 			break;
 		case "anim_idleLeft":
-			anim_idleLeft.stopAt(9);
+			anim_idleLeft.stopAt(idleStop);
 			drawAnimation(anim_idleLeft, x, y, TILE_SIZE, TILE_SIZE * 2);
 			anim_walkRight.restart();
 			anim_jumpRight.restart();
@@ -384,5 +423,13 @@ public class Player implements Entity{
 
 	public void setAnim_jumpLeft(Animation anim_jumpLeft) {
 		this.anim_jumpLeft = anim_jumpLeft;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 }
