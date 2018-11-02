@@ -1,11 +1,8 @@
 package object;
 
-import static helpers.Artist.drawQuadTex;
-
-import java.util.Random;
-
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.Image;
 import static helpers.Artist.*;
 
 import data.Entity;
@@ -14,29 +11,30 @@ public class Cloud implements Entity{
 	
 	private float x, y;
 	private int width, height;
-	private Random rand;
-	private Texture texture;
-	private float speed;
+	private Image image;
 
 	public Cloud(float x, float y)
 	{
-		this.rand = new Random();
 		this.x = x;
-		this.y = y + rand.nextInt(150);
-		this.width = width + rand.nextInt(100) + 320;
-		this.height = height + 160;
-		this.texture = quickLoad("Cloud");
-		this.speed = rand.nextFloat() + 0.1f;
+		this.y = y;
+		this.width = 800;
+		this.height = 800;
+		this.image = quickLoaderImage("Cloud");
 	}
 	
 	public void update() 
 	{
-		x -= (speed * 0.5f);
+		if(x < Display.getX() - image.getWidth())
+		{
+			x = Display.getX() + WIDTH;
+		}else{
+			x -= 0.3;
+		}
 	}
 
 	public void draw() 
 	{
-		drawQuadTex(texture, x, y, width, height);
+		drawQuadImageStatic(image, x, y, width, height);
 	}
 	
 	@Override

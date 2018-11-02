@@ -31,14 +31,41 @@ public class Leveler {
 				int red = (pixel >> 16) & 0xff;
 				int green = (pixel >> 8) & 0xff;
 				int blue = (pixel) & 0xff;
-
-				// check if there is a white pixel / default
+		// Grass Tiles
+				// Black -> Grass_Flat
 				if(red == 0 && green == 0 && blue == 0)
 				{
-					grid.setTile(x, y, TileType.Grass);
+					grid.setTile(x, y, TileType.Grass_Flat);
 					obstacleList.add(grid.getTile(x, y));
 				}
-				// check if there is a red pixel / player
+				// Grey -> Grass_Left
+				if(red == 64 && green == 64 && blue == 64)
+				{
+					grid.setTile(x, y, TileType.Grass_Left);
+					obstacleList.add(grid.getTile(x, y));
+				}
+				// Grey -> Grass_Right
+				if(red == 48 && green == 48 && blue == 48)
+				{
+					grid.setTile(x, y, TileType.Grass_Right);
+					obstacleList.add(grid.getTile(x, y));
+				}
+				// Grey -> Grass_Round
+				if(red == 128 && green == 128 && blue == 128)
+				{
+					grid.setTile(x, y, TileType.Grass_Round);
+					obstacleList.add(grid.getTile(x, y));
+				}
+		// Rock Tile
+				// Grey -> Rock_Basic
+				if(red == 196 && green == 196 && blue == 196)
+				{
+					grid.setTile(x, y, TileType.Rock_Basic);
+					obstacleList.add(grid.getTile(x, y));
+				}
+				
+		// Player Tile
+				// Red -> Player
 				if(red == 255 && green == 0 && blue == 0)
 				{
 					playerX = x * TILE_SIZE;
@@ -46,6 +73,7 @@ public class Leveler {
 				}
 			}
 		}
+		//System.out.println(helpers.Artist.tileCounter);
 		return grid;
 	}
 	

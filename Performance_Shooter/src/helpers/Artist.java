@@ -32,7 +32,7 @@ public class Artist {
 	
 	// Game Settings
 	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static final int START_TILE_X = 2, START_TILE_Y = 0; // Choose Start Tile on Map
+	public static int tileCounter = 0;
 	
 	public static final int TILE_SIZE = 64;
 	public static ArrayList<Light> lights = new ArrayList<Light>();

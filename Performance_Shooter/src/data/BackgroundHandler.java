@@ -2,9 +2,6 @@ package data;
 
 import static helpers.Artist.*;
 
-import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
@@ -16,10 +13,8 @@ public class BackgroundHandler {
 	private Image sky, background_mountain, background_forest, filter;
 	private float bg00_offset, bg01_offset, bg02_offset;
 	private float bg03_offset, bg04_offset, bg05_offset;
-	private Random rand;
 	private float alpha;
-	
-	private CopyOnWriteArrayList<Cloud> cloudList;
+	private Cloud cloud;
 	private Player player;
 	
 	public BackgroundHandler(Player player)
@@ -29,9 +24,8 @@ public class BackgroundHandler {
 		this.sky = quickLoaderImage("sky");
 		this.filter = quickLoaderImage("filter");
 		this.player = player;
-		this.rand = new Random();
 		
-		this.cloudList = new CopyOnWriteArrayList<>();
+		this.cloud = new Cloud(Display.getX() + WIDTH, 0);
 		
 		this.bg00_offset = Display.getX() - WIDTH;
 		this.bg01_offset = Display.getX();
@@ -46,10 +40,10 @@ public class BackgroundHandler {
 	
 	public void draw()
 	{
-		// Draw blue sky
+		// Draw blue SKY
 		drawQuadImageStatic(sky, 0, 0, 2048, 2048);
 		
-		// Calculate and draw mountains
+		// Calculate and draw MOUNTAINS
 		if(player.getVelX() > 0)
 		{
 			bg00_offset -= 0.1f;
@@ -89,7 +83,11 @@ public class BackgroundHandler {
 		drawQuadImageStatic(background_mountain, bg01_offset, 0, 2048, 2048);
 		drawQuadImageStatic(background_mountain, bg02_offset, 0, 2048, 2048);
 		
-		// Calculate and draw forest
+		// Calculate and draw CLOUDS
+		cloud.update();
+		cloud.draw();
+		
+		// Calculate and draw FOREST
 		if(player.getVelX() > 0)
 		{
 			bg03_offset -= 0.5f;
@@ -129,29 +127,10 @@ public class BackgroundHandler {
 		drawQuadImageStatic(background_forest, bg04_offset, 0, 2048, 2048);
 		drawQuadImageStatic(background_forest, bg05_offset, 0, 2048, 2048);
 		
-		// Draw alpha filter
+		// Draw alpha FILTER
 		GL11.glColor4f(0, 0, 0, alpha);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
-	}
-	
-	
-	public void cloudSpawner()
-	{
-		if(rand.nextInt(600) == 0 && cloudList.size() <= 3)
-		{
-			cloudList.add(new Cloud((MOVEMENT_X * -1) + WIDTH, 10));
-		}
-		
-		for(Cloud c : cloudList)
-		{
-			c.update();
-			c.draw();
-			if(c.getX() + c.getWidth() < (MOVEMENT_X * -1))
-			{
-				cloudList.remove(c);
-			}
-		}
 	}
 	
 	public void drawBasicBackground()

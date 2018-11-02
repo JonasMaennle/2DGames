@@ -14,6 +14,7 @@ public class Player implements Entity{
 	
 	private TileGrid grid;
 	private float x, y, velX, velY;
+	//public static final int PLAYER_WIDTH = 64, PLAYER_HEIGHT = 128;
 	private float speed, gravity;
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	private boolean falling, jumping;

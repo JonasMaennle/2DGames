@@ -2,14 +2,15 @@ package data;
 
 public enum TileType {
 
-	Grass("Grass_lp", true), Dirt("Dirt", false), Water("Water", false), Rock("Rock", false), NULL("Blank",false), Default("Filler", false);
+	Grass_Flat("Grass_Flat"), Grass_Left("Grass_Left"),Grass_Right("Grass_Right"),Grass_Round("Grass_Round"), 
+	Rock_Basic("Rock_Basic"), 
+	NULL("Blank"), 
+	Default("Filler");
 	
 	String textureName;
-	boolean buildable;
 	
-	TileType(String textureName, boolean buildable)
+	TileType(String textureName)
 	{
 		this.textureName = textureName;
-		this.buildable = buildable;
 	}
 }

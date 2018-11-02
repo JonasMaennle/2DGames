@@ -17,41 +17,41 @@ public class TileGrid {
 		{
 			for(int j = 0; j < map[i].length; j++)
 			{
-				map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.NULL);
+				//map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.NULL);
 			}
 		}
 	}
 	
-	public TileGrid(int[][] newMap)
-	{
-		this.tilesWide = newMap[0].length;
-		this.tilesHigh = newMap.length;
-		map = new Tile[tilesWide][tilesHigh];
-		for(int i = 0; i < map.length; i++)
-		{
-			for(int j = 0; j < map[i].length; j++)
-			{	
-				switch (newMap[j][i]) {
-				case 0:
-					map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.Grass);
-					break;
-				case 1:
-					map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.Dirt);
-					break;
-				case 2:
-					map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.Water);
-					break;
-				case 3:
-					map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.Rock);
-					break;
-
-				default:
-					System.out.println("Wrong grid number!");
-					break;
-				}
-			}
-		}
-	}
+//	public TileGrid(int[][] newMap)
+//	{
+//		this.tilesWide = newMap[0].length;
+//		this.tilesHigh = newMap.length;
+//		map = new Tile[tilesWide][tilesHigh];
+//		for(int i = 0; i < map.length; i++)
+//		{
+//			for(int j = 0; j < map[i].length; j++)
+//			{	
+//				switch (newMap[j][i]) {
+//				case 0:
+//					map[i][j] = new Tile(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE, TileType.Grass_Flat);
+//					break;
+//				case 1:
+//					
+//					break;
+//				case 2:
+//					
+//					break;
+//				case 3:
+//					
+//					break;
+//
+//				default:
+//					System.out.println("Wrong grid number!");
+//					break;
+//				}
+//			}
+//		}
+//	}
 	
 	public void setTile(int xCoord, int yCoord, TileType type)
 	{
@@ -72,7 +72,7 @@ public class TileGrid {
 		{
 			for(int j = 0; j < map[i].length; j++)
 			{
-				map[i][j].draw();
+				if(!(map[i][j] == null))map[i][j].draw();
 			}
 		}
 	}
