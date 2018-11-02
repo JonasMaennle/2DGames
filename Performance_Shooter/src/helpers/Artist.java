@@ -25,7 +25,6 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import data.Entity;
-import data.Player;
 import shader.Light;
 import shader.Shader;
 
@@ -143,16 +142,15 @@ public class Artist {
 		glDisable(GL_BLEND);
 	}
 	
-	public static void drawQuadImageRelToPlayer(Image img, float x, float y, float width, float height, Player p)
+	// No movement relative to Display
+	public static void drawQuadImageStatic(Image img, float x, float y, float width, float height)
 	{	
-		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		img.bind();
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE); // Removes weird line above texture
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-		
-		glTranslatef(x + MOVEMENT_X, y + MOVEMENT_Y, 0);
+		glTranslatef(x, y, 0);
 		
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);

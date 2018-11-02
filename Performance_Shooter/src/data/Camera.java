@@ -18,7 +18,7 @@ public class Camera {
 		playerOptimatePosX = (getRightBoarder() + getLeftBoarder()) / 2.0f;
 		playerOptimatePosY = (getTopBoarder() + getBottomBoarder()) / 2.0f;
 
-		MOVEMENT_X += ((playerOptimatePosX - player.getX()) * 0.1);
+		MOVEMENT_X += ((playerOptimatePosX - player.getX()) * 0.5); // * x.x -> smoothnes factor
 		MOVEMENT_Y += ((playerOptimatePosY - player.getY()) * 0.5);
 		
 		//System.out.println(getTopBoarder() + " " + getBottomBoarder());

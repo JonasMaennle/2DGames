@@ -37,7 +37,7 @@ public class Player implements Entity{
 	public Player(float x, float y, TileGrid grid)
 	{
 		this.grid = grid;
-		this.speed = 2;
+		this.speed = 3;
 		this.velX = 0;
 		this.velY = 0;
 		this.x = x; 
@@ -105,7 +105,6 @@ public class Player implements Entity{
 		
 		mapCollision();
 		//System.out.println("x :  " + x + " y: " + y);
-		draw();
 	}
 	
 	public void draw()

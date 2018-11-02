@@ -1,8 +1,7 @@
 package object.obstacle;
 
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.opengl.Texture;
-
+import org.newdawn.slick.Image;
 import static helpers.Artist.*;
 
 import data.Entity;
@@ -11,11 +10,11 @@ public class Obstacle implements Entity{
 
 	private float x, y;
 	private int width, height;
-	private Texture texture;
+	private Image img;
 
-	public Obstacle(Texture texture, float x, float y, int width, int height)
+	public Obstacle(Image img, float x, float y, int width, int height)
 	{
-		this.texture = texture;
+		this.img = img;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -33,7 +32,7 @@ public class Obstacle implements Entity{
 	@Override
 	public void draw() 
 	{
-		//drawQuadImage(img, x, y, width, height);
+		drawQuadImage(img, x, y, width, height);
 	}
 	
 	@Override
