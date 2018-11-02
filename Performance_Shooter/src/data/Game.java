@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 
 
@@ -45,6 +46,7 @@ public class Game {
 		{
 			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE)
 			{
+				AL.destroy();
 				Display.destroy();
 				System.exit(0);
 			}
