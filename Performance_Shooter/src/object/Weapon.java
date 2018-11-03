@@ -51,6 +51,10 @@ public class Weapon implements Entity{
 				{
 					list.remove(l);
 				}
+				if(l.isOutOfMap())
+				{
+					list.remove(l);
+				}
 			}
 		}
 	}

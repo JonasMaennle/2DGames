@@ -36,6 +36,13 @@ public class Laser implements Entity{
 	{
 		drawQuadImage(image, x, y, width, height);
 	}
+	
+	public boolean isOutOfMap()
+	{
+		if(x - width < getLeftBoarder() || x > getRightBoarder())
+			return true;
+		return false;
+	}
 
 	@Override
 	public float getX() 
