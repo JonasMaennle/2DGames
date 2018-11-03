@@ -10,13 +10,15 @@ import static helpers.Artist.*;
 public class Laser implements Entity{
 	
 	private Image image;
-	private float x, y;
+	private float x, y, width, height;
 	private float velX;
 	
-	public Laser(float x, float y, String direction, int speed)
+	public Laser(float x, float y, float width, float height, String direction, int speed)
 	{
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.image = quickLoaderImage("player/laser_small");
 		
 		if(direction.equals("right"))
@@ -32,32 +34,31 @@ public class Laser implements Entity{
 	
 	public void draw()
 	{
-		drawQuadImage(image, x, y, 30, 6);
+		drawQuadImage(image, x, y, width, height);
 	}
 
 	@Override
 	public float getX() 
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return x;
 	}
 
 	@Override
-	public float getY() {
-		// TODO Auto-generated method stub
-		return 0;
+	public float getY() 
+	{
+		return y;
 	}
 
 	@Override
-	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getWidth()
+	{
+		return (int) width;
 	}
 
 	@Override
-	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getHeight() 
+	{
+		return (int) height;
 	}
 
 	@Override

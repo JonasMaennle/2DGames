@@ -42,6 +42,11 @@ public class UI {
 		buttonList.add(new Button(name, quickLoad(textureName), x, y));
 	}
 	
+	public void addButton(String name, String textureName, int x, int y, int width, int height)
+	{
+		buttonList.add(new Button(name, quickLoad(textureName), x, y, width, height));
+	}
+	
 	public boolean isButtonClicked(String buttonName)
 	{
 		Button b = getButton(buttonName);
@@ -90,6 +95,16 @@ public class UI {
 		
 	}
 	
+	public ArrayList<Button> getButtonList() {
+		return buttonList;
+	}
+
+	public void setButtonList(ArrayList<Button> buttonList) {
+		this.buttonList = buttonList;
+	}
+
+
+
 	public class Menu{
 		
 		String name;

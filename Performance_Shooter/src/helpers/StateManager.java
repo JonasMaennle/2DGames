@@ -11,7 +11,7 @@ public class StateManager {
 		MAINMENU, GAME
 	}
 	
-	public static GameState gameState = GameState.GAME; // -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.MAINMENU; // -> gameState = GameState.MAINMENU;
 	public static MainMenu mainMenu;
 	public static Game game;
 	

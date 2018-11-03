@@ -6,17 +6,19 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import Enity.Entity;
+import data.Tile;
 
 import static helpers.Artist.*;
+import static helpers.Leveler.*;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Weapon implements Entity{
 	
 	private float x, y, width, height;
 	private Player player;
 	private Image image_right, image_left;
-	private ArrayList<Laser> list;
+	private CopyOnWriteArrayList<Laser> list;
 	private Sound lastShot;
 	
 	public Weapon(float x, float y, float width, float height, Player player)
@@ -28,7 +30,7 @@ public class Weapon implements Entity{
 		this.player = player;
 		this.image_right = quickLoaderImage("player/weapon_right");
 		this.image_left = quickLoaderImage("player/weapon_left");
-		this.list = new ArrayList<>();
+		this.list = new CopyOnWriteArrayList<>();
 		try {
 			this.lastShot = new Sound("sound/blaster_sound.wav");
 		} catch (SlickException e) {
@@ -36,11 +38,20 @@ public class Weapon implements Entity{
 		}
 	}
 
+	// Check Laser - Map collision
 	public void update() 
 	{
 		for(Laser l : list)
 		{
 			l.update();
+			
+			for(Tile tile : obstacleList)
+			{
+				if(checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
+				{
+					list.remove(l);
+				}
+			}
 		}
 	}
 
@@ -82,9 +93,9 @@ public class Weapon implements Entity{
 	{
 		// walk right
 		if(player.getDirection().equals("right"))
-			list.add(new Laser(player.getX()+60, player.getY()+32, player.getDirection(), 30));
+			list.add(new Laser(player.getX()+60, player.getY()+32, 30, 6, player.getDirection(), 30));
 		if(player.getDirection().equals("left"))
-			list.add(new Laser(player.getX(), player.getY()+34, player.getDirection(), 30));
+			list.add(new Laser(player.getX(), player.getY()+34, 30, 6, player.getDirection(), 30));
 		
 		lastShot.play();
 	}
