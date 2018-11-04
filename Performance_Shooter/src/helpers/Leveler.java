@@ -83,7 +83,6 @@ public class Leveler {
 				}
 			}
 		}
-		System.out.println("Anzahl Tiles: " + helpers.Artist.tileCounter);
 		return grid;
 	}
 	

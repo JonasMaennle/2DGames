@@ -46,7 +46,7 @@ public class Weapon implements Entity{
 		for(Laser l : list)
 		{
 			l.update();
-			
+			// Check Laser collision with tiles
 			for(Tile tile : handler.obstacleList)
 			{
 				if(checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
@@ -55,6 +55,15 @@ public class Weapon implements Entity{
 				}
 				if(l.isOutOfMap())
 				{
+					list.remove(l);
+				}
+			}
+			// Check Laser collision with enemies
+			for(GunganEnemy g : handler.gunganList)
+			{
+				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
+				{
+					g.damage(10);
 					list.remove(l);
 				}
 			}
@@ -99,9 +108,9 @@ public class Weapon implements Entity{
 	{
 		// walk right
 		if(player.getDirection().equals("right"))
-			list.add(new Laser(player.getX()+60, player.getY()+32, 30, 6, player.getDirection(), 30));
+			list.add(new Laser(player.getX()+60, player.getY()+32, 30, 6, player.getDirection(), 30, "red"));
 		if(player.getDirection().equals("left"))
-			list.add(new Laser(player.getX(), player.getY()+34, 30, 6, player.getDirection(), 30));
+			list.add(new Laser(player.getX(), player.getY()+34, 30, 6, player.getDirection(), 30, "red"));
 		
 		lastShot.play();
 	}

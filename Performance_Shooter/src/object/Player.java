@@ -309,7 +309,7 @@ public class Player implements Entity{
 	@Override
 	public int getHeight() 
 	{
-		return TILE_SIZE;
+		return TILE_SIZE * 2;
 	}
 
 	@Override
@@ -410,4 +410,38 @@ public class Player implements Entity{
 	public void setDirection(String direction) {
 		this.direction = direction;
 	}
+
+	public Rectangle getRectLeft() {
+		return rectLeft;
+	}
+
+	public void setRectLeft(Rectangle rectLeft) {
+		this.rectLeft = rectLeft;
+	}
+
+	public Rectangle getRectRight() {
+		return rectRight;
+	}
+
+	public void setRectRight(Rectangle rectRight) {
+		this.rectRight = rectRight;
+	}
+
+	public Rectangle getRectTop() {
+		return rectTop;
+	}
+
+	public void setRectTop(Rectangle rectTop) {
+		this.rectTop = rectTop;
+	}
+
+	public Rectangle getRectBottom() {
+		return rectBottom;
+	}
+
+	public void setRectBottom(Rectangle rectBottom) {
+		this.rectBottom = rectBottom;
+	}
+	
+	
 }

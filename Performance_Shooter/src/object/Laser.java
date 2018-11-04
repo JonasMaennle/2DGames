@@ -13,13 +13,16 @@ public class Laser implements Entity{
 	private float x, y, width, height;
 	private float velX;
 	
-	public Laser(float x, float y, float width, float height, String direction, int speed)
+	public Laser(float x, float y, float width, float height, String direction, int speed, String color)
 	{
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.image = quickLoaderImage("player/laser_small");
+		if(color.equals("red"))
+			this.image = quickLoaderImage("player/laser_small_red");
+		else if(color.equals("green"))
+			this.image = quickLoaderImage("player/laser_small_green");
 		
 		if(direction.equals("right"))
 			velX = speed;
