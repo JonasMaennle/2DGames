@@ -11,26 +11,22 @@ import org.lwjgl.opengl.Display;
 
 
 import UI.UI;
-import helpers.Leveler;
 import helpers.StateManager;
-import object.Player;
 import shader.Shader;
 
 public class Game {
-
-	private TileGrid grid;
-	private Player player;
+	
 	private Shader shader;
 	private Camera camera;
 	private BackgroundHandler backgroundHandler;
 	private UI ingame_HUD;
+	private Handler handler;
 
-	public Game(TileGrid grid)
+	public Game(Handler handler)
 	{
-		this.grid = grid;
-		this.player = new Player(Leveler.playerX, Leveler.playerY, grid);
-		this.camera = new Camera(player);
-		this.backgroundHandler = new BackgroundHandler(player);
+		this.camera = new Camera(handler.player);
+		this.backgroundHandler = new BackgroundHandler(handler.player);
+		this.handler = handler;
 		
 		setupUI();
 		initShader();
@@ -40,7 +36,7 @@ public class Game {
 	public void update()
 	{
 		camera.update();
-		player.update();
+		handler.update();
 		
 		while(Keyboard.next())
 		{
@@ -60,12 +56,7 @@ public class Game {
 	{
 		// draw background
 		backgroundHandler.draw();
-		
-		// draw TileGrid
-		grid.draw();
-		
-		// draw Player
-		player.draw();
+		handler.draw();
 		
 		// draw ingame UI
 		updateUI();

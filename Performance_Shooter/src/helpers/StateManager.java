@@ -1,6 +1,7 @@
 package helpers;
 
 import data.Game;
+import data.Handler;
 import data.MainMenu;
 import data.TileGrid;
 import static helpers.Leveler.*;
@@ -14,12 +15,13 @@ public class StateManager {
 	public static GameState gameState = GameState.GAME; // -> gameState = GameState.MAINMENU;
 	public static MainMenu mainMenu;
 	public static Game game;
+	public static Handler handler = new Handler();
 	
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
 	public static int framesInCurrentSecond = 0;
 	
-	static TileGrid map = loadMap();
+	public static TileGrid map = loadMap(handler);
 	
 	
 	public static void update()
@@ -32,7 +34,7 @@ public class StateManager {
 			break;
 		case GAME:
 			if(game == null)
-				game = new Game(map);
+				game = new Game(handler);
 			game.update();
 			break;
 		default:

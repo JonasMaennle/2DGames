@@ -1,6 +1,5 @@
 package object;
 
-import static helpers.Artist.TILE_SIZE;
 import static helpers.Artist.drawQuad;
 
 import java.awt.Rectangle;
@@ -52,7 +51,6 @@ public abstract class Enemy implements Entity{
 		rectBottom.setBounds((int)x + 4, (int)y + (height) - 4, width - 8, 4);
 	}
 	
-	@SuppressWarnings("unused")
 	public void drawBounds()
 	{
 		drawQuad(x, y + 4, 4, (height) - 16); // left

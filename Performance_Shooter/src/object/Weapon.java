@@ -6,6 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import Enity.Entity;
+import data.Handler;
 import data.Tile;
 
 import static helpers.Artist.*;
@@ -20,14 +21,16 @@ public class Weapon implements Entity{
 	private Image image_right, image_left;
 	private CopyOnWriteArrayList<Laser> list;
 	private Sound lastShot;
+	private Handler handler;
 	
-	public Weapon(float x, float y, float width, float height, Player player)
+	public Weapon(float x, float y, float width, float height, Player player, Handler handler)
 	{
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.player = player;
+		this.handler = handler;
 		this.image_right = quickLoaderImage("player/weapon_right");
 		this.image_left = quickLoaderImage("player/weapon_left");
 		this.list = new CopyOnWriteArrayList<>();
@@ -45,7 +48,7 @@ public class Weapon implements Entity{
 		{
 			l.update();
 			
-			for(Tile tile : obstacleList)
+			for(Tile tile : handler.obstacleList)
 			{
 				if(checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{

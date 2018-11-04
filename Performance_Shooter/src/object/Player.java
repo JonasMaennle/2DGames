@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
 import Enity.Entity;
+import data.Handler;
 import data.Tile;
 import data.TileGrid;
 
@@ -16,9 +17,9 @@ import java.awt.Rectangle;
 
 public class Player implements Entity{
 	
-	private TileGrid grid;
 	private Weapon weapon;
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
+	private Handler handler;
 	
 	private float x, y, velX, velY;
 	private float speed, gravity;
@@ -40,9 +41,9 @@ public class Player implements Entity{
 	private Animation anim_walkLeft;
 	private Animation anim_jumpLeft;
 	
-	public Player(float x, float y, TileGrid grid)
+	public Player(float x, float y, Handler handler)
 	{
-		this.grid = grid;
+		this.handler = handler;
 		this.speed = 3;
 		this.velX = 0;
 		this.velY = 0;
@@ -59,7 +60,7 @@ public class Player implements Entity{
 		this.rectRight = new Rectangle((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
-		this.weapon = new Weapon(x, y, 70, 35, this);
+		this.weapon = new Weapon(x, y, 70, 35, this, handler);
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		
@@ -219,7 +220,7 @@ public class Player implements Entity{
 	{
 		updateBounds();
 
-		for(Tile t : obstacleList)
+		for(Tile t : handler.obstacleList)
 		{
 			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), TILE_SIZE, TILE_SIZE);
 			
@@ -288,26 +289,6 @@ public class Player implements Entity{
 		this.rectRight.setBounds((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectTop.setBounds((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom.setBounds((int)x + 4, (int)y + (TILE_SIZE * 2)- 4, TILE_SIZE - 8, 4);
-	}
-	
-	public Tile getMouseTile()
-	{
-		if(Mouse.getX() >= WIDTH && Mouse.getY() < HEIGHT && Mouse.getY() > 0)
-		{
-			return grid.getTile(((WIDTH-TILE_SIZE) / TILE_SIZE), ((HEIGHT - Mouse.getY() - 1)/TILE_SIZE));
-		}
-		
-		return grid.getTile((Mouse.getX() / TILE_SIZE), ((HEIGHT - Mouse.getY() - 1)/TILE_SIZE));
-	}
-	
-	public Tile getPlayerTile()
-	{
-		if(getX() >= WIDTH && getY() < HEIGHT && getY() > 0)
-		{
-			return grid.getTile(((WIDTH-TILE_SIZE) / TILE_SIZE), ((int)(HEIGHT - getY() - 1)/TILE_SIZE));
-		}
-		
-		return grid.getTile(((int)getX() / TILE_SIZE), ((int)(HEIGHT - getY() - 1)/TILE_SIZE));
 	}
 
 	@Override

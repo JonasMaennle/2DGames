@@ -2,50 +2,59 @@ package object;
 
 import org.newdawn.slick.Image;
 import static helpers.Artist.*;
-import static helpers.Leveler.obstacleList;
 
 import java.awt.Rectangle;
 
+import data.Handler;
 import data.Tile;
-import data.TileGrid;
 
 public class GunganEnemy extends Enemy{
 	
 	private Image image_left, image_right;
+	private Handler handler;
 
-	public GunganEnemy(float x, float y, int width, int height) 
+	public GunganEnemy(float x, float y, int width, int height, Handler handler) 
 	{
 		super(x, y, width, height);
 		this.image_left = quickLoaderImage("enemy_left");
 		this.image_right = quickLoaderImage("enemy_right");
+		this.velX = 2;
+		this.handler = handler;
 	}
 	
 	public void update()
 	{
+		x += velX;
+		
 		updateBounds();
+		mapCollision();
 	}
 	
 	public void draw()
 	{
-		//drawQuadImage(image, x, y, width, height);
-		drawBounds();
+		if(velX > 0)
+		{
+			drawQuadImage(image_right, x, y, width, height);
+		}else{
+			drawQuadImage(image_left, x, y, width, height);
+		}
+		//drawBounds();
 	}
 	
 	private void mapCollision()
 	{
-
-		for(Tile t : obstacleList)
+		for(Tile t : handler.obstacleList)
 		{
 			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), TILE_SIZE, TILE_SIZE);
 
 			if(r.intersects(rectLeft))
 			{
-				velX = 0;
-				x = (float) ((float) r.getX() + r.getWidth());//(float) (r.getX() + r.getWidth());
+				velX *= -1;
+				x = (float) ((float) r.getX() + r.getWidth());
 			}
 			if(r.intersects(rectRight))
 			{
-				velX = 0;
+				velX *= -1;
 				x = (float) (r.getX() - width);
 			}
 			if(r.intersects(rectBottom))
@@ -55,5 +64,9 @@ public class GunganEnemy extends Enemy{
 			}
 		}
 	}
-
+	
+	private void shoot()
+	{
+		System.out.println("shoot");
+	}
 }
