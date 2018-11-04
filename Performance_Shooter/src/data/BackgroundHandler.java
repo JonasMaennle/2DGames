@@ -22,7 +22,7 @@ public class BackgroundHandler {
 	{
 		this.background_mountain = quickLoaderImage("background/background_00");
 		this.background_forest = quickLoaderImage("background/background_01");
-		this.sky = quickLoaderImage("background/sky");
+		this.sky = quickLoaderImage("background/Sky");
 		this.filter = quickLoaderImage("background/filter");
 		this.player = player;
 		
@@ -147,5 +147,12 @@ public class BackgroundHandler {
 	public float getAlpha()
 	{
 		return alpha;
+	}
+	
+	public void endScreen(float alpha)
+	{
+		GL11.glColor4f(0, 0, 0, alpha);
+		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
+		GL11.glColor4f(1, 1, 1, 1);
 	}
 }

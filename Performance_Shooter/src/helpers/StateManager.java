@@ -9,13 +9,14 @@ import static helpers.Leveler.*;
 public class StateManager {
 	
 	public static enum GameState{
-		MAINMENU, GAME
+		MAINMENU, GAME, DEAD
 	}
 	
 	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static MainMenu mainMenu;
 	public static Game game;
 	public static Handler handler = new Handler();
+	public static int CURRENT_LEVEL = 1;
 	
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
@@ -37,6 +38,9 @@ public class StateManager {
 				game = new Game(handler);
 			game.update();
 			break;
+		case DEAD:
+			game.deathScreen();
+			break;
 		default:
 			
 			break;
@@ -52,6 +56,14 @@ public class StateManager {
 			framesInCurrentSecond = 0;
 		}
 		framesInCurrentSecond++;
+	}
+	
+	public static void resetCurrentLevel()
+	{
+		handler = new Handler();
+		map = loadMap(handler);
+		game = new Game(handler);	
+		gameState = GameState.GAME;
 	}
 	
 	public static void setState(GameState newState)

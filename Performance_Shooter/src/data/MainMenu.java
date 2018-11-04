@@ -28,7 +28,7 @@ public class MainMenu {
 	private long timer1, timer2;
 	private ArrayList<Button> buttonList;
 	private Music mainTheme;
-	private boolean playMusic, enableMouse;
+	private boolean playMusic, enableMouse, showAtStart;
 	
 	public MainMenu()
 	{
@@ -46,6 +46,7 @@ public class MainMenu {
 		this.speed = 0.2f;
 		this.playMusic = true;
 		this.enableMouse = true;
+		this.showAtStart = true;
 		
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
@@ -68,11 +69,11 @@ public class MainMenu {
 			System.exit(0);
 		}
 		// Draw Space
-		drawQuadImage(background_space, 0, 0, 2048, 2048);
+		drawQuadImageStatic(background_space, 0, 0, 2048, 2048);
 		
 		timer1 = System.currentTimeMillis();
 		// Wait one Sec at begin
-		if(timer1 - timer2 > 1300)
+		if(timer1 - timer2 > 1300 && showAtStart)
 		{
 			// Play main theme
 			if(playMusic)
@@ -95,6 +96,7 @@ public class MainMenu {
 		
 		if(scaleWidth <= 40 || scaleHeight <= 10)
 		{
+			showAtStart = false;
 			menuUI.draw();
 			updateButton();
 			for(Button b : buttonList)

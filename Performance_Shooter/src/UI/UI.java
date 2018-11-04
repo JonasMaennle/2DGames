@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 
 import static helpers.Artist.*;
@@ -73,6 +74,11 @@ public class UI {
 	public void createMenu(String name, int x, int y, int width, int height, int optionsWidth, int optionsHeight)
 	{
 		menuList.add(new Menu(name, x, y, width, height, optionsWidth, optionsHeight));
+	}
+	
+	public void drawImage(int x, int y,int width,int height, Image image)
+	{
+		drawQuadImage(image, x, y, width, height);
 	}
 	
 	public Menu getMenu(String name)

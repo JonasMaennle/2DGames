@@ -9,9 +9,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 
-
-import UI.UI;
+import UI.HeadUpDisplay;
 import helpers.StateManager;
+import helpers.StateManager.GameState;
 import shader.Shader;
 
 public class Game {
@@ -19,7 +19,7 @@ public class Game {
 	private Shader shader;
 	private Camera camera;
 	private BackgroundHandler backgroundHandler;
-	private UI ingame_HUD;
+	private HeadUpDisplay ingame_HUD;
 	private Handler handler;
 
 	public Game(Handler handler)
@@ -71,17 +71,18 @@ public class Game {
 		ingame_HUD.draw();
 		ingame_HUD.drawString(5, HEIGHT-40, "FPS: " + StateManager.framesInLastSecond);
 		ingame_HUD.drawString(150, HEIGHT-40, " ");
+		
 	}
 	
 	private void setupUI()
 	{
-		ingame_HUD = new UI();
+		ingame_HUD = new HeadUpDisplay(handler);	
 	}
 	
 	private void initShader()
 	{
 		shader = new Shader();
-		shader.loadFragmentShader("res/shaders/shader.frag");
+		shader.loadFragmentShader("not used -> path in Shader");
 		shader.compile();
 
 		glEnable(GL_STENCIL_TEST);
@@ -91,5 +92,39 @@ public class Game {
 	private void setUpObjects() 
 	{
 		//lights.add(mouseLight);
+	}
+	
+	public BackgroundHandler getBackgroundHandler()
+	{
+		return backgroundHandler;
+	}
+	
+	public HeadUpDisplay getHeadUpDisplay()
+	{
+		return ingame_HUD;
+	}
+
+	public void deathScreen() 
+	{
+		render();
+		backgroundHandler.endScreen(0.90f);
+		ingame_HUD.drawString(WIDTH/2-100, HEIGHT/2 - 200, " Press 'r' to Restart the Game");
+		ingame_HUD.drawString(WIDTH/2-100, HEIGHT/2 - 140, "or 'm' to return to the Main Menu");
+
+		if(Keyboard.isKeyDown(Keyboard.KEY_R))
+		{
+			StateManager.resetCurrentLevel();
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_M))
+		{
+			StateManager.resetCurrentLevel();
+			StateManager.gameState = GameState.MAINMENU;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+		{
+			AL.destroy();
+			Display.destroy();
+			System.exit(0);
+		}
 	}
 }

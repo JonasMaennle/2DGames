@@ -7,6 +7,8 @@ import org.newdawn.slick.Animation;
 import Enity.Entity;
 import data.Handler;
 import data.Tile;
+import helpers.StateManager;
+import helpers.StateManager.GameState;
 
 import static helpers.Artist.*;
 
@@ -20,6 +22,7 @@ public class Player implements Entity{
 	
 	private float x, y, velX, velY;
 	private float speed, gravity;
+	private int health;
 	private boolean falling, jumping;
 	private final float MAX_SPEED = 30;
 	private int frameCount;
@@ -50,6 +53,7 @@ public class Player implements Entity{
 		this.jumping = false;
 		this.falling = true;
 		this.frameCount = 110;
+		this.health = 100;
 		this.gravity = 4;
 		this.idleStop = 9;
 		this.shooting = false;
@@ -288,6 +292,16 @@ public class Player implements Entity{
 		this.rectBottom.setBounds((int)x + 4, (int)y + (TILE_SIZE * 2)- 4, TILE_SIZE - 8, 4);
 	}
 
+	public void damage(int amount) 
+	{
+		health -= amount;
+		if(health <= 0)
+		{
+			health = 0;
+			StateManager.setState(GameState.DEAD);
+		}
+	}
+
 	@Override
 	public float getX() 
 	{
@@ -442,6 +456,13 @@ public class Player implements Entity{
 	public void setRectBottom(Rectangle rectBottom) {
 		this.rectBottom = rectBottom;
 	}
-	
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
 	
 }

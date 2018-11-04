@@ -17,8 +17,8 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Shader {
 	
@@ -35,7 +35,8 @@ public class Shader {
 
 		try {
 			String line;
-			BufferedReader reader = new BufferedReader(new FileReader(path));
+			InputStreamReader in = new InputStreamReader(this.getClass().getResourceAsStream("/shaders/shader.frag"));
+			BufferedReader reader = new BufferedReader(in);
 			while ((line = reader.readLine()) != null) {
 				fragmentShaderSource.append(line).append("\n");
 			}

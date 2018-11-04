@@ -167,30 +167,7 @@ public class Artist {
 		glDisable(GL_BLEND);
 	}
 	
-	// Rotate Y-Axis
-	public static void drawQuadTexRotY(Texture tex, float x, float y, float width, float height, float angle)
-	{	
-		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		tex.bind();
-		glTranslatef(x + width/2, y + height/2, 0);
-		glRotatef(angle, 0, 1, 1);
-		glTranslatef(- width / 2, - height / 2, 0);
-				
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);
-		glVertex2f(0, 0);
-		glTexCoord2f(1, 0);
-		glVertex2f(width, 0);
-		glTexCoord2f(1, 1);
-		glVertex2f(width, height);
-		glTexCoord2f(0, 1);
-		glVertex2f(0, height);
-		glEnd();
-		
-		glLoadIdentity();
-		glDisable(GL_BLEND);
-	}
+
 	
 	public static void drawQuadTexRot(Texture tex, float x, float y, float width, float height, float angle)
 	{	
@@ -222,6 +199,30 @@ public class Artist {
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		image.bind();
 		glTranslatef(x + (width / 2) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
+		glRotatef(angle, 0, 0, 1);
+		glTranslatef(- width / 2, - height / 2, 0);
+				
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1, 0);
+		glVertex2f(width, 0);
+		glTexCoord2f(1, 1);
+		glVertex2f(width, height);
+		glTexCoord2f(0, 1);
+		glVertex2f(0, height);
+		glEnd();
+		
+		glLoadIdentity();
+		glDisable(GL_BLEND);
+	}
+	
+	public static void drawQuadImageRotStatic(Image image, float x, float y, float width, float height, float angle)
+	{	
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		image.bind();
+		glTranslatef(x + (width / 2), y + height, 0);
 		glRotatef(angle, 0, 0, 1);
 		glTranslatef(- width / 2, - height / 2, 0);
 				
@@ -274,8 +275,16 @@ public class Artist {
 	
 	public static Image quickLoaderImage(String name)
 	{
-		Texture tex = quickLoad(name);
-		return new Image(tex);
+		//Texture tex = quickLoad(name); old
+		Image image = null;
+		
+		try {
+			image = new Image("" + name + ".png"); // "res/"
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		if(image == null)System.out.println("Image cloud not load!!!");
+		return image;
 	}
 	
 	public static Texture quickLoad(String name)

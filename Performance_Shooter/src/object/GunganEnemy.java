@@ -75,7 +75,7 @@ public class GunganEnemy extends Enemy{
 			{
 				laserList.remove(l);
 				// deal damage to player
-				
+				player.damage(20);
 			}
 			for(Tile tile : handler.obstacleList)
 			{

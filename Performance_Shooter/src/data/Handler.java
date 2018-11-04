@@ -41,7 +41,8 @@ public class Handler {
 		map.draw();
 		
 		// draw player
-		player.draw();
+		if(gameState != GameState.DEAD)
+			player.draw();
 		
 		// draw gunganEnemy
 		for(GunganEnemy g : gunganList)
@@ -56,7 +57,6 @@ public class Handler {
 		if(timer1 - timer2 > 2000)
 		{
 			timer2 = timer1;
-			
 			// Data output
 			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + gunganList.size() + "\tFPS: " + StateManager.framesInLastSecond);
 		}
