@@ -1,57 +1,42 @@
 package object;
 
+import static helpers.Artist.TILE_SIZE;
+import static helpers.Artist.drawQuad;
+
+import java.awt.Rectangle;
+
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.opengl.Texture;
 
 import Enity.Entity;
-import data.Tile;
 import data.TileGrid;
 import shader.Light;
 
-import static helpers.Artist.*;
 
+public abstract class Enemy implements Entity{
 
-public class Enemy implements Entity{
-
-	private int width, height;
-	private float speed, x, y, health, hiddenHealth;
-	private Texture texture;
-	private Tile startTile;
-	private boolean first, alive;
-	private TileGrid grid;
+	protected int width, height;
+	protected float speed, x, y, health, velX, velY;
+	protected boolean alive;
+	protected TileGrid grid;
 	protected Light light;
+	protected Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	
 	// Default constructor
-	public Enemy(int tileX, int tileY, TileGrid grid)
+	public Enemy(float x, float y, int width, int height, TileGrid grid)
 	{
-		this.texture = quickLoad("Enemy");
-		this.startTile = grid.getTile(tileX, tileY);
-		this.x = startTile.getX();
-		this.y = startTile.getY();
-		this.width = TILE_SIZE;
-		this.height = TILE_SIZE;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.speed = 50;
 		this.grid = grid;
 		this.health = 100;
-		this.hiddenHealth = health;
-		this.first = true;
 		this.alive = true;
-	}
-	
-	public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed, float health)
-	{
-		this.startTile = startTile;
-		this.texture = texture;
-		this.x = startTile.getX();
-		this.y = startTile.getY();
-		this.width = width;
-		this.height = height;
-		this.speed = speed;
-		this.grid = grid;
-		this.health = health;
-		this.hiddenHealth = health;
-		this.first = true;
-		this.alive = true;
+		
+		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (height) - 16);
+		this.rectRight = new Rectangle((int)x + width - 4, (int)y + 4, 4, (height) - 16);
+		this.rectTop = new Rectangle((int)x + 4, (int)y, width - 8, 4);
+		this.rectBottom = new Rectangle((int)x + 4, (int)y + (height) - 4, width - 8, 4);
 	}
 	
 	public void update()
@@ -59,6 +44,22 @@ public class Enemy implements Entity{
 
 	}
 	
+	public void updateBounds()
+	{
+		rectLeft.setBounds((int)x, (int)y + 4, 4, (height) - 16);
+		rectRight.setBounds((int)x + width - 4, (int)y + 4, 4, (height) - 16);
+		rectTop.setBounds((int)x + 4, (int)y, width - 8, 4);
+		rectBottom.setBounds((int)x + 4, (int)y + (height) - 4, width - 8, 4);
+	}
+	
+	@SuppressWarnings("unused")
+	public void drawBounds()
+	{
+		drawQuad(x, y + 4, 4, (height) - 16); // left
+		drawQuad(x + width - 4, y + 4, 4, (height) - 16); // right
+		drawQuad(x + 4, y, width - 8, 4); // top
+		drawQuad(x + 4, y + (height) - 4, width - 8, 4); // bottom
+	}
 	
 	// Take damage from external source
 	public void damage(int amount)
@@ -68,12 +69,7 @@ public class Enemy implements Entity{
 	
 	public void draw()
 	{
-		//drawQuadTex(texture, x, y, width, height);
-	}
-	
-	public float getHiddenHealth()
-	{
-		return hiddenHealth;
+
 	}
 
 	public int getWidth() {
@@ -122,35 +118,6 @@ public class Enemy implements Entity{
 
 	public void setY(float y) {
 		this.y = y;
-	}
-
-	public Texture getTexture() {
-		return texture;
-	}
-
-	public void setTexture(Texture texture) {
-		this.texture = texture;
-	}
-	
-	public void setTexture(String texture)
-	{
-		this.texture = quickLoad(texture);
-	}
-
-	public Tile getStartTile() {
-		return startTile;
-	}
-
-	public void setStartTile(Tile startTile) {
-		this.startTile = startTile;
-	}
-
-	public boolean isFirst() {
-		return first;
-	}
-
-	public void setFirst(boolean first) {
-		this.first = first;
 	}
 	
 	public TileGrid getTileGrid()
