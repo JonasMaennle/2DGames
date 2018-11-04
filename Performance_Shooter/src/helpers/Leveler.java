@@ -9,10 +9,12 @@ import javax.imageio.ImageIO;
 import Enity.TileType;
 import data.Tile;
 import data.TileGrid;
+import object.GunganEnemy;
 
 public class Leveler {
 	
 	public static ArrayList<Tile> obstacleList = new ArrayList<>();
+	public static ArrayList<GunganEnemy> gunganList = new ArrayList<>();
 	public static int playerX, playerY;
 	
 	public static TileGrid loadMap()
@@ -77,6 +79,12 @@ public class Leveler {
 				{
 					playerX = x * TILE_SIZE;
 					playerY = y * TILE_SIZE;
+				}
+		// Enemy Tile
+				// Green -> GunganEnemy
+				if(red == 0 && green == 255 && blue == 0)
+				{
+					gunganList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128));
 				}
 			}
 		}

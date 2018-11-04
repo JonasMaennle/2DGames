@@ -22,7 +22,7 @@ public abstract class Enemy implements Entity{
 	protected Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	
 	// Default constructor
-	public Enemy(float x, float y, int width, int height, TileGrid grid)
+	public Enemy(float x, float y, int width, int height)
 	{
 		this.x = x;
 		this.y = y;

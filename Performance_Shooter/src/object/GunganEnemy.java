@@ -13,9 +13,9 @@ public class GunganEnemy extends Enemy{
 	
 	private Image image_left, image_right;
 
-	public GunganEnemy(float x, float y, int width, int height, TileGrid grid) 
+	public GunganEnemy(float x, float y, int width, int height) 
 	{
-		super(x, y, width, height, grid);
+		super(x, y, width, height);
 		this.image_left = quickLoaderImage("enemy_left");
 		this.image_right = quickLoaderImage("enemy_right");
 	}
