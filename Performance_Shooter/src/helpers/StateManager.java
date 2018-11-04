@@ -12,7 +12,7 @@ public class StateManager {
 		MAINMENU, GAME, DEAD
 	}
 	
-	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
 	public static MainMenu mainMenu;
 	public static Game game;
 	public static Handler handler = new Handler();
