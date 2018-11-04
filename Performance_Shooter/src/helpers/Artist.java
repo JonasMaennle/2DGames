@@ -261,8 +261,7 @@ public class Artist {
 		Texture tex = null;
 		//System.out.println(path);
 		// -> new
-		ClassLoader cl = Artist.class.getClassLoader();
-		InputStream in = cl.getResourceAsStream(path);
+		InputStream in = Artist.class.getClassLoader().getResourceAsStream(path);
 
 		try {
 			tex = TextureLoader.getTexture(fileType, in);
