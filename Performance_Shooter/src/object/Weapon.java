@@ -10,7 +10,6 @@ import data.Handler;
 import data.Tile;
 
 import static helpers.Artist.*;
-import static helpers.Leveler.*;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

@@ -14,7 +14,10 @@ public class Handler {
 	
 	public void update()
 	{
+		// update Player
 		player.update();
+		
+		// update gunganEnemy
 		for(GunganEnemy g : gunganList)
 		{
 			g.update();
@@ -23,9 +26,13 @@ public class Handler {
 	
 	public void draw()
 	{
+		// draw tile map
 		map.draw();
+		
+		// draw player
 		player.draw();
 		
+		// draw gunganEnemy
 		for(GunganEnemy g : gunganList)
 		{
 			g.draw();

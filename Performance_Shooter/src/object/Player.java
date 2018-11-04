@@ -1,16 +1,13 @@
 package object;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
 import Enity.Entity;
 import data.Handler;
 import data.Tile;
-import data.TileGrid;
 
-import static helpers.Leveler.*;
 import static helpers.Artist.*;
 
 import java.awt.Rectangle;
