@@ -1,6 +1,7 @@
 package helpers;
 
 import java.awt.image.BufferedImage;
+import static helpers.StateManager.*;
 import static helpers.Artist.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -8,15 +9,16 @@ import javax.imageio.ImageIO;
 import Enity.TileType;
 import data.Handler;
 import data.TileGrid;
+import object.Goal;
 import object.GunganEnemy;
 import object.Player;
 
 public class Leveler {
 	
-	public static TileGrid loadMap(Handler handler)
+	public static TileGrid loadMap(Handler handler, int level)
 	{
 		TileGrid grid = new TileGrid();
-		BufferedImage image = bufferedImageLoader("/maps/map_default.png");
+		BufferedImage image = bufferedImageLoader("/maps/map_" + level +".png");
 		
 		int w = image.getWidth();
 		int h = image.getHeight();
@@ -81,6 +83,12 @@ public class Leveler {
 				{
 					handler.gunganList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128, handler));
 				}
+		// Goal Tile
+				// Pink -> Level Goal
+				if(red == 255 && green == 0 && blue == 255)
+				{
+					handler.levelGoal = new Goal(x * TILE_SIZE, y * TILE_SIZE, handler);
+				}
 			}
 		}
 		return grid;
@@ -100,11 +108,11 @@ public class Leveler {
 	
 	public static int getLevelWidth()
 	{
-		return bufferedImageLoader("/maps/map_default.png").getWidth();
+		return bufferedImageLoader("/maps/map_" + CURRENT_LEVEL + ".png").getWidth();
 	}
 	
 	public static int getLevelHeight()
 	{
-		return bufferedImageLoader("/maps/map_default.png").getHeight();
+		return bufferedImageLoader("/maps/map_" + CURRENT_LEVEL + ".png").getHeight();
 	}
 }

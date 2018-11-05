@@ -20,6 +20,7 @@ public class HeadUpDisplay {
 	private Font awtFont;
 	private Image hud, hud_weapon, healthBackground, healthBorder, healthBar;
 	private Image[] font_sw;
+	private Handler handler;
 	
 	public HeadUpDisplay(Handler handler)
 	{
@@ -32,7 +33,7 @@ public class HeadUpDisplay {
 		{
 			font_sw[i] = quickLoaderImage("font/font_" + i);
 		}
-		
+		this.handler = handler;
 		// Player HP bar
 		this.healthBackground = quickLoaderImage("enemy/healthBackground");
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");

@@ -113,11 +113,11 @@ public class Game {
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_R))
 		{
-			StateManager.resetCurrentLevel();
+			handler.getStatemanager().resetCurrentLevel();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_M))
 		{
-			StateManager.resetCurrentLevel();
+			handler.getStatemanager().resetCurrentLevel();
 			StateManager.gameState = GameState.MAINMENU;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
@@ -126,5 +126,15 @@ public class Game {
 			Display.destroy();
 			System.exit(0);
 		}
+	}
+
+	public void setCamera(Camera camera) 
+	{
+		this.camera = camera;
+	}
+	
+	public void setBackgroundHandler(BackgroundHandler bh)
+	{
+		this.backgroundHandler = bh;
 	}
 }

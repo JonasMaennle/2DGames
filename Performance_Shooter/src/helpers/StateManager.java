@@ -1,41 +1,46 @@
 package helpers;
 
+import data.BackgroundHandler;
+import data.Camera;
 import data.Game;
 import data.Handler;
 import data.MainMenu;
-import data.TileGrid;
 import static helpers.Leveler.*;
 
 public class StateManager {
 	
 	public static enum GameState{
-		MAINMENU, GAME, DEAD
+		MAINMENU, GAME, DEAD, RESTART
 	}
 	
-	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
-	public static MainMenu mainMenu;
-	public static Game game;
-	public static Handler handler = new Handler();
-	public static int CURRENT_LEVEL = 1;
+	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public MainMenu mainMenu;
+	public Game game;
+	public Handler handler;
+	public static int CURRENT_LEVEL = 0;
 	
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
 	public static int framesInCurrentSecond = 0;
 	
-	public static TileGrid map = loadMap(handler);
+	// = loadMap(handler, CURRENT_LEVEL);
 	
+	public StateManager()
+	{
+		mainMenu = new MainMenu();
+		handler = new Handler(this);
+			
+		game = new Game(handler);
+		loadLevel();
+	}
 	
-	public static void update()
+	public void update()
 	{
 		switch (gameState) {
 		case MAINMENU:
-			if(mainMenu == null)
-				mainMenu = new MainMenu();
 			mainMenu.update();
 			break;
 		case GAME:
-			if(game == null)
-				game = new Game(handler);
 			game.update();
 			break;
 		case DEAD:
@@ -58,11 +63,33 @@ public class StateManager {
 		framesInCurrentSecond++;
 	}
 	
-	public static void resetCurrentLevel()
+	public void loadLevel()
 	{
-		handler = new Handler();
-		map = loadMap(handler);
-		game = new Game(handler);	
+		CURRENT_LEVEL++;
+		handler.wipe();
+
+		switch (CURRENT_LEVEL) {
+		case 1:
+			handler.setMap(loadMap(handler, CURRENT_LEVEL));
+			break;
+		case 2:
+			handler.setMap(loadMap(handler, CURRENT_LEVEL));
+			break;
+
+		default:
+			break;
+		}
+		game.setCamera(new Camera(handler.player));
+		game.setBackgroundHandler(new BackgroundHandler(handler.player));
+		
+		update();
+	}
+	
+	public void resetCurrentLevel()
+	{
+		handler.setMap(loadMap(handler, CURRENT_LEVEL));
+		CURRENT_LEVEL--;
+		loadLevel();
 		gameState = GameState.GAME;
 	}
 	

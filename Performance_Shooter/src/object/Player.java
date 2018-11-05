@@ -44,7 +44,7 @@ public class Player implements Entity{
 	public Player(float x, float y, Handler handler)
 	{
 		this.handler = handler;
-		this.speed = 3;
+		this.speed = 3.0f;
 		this.velX = 0;
 		this.velY = 0;
 		this.x = x; 
@@ -52,7 +52,7 @@ public class Player implements Entity{
 		this.direction = "right";
 		this.jumping = false;
 		this.falling = true;
-		this.frameCount = 110;
+		this.frameCount = 100;
 		this.health = 100;
 		this.gravity = 4;
 		this.idleStop = 9;
@@ -214,7 +214,7 @@ public class Player implements Entity{
 		}
 		
 		weapon.draw();
-		//drawBounds();
+		drawBounds();
 	}
 	
 	private void mapCollision()
@@ -235,12 +235,12 @@ public class Player implements Entity{
 			if(r.intersects(rectLeft))
 			{
 				velX = 0;
-				x = (float) (r.getX() + r.getWidth());
+				x = (float) (r.getX() + r.getWidth() - 10);
 			}
 			if(r.intersects(rectRight))
 			{
 				velX = 0;
-				x = (float) (r.getX() - TILE_SIZE);
+				x = (float) (r.getX() - TILE_SIZE) + 10;
 			}
 			if(r.intersects(rectBottom))
 			{
@@ -254,10 +254,10 @@ public class Player implements Entity{
 	@SuppressWarnings("unused")
 	private void drawBounds()
 	{
-		drawQuad(x, y + 4, 4, (TILE_SIZE * 2) - 16); // left
-		drawQuad(x + TILE_SIZE - 4, y + 4, 4, (TILE_SIZE * 2) - 16); // right
-		drawQuad(x + 4, y, TILE_SIZE - 8, 4); // top
-		drawQuad(x + 4, y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4); // bottom
+		drawQuad(x + 10, y + 8, 4, (TILE_SIZE * 2) - 20); // left
+		drawQuad(x + TILE_SIZE - 14, y + 8, 4, (TILE_SIZE * 2) - 20); // right
+		drawQuad(x + 10, y, TILE_SIZE - 20, 4); // top
+		drawQuad(x + 10, y + (TILE_SIZE * 2)-4, TILE_SIZE - 18, 4); // bottom
 	}
 	
 	private void jump()
@@ -280,16 +280,16 @@ public class Player implements Entity{
 				}
 			}
 		}else{
-			frameCount = 135;
+			frameCount = 125;
 		}
 	}
 	
 	private void updateBounds()
 	{
-		this.rectLeft.setBounds((int)x, (int)y + 4 , 4, (TILE_SIZE * 2) - 16);
-		this.rectRight.setBounds((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
-		this.rectTop.setBounds((int)x + 4, (int)y, TILE_SIZE - 8, 4);
-		this.rectBottom.setBounds((int)x + 4, (int)y + (TILE_SIZE * 2)- 4, TILE_SIZE - 8, 4);
+		this.rectLeft.setBounds((int)x + 10, (int)y + 8, 4, (int)(TILE_SIZE * 2) - 20); // left
+		this.rectRight.setBounds((int)x + TILE_SIZE - 14,(int) y + 8, 4, (TILE_SIZE * 2) - 20); // right
+		this.rectTop.setBounds((int)x + 10, (int)y, TILE_SIZE - 20, 4); // top
+		this.rectBottom.setBounds((int)x + 10,(int)y + (TILE_SIZE * 2)-4, (int)TILE_SIZE - 18, 4); // bottom
 	}
 
 	public void damage(int amount) 

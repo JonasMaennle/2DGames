@@ -135,7 +135,9 @@ public class MainMenu {
 		if(Mouse.isButtonDown(0))
 		{
 			if(menuUI.isButtonClicked("Start"))
+			{
 				StateManager.setState(GameState.GAME);
+			}
 			
 			if(menuUI.isButtonClicked("Settings"))
 			{

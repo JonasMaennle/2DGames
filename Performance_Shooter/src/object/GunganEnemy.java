@@ -21,6 +21,7 @@ public class GunganEnemy extends Enemy{
 	private Rectangle testShot;
 	private CopyOnWriteArrayList<Laser> laserList;
 	private long timer1, timer2;
+	private float speed;
 
 	public GunganEnemy(float x, float y, int width, int height, Handler handler) 
 	{
@@ -30,13 +31,14 @@ public class GunganEnemy extends Enemy{
 		this.healthBackground = quickLoaderImage("enemy/healthBackground");
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
-		this.velX = 2;
+		this.velX = 1;
 		this.handler = handler;
 		this.player = handler.player;
 		this.testShot = new Rectangle((int)x, (int)y+52, 5, 5);
 		this.laserList = new CopyOnWriteArrayList<>();
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
+		this.speed = 3;
 		this.health = width - 8;
 		
 		try {
@@ -46,7 +48,7 @@ public class GunganEnemy extends Enemy{
 	
 	public void update()
 	{
-		x += velX;
+		x += velX * speed;;
 		
 		// check if shoot() is possible
 		if(player.getY() + player.getHeight() <= y + height && player.getY() + player.getHeight() >= y)
@@ -137,13 +139,13 @@ public class GunganEnemy extends Enemy{
 
 			if(r.intersects(rectLeft))
 			{
-				velX *= -1;
-				x = (float) ((float) r.getX() + r.getWidth());
+				velX = 1;
+				x = (float) ((float) r.getX() + r.getWidth() + 1);
 			}
 			if(r.intersects(rectRight))
 			{
-				velX *= -1;
-				x = (float) (r.getX() - width);
+				velX = -1;
+				x = (float) (r.getX() - width - 1);
 			}
 			if(r.intersects(rectBottom))
 			{

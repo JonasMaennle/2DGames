@@ -12,12 +12,13 @@ public class Boot {
 	public Boot()
 	{
 		beginSession();
+		StateManager statemanager = new StateManager();
 		
 		// Game loop
 		while(!Display.isCloseRequested())
 		{
 			Clock.update();	
-			StateManager.update();
+			statemanager.update();
 			
 			Display.update();
 			Display.sync(60);

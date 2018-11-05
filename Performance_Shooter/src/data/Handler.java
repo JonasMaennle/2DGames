@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import helpers.StateManager;
+import object.Goal;
 import object.GunganEnemy;
 import object.Player;
 import static helpers.StateManager.*;
@@ -13,18 +14,25 @@ public class Handler {
 	public ArrayList<Tile> obstacleList = new ArrayList<>();
 	public CopyOnWriteArrayList<GunganEnemy> gunganList = new CopyOnWriteArrayList<>();
 	public Player player;
+	public Goal levelGoal;
 	private long timer1, timer2;
+	private TileGrid map;
+	private StateManager statemanager;
 	
-	public Handler()
+	public Handler(StateManager statemanager)
 	{
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
+		this.statemanager = statemanager;
 	}
 	
 	public void update()
 	{
 		// update Player
 		player.update();
+		
+		// update Level Goal
+		levelGoal.update();
 		
 		// update gunganEnemy
 		for(GunganEnemy g : gunganList)
@@ -49,6 +57,9 @@ public class Handler {
 		{
 			g.draw();
 		}
+		
+		// draw Level Goal
+		levelGoal.draw();
 	}
 	
 	private void objectInfo()
@@ -61,4 +72,30 @@ public class Handler {
 			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + gunganList.size() + "\tFPS: " + StateManager.framesInLastSecond);
 		}
 	}
+	
+	public void wipe()
+	{
+		player = null;
+		gunganList.clear();
+		obstacleList.clear();
+		levelGoal = null;
+	}
+
+	public TileGrid getMap() {
+		return map;
+	}
+
+	public void setMap(TileGrid map) {
+		this.map = map;
+	}
+
+	public StateManager getStatemanager() {
+		return statemanager;
+	}
+
+	public void setStatemanager(StateManager statemanager) {
+		this.statemanager = statemanager;
+	}
+	
+	
 }
