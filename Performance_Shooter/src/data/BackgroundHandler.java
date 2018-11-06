@@ -36,7 +36,7 @@ public class BackgroundHandler {
 		this.bg04_offset = Display.getX();
 		this.bg05_offset = Display.getX() + Display.getWidth();
 		
-		this.alpha = 0.25f;
+		this.alpha = 0.4f;
 	}
 	
 	public void draw()

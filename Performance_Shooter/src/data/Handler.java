@@ -31,6 +31,10 @@ public class Handler {
 	{
 		// update Player
 		player.update();
+		if(player.isOutOfMap())
+		{
+			statemanager.resetCurrentLevel();
+		}
 		
 		// update Level Goal
 		if(levelGoal != null)

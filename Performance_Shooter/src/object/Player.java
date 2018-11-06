@@ -1,6 +1,7 @@
 package object;
 
 import org.lwjgl.input.Keyboard;
+import static helpers.Leveler.*;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
@@ -300,6 +301,13 @@ public class Player implements Entity{
 			health = 0;
 			StateManager.setState(GameState.DEAD);
 		}
+	}
+	
+	public boolean isOutOfMap()
+	{
+		if((getLevelHeight() * TILE_SIZE) < y)
+			return true;
+		return false;
 	}
 
 	@Override
