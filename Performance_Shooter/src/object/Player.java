@@ -214,7 +214,7 @@ public class Player implements Entity{
 		}
 		
 		weapon.draw();
-		drawBounds();
+		//drawBounds();
 	}
 	
 	private void mapCollision()
@@ -235,12 +235,12 @@ public class Player implements Entity{
 			if(r.intersects(rectLeft))
 			{
 				velX = 0;
-				x = (float) (r.getX() + r.getWidth() - 10);
+				x = (float) (r.getX() + r.getWidth() - 11);
 			}
 			if(r.intersects(rectRight))
 			{
 				velX = 0;
-				x = (float) (r.getX() - TILE_SIZE) + 10;
+				x = (float) (r.getX() - TILE_SIZE) + 11;
 			}
 			if(r.intersects(rectBottom))
 			{
@@ -254,10 +254,10 @@ public class Player implements Entity{
 	@SuppressWarnings("unused")
 	private void drawBounds()
 	{
-		drawQuad(x + 10, y + 8, 4, (TILE_SIZE * 2) - 20); // left
-		drawQuad(x + TILE_SIZE - 14, y + 8, 4, (TILE_SIZE * 2) - 20); // right
-		drawQuad(x + 10, y, TILE_SIZE - 20, 4); // top
-		drawQuad(x + 10, y + (TILE_SIZE * 2)-4, TILE_SIZE - 18, 4); // bottom
+		drawQuad(x + 10, y + 4, 4, (TILE_SIZE * 2) - 16); // left
+		drawQuad(x + TILE_SIZE - 14, y + 4, 4, (TILE_SIZE * 2) - 16); // right
+		drawQuad(x + 14, y, TILE_SIZE - 28, 4); // top
+		drawQuad(x + 14, y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
 	}
 	
 	private void jump()
@@ -280,16 +280,16 @@ public class Player implements Entity{
 				}
 			}
 		}else{
-			frameCount = 125;
+			frameCount = 115;
 		}
 	}
 	
 	private void updateBounds()
 	{
-		this.rectLeft.setBounds((int)x + 10, (int)y + 8, 4, (int)(TILE_SIZE * 2) - 20); // left
-		this.rectRight.setBounds((int)x + TILE_SIZE - 14,(int) y + 8, 4, (TILE_SIZE * 2) - 20); // right
-		this.rectTop.setBounds((int)x + 10, (int)y, TILE_SIZE - 20, 4); // top
-		this.rectBottom.setBounds((int)x + 10,(int)y + (TILE_SIZE * 2)-4, (int)TILE_SIZE - 18, 4); // bottom
+		this.rectLeft.setBounds((int)x + 10, (int)y + 4, 4, (TILE_SIZE * 2) - 16); // left
+		this.rectRight.setBounds((int)x + TILE_SIZE - 14,(int) y + 4, 4, (TILE_SIZE * 2) - 16); // right
+		this.rectTop.setBounds((int)x + 14,(int) y, TILE_SIZE - 28, 4); // top
+		this.rectBottom.setBounds((int)x + 14,(int) y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
 	}
 
 	public void damage(int amount) 

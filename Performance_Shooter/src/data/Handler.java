@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import static helpers.Artist.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import helpers.StateManager;
@@ -32,12 +33,18 @@ public class Handler {
 		player.update();
 		
 		// update Level Goal
-		levelGoal.update();
+		if(levelGoal != null)
+			levelGoal.update();
 		
 		// update gunganEnemy
 		for(GunganEnemy g : gunganList)
 		{
 			g.update();
+		}
+		
+		if(levelGoal != null && checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
+		{
+			statemanager.loadLevel();
 		}
 		
 		objectInfo();
@@ -59,7 +66,8 @@ public class Handler {
 		}
 		
 		// draw Level Goal
-		levelGoal.draw();
+		if(levelGoal != null)
+			levelGoal.draw();
 	}
 	
 	private void objectInfo()

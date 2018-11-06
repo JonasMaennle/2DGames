@@ -13,7 +13,7 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, RESTART
 	}
 	
-	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
 	public MainMenu mainMenu;
 	public Game game;
 	public Handler handler;
@@ -81,13 +81,10 @@ public class StateManager {
 		}
 		game.setCamera(new Camera(handler.player));
 		game.setBackgroundHandler(new BackgroundHandler(handler.player));
-		
-		update();
 	}
 	
 	public void resetCurrentLevel()
 	{
-		handler.setMap(loadMap(handler, CURRENT_LEVEL));
 		CURRENT_LEVEL--;
 		loadLevel();
 		gameState = GameState.GAME;

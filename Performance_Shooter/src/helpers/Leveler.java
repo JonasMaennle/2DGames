@@ -87,7 +87,7 @@ public class Leveler {
 				// Pink -> Level Goal
 				if(red == 255 && green == 0 && blue == 255)
 				{
-					handler.levelGoal = new Goal(x * TILE_SIZE, y * TILE_SIZE, handler);
+					handler.levelGoal = new Goal(x * TILE_SIZE, y * TILE_SIZE);
 				}
 			}
 		}

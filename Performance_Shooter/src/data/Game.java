@@ -118,6 +118,8 @@ public class Game {
 		if(Keyboard.isKeyDown(Keyboard.KEY_M))
 		{
 			handler.getStatemanager().resetCurrentLevel();
+			MOVEMENT_X = 0;
+			MOVEMENT_Y = 0;
 			StateManager.gameState = GameState.MAINMENU;
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))

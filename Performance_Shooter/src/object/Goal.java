@@ -5,32 +5,25 @@ import org.newdawn.slick.Image;
 import static helpers.Artist.*;
 
 import Enity.Entity;
-import data.Handler;
 
 public class Goal implements Entity{
 
 	private Image image;
-	private Handler handler;
 	private float x, y, width, height;
 	
-	public Goal(float x, float y, Handler handler)
+	public Goal(float x, float y)
 	{
 		this.x = x;
 		this.y = y;
 		this.width = TILE_SIZE;
 		this.height = TILE_SIZE;
 		this.image = quickLoaderImage("objects/goal");
-		this.handler = handler;
 	}
 
 	@Override
 	public void update() 
 	{
-		if(checkCollision(handler.player.getX(), handler.player.getY(), handler.player.getWidth(), handler.player.getHeight(), x, y, width, height))
-		{
-			// Switch to next Level
-			handler.getStatemanager().loadLevel();
-		}
+		
 	}
 
 	@Override
