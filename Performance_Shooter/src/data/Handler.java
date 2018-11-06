@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import static helpers.Artist.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.lwjgl.input.Mouse;
+
 import helpers.StateManager;
 import object.Goal;
 import object.GunganEnemy;
@@ -25,6 +27,7 @@ public class Handler {
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.statemanager = statemanager;
+		Mouse.setGrabbed(false);
 	}
 	
 	public void update()
@@ -36,6 +39,12 @@ public class Handler {
 			statemanager.resetCurrentLevel();
 		}
 		
+		// Get Mouse Coords
+		if(Mouse.isButtonDown(0))
+		{
+			//System.out.println("x:" + Mouse.getX() + " y:" + Mouse.getY());
+			player.shoot();
+		}
 		// update Level Goal
 		if(levelGoal != null)
 			levelGoal.update();

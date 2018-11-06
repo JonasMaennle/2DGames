@@ -83,48 +83,34 @@ public class Player implements Entity{
 		velX = 0;
 		velY = gravity;
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT))
+		if(Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
 			velX += 1;
 			currentAnimation = "anim_walkRight";
 			direction = "right";
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+		if(Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
 			velX -= 1;
 			currentAnimation = "anim_walkLeft";
 			direction = "left";
 		}		
 		
-		if(!Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && !Keyboard.isKeyDown(Keyboard.KEY_LEFT))
+		if(!Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
 			if(direction.equals("right"))
 				currentAnimation = "anim_idleRight";
 			else
 				currentAnimation = "anim_idleLeft";
 		}
-		if(Keyboard.isKeyDown(Keyboard.KEY_UP) && !jumping && falling)
+		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !jumping && falling)
 		{
 			jumping = true;
 			falling = false;
 		}
-		if(!Keyboard.isKeyDown(Keyboard.KEY_UP))
-		{
-			falling = true;
-		}
-		
-
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !shooting)
-		{
-			weapon.shoot();
-			shooting = true;
-			anim_idleRight.restart();
-			anim_idleLeft.restart();
-			idleStop = 0;
-		}
 		if(!Keyboard.isKeyDown(Keyboard.KEY_SPACE))
 		{
-			shooting = false;
+			falling = true;
 		}
 		
 		// every three sec
@@ -259,6 +245,18 @@ public class Player implements Entity{
 		drawQuad(x + TILE_SIZE - 14, y + 4, 4, (TILE_SIZE * 2) - 16); // right
 		drawQuad(x + 14, y, TILE_SIZE - 28, 4); // top
 		drawQuad(x + 14, y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
+	}
+	
+	public void shoot()
+	{
+		if(!shooting)
+		{
+			weapon.shoot();
+			shooting = false;
+			anim_idleRight.restart();
+			anim_idleLeft.restart();
+			idleStop = 0;
+		}
 	}
 	
 	private void jump()

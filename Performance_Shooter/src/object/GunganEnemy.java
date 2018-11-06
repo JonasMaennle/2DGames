@@ -22,6 +22,7 @@ public class GunganEnemy extends Enemy{
 	private CopyOnWriteArrayList<Laser> laserList;
 	private long timer1, timer2;
 	private float speed;
+	private int rangeLeft, rangeRight;
 
 	public GunganEnemy(float x, float y, int width, int height, Handler handler) 
 	{
@@ -46,9 +47,52 @@ public class GunganEnemy extends Enemy{
 		} catch (SlickException e) {e.printStackTrace();}
 	}
 	
+	public GunganEnemy(float x, float y, int width, int height, Handler handler, int range) 
+	{
+		super(x, y, width, height);
+		this.image_left = quickLoaderImage("enemy/enemy_left");
+		this.image_right = quickLoaderImage("enemy/enemy_right");
+		this.healthBackground = quickLoaderImage("enemy/healthBackground");
+		this.healthBorder = quickLoaderImage("enemy/healthBorder");
+		this.healthForeground = quickLoaderImage("enemy/healthForeground");
+		this.velX = 1;
+		this.handler = handler;
+		this.player = handler.player;
+		this.testShot = new Rectangle((int)x, (int)y+52, 5, 5);
+		this.laserList = new CopyOnWriteArrayList<>();
+		this.timer1 = System.currentTimeMillis();
+		this.timer2 = timer1;
+		this.speed = 3;
+		this.health = width - 8;
+		this.rangeLeft = (int)x - (range * 64);
+		this.rangeRight = (int)x + (range * 64);
+		
+		try {
+			this.lasterShot = new Sound("sound/rebel_laser.wav");
+		} catch (SlickException e) {e.printStackTrace();}
+	}
+	
 	public void update()
 	{
-		x += velX * speed;;
+		if(rangeLeft != 0)
+		{
+			if(rangeRight > x && velX > 0)
+			{
+				velX = 1;
+			}else if(rangeRight < x)
+			{
+				velX = -1;
+			}
+			
+			if(rangeLeft < x && velX < 0)
+			{
+				velX = -1;
+			}else if(rangeLeft > x)
+			{
+				velX = 1;
+			}
+		}
+		x += velX * speed;
 		
 		// check if shoot() is possible
 		if(player.getY() + player.getHeight() <= y + height && player.getY() + player.getHeight() >= y)
@@ -208,8 +252,8 @@ public class GunganEnemy extends Enemy{
 		if(timer1 - timer2 > 500)
 		{
 			timer2 = timer1;
-			if(velX > 0)laserList.add(new Laser(x, y + 52, 20, 6, "right", 20, "green"));
-			if(velX < 0)laserList.add(new Laser(x, y + 52, 20, 6, "left", 20, "green"));
+			if(velX > 0)laserList.add(new Laser(x, y + 52, 20, 6, "right", 20, "green", 0));
+			if(velX < 0)laserList.add(new Laser(x, y + 52, 20, 6, "left", 20, "green", 0));
 			lasterShot.play();
 		}
 	}

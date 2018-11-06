@@ -83,6 +83,10 @@ public class Leveler {
 				{
 					handler.gunganList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128, handler));
 				}
+				if(red == 0 && green == 255 && blue == 120)
+				{
+					handler.gunganList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128, handler, 2));
+				}
 		// Goal Tile
 				// Pink -> Level Goal
 				if(red == 255 && green == 0 && blue == 255)
