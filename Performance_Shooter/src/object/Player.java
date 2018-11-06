@@ -1,6 +1,8 @@
 package object;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
 import static helpers.Leveler.*;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
@@ -247,12 +249,12 @@ public class Player implements Entity{
 		drawQuad(x + 14, y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
 	}
 	
-	public void shoot()
+	public void shoot(float destX, float destY)
 	{
 		if(!shooting)
 		{
-			weapon.shoot();
-			shooting = false;
+			shooting = true;
+			weapon.shoot(destX, destY);
 			anim_idleRight.restart();
 			anim_idleLeft.restart();
 			idleStop = 0;
@@ -470,5 +472,12 @@ public class Player implements Entity{
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	
+
+	public boolean isShooting() {
+		return shooting;
+	}
+
+	public void setShooting(boolean shooting) {
+		this.shooting = shooting;
+	}
 }

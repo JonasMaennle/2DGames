@@ -10,8 +10,8 @@ import static helpers.Artist.*;
 public class Laser implements Entity{
 	
 	private Image image;
-	private float x, y, width, height, angle;
-	private float velX;
+	private float x, y, width, height, angle, destX, destY, speed;
+	private float velX, velY;
 	
 	public Laser(float x, float y, float width, float height, String direction, int speed, String color, float angle)
 	{
@@ -20,26 +20,48 @@ public class Laser implements Entity{
 		this.width = width;
 		this.height = height;
 		this.angle = angle;
+		this.speed = speed;
 		if(color.equals("red"))
 			this.image = quickLoaderImage("player/laser_small_red");
 		else if(color.equals("green"))
 			this.image = quickLoaderImage("player/laser_small_green");
 		
 		if(direction.equals("right"))
-			velX = speed;
+			velX = 1;
 		else
-			velX = -speed;
+			velX = -1;
+	}
+	
+	public Laser(float x, float y, float destX, float destY, float width, float height, String direction, int speed, String color, float angle)
+	{
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.angle = angle;
+		this.speed = speed;
+		this.destX = destX;
+		this.destY = destY;
+		if(color.equals("red"))
+			this.image = quickLoaderImage("player/laser_small_red");
+		else if(color.equals("green"))
+			this.image = quickLoaderImage("player/laser_small_green");
+		
+		calculateDirection();
 	}
 	
 	public void update()
 	{
-		x += velX;
+		y += velY * speed;
+		x += velX * speed;;
 	}
+	
+	
 	
 	public void draw()
 	{
-		//drawQuadImageRot(image, x, y, width, height, angle);
-		drawQuadImage(image, x, y, width, height);
+		drawQuadImageRot(image, x, y, width, height, angle);
+		//drawQuadImage(image, x, y, width, height);
 	}
 	
 	public boolean isOutOfMap()
@@ -47,6 +69,25 @@ public class Laser implements Entity{
 		if(x - width < getLeftBoarder() || x > getRightBoarder())
 			return true;
 		return false;
+	}
+	
+	private void calculateDirection()
+	{
+		float totalAllowedMovement = 1.0f;
+		float xDistanceFromTarget = Math.abs(destX - x);
+		float yDistanceFromTarget = Math.abs(destY - y);
+		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
+		float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
+		
+		velX = xPercentOfMovement;
+		velY = totalAllowedMovement - xPercentOfMovement;
+		
+		// set direction based on position of target relative to tower
+		if(destY > y)
+			velY *= -1;
+		if(destX < x)
+			velX *= -1;
+		
 	}
 
 	@Override
