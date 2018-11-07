@@ -40,15 +40,8 @@ public class Handler {
 		}
 		
 		// Get Mouse Coords
-		if(Mouse.isButtonDown(0))
-		{
-			System.out.println("xP:" + player.getX() + " yP:" + player.getY() + " x:" + (Mouse.getX()-MOVEMENT_X) + " y:" + (Mouse.getY()-MOVEMENT_Y));
-			player.shoot(Mouse.getX()-MOVEMENT_X, Mouse.getY()-MOVEMENT_Y);
-		}
-		if(!Mouse.isButtonDown(0))
-		{
-			player.setShooting(false);
-		}
+		player.getWeapon().calcAngle(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y + 64);
+
 		// update Level Goal
 		if(levelGoal != null)
 			levelGoal.update();
@@ -64,7 +57,7 @@ public class Handler {
 			statemanager.loadLevel();
 		}
 		
-		objectInfo();
+		//objectInfo();
 	}
 	
 	public void draw()

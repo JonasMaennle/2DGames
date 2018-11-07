@@ -15,13 +15,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Weapon implements Entity{
 	
-	private float x, y, width, height, angle;
+	private float x, y, width, height, angle, destX, destY;
 	private double hypo;
 	private Player player;
 	private Image image_right, image_left;
 	private CopyOnWriteArrayList<Laser> list;
 	private Sound lastShot;
 	private Handler handler;
+	private float laserSpawnX, laserSpawnY;
+	private String currentAnimPlayer;
 	
 	public Weapon(float x, float y, float width, float height, Player player, Handler handler)
 	{
@@ -31,11 +33,13 @@ public class Weapon implements Entity{
 		this.height = height;
 		this.player = player;
 		this.handler = handler;
+		this.currentAnimPlayer = player.getCurrentAnimation();
 		this.image_right = quickLoaderImage("player/weapon_right");
 		this.image_left = quickLoaderImage("player/weapon_left");
 		this.list = new CopyOnWriteArrayList<>();
 		this.angle = 0;
 		this.hypo = 0;
+		
 		try {
 			this.lastShot = new Sound("sound/blaster_sound.wav");
 		} catch (SlickException e) {
@@ -46,8 +50,10 @@ public class Weapon implements Entity{
 	// Check Laser - Map collision
 	public void update() 
 	{
-		this.x = player.getX();
-		this.y = player.getY();
+		this.x = player.getX() + 32;
+		this.y = player.getY() + 25;
+		
+		currentAnimPlayer = player.getDirection();
 		
 		for(Laser l : list)
 		{
@@ -79,18 +85,33 @@ public class Weapon implements Entity{
 	public void draw() 
 	{
 		// Draw laser shot
-		for(Laser l : list)
-		{
-			l.draw();
-		}
+
+//		
+//		switch (currentAnimPlayer) {
+//		case "left":
+//			laserSpawnX = x - 48;
+//			laserSpawnY = y;
+//			drawQuadImage(image_left, x - 48, y, width, height);
+//			break;
+//		case "right":
+//			laserSpawnX = x;
+//			laserSpawnY = y;
+//			drawQuadImage(image_right, x, y, width, height);
+//			break;
+//		default:
+//			break;
+//		}
 		
 		switch (player.getCurrentAnimation()) {
 		case "anim_idleRight":
 			//angle =  player.getAnim_idleRight().getFrame() * 2.8f;
-			drawQuadImageRot(image_right, player.getX()+35, player.getY()+6 + player.getAnim_idleRight().getFrame() * 3.3f, width, height,angle);
+			laserSpawnY = y + 4;
+			laserSpawnX = x + 10;
+			drawQuadImageRotLeft(image_right, player.getX()+30 - player.getAnim_idleRight().getFrame(), player.getY()+6 + player.getAnim_idleRight().getFrame() * 2f, width, height,angle);
 			break;
 		case "anim_walkRight":
-			//angle = 0;
+			laserSpawnX = x;
+			laserSpawnY = y;
 			drawQuadImageRot(image_right, player.getX()+35, player.getY()+5, width, height, angle);
 			break;
 			
@@ -114,29 +135,34 @@ public class Weapon implements Entity{
 		default:
 			break;
 		}
+		
+		for(Laser l : list)
+		{
+			l.draw();
+		}
 	}
 	
-	public void shoot(float destX, float destY)
+	public void shoot()
 	{
-		calcAngle(destX, destY);
 		// walk right
 		if(player.getDirection().equals("right"))
-			list.add(new Laser(0, 0, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
 		if(player.getDirection().equals("left"))
-			list.add(new Laser(player.getX(), player.getY()+34, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
 		
 		lastShot.play();
 	}
 	
-	private void calcAngle(float destX, float destY)
+	// Calc Angle in degree between x,y and destX,destY <- nice
+	public void calcAngle(float destX, float destY)
 	{
-		//System.out.println(destY + " " + y);
-		angle = -(float) Math.toDegrees(Math.atan2(destY - (y+64), destX - (x+32)));
+		this.destX = destX;
+		this.destY = destY;
+		angle = -(float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
 
 	    if(angle < 0){
 	        angle += 360;
 	    }
-		
 		//System.out.println("Angle: " + angle);
 	}
 	

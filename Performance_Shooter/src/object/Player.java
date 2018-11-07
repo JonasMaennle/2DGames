@@ -115,6 +115,22 @@ public class Player implements Entity{
 			falling = true;
 		}
 		
+		// Shoot
+		if(Mouse.isButtonDown(0) && !shooting)
+		{
+			shooting = true;
+
+			weapon.shoot();
+			anim_idleRight.restart();
+			anim_idleLeft.restart();
+			idleStop = 0;
+		}
+			
+		if(!Mouse.isButtonDown(0))
+		{
+			shooting = false;
+		}
+		
 		// every three sec
 		timer1 = System.currentTimeMillis();
 		if(timer1 - timer2 > 3000)
@@ -247,18 +263,6 @@ public class Player implements Entity{
 		drawQuad(x + TILE_SIZE - 14, y + 4, 4, (TILE_SIZE * 2) - 16); // right
 		drawQuad(x + 14, y, TILE_SIZE - 28, 4); // top
 		drawQuad(x + 14, y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
-	}
-	
-	public void shoot(float destX, float destY)
-	{
-		if(!shooting)
-		{
-			shooting = true;
-			weapon.shoot(destX, destY);
-			anim_idleRight.restart();
-			anim_idleLeft.restart();
-			idleStop = 0;
-		}
 	}
 	
 	private void jump()
@@ -480,4 +484,13 @@ public class Player implements Entity{
 	public void setShooting(boolean shooting) {
 		this.shooting = shooting;
 	}
+
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
+	}
+
 }
