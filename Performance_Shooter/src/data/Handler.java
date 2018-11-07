@@ -42,7 +42,7 @@ public class Handler {
 		// Get Mouse Coords
 		if(Mouse.isButtonDown(0))
 		{
-			//System.out.println("xP:" + player.getX() + " yP:" + player.getY() + " x:" + (Mouse.getX()-MOVEMENT_X) + " y:" + (Mouse.getY()-MOVEMENT_Y));
+			System.out.println("xP:" + player.getX() + " yP:" + player.getY() + " x:" + (Mouse.getX()-MOVEMENT_X) + " y:" + (Mouse.getY()-MOVEMENT_Y));
 			player.shoot(Mouse.getX()-MOVEMENT_X, Mouse.getY()-MOVEMENT_Y);
 		}
 		if(!Mouse.isButtonDown(0))

@@ -121,7 +121,7 @@ public class Weapon implements Entity{
 		calcAngle(destX, destY);
 		// walk right
 		if(player.getDirection().equals("right"))
-			list.add(new Laser(player.getX()+60, player.getY()+32, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
+			list.add(new Laser(0, 0, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
 		if(player.getDirection().equals("left"))
 			list.add(new Laser(player.getX(), player.getY()+34, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
 		
