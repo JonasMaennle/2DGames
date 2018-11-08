@@ -133,7 +133,7 @@ public class Player implements Entity{
 		
 		// every three sec
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 10000)
+		if(timer1 - timer2 > 3000)
 		{
 			timer2 = timer1;
 			if(anim_idleRight.getFrame() == 0 && currentAnimation.equals("anim_idleRight"))
@@ -147,6 +147,8 @@ public class Player implements Entity{
 				idleStop = 9;
 			}
 		}
+		
+		// switch direction -> mouse movement
 		
 
 		jump();
@@ -305,6 +307,14 @@ public class Player implements Entity{
 			health = 0;
 			StateManager.setState(GameState.DEAD);
 		}
+	}
+	
+	public void updateDirection(float mouseX, float mouseY)
+	{
+		if(mouseX > x)
+			direction = "right";
+		if(mouseX < x)
+			direction = "left";
 	}
 	
 	public boolean isOutOfMap()

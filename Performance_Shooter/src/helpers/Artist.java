@@ -246,10 +246,10 @@ public class Artist {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		image.bind();
-		glTranslatef(x + (width / 1f) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
+		glTranslatef(x + (width / 0.66f) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
 		glRotatef(angle, 0, 0, 1);
-		glTranslatef(- width / 1, - height / 2, 0);
-				
+		glTranslatef(- width / 1.9f, - height / 2, 0);
+			
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex2f(0, 0);

@@ -41,6 +41,7 @@ public class Handler {
 		
 		// Get Mouse Coords
 		player.getWeapon().calcAngle(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y + 64);
+		player.updateDirection(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y);
 
 		// update Level Goal
 		if(levelGoal != null)

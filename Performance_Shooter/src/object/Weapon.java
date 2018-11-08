@@ -20,7 +20,7 @@ public class Weapon implements Entity{
 	private Player player;
 	private Image image_right, image_left;
 	private CopyOnWriteArrayList<Laser> list;
-	private Sound lastShot;
+	private Sound laserShotSound;
 	private Handler handler;
 	private float laserSpawnX, laserSpawnY;
 	private String currentAnimPlayer;
@@ -41,7 +41,7 @@ public class Weapon implements Entity{
 		this.hypo = 0;
 		
 		try {
-			this.lastShot = new Sound("sound/blaster_sound.wav");
+			this.laserShotSound = new Sound("sound/blaster_sound.wav");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -124,15 +124,15 @@ public class Weapon implements Entity{
 			//angle = -player.getAnim_idleLeft().getFrame() * 2.8f;
 			laserSpawnX = x;
 			laserSpawnY = y + 4;
-			drawQuadImageRotRight(image_left, player.getX()-80, player.getY() + 6, width, height, angle+180);
+			drawQuadImageRotRight(image_left, player.getX()-92 + player.getAnim_idleRight().getFrame(), player.getY() + 6 + player.getAnim_idleLeft().getFrame() * 2f, width, height, angle-180);
 			break;
 		case "anim_walkLeft":
 			//angle = 0;
-			drawQuadImageRotRight(image_left, player.getX()-80, player.getY()+6, width, height, angle + 180);
+			drawQuadImageRotRight(image_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
 			break;
 		case "anim_jumpLeft":
 			//angle = 0;
-			drawQuadImageRotRight(image_left, player.getX()-80, player.getY()+6, width, height, angle + 180);
+			drawQuadImageRotRight(image_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
 			break;
 		default:
 			break;
@@ -152,20 +152,57 @@ public class Weapon implements Entity{
 		if(player.getDirection().equals("left"))
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
 		
-		lastShot.play();
+		laserShotSound.play();
 	}
 	
 	// Calc Angle in degree between x,y and destX,destY <- nice
 	public void calcAngle(float destX, float destY)
 	{
-		this.destX = destX;
-		this.destY = destY;
+
+	    
+
 		angle = -(float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
 
 	    if(angle < 0){
 	        angle += 360;
 	    }
-		//System.out.println("Angle: " + angle);
+	    // block angle 320 - 360 && 0 - 30
+	    if(player.getDirection().equals("right"))
+	    {
+	    	if(angle < 320 && angle > 180)
+	    	{
+	    		angle = 320;
+	    	}
+	    	if(angle > 30 && angle < 180)
+	    	{
+	    		angle = 30;
+	    	}
+	    }
+	    // block angle if 220 - 180 && 180 - 150
+	    if(player.getDirection().equals("left"))
+	    {
+	    	if(angle > 220 && angle < 360)
+	    	{
+	    		angle = 220;
+	    	}
+	    	if(angle < 150 && angle > 0)
+	    	{
+	    		angle = 150;
+	    	}
+	    }
+	    
+	    // save destX, destY if angle out of range
+	    if(angle == 220 || angle == 150 || angle == 30 || angle == 320)
+	    {
+
+	    }else{
+
+	    }
+	    
+		this.destX = destY;
+		this.destY = destY;
+
+		System.out.println("Angle: " + angle);
 	}
 	
 	@Override
