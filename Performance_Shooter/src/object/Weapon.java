@@ -105,32 +105,34 @@ public class Weapon implements Entity{
 		switch (player.getCurrentAnimation()) {
 		case "anim_idleRight":
 			//angle =  player.getAnim_idleRight().getFrame() * 2.8f;
+			laserSpawnX = x;
 			laserSpawnY = y + 4;
-			laserSpawnX = x + 10;
-			drawQuadImageRotLeft(image_right, player.getX()+30 - player.getAnim_idleRight().getFrame(), player.getY()+6 + player.getAnim_idleRight().getFrame() * 2f, width, height,angle);
-			break;
+			drawQuadImageRotLeft(image_right, player.getX()+25 - player.getAnim_idleRight().getFrame(), player.getY()+6 + player.getAnim_idleRight().getFrame() * 2f, width, height,angle);
+			break;		
 		case "anim_walkRight":
 			laserSpawnX = x;
-			laserSpawnY = y;
-			drawQuadImageRot(image_right, player.getX()+35, player.getY()+5, width, height, angle);
+			laserSpawnY = y + 4;
+			drawQuadImageRotLeft(image_right, player.getX()+25, player.getY()+ 6 , width, height, angle);
+			break;
+		case "anim_jumpRight":
+			laserSpawnX = x;
+			laserSpawnY = y + 4;
+			drawQuadImageRotLeft(image_right, player.getX()+25, player.getY()+6, width, height, angle);
 			break;
 			
 		case "anim_idleLeft":
 			//angle = -player.getAnim_idleLeft().getFrame() * 2.8f;
-			drawQuadImageRot(image_left, player.getX()-25, player.getY() + 5 + player.getAnim_idleLeft().getFrame() * 3f, width, height, angle+180);
+			laserSpawnX = x;
+			laserSpawnY = y + 4;
+			drawQuadImageRotRight(image_left, player.getX()-80, player.getY() + 6, width, height, angle+180);
 			break;
 		case "anim_walkLeft":
 			//angle = 0;
-			drawQuadImageRot(image_left, player.getX()-25, player.getY()+5, width, height, angle + 180);
-			break;
-			
-		case "anim_jumpRight":
-			//angle = 0;
-			drawQuadImageRot(image_right, player.getX()+35, player.getY()+5, width, height, angle);
+			drawQuadImageRotRight(image_left, player.getX()-80, player.getY()+6, width, height, angle + 180);
 			break;
 		case "anim_jumpLeft":
 			//angle = 0;
-			drawQuadImageRot(image_left, player.getX()-25, player.getY()+5, width, height, angle + 180);
+			drawQuadImageRotRight(image_left, player.getX()-80, player.getY()+6, width, height, angle + 180);
 			break;
 		default:
 			break;

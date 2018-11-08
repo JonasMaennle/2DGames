@@ -133,7 +133,7 @@ public class Player implements Entity{
 		
 		// every three sec
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 3000)
+		if(timer1 - timer2 > 10000)
 		{
 			timer2 = timer1;
 			if(anim_idleRight.getFrame() == 0 && currentAnimation.equals("anim_idleRight"))
