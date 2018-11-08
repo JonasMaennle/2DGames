@@ -84,23 +84,11 @@ public class Weapon implements Entity{
 
 	public void draw() 
 	{
-		// Draw laser shot
-
-//		
-//		switch (currentAnimPlayer) {
-//		case "left":
-//			laserSpawnX = x - 48;
-//			laserSpawnY = y;
-//			drawQuadImage(image_left, x - 48, y, width, height);
-//			break;
-//		case "right":
-//			laserSpawnX = x;
-//			laserSpawnY = y;
-//			drawQuadImage(image_right, x, y, width, height);
-//			break;
-//		default:
-//			break;
-//		}
+		// Draw laser shot	
+		for(Laser l : list)
+		{
+			l.draw();
+		}
 		
 		switch (player.getCurrentAnimation()) {
 		case "anim_idleRight":
@@ -122,25 +110,22 @@ public class Weapon implements Entity{
 			
 		case "anim_idleLeft":
 			//angle = -player.getAnim_idleLeft().getFrame() * 2.8f;
-			laserSpawnX = x;
+			laserSpawnX = x - 30;
 			laserSpawnY = y + 4;
 			drawQuadImageRotRight(image_left, player.getX()-92 + player.getAnim_idleRight().getFrame(), player.getY() + 6 + player.getAnim_idleLeft().getFrame() * 2f, width, height, angle-180);
 			break;
 		case "anim_walkLeft":
-			//angle = 0;
+			laserSpawnX = x - 30;
+			laserSpawnY = y + 4;
 			drawQuadImageRotRight(image_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
 			break;
 		case "anim_jumpLeft":
-			//angle = 0;
+			laserSpawnX = x - 30;
+			laserSpawnY = y + 4;
 			drawQuadImageRotRight(image_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
 			break;
 		default:
 			break;
-		}
-		
-		for(Laser l : list)
-		{
-			l.draw();
 		}
 	}
 	
@@ -148,9 +133,23 @@ public class Weapon implements Entity{
 	{
 		// walk right
 		if(player.getDirection().equals("right"))
+		{
+			if(destX < x + (width/2))
+			{
+				destX = getRightBoarder() - destX;
+			}
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
+		}
+		
+		// walk left
 		if(player.getDirection().equals("left"))
+		{
+			if(destX > x + (width/2))
+			{
+				destX = getLeftBoarder() + destX;
+			}
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
+		}
 		
 		laserShotSound.play();
 	}
@@ -158,9 +157,6 @@ public class Weapon implements Entity{
 	// Calc Angle in degree between x,y and destX,destY <- nice
 	public void calcAngle(float destX, float destY)
 	{
-
-	    
-
 		angle = -(float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
 
 	    if(angle < 0){
@@ -172,10 +168,12 @@ public class Weapon implements Entity{
 	    	if(angle < 320 && angle > 180)
 	    	{
 	    		angle = 320;
-	    	}
-	    	if(angle > 30 && angle < 180)
+	    	}else if(angle > 30 && angle < 180)
 	    	{
 	    		angle = 30;
+	    	}else{
+	    		this.destX = destX;
+	    		this.destY = destY;
 	    	}
 	    }
 	    // block angle if 220 - 180 && 180 - 150
@@ -184,24 +182,14 @@ public class Weapon implements Entity{
 	    	if(angle > 220 && angle < 360)
 	    	{
 	    		angle = 220;
-	    	}
-	    	if(angle < 150 && angle > 0)
+	    	}else if(angle < 150 && angle > 0)
 	    	{
 	    		angle = 150;
+	    	}else{
+	    		this.destX = destX;
+	    		this.destY = destY;
 	    	}
 	    }
-	    
-	    // save destX, destY if angle out of range
-	    if(angle == 220 || angle == 150 || angle == 30 || angle == 320)
-	    {
-
-	    }else{
-
-	    }
-	    
-		this.destX = destY;
-		this.destY = destY;
-
 		System.out.println("Angle: " + angle);
 	}
 	
