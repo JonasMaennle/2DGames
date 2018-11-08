@@ -16,14 +16,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Weapon implements Entity{
 	
 	private float x, y, width, height, angle, destX, destY;
-	private double hypo;
 	private Player player;
 	private Image image_right, image_left;
 	private CopyOnWriteArrayList<Laser> list;
 	private Sound laserShotSound;
 	private Handler handler;
 	private float laserSpawnX, laserSpawnY;
-	private String currentAnimPlayer;
 	
 	public Weapon(float x, float y, float width, float height, Player player, Handler handler)
 	{
@@ -33,12 +31,10 @@ public class Weapon implements Entity{
 		this.height = height;
 		this.player = player;
 		this.handler = handler;
-		this.currentAnimPlayer = player.getCurrentAnimation();
 		this.image_right = quickLoaderImage("player/weapon_right");
 		this.image_left = quickLoaderImage("player/weapon_left");
 		this.list = new CopyOnWriteArrayList<>();
 		this.angle = 0;
-		this.hypo = 0;
 		
 		try {
 			this.laserShotSound = new Sound("sound/blaster_sound.wav");
@@ -52,8 +48,6 @@ public class Weapon implements Entity{
 	{
 		this.x = player.getX() + 32;
 		this.y = player.getY() + 25;
-		
-		currentAnimPlayer = player.getDirection();
 		
 		for(Laser l : list)
 		{
@@ -132,26 +126,26 @@ public class Weapon implements Entity{
 	public void shoot()
 	{
 		// walk right
-		if(player.getDirection().equals("right"))
+		if(player.getDirection().equals("right") && destX > laserSpawnX)
 		{
 			if(destX < x + (width/2))
 			{
 				destX = getRightBoarder() - destX;
 			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, 30, "red", angle));
+			laserShotSound.play();
 		}
 		
 		// walk left
-		if(player.getDirection().equals("left"))
+		if(player.getDirection().equals("left") && destX < laserSpawnX)
 		{
 			if(destX > x + (width/2))
 			{
 				destX = getLeftBoarder() + destX;
 			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, player.getDirection(), 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, 30, "red", angle));
+			laserShotSound.play();
 		}
-		
-		laserShotSound.play();
 	}
 	
 	// Calc Angle in degree between x,y and destX,destY <- nice
@@ -190,7 +184,7 @@ public class Weapon implements Entity{
 	    		this.destY = destY;
 	    	}
 	    }
-		System.out.println("Angle: " + angle);
+		//System.out.println("Angle: " + angle);
 	}
 	
 	@Override

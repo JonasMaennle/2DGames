@@ -18,8 +18,6 @@ public class GunganEnemy extends Enemy{
 	private Handler handler;
 	private Player player;
 	private Sound lasterShot;
-	private Rectangle testShot;
-	private CopyOnWriteArrayList<Laser> laserList;
 	private long timer1, timer2;
 	private float speed;
 	private int rangeLeft, rangeRight;
@@ -33,10 +31,11 @@ public class GunganEnemy extends Enemy{
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
 		this.velX = 1;
+		this.tX = x + (width/2);
+		this.tY = y + 55;
+		this.angle = 0;
 		this.handler = handler;
 		this.player = handler.player;
-		this.testShot = new Rectangle((int)x, (int)y+52, 5, 5);
-		this.laserList = new CopyOnWriteArrayList<>();
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.speed = 3;
@@ -56,10 +55,11 @@ public class GunganEnemy extends Enemy{
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
 		this.velX = 1;
+		this.angle = 0;
+		this.tX = x + (width/2);
+		this.tY = y + 55;
 		this.handler = handler;
 		this.player = handler.player;
-		this.testShot = new Rectangle((int)x, (int)y+52, 5, 5);
-		this.laserList = new CopyOnWriteArrayList<>();
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.speed = 3;
@@ -94,23 +94,16 @@ public class GunganEnemy extends Enemy{
 		}
 		x += velX * speed;
 		
-		// check if shoot() is possible
-		if(player.getY() + player.getHeight() <= y + height && player.getY() + player.getHeight() >= y)
-		{
-			// check if player is left
-			if(player.getX() < x - width && velX < 0)
-			{
-				testShoot();
-			}
-			// check if player is right
-			if(player.getX() > x+width && velX > 0)
-			{
-				testShoot();
-			}
-		}
+		// calc current angle
+		calcAngle(player.getX() + (player.getWidth()/2), player.getY() + (player.getHeight()/4));
+		// check if testShoot() is possible
+		if(x - player.getX() < 1000 || x - player.getX() > 0)
+			testShoot();
+
 		
 		updateBounds();
 		mapCollision();
+
 		
 		// update laserList
 		for(Laser l : laserList)
@@ -140,11 +133,12 @@ public class GunganEnemy extends Enemy{
 	public void draw()
 	{
 		// draw laser
-		for(Laser l : laserList)
+		for(Laser laser : laserList)
 		{
-			l.draw();
+			laser.draw();
 		}
 		
+		// draw image
 		if(velX > 0)
 		{
 			drawQuadImage(image_right, x, y, width, height);
@@ -156,7 +150,7 @@ public class GunganEnemy extends Enemy{
 		drawQuadImage(healthBackground, x + 4, y - 20, width - 8, 6);
 		drawQuadImage(healthForeground, x + 4, y - 20, health, 6);
 		drawQuadImage(healthBorder, x + 4, y - 20, width - 8, 6);
-		// draw testShot
+
 		//drawQuad((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight());
 		
 		//drawBounds();
@@ -199,50 +193,59 @@ public class GunganEnemy extends Enemy{
 		}
 	}
 	
+	// Calc Angle in degree between x,y and destX,destY <- nice
+	private void calcAngle(float destX, float destY)
+	{
+		this.destX = destX;
+		this.destY = destY;
+		angle = -(float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
+
+	    if(angle < 0){
+	        angle += 360;
+	    }
+	    
+		//System.out.println("Angle: " + angle);
+	}
+	
 	private void testShoot()
 	{
-		// check if player is left
-		if(player.getX() < x - width && velX < 0)
-		{
-			testShot.setLocation((int)testShot.getX()-50, (int) (y + 52));
-			
-			for(Tile t : handler.obstacleList)
-			{
-				if(checkCollision(t.getX(), t.getY(), t.getWidth(), t.getHeight(), (float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight()))
-				{
-					testShot.setBounds((int)x, (int)y + 52, 5, 5);
-				}
-				if(checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), (float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight()))
-				{
-					shoot();
-					testShot.setBounds((int)x, (int)y + 52, 5, 5);
-				}
-			}
-				if(testShot.getX() > x + (WIDTH/2) || testShot.getX() < x - (WIDTH / 2))
-					testShot.setBounds((int)x, (int)y + 52, 5, 5);
-		}
+		float totalAllowedMovement = 1.0f;
+		float xDistanceFromTarget = Math.abs(destX - x);
+		float yDistanceFromTarget = Math.abs(destY - y);
+		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
+		float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
 		
-		// check if player is right
-		if(player.getX() > x+width && velX > 0)
+		tVelX = xPercentOfMovement;
+		tVelY = totalAllowedMovement - xPercentOfMovement;
+		
+		// set direction based on position of target relative to tower
+		if(destY < tY)
+			tVelY *= -1;
+		if(destX < tX)
+			tVelX *= -1;	
+		// move test bullet
+		tX += tVelX * 50;
+		tY += tVelY * 50;
+		testShot.setLocation((int)tX, (int)tY);
+		
+		// check map collisions
+		for(Tile t : handler.obstacleList)
 		{
-			testShot.setLocation((int)testShot.getX()+50, (int) (y + 52));
-			
-			for(Tile t : handler.obstacleList)
+			if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), t.getX(), t.getY(), t.getWidth(), t.getHeight()))
 			{
-				if(checkCollision(t.getX(), t.getY(), t.getWidth(), t.getHeight(), (float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight()))
-				{
-					testShot.setBounds((int)x, (int)y + 52, 5, 5);
-				}
-				if(checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), (float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight()))
-				{
-					shoot();
-					testShot.setBounds((int)x, (int)y + 52, 5, 5);
-				}
+				testShot.setLocation((int)x, (int)y);
+				tX = x + (width / 2);
+				tY = y + 55;
 			}
 		}
-			if(testShot.getX() > x + (WIDTH/2) || testShot.getX() < x - (WIDTH / 2))
-				testShot.setBounds((int)x, (int)y + 52, 5, 5);
-		
+		// check player collision
+		if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), player.getX(), player.getY(), player.getWidth(), player.getHeight()))
+		{
+			testShot.setLocation((int)x, (int)y);
+			tX = x + (width / 2);
+			tY = y + 55;
+			shoot();
+		}
 	}
 	
 	private void shoot()
@@ -252,8 +255,8 @@ public class GunganEnemy extends Enemy{
 		if(timer1 - timer2 > 500)
 		{
 			timer2 = timer1;
-			if(velX > 0)laserList.add(new Laser(x, y + 52, 20, 6, "right", 20, "green", 0));
-			if(velX < 0)laserList.add(new Laser(x, y + 52, 20, 6, "left", 20, "green", 0));
+			//System.out.println("x:" + x + " y: " + y + "  destX: " + destX + " destY: " +destY);
+			laserList.add(new Laser(x + (width/2), y + 55, destX, destY, 25, 6, 10, "green", -angle));
 			lasterShot.play();
 		}
 	}

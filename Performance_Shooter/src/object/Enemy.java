@@ -3,6 +3,7 @@ package object;
 import static helpers.Artist.drawQuad;
 
 import java.awt.Rectangle;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
 
@@ -14,11 +15,14 @@ import shader.Light;
 public abstract class Enemy implements Entity{
 
 	protected int width, height;
-	protected float speed, x, y, health, velX, velY;
+	protected float speed, x, y, health, velX, velY, angle, destX, destY;
 	protected boolean alive;
 	protected TileGrid grid;
 	protected Light light;
 	protected Rectangle rectLeft, rectRight, rectTop, rectBottom;
+	protected Rectangle testShot;
+	protected float tX, tY, tVelX, tVelY;
+	protected CopyOnWriteArrayList<Laser> laserList;
 	
 	// Default constructor
 	public Enemy(float x, float y, int width, int height)
@@ -31,6 +35,14 @@ public abstract class Enemy implements Entity{
 		this.grid = grid;
 		this.health = 100;
 		this.alive = true;
+		this.angle = 0;
+		this.destX = 0;
+		this.destY = 0;
+		this.laserList = new CopyOnWriteArrayList<>();
+		
+		this.tX = x;
+		this.tY = y;
+		this.testShot = new Rectangle((int)tX, (int)tY, 2, 2);
 		
 		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (height) - 16);
 		this.rectRight = new Rectangle((int)x + width - 4, (int)y + 4, 4, (height) - 16);

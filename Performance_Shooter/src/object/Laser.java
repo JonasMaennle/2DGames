@@ -12,6 +12,7 @@ public class Laser implements Entity{
 	private Image image;
 	private float x, y, width, height, angle, destX, destY, speed;
 	private float velX, velY;
+	private String color;
 	
 	public Laser(float x, float y, float width, float height, String direction, int speed, String color, float angle)
 	{
@@ -32,7 +33,7 @@ public class Laser implements Entity{
 			velX = -1;
 	}
 	
-	public Laser(float x, float y, float destX, float destY, float width, float height, String direction, int speed, String color, float angle)
+	public Laser(float x, float y, float destX, float destY, float width, float height, int speed, String color, float angle)
 	{
 		this.x = x;
 		this.y = y;
@@ -42,6 +43,7 @@ public class Laser implements Entity{
 		this.speed = speed;
 		this.destX = destX;
 		this.destY = destY;
+		this.color = color;
 		if(color.equals("red"))
 			this.image = quickLoaderImage("player/laser_small_red");
 		else if(color.equals("green"))
@@ -83,11 +85,19 @@ public class Laser implements Entity{
 		velY = totalAllowedMovement - xPercentOfMovement;
 		
 		// set direction based on position of target relative to tower
-		if(destY > y)
-			velY *= -1;
-		if(destX < x)
-			velX *= -1;
+		if(color.equals("red"))
+		{
+			if(destY > y)
+				velY *= -1;
+		}
+		if(color.equals("green"))
+		{
+			if(destY < y)
+				velY *= -1;
+		}
 		
+		if(destX < x)
+			velX *= -1;	
 	}
 
 	@Override

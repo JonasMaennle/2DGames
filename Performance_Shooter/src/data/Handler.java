@@ -9,6 +9,7 @@ import org.lwjgl.input.Mouse;
 import helpers.StateManager;
 import object.Goal;
 import object.GunganEnemy;
+import object.Laser;
 import object.Player;
 import static helpers.StateManager.*;
 
@@ -28,6 +29,7 @@ public class Handler {
 		this.timer2 = timer1;
 		this.statemanager = statemanager;
 		Mouse.setGrabbed(false);
+		Mouse.setCursorPosition((int)getRightBoarder() - (WIDTH /4), (int)getTopBoarder() + (HEIGHT / 2));
 	}
 	
 	public void update()
@@ -39,8 +41,9 @@ public class Handler {
 			statemanager.resetCurrentLevel();
 		}
 		
-		// Get Mouse Coords
+		// Get Mouse Coords for weapon angle
 		player.getWeapon().calcAngle(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y + 64);
+		// Update player direction by mouse movement
 		player.updateDirection(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y);
 
 		// update Level Goal
@@ -52,13 +55,14 @@ public class Handler {
 		{
 			g.update();
 		}
-		
+
+		// check player collision with level goal
 		if(levelGoal != null && checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
 		{
 			statemanager.loadLevel();
 		}
 		
-		//objectInfo();
+		objectInfo();
 	}
 	
 	public void draw()
@@ -115,6 +119,4 @@ public class Handler {
 	public void setStatemanager(StateManager statemanager) {
 		this.statemanager = statemanager;
 	}
-	
-	
 }
