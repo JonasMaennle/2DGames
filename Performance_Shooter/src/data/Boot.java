@@ -2,8 +2,8 @@ package data;
 
 import org.lwjgl.opengl.Display;
 
+import Gamestate.StateManager;
 import helpers.Clock;
-import helpers.StateManager;
 
 import static helpers.Artist.*;
 

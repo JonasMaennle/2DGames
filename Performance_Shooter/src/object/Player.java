@@ -9,10 +9,10 @@ import org.newdawn.slick.Animation;
 
 import Enity.Entity;
 import Enity.TileType;
+import Gamestate.StateManager;
+import Gamestate.StateManager.GameState;
 import data.Handler;
 import data.Tile;
-import helpers.StateManager;
-import helpers.StateManager.GameState;
 
 import static helpers.Artist.*;
 

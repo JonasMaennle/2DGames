@@ -9,11 +9,10 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 
+import Gamestate.StateManager.GameState;
 import UI.HeadUpDisplay;
 import data.Camera;
 import data.Handler;
-import helpers.StateManager;
-import helpers.StateManager.GameState;
 import shader.Shader;
 
 public class Game {

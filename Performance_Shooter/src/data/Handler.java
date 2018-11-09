@@ -1,17 +1,18 @@
 package data;
 
 import java.util.ArrayList;
+
+import static Gamestate.StateManager.*;
 import static helpers.Artist.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.input.Mouse;
 
 import Enity.TileType;
-import helpers.StateManager;
+import Gamestate.StateManager;
 import object.Goal;
 import object.GunganEnemy;
 import object.Player;
-import static helpers.StateManager.*;
 
 public class Handler {
 	

@@ -6,8 +6,8 @@ import org.newdawn.slick.TrueTypeFont;
 
 import data.Handler;
 
+import static Gamestate.StateManager.*;
 import static helpers.Artist.*;
-import static helpers.StateManager.*;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;

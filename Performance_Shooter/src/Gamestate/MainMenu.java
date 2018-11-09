@@ -8,10 +8,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 
+import Gamestate.StateManager.GameState;
 import UI.Button;
 import UI.UI;
-import helpers.StateManager;
-import helpers.StateManager.GameState;
 
 import static helpers.Artist.*;
 

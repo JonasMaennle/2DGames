@@ -4,8 +4,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Image;
 
-import helpers.StateManager;
-import helpers.StateManager.GameState;
+import Gamestate.StateManager.GameState;
 
 import static helpers.Artist.*;
 

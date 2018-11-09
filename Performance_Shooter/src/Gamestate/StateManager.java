@@ -1,14 +1,9 @@
-package helpers;
+package Gamestate;
 
 import data.Camera;
 import data.Handler;
 
 import static helpers.Leveler.*;
-
-import Gamestate.BackgroundHandler;
-import Gamestate.Game;
-import Gamestate.LoadingScreen;
-import Gamestate.MainMenu;
 
 public class StateManager {
 	

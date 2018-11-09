@@ -1,7 +1,8 @@
 package helpers;
 
 import java.awt.image.BufferedImage;
-import static helpers.StateManager.*;
+
+import static Gamestate.StateManager.*;
 import static helpers.Artist.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
