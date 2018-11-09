@@ -1,4 +1,4 @@
-package data;
+package Gamestate;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

@@ -1,4 +1,4 @@
-package data;
+package Gamestate;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -42,7 +42,7 @@ public class LoadingScreen {
 			Mouse.setCursorPosition((int) (Display.getX() + (Display.getWidth()* 0.75f)), (int)getTopBoarder() + (HEIGHT / 2));
 			saberLength = 0;
 		}
-		saberLength += 2;;
+		saberLength += 100; // += 2 normal value <-
 		draw();
 	}
 	

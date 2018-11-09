@@ -1,4 +1,4 @@
-package data;
+package Gamestate;
 
 import static helpers.Artist.*;
 

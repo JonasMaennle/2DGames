@@ -1,12 +1,14 @@
 package helpers;
 
-import data.BackgroundHandler;
 import data.Camera;
-import data.Game;
 import data.Handler;
-import data.LoadingScreen;
-import data.MainMenu;
+
 import static helpers.Leveler.*;
+
+import Gamestate.BackgroundHandler;
+import Gamestate.Game;
+import Gamestate.LoadingScreen;
+import Gamestate.MainMenu;
 
 public class StateManager {
 	
@@ -14,18 +16,17 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, LOADING
 	}
 	
-	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
-	public MainMenu mainMenu;
-	public Game game;
-	public Handler handler;
-	private LoadingScreen loadingScreen;
+	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static int CURRENT_LEVEL = 0;
-	
+
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
 	public static int framesInCurrentSecond = 0;
 	
-	// = loadMap(handler, CURRENT_LEVEL);
+	private MainMenu mainMenu;
+	private Game game;
+	private Handler handler;
+	private LoadingScreen loadingScreen;
 	
 	public StateManager()
 	{

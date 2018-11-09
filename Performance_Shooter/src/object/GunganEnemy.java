@@ -1,5 +1,6 @@
 package object;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -13,7 +14,7 @@ import data.Tile;
 
 public class GunganEnemy extends Enemy{
 	
-	private Image image_left, image_right, healthBackground, healthBorder, healthForeground;
+	private Image healthBackground, healthBorder, healthForeground;
 	private Handler handler;
 	private Player player;
 	private Sound lasterShot;
@@ -24,8 +25,6 @@ public class GunganEnemy extends Enemy{
 	public GunganEnemy(float x, float y, int width, int height, Handler handler) 
 	{
 		super(x, y, width, height);
-		this.image_left = quickLoaderImage("enemy/enemy_left");
-		this.image_right = quickLoaderImage("enemy/enemy_right");
 		this.healthBackground = quickLoaderImage("enemy/healthBackground");
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
@@ -39,7 +38,8 @@ public class GunganEnemy extends Enemy{
 		this.timer2 = timer1;
 		this.speed = 3;
 		this.health = width - 8;
-		
+		this.anim_walkRight = new Animation(loadSpriteSheet("enemy/enemy_right_sheet", TILE_SIZE, TILE_SIZE * 2), 50);
+		this.anim_walkLeft = new Animation(loadSpriteSheet("enemy/enemy_left_sheet", TILE_SIZE, TILE_SIZE * 2), 50);
 		try {
 			this.lasterShot = new Sound("sound/rebel_laser.wav");
 		} catch (SlickException e) {e.printStackTrace();}
@@ -48,8 +48,6 @@ public class GunganEnemy extends Enemy{
 	public GunganEnemy(float x, float y, int width, int height, Handler handler, int range) 
 	{
 		super(x, y, width, height);
-		this.image_left = quickLoaderImage("enemy/enemy_left");
-		this.image_right = quickLoaderImage("enemy/enemy_right");
 		this.healthBackground = quickLoaderImage("enemy/healthBackground");
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
@@ -65,6 +63,8 @@ public class GunganEnemy extends Enemy{
 		this.health = width - 8;
 		this.rangeLeft = (int)x - (range * 64);
 		this.rangeRight = (int)x + (range * 64);
+		this.anim_walkRight = new Animation(loadSpriteSheet("enemy/enemy_right_sheet", TILE_SIZE, TILE_SIZE * 2), 500);
+		this.anim_walkLeft = new Animation(loadSpriteSheet("enemy/enemy_left_sheet", TILE_SIZE, TILE_SIZE * 2), 500);
 		
 		try {
 			this.lasterShot = new Sound("sound/rebel_laser.wav");
@@ -140,9 +140,12 @@ public class GunganEnemy extends Enemy{
 		// draw image
 		if(velX > 0)
 		{
-			drawQuadImage(image_right, x, y, width, height);
+			//drawQuadImage(image_right, x, y, width, height);
+			drawAnimation(anim_walkRight, x, y, TILE_SIZE, TILE_SIZE * 2);
+			
 		}else{
-			drawQuadImage(image_left, x, y, width, height);
+			//drawQuadImage(image_left, x, y, width, height);
+			drawAnimation(anim_walkLeft, x, y, TILE_SIZE, TILE_SIZE * 2);
 		}
 		
 		// draw health bar

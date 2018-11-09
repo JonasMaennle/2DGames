@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Animation;
 
 import Enity.Entity;
 import data.TileGrid;
@@ -23,6 +24,9 @@ public abstract class Enemy implements Entity{
 	protected Rectangle testShot;
 	protected float tX, tY, tVelX, tVelY;
 	protected CopyOnWriteArrayList<Laser> laserList;
+	
+	protected Animation anim_walkRight;
+	protected Animation anim_walkLeft;
 	
 	// Default constructor
 	public Enemy(float x, float y, int width, int height)

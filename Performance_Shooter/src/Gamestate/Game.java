@@ -1,4 +1,4 @@
-package data;
+package Gamestate;
 
 import static helpers.Artist.*;
 import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
@@ -10,6 +10,8 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 
 import UI.HeadUpDisplay;
+import data.Camera;
+import data.Handler;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
 import shader.Shader;
