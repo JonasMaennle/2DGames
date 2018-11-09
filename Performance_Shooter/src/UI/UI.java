@@ -40,12 +40,12 @@ public class UI {
 	
 	public void addButton(String name, String textureName, int x, int y)
 	{
-		buttonList.add(new Button(name, quickLoad(textureName), x, y));
+		buttonList.add(new Button(name, quickLoaderImage(textureName), x, y));
 	}
 	
 	public void addButton(String name, String textureName, int x, int y, int width, int height)
 	{
-		buttonList.add(new Button(name, quickLoad(textureName), x, y, width, height));
+		buttonList.add(new Button(name, quickLoaderImage(textureName), x, y, width, height));
 	}
 	
 	public boolean isButtonClicked(String buttonName)
@@ -94,7 +94,7 @@ public class UI {
 	public void draw()
 	{
 		for(Button b : buttonList)
-			drawQuadTex(b.getTexture(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+			drawQuadImage(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
 		
 		for(Menu m: menuList)
 			m.draw();
@@ -138,7 +138,7 @@ public class UI {
 		
 		public void quickAdd(String name, String textureName)
 		{
-			Button b = new Button(name, quickLoad(textureName), 0, 0);
+			Button b = new Button(name, quickLoaderImage(textureName), 0, 0);
 			setButton(b);
 		}
 		
@@ -155,7 +155,7 @@ public class UI {
 		{
 			for(Button b : menuButtons)
 			{
-				drawQuadTex(b.getTexture(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+				drawQuadImage(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
 			}
 		}
 		

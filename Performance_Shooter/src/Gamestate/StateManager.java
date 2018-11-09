@@ -11,7 +11,7 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, LOADING
 	}
 	
-	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
 	public static int CURRENT_LEVEL = 0;
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;

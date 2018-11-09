@@ -1,31 +1,31 @@
 package UI;
 
-import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.Image;
 
 public class Button {
 
 	private String name;
-	private Texture texture;
+	private Image image;
 	private int x, y, width, height;
 	
-	public Button(String name, Texture texture, int x, int y, int width, int height)
+	public Button(String name, Image image, int x, int y, int width, int height)
 	{
 		this.name = name;
-		this.texture = texture;
+		this.image = image;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 	}
 	
-	public Button(String name, Texture texture, int x, int y)
+	public Button(String name, Image image, int x, int y)
 	{
 		this.name = name;
-		this.texture = texture;
+		this.image = image;
 		this.x = x;
 		this.y = y;
-		this.width = texture.getImageWidth();
-		this.height = texture.getImageHeight();
+		this.width = image.getWidth();
+		this.height = image.getHeight();
 	}
 
 	public String getName() {
@@ -34,14 +34,6 @@ public class Button {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Texture getTexture() {
-		return texture;
-	}
-
-	public void setTexture(Texture texture) {
-		this.texture = texture;
 	}
 
 	public int getX() {
@@ -74,5 +66,13 @@ public class Button {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 }

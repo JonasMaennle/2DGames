@@ -28,6 +28,8 @@ public class MainMenu {
 	private ArrayList<Button> buttonList;
 	private Music mainTheme;
 	private boolean playMusic, enableMouse, showAtStart;
+	private int selectedButton;
+	private boolean down, up;
 	
 	public MainMenu()
 	{
@@ -46,11 +48,14 @@ public class MainMenu {
 		this.playMusic = true;
 		this.enableMouse = true;
 		this.showAtStart = true;
+		this.down = false;
+		this.up = false;
 		
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.buttonList = menuUI.getButtonList();
 		this.button_moveY = HEIGHT + 10;
+		this.selectedButton = -1;
 		
 		try {
 			this.mainTheme = new Music("sound/MainTheme.wav");
@@ -114,17 +119,123 @@ public class MainMenu {
 				}
 			}
 			
-			if(button_moveY > (HEIGHT * 0.3f))
+			if(button_moveY > (HEIGHT * 0.35f))
 			{
 				button_moveY -= 1;
 			}else{
 				if(enableMouse)
 				{
 					Mouse.setGrabbed(false);
-					Mouse.setCursorPosition(WIDTH/2, HEIGHT/2);
+					Mouse.setCursorPosition(WIDTH/2, (int)(HEIGHT * 0.66f));
 					enableMouse = false;
+					selectedButton = 0;
 				}
 			}
+			// Update button image
+			switch (selectedButton) {
+			case 0:
+				for(Button b : buttonList){
+					if(b.getName().equals("Start"))
+						b.setImage(quickLoaderImage("intro/Start_Button2_Selected"));
+					if(b.getName().equals("Settings"))
+						b.setImage(quickLoaderImage("intro/Settings_Button2"));
+					if(b.getName().equals("Exit"))
+						b.setImage(quickLoaderImage("intro/Exit_Button2"));
+				}
+				break;
+			case 1:
+				for(Button b : buttonList){
+					if(b.getName().equals("Start"))
+						b.setImage(quickLoaderImage("intro/Start_Button2"));
+					if(b.getName().equals("Settings"))
+						b.setImage(quickLoaderImage("intro/Settings_Button2_Selected"));
+					if(b.getName().equals("Exit"))
+						b.setImage(quickLoaderImage("intro/Exit_Button2"));
+				}
+				break;
+			case 2:
+				for(Button b : buttonList){
+					if(b.getName().equals("Start"))
+						b.setImage(quickLoaderImage("intro/Start_Button2"));
+					if(b.getName().equals("Settings"))
+						b.setImage(quickLoaderImage("intro/Settings_Button2"));
+					if(b.getName().equals("Exit"))
+						b.setImage(quickLoaderImage("intro/Exit_Button2_Selected"));
+				}
+				break;
+			default:
+				break;
+			}
+			
+			// Select button via keyboard
+			if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) && !down)
+			{
+				down = true;
+				selectedButton++;
+				if(selectedButton >= 2)
+					selectedButton = 2;
+				return;
+			}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_DOWN) && down)
+			{
+				down = false;
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_UP) && !up)
+			{
+				up = true;
+				selectedButton--;
+				if(selectedButton <= 0)
+					selectedButton = 0;
+				return;
+			}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && up)
+			{
+				up = false;
+			}
+			
+			// Mouse hover over button
+			for(Button b : buttonList)
+			{
+				if(b.getName().equals("Start"))
+				{
+					//System.out.println(b.getX() + " " + b.getY() + " " + (HEIGHT - Mouse.getY() - MOVEMENT_Y));
+					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+					{
+						selectedButton = 0;
+					}
+				}
+				if(b.getName().equals("Settings"))
+				{
+					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+					{
+						selectedButton = 1;
+					}
+				}
+				if(b.getName().equals("Exit"))
+				{
+					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+					{
+						selectedButton = 2;
+					}
+				}
+			}
+			
+			// Enter
+			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN))
+			{
+				if(selectedButton == 0)
+				{
+					StateManager.setState(GameState.LOADING);
+				}
+				if(selectedButton == 2)
+				{
+					AL.destroy();
+					Display.destroy();
+					System.exit(0);
+				}
+			}	
+			//System.out.println(selectedButton);
 		}
 	}
 	
