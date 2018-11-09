@@ -56,6 +56,37 @@ public class Leveler {
 					grid.setTile(x, y, TileType.Grass_Round);
 					handler.obstacleList.add(grid.getTile(x, y));
 				}
+				// Brown -> Grass_Round_Half -> velX = 1
+				if(red == 100 && green == 50 && blue == 50)
+				{
+					grid.setTile(x, y, TileType.Grass_Round_Half);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
+				// Brown -> Grass_Round_Half -> velX = -1
+				if(red == 100 && green == 50 && blue == 100)
+				{
+					grid.setTile(x, y, TileType.Grass_Round_Half);
+					grid.getTile(x, y).setVelX(-1);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
+				// Brown -> Grass_Left_Half
+				if(red == 150 && green == 50 && blue == 50)
+				{
+					grid.setTile(x, y, TileType.Grass_Left_Half);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
+				// Brown -> Grass_Right_Half
+				if(red == 150 && green == 50 && blue == 70)
+				{
+					grid.setTile(x, y, TileType.Grass_Right_Half);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
+				// Brown -> Grass_Flat_Half
+				if(red == 150 && green == 70 && blue == 70)
+				{
+					grid.setTile(x, y, TileType.Grass_Flat_Half);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
 		// Dirt Tile
 				// Grey -> Dirt_Basic
 				if(red == 127 && green == 50 && blue == 0)

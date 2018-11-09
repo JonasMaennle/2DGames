@@ -8,7 +8,7 @@ import static helpers.Artist.*;
 
 public class Tile {
 	
-	private float x, y;
+	private float x, y, maxX, minX, velX;
 	private int width, height;
 	private TileType type;
 	private Image image;
@@ -22,6 +22,23 @@ public class Tile {
 		this.type = type;
 		this.image = quickLoaderImage("tiles/" + type.textureName);
 		tileCounter++;
+		
+		this.maxX = x + TILE_SIZE * 2;
+		this.minX = x - TILE_SIZE * 2;
+		this.velX = 1;
+	}
+	
+	public void update()
+	{
+		if(x > maxX)
+		{
+			velX -= 1;
+		}
+		if(x < minX)
+		{
+			velX = 1;
+		}
+		x += velX * 1;
 	}
 	
 	public void draw()
@@ -90,5 +107,13 @@ public class Tile {
 
 	public void setImage(Image image) {
 		this.image = image;
+	}
+
+	public float getVelX() {
+		return velX;
+	}
+
+	public void setVelX(float velX) {
+		this.velX = velX;
 	}
 }

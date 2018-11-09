@@ -7,7 +7,6 @@ import org.newdawn.slick.Sound;
 import static helpers.Artist.*;
 
 import java.awt.Rectangle;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import data.Handler;
 import data.Tile;
@@ -211,7 +210,7 @@ public class GunganEnemy extends Enemy{
 	{
 		float totalAllowedMovement = 1.0f;
 		float xDistanceFromTarget = Math.abs(destX - x);
-		float yDistanceFromTarget = Math.abs(destY - y);
+		float yDistanceFromTarget = Math.abs(destY-30 - y);
 		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
 		float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
 		
@@ -219,7 +218,7 @@ public class GunganEnemy extends Enemy{
 		tVelY = totalAllowedMovement - xPercentOfMovement;
 		
 		// set direction based on position of target relative to tower
-		if(destY < tY)
+		if(destY-30 < tY)
 			tVelY *= -1;
 		if(destX < tX)
 			tVelX *= -1;	
@@ -241,10 +240,15 @@ public class GunganEnemy extends Enemy{
 		// check player collision
 		if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), player.getX(), player.getY(), player.getWidth(), player.getHeight()))
 		{
-			testShot.setLocation((int)x, (int)y);
+			testShot.setLocation((int)x + (width / 2), (int)y + 55);
 			tX = x + (width / 2);
 			tY = y + 55;
-			shoot();
+			
+			// check if gungan is facing player
+			if(velX > 0 && player.getX() > x)
+				shoot();
+			if(velX < 0 && player.getX() < x)
+				shoot();
 		}
 	}
 	
@@ -256,7 +260,7 @@ public class GunganEnemy extends Enemy{
 		{
 			timer2 = timer1;
 			//System.out.println("x:" + x + " y: " + y + "  destX: " + destX + " destY: " +destY);
-			laserList.add(new Laser(x + (width/2), y + 55, destX, destY, 25, 6, 10, "green", -angle));
+			laserList.add(new Laser(x + (width/2), y + 55, destX, destY, 25, 4, 15, "green", -angle));
 			lasterShot.play();
 		}
 	}

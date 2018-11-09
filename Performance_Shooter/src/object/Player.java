@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
 import Enity.Entity;
+import Enity.TileType;
 import data.Handler;
 import data.Tile;
 import helpers.StateManager;
@@ -152,11 +153,12 @@ public class Player implements Entity{
 		
 
 		jump();
+
 		
 		x += velX * speed;
 		y += velY * speed;
-		
 		mapCollision();
+
 		weapon.update();
 		//System.out.println("x :  " + x + " y: " + y);
 	}
@@ -230,12 +232,12 @@ public class Player implements Entity{
 
 		for(Tile t : handler.obstacleList)
 		{
-			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), TILE_SIZE, TILE_SIZE);
+			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), t.getWidth(), t.getHeight());
 			
 			if(r.intersects(rectTop))
 			{
 				velY = gravity;
-				y = (float) (r.getY() + TILE_SIZE);
+				y = (float) (r.getY() + t.getHeight());
 				jumping = false;
 				return;
 			}
@@ -254,6 +256,12 @@ public class Player implements Entity{
 				velY = 0;
 				y = (float) (r.getY() - TILE_SIZE * 2);
 				jumping = false;
+				if(t.getType() == TileType.Grass_Round_Half)
+				{
+					//x = t.getX();//
+					velX = t.getVelX();
+					x += velX;
+				}
 			}
 		}
 	}

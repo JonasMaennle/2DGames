@@ -4,19 +4,21 @@ import data.BackgroundHandler;
 import data.Camera;
 import data.Game;
 import data.Handler;
+import data.LoadingScreen;
 import data.MainMenu;
 import static helpers.Leveler.*;
 
 public class StateManager {
 	
 	public static enum GameState{
-		MAINMENU, GAME, DEAD, RESTART
+		MAINMENU, GAME, DEAD, LOADING
 	}
 	
-	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
 	public MainMenu mainMenu;
 	public Game game;
 	public Handler handler;
+	private LoadingScreen loadingScreen;
 	public static int CURRENT_LEVEL = 0;
 	
 	public static long nextSecond = System.currentTimeMillis() + 1000;
@@ -27,11 +29,11 @@ public class StateManager {
 	
 	public StateManager()
 	{
-		mainMenu = new MainMenu();
-		handler = new Handler(this);
-			
-		game = new Game(handler);
-		loadLevel();
+		this.loadingScreen = new LoadingScreen(this);
+		this.mainMenu = new MainMenu();	
+		this.handler = new Handler(this);
+		this.game = new Game(handler);
+		//loadLevel();
 	}
 	
 	public void update()
@@ -41,10 +43,18 @@ public class StateManager {
 			mainMenu.update();
 			break;
 		case GAME:
+			if(CURRENT_LEVEL == 0) // Just for init state = GAME
+			{
+				gameState = GameState.LOADING;
+				return;
+			}
 			game.update();
 			break;
 		case DEAD:
 			game.deathScreen();
+			break;
+		case LOADING:
+			loadingScreen.update();
 			break;
 		default:
 			

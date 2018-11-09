@@ -6,10 +6,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.input.Mouse;
 
+import Enity.TileType;
 import helpers.StateManager;
 import object.Goal;
 import object.GunganEnemy;
-import object.Laser;
 import object.Player;
 import static helpers.StateManager.*;
 
@@ -28,8 +28,6 @@ public class Handler {
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.statemanager = statemanager;
-		Mouse.setGrabbed(false);
-		Mouse.setCursorPosition((int)getRightBoarder() - (WIDTH /4), (int)getTopBoarder() + (HEIGHT / 2));
 	}
 	
 	public void update()
@@ -59,7 +57,17 @@ public class Handler {
 		// check player collision with level goal
 		if(levelGoal != null && checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
 		{
-			statemanager.loadLevel();
+			//statemanager.loadLevel();
+			StateManager.gameState = GameState.LOADING;
+		}
+		
+		// update map
+		for(Tile t : obstacleList)
+		{
+			if(t.getType() == TileType.Grass_Round_Half)
+			{
+				t.update();
+			}
 		}
 		
 		objectInfo();

@@ -36,14 +36,14 @@ public class MainMenu {
 		this.background_space = quickLoaderImage("intro/Background_Space");
 
 		menuUI = new UI();
-		menuUI.addButton("Start", "intro/Start_Button", WIDTH / 2 - 175, (int)HEIGHT, 600, 150);
-		menuUI.addButton("Settings", "intro/Settings_Button", WIDTH / 2 - 175, (int) HEIGHT, 600, 150);
-		menuUI.addButton("Exit", "intro/Exit_Button", WIDTH / 2 - 175, (int) HEIGHT, 600, 150);
+		menuUI.addButton("Start", "intro/Start_Button2", WIDTH / 2 - 175, (int)HEIGHT, 600, 150);
+		menuUI.addButton("Settings", "intro/Settings_Button2", WIDTH / 2 - 175, (int) HEIGHT, 600, 150);
+		menuUI.addButton("Exit", "intro/Exit_Button2", WIDTH / 2 - 175, (int) HEIGHT, 600, 150);
 		
 		scaleWidth = text_big.getWidth();
 		scaleHeight = text_big.getHeight();	
 		
-		this.speed = 0.2f;
+		this.speed = 1f;
 		this.playMusic = true;
 		this.enableMouse = true;
 		this.showAtStart = true;
@@ -136,7 +136,7 @@ public class MainMenu {
 		{
 			if(menuUI.isButtonClicked("Start"))
 			{
-				StateManager.setState(GameState.GAME);
+				StateManager.setState(GameState.LOADING);
 			}
 			
 			if(menuUI.isButtonClicked("Settings"))

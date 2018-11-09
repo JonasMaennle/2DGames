@@ -69,7 +69,7 @@ public class Weapon implements Entity{
 			{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
-					g.damage(25);
+					g.damage(14); // Gungan got 56 HP
 					list.remove(l);
 				}
 			}
@@ -88,34 +88,34 @@ public class Weapon implements Entity{
 		case "anim_idleRight":
 			//angle =  player.getAnim_idleRight().getFrame() * 2.8f;
 			laserSpawnX = x;
-			laserSpawnY = y + 4;
+			laserSpawnY = y + 6;
 			drawQuadImageRotLeft(image_right, player.getX()+25 - player.getAnim_idleRight().getFrame(), player.getY()+6 + player.getAnim_idleRight().getFrame() * 2f, width, height,angle);
 			break;		
 		case "anim_walkRight":
 			laserSpawnX = x;
-			laserSpawnY = y + 4;
+			laserSpawnY = y + 6;
 			drawQuadImageRotLeft(image_right, player.getX()+25, player.getY()+ 6 , width, height, angle);
 			break;
 		case "anim_jumpRight":
 			laserSpawnX = x;
-			laserSpawnY = y + 4;
+			laserSpawnY = y + 6;
 			drawQuadImageRotLeft(image_right, player.getX()+25, player.getY()+6, width, height, angle);
 			break;
 			
 		case "anim_idleLeft":
 			//angle = -player.getAnim_idleLeft().getFrame() * 2.8f;
 			laserSpawnX = x - 30;
-			laserSpawnY = y + 4;
+			laserSpawnY = y + 6;
 			drawQuadImageRotRight(image_left, player.getX()-92 + player.getAnim_idleRight().getFrame(), player.getY() + 6 + player.getAnim_idleLeft().getFrame() * 2f, width, height, angle-180);
 			break;
 		case "anim_walkLeft":
 			laserSpawnX = x - 30;
-			laserSpawnY = y + 4;
+			laserSpawnY = y + 6;
 			drawQuadImageRotRight(image_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
 			break;
 		case "anim_jumpLeft":
 			laserSpawnX = x - 30;
-			laserSpawnY = y + 4;
+			laserSpawnY = y + 6;
 			drawQuadImageRotRight(image_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
 			break;
 		default:
@@ -132,7 +132,7 @@ public class Weapon implements Entity{
 			{
 				destX = getRightBoarder() - destX;
 			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
 			laserShotSound.play();
 		}
 		
@@ -143,7 +143,7 @@ public class Weapon implements Entity{
 			{
 				destX = getLeftBoarder() + destX;
 			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 30, 6, 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
 			laserShotSound.play();
 		}
 	}

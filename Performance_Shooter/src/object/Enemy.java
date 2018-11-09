@@ -42,7 +42,7 @@ public abstract class Enemy implements Entity{
 		
 		this.tX = x;
 		this.tY = y;
-		this.testShot = new Rectangle((int)tX, (int)tY, 2, 2);
+		this.testShot = new Rectangle((int)tX, (int)tY, 4, 4);
 		
 		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (height) - 16);
 		this.rectRight = new Rectangle((int)x + width - 4, (int)y + 4, 4, (height) - 16);
