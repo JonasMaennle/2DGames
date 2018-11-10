@@ -2,7 +2,8 @@ package object;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
+import static helpers.Setup.*;
 
 import Enity.Entity;
 

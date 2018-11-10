@@ -3,7 +3,7 @@ package helpers;
 import java.awt.image.BufferedImage;
 
 import static Gamestate.StateManager.*;
-import static helpers.Artist.*;
+import static helpers.Setup.*;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 

@@ -1,6 +1,6 @@
 package Gamestate;
 
-import static helpers.Artist.*;
+import static helpers.Setup.*;
 import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;

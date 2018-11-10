@@ -3,7 +3,7 @@ package data;
 import java.util.ArrayList;
 
 import static Gamestate.StateManager.*;
-import static helpers.Artist.*;
+import static helpers.Setup.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.input.Mouse;

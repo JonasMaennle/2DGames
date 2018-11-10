@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import static helpers.Leveler.*;
+import static helpers.Setup.*;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
@@ -14,7 +15,7 @@ import Gamestate.StateManager.GameState;
 import data.Handler;
 import data.Tile;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
 
 import java.awt.Rectangle;
 

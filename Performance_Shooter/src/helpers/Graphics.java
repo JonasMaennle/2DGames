@@ -1,6 +1,5 @@
 package helpers;
 
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -9,13 +8,10 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUniform3f;
+import static helpers.Setup.*;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
@@ -28,60 +24,7 @@ import Enity.Entity;
 import shader.Light;
 import shader.Shader;
 
-public class Artist {
-	
-	// Game Settings
-	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static int tileCounter = 0;
-	
-	public static final int TILE_SIZE = 64;
-	public static ArrayList<Light> lights = new ArrayList<Light>();
-	public static float MOVEMENT_X, MOVEMENT_Y = 0;
-	
-	public static void beginSession()
-	{
-		Display.setTitle("StarWars Shooter");
-		//Display.setLocation((Display.getDisplayMode().getWidth()-WIDTH) / 2, 0);
-		try {
-			@SuppressWarnings("unused")
-			DisplayMode displayMode;
-			DisplayMode[] modes = Display.getAvailableDisplayModes();
-			
-			for (int i = 0; i < modes.length; i++)
-	         {
-	             if (modes[i].getWidth() == WIDTH
-	             && modes[i].getHeight() == HEIGHT
-	             && modes[i].isFullscreenCapable())
-	               {
-	                    displayMode = modes[i];
-	               }
-	         }
-			
-			//Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
-			
-			Display.setFullscreen(true);
-			Display.create(new PixelFormat(0, 16, 1));
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
-
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
-		glMatrixMode(GL_MODELVIEW);
-		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		Display.setVSyncEnabled(true); // <- geilo
-	}
-	
-	public static boolean checkCollision(float x1, float y1, float width1, float height1, float x2, float y2, float width2, float height2)
-	{
-		if(x1 + width1 > x2 && x1 < x2 + width2 && y1 + height1 > y2 && y1 < y2 + height2)
-			return true;
-		
-		return false;
-	}
+public class Graphics {
 	
 	public static void drawQuad(float x, float y, float width, float height)
 	{
@@ -310,7 +253,7 @@ public class Artist {
 		Texture tex = null;
 		//System.out.println(path);
 		// -> new
-		InputStream in = Artist.class.getClassLoader().getResourceAsStream(path);
+		InputStream in = Graphics.class.getClassLoader().getResourceAsStream(path);
 
 		try {
 			tex = TextureLoader.getTexture(fileType, in);
@@ -352,26 +295,6 @@ public class Artist {
 			e.printStackTrace();
 		}
 		return tempSheet;
-	}
-	
-	public static float getLeftBoarder()
-	{
-		return MOVEMENT_X * -1;
-	}
-	
-	public static float getRightBoarder()
-	{
-		return (MOVEMENT_X * -1) + WIDTH;
-	}
-	
-	public static float getTopBoarder()
-	{
-		return (MOVEMENT_Y * -1);
-	}
-	
-	public static float getBottomBoarder()
-	{
-		return (MOVEMENT_Y * -1) + HEIGHT;
 	}
 	
 	public static void renderLightEntity(ArrayList<?> objectList, Shader shader)
@@ -451,14 +374,4 @@ public class Artist {
 			glClear(GL_STENCIL_BUFFER_BIT);
 		}
 	}
-	
-	public static double roundNumber(double betrag) 
-    { 
-      double round = Math.round(betrag*10000); 
-      round = round / 10000; 
-      round = Math.round(round*1000); 
-      round = round / 1000; 
-      round = Math.round(round*100); 
-      return round / 100; 
-    }
 }

@@ -1,7 +1,7 @@
 package data;
 
-import static helpers.Artist.*;
 import static helpers.Leveler.*;
+import static helpers.Setup.*;
 
 import Enity.TileType;
 

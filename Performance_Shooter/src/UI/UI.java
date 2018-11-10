@@ -8,7 +8,8 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
+import static helpers.Setup.*;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;

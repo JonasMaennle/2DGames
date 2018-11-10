@@ -12,7 +12,8 @@ import Gamestate.StateManager.GameState;
 import UI.Button;
 import UI.UI;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
+import static helpers.Setup.*;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,7 @@ public class MainMenu {
 			this.mainTheme = new Music("sound/MainThemeShort.wav");
 		} catch (SlickException e) {e.printStackTrace();}
 		Mouse.setGrabbed(true);
+		Mouse.setCursorPosition(-2000, -2000);
 	}
 	
 	public void update()

@@ -6,7 +6,8 @@ import org.newdawn.slick.Image;
 
 import Gamestate.StateManager.GameState;
 
-import static helpers.Artist.*;
+import static helpers.Setup.*;
+import static helpers.Graphics.*;
 
 public class LoadingScreen {
 

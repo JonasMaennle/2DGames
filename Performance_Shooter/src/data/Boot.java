@@ -4,8 +4,7 @@ import org.lwjgl.opengl.Display;
 
 import Gamestate.StateManager;
 import helpers.Clock;
-
-import static helpers.Artist.*;
+import static helpers.Setup.*;
 
 public class Boot {
 	

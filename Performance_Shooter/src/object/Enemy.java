@@ -1,6 +1,6 @@
 package object;
 
-import static helpers.Artist.drawQuad;
+import static helpers.Graphics.drawQuad;
 
 import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;

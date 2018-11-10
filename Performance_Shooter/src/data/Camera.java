@@ -1,6 +1,6 @@
 package data;
 
-import static helpers.Artist.*;
+import static helpers.Setup.*;
 
 import object.Player;
 

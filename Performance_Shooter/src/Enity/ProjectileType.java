@@ -1,7 +1,7 @@
 package Enity;
 
 import org.newdawn.slick.Image;
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
 
 public enum ProjectileType {
 

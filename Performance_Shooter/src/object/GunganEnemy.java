@@ -5,7 +5,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
+import static helpers.Setup.*;
 
 import java.awt.Rectangle;
 

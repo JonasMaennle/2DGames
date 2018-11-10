@@ -1,6 +1,6 @@
 package Gamestate;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;

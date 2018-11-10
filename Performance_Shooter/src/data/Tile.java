@@ -4,7 +4,8 @@ import org.newdawn.slick.Image;
 
 import Enity.TileType;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
+import static helpers.Setup.*;
 
 public class Tile {
 	

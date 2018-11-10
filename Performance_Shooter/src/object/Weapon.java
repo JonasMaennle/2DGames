@@ -9,7 +9,8 @@ import Enity.Entity;
 import data.Handler;
 import data.Tile;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
+import static helpers.Setup.*;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

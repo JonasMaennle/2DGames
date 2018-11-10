@@ -5,7 +5,8 @@ import org.newdawn.slick.Image;
 
 import Enity.Entity;
 
-import static helpers.Artist.*;
+import static helpers.Graphics.*;
+import static helpers.Setup.*;
 
 public class Laser implements Entity{
 	
