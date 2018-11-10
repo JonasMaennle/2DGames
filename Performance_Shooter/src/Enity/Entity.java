@@ -4,6 +4,8 @@ import org.lwjgl.util.vector.Vector2f;
 
 public interface Entity {
 	
+	public void update();
+	public void draw();
 	public float getX();
 	public float getY();
 	public int getWidth();
@@ -12,7 +14,7 @@ public interface Entity {
 	public void setHeight(int height);
 	public void setX(float x);
 	public void setY(float y);
-	public void update();
-	public void draw();
+	public float getVelX();
+	public float getVelY();
 	public Vector2f[] getVertices();
 }

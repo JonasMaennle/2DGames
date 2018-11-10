@@ -2,17 +2,17 @@ package data;
 
 import static helpers.Setup.*;
 
-import object.Player;
+import Enity.Entity;
 
 public class Camera {
 	
-	private Player player;
+	private Entity entity;
 	private float playerOptimatePosX;
 	private float playerOptimatePosY;
 	
-	public Camera(Player player)
+	public Camera(Entity entity)
 	{
-		this.player = player;
+		this.entity = entity;
 	}
 	
 	public void update()
@@ -20,8 +20,8 @@ public class Camera {
 		playerOptimatePosX = (getRightBoarder() + getLeftBoarder()) / 2.0f;
 		playerOptimatePosY = (getTopBoarder() + getBottomBoarder()) / 2.0f;
 
-		MOVEMENT_X += ((playerOptimatePosX - player.getX()) * 0.5); // * x.x -> smoothnes factor
-		MOVEMENT_Y += ((playerOptimatePosY - player.getY()) * 0.5);
+		MOVEMENT_X += ((playerOptimatePosX - entity.getX()) * 0.5); // * x.x -> smoothnes factor
+		MOVEMENT_Y += ((playerOptimatePosY - entity.getY()) * 0.5);
 		
 		//System.out.println(getTopBoarder() + " " + getBottomBoarder());
 	}
@@ -30,5 +30,13 @@ public class Camera {
 	{
 		MOVEMENT_X = 0;
 		MOVEMENT_Y = 0;
+	}
+
+	public Entity getEntity() {
+		return entity;
+	}
+
+	public void setEntity(Entity entity) {
+		this.entity = entity;
 	}
 }

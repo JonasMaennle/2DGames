@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import Enity.TileType;
 import data.Handler;
 import data.TileGrid;
+import object.AT_ST_Walker;
 import object.Goal;
 import object.GunganEnemy;
 import object.Player;
@@ -109,6 +110,11 @@ public class Leveler {
 				{
 					handler.player = new Player(x * TILE_SIZE, y * TILE_SIZE, handler);
 				}
+				// Blue -> Player
+				if(red == 0 && green == 0 && blue == 255)
+				{
+					handler.at_st_walker = new AT_ST_Walker(x * TILE_SIZE, y * TILE_SIZE, handler);
+				}
 		// Enemy Tile
 				// Green -> GunganEnemy
 				if(red == 0 && green == 255 && blue == 0)
@@ -127,6 +133,7 @@ public class Leveler {
 				}
 			}
 		}
+		handler.setCurrentEntity(handler.player);
 		return grid;
 	}
 	

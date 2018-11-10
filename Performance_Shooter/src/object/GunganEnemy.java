@@ -268,4 +268,14 @@ public class GunganEnemy extends Enemy{
 			lasterShot.play();
 		}
 	}
+
+	@Override
+	public float getVelX() {
+		return velX;
+	}
+
+	@Override
+	public float getVelY() {
+		return velY;
+	}
 }

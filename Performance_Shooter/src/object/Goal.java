@@ -87,4 +87,16 @@ public class Goal implements Entity{
 		return null;
 	}
 
+	@Override
+	public float getVelX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getVelY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

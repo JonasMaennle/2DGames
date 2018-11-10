@@ -12,6 +12,7 @@ import Enity.Entity;
 import Enity.TileType;
 import Gamestate.StateManager;
 import Gamestate.StateManager.GameState;
+import data.Camera;
 import data.Handler;
 import data.Tile;
 
@@ -25,7 +26,7 @@ public class Player implements Entity{
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	private Handler handler;
 	
-	private float x, y, velX, velY;
+	protected float x, y, velX, velY;
 	private float speed, gravity;
 	private int health;
 	private boolean falling, jumping;
@@ -86,6 +87,9 @@ public class Player implements Entity{
 	{	
 		velX = 0;
 		velY = gravity;
+		
+		weapon.calcAngle(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y + 64);
+		updateDirection(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
@@ -265,6 +269,21 @@ public class Player implements Entity{
 				}
 			}
 		}
+		
+		// AT_ST Walker
+		if(handler.at_st_walker != null && !handler.at_st_walker.isEnabled() && Keyboard.isKeyDown(Keyboard.KEY_C))
+		{
+			if(checkCollision(x, y, TILE_SIZE, TILE_SIZE * 2, handler.at_st_walker.getX(), handler.at_st_walker.getY(), handler.at_st_walker.getWidth(), handler.at_st_walker.getHeight()))
+			{
+				velX = 0;
+				velY = 0;
+				handler.at_st_walker.setEnabled(true);
+				//System.out.println("AT_ST start...");
+				handler.setCurrentEntity(handler.at_st_walker);
+				handler.getStatemanager().getGame().setCamera(new Camera(handler.getCurrentEntity()));
+				handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
+			}
+		}
 	}
 	
 	@SuppressWarnings("unused")
@@ -318,7 +337,7 @@ public class Player implements Entity{
 		}
 	}
 	
-	public void updateDirection(float mouseX, float mouseY)
+	private void updateDirection(float mouseX, float mouseY)
 	{
 		if(mouseX > x)
 			direction = "right";
@@ -510,6 +529,11 @@ public class Player implements Entity{
 
 	public void setWeapon(Weapon weapon) {
 		this.weapon = weapon;
+	}
+
+	@Override
+	public float getVelY() {
+		return velY;
 	}
 
 }

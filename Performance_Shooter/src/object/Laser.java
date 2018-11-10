@@ -155,4 +155,13 @@ public class Laser implements Entity{
 		return null;
 	}
 
+	@Override
+	public float getVelX() {
+		return velX;
+	}
+
+	@Override
+	public float getVelY() {
+		return velY;
+	}
 }

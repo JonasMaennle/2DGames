@@ -25,8 +25,8 @@ public class Game {
 
 	public Game(Handler handler)
 	{
-		this.camera = new Camera(handler.player);
-		this.backgroundHandler = new BackgroundHandler(handler.player);
+		this.camera = new Camera(handler.getCurrentEntity());
+		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity());
 		this.handler = handler;
 		
 		setupUI();

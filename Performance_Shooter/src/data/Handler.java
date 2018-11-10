@@ -1,28 +1,28 @@
 package data;
 
-import java.util.ArrayList;
-
 import static Gamestate.StateManager.*;
 import static helpers.Setup.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.lwjgl.input.Mouse;
-
+import Enity.Entity;
 import Enity.TileType;
 import Gamestate.StateManager;
+import object.AT_ST_Walker;
 import object.Goal;
 import object.GunganEnemy;
 import object.Player;
 
 public class Handler {
 	
-	public ArrayList<Tile> obstacleList = new ArrayList<>();
+	public CopyOnWriteArrayList<Tile> obstacleList = new CopyOnWriteArrayList<>();
 	public CopyOnWriteArrayList<GunganEnemy> gunganList = new CopyOnWriteArrayList<>();
 	public Player player;
+	public AT_ST_Walker at_st_walker;
 	public Goal levelGoal;
 	private long timer1, timer2;
 	private TileGrid map;
 	private StateManager statemanager;
+	private Entity currentEntity;
 	
 	public Handler(StateManager statemanager)
 	{
@@ -33,17 +33,22 @@ public class Handler {
 	
 	public void update()
 	{
-		// update Player
-		player.update();
-		if(player.isOutOfMap())
+		// if player exists -> update
+		if(player != null && currentEntity.equals(player))
 		{
-			statemanager.resetCurrentLevel();
+			player.update();
+
+			if(player.isOutOfMap())
+				statemanager.resetCurrentLevel();	
 		}
-		
-		// Get Mouse Coords for weapon angle
-		player.getWeapon().calcAngle(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y + 64);
-		// Update player direction by mouse movement
-		player.updateDirection(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y);
+
+		// if at_st exists -> update
+		if(at_st_walker != null)
+		{
+			at_st_walker.update();
+			if(at_st_walker.isOutOfMap())
+				statemanager.resetCurrentLevel();
+		}	
 
 		// update Level Goal
 		if(levelGoal != null)
@@ -80,8 +85,12 @@ public class Handler {
 		map.draw();
 		
 		// draw player
-		if(gameState != GameState.DEAD)
-			player.draw();
+		if(gameState != GameState.DEAD && player != null && currentEntity.equals(player))
+				player.draw();
+		
+		
+		if(at_st_walker != null)
+			at_st_walker.draw();
 		
 		// draw gunganEnemy
 		for(GunganEnemy g : gunganList)
@@ -127,5 +136,13 @@ public class Handler {
 
 	public void setStatemanager(StateManager statemanager) {
 		this.statemanager = statemanager;
+	}
+
+	public Entity getCurrentEntity() {
+		return currentEntity;
+	}
+
+	public void setCurrentEntity(Entity currentEntity) {
+		this.currentEntity = currentEntity;
 	}
 }

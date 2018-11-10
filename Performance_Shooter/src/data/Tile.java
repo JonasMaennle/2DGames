@@ -10,7 +10,7 @@ import static helpers.Setup.*;
 public class Tile {
 	
 	private float x, y, maxX, minX, velX;
-	private int width, height;
+	private int width, height, hp;
 	private TileType type;
 	private Image image;
 	
@@ -21,6 +21,7 @@ public class Tile {
 		this.width = width;
 		this.height = height;
 		this.type = type;
+		this.hp = type.hp;
 		this.image = quickLoaderImage("tiles/" + type.textureName);
 		tileCounter++;
 		
@@ -42,6 +43,15 @@ public class Tile {
 		x += velX * 1;
 	}
 	
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) 
+	{
+		this.hp = hp;
+	}
+
 	public void draw()
 	{
 		drawQuadImage(image, x, y, width, height);

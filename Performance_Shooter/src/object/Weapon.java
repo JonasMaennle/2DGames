@@ -249,4 +249,16 @@ public class Weapon implements Entity{
 		this.angle = angle;
 	}
 
+	@Override
+	public float getVelX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getVelY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

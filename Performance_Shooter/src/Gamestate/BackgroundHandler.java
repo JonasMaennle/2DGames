@@ -6,8 +6,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
+import Enity.Entity;
 import object.Cloud;
-import object.Player;
 
 public class BackgroundHandler {
 	
@@ -16,15 +16,15 @@ public class BackgroundHandler {
 	private float bg03_offset, bg04_offset, bg05_offset;
 	private float alpha;
 	private Cloud cloud;
-	private Player player;
+	private Entity entity;
 	
-	public BackgroundHandler(Player player)
+	public BackgroundHandler(Entity entity)
 	{
 		this.background_mountain = quickLoaderImage("background/background_00");
 		this.background_forest = quickLoaderImage("background/background_01");
 		this.sky = quickLoaderImage("background/Sky");
 		this.filter = quickLoaderImage("background/filter");
-		this.player = player;
+		this.entity = entity;
 		
 		this.cloud = new Cloud(Display.getX() + Display.getWidth(), 0);
 		
@@ -45,12 +45,12 @@ public class BackgroundHandler {
 		drawQuadImageStatic(sky, 0, 0, 2048, 2048);
 		
 		// Calculate and draw MOUNTAINS
-		if(player.getVelX() > 0)
+		if(entity.getVelX() > 0)
 		{
 			bg00_offset -= 0.1f;
 			bg01_offset -= 0.1f; 
 			bg02_offset -= 0.1f;
-		}else if(player.getVelX() < 0)
+		}else if(entity.getVelX() < 0)
 		{
 			bg00_offset += 0.1f;
 			bg01_offset += 0.1f; 
@@ -89,12 +89,12 @@ public class BackgroundHandler {
 		cloud.draw();
 		
 		// Calculate and draw FOREST
-		if(player.getVelX() > 0)
+		if(entity.getVelX() > 0)
 		{
 			bg03_offset -= 0.5f;
 			bg04_offset -= 0.5f; 
 			bg05_offset -= 0.5f;
-		}else if(player.getVelX() < 0)
+		}else if(entity.getVelX() < 0)
 		{
 			bg03_offset += 0.5f;
 			bg04_offset += 0.5f; 
@@ -154,5 +154,13 @@ public class BackgroundHandler {
 		GL11.glColor4f(0, 0, 0, alpha);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
+	}
+
+	public Entity getEntity() {
+		return entity;
+	}
+
+	public void setEntity(Entity entity) {
+		this.entity = entity;
 	}
 }
