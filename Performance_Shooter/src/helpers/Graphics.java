@@ -1,7 +1,5 @@
 package helpers;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -17,8 +15,6 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 import Enity.Entity;
 import shader.Light;
@@ -26,6 +22,7 @@ import shader.Shader;
 
 public class Graphics {
 	
+	// Draw non image-based quad
 	public static void drawQuad(float x, float y, float width, float height)
 	{
 		glBegin(GL_QUADS);
@@ -35,34 +32,9 @@ public class Graphics {
 		glVertex2f(x + MOVEMENT_X, y + height + MOVEMENT_Y);
 		glEnd();
 	}
-	
-	public static void drawQuadTex(Texture tex, float x, float y, float width, float height)
-	{	
-		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		tex.bind();
-		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE); // Removes weird line above texture
-		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-		glTranslatef(x, y, 0);
-		
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);
-		glVertex2f(0, 0);
-		glTexCoord2f(1, 0);
-		glVertex2f(width, 0);
-		glTexCoord2f(1, 1);
-		glVertex2f(width, height);
-		glTexCoord2f(0, 1);
-		glVertex2f(0, height);
-		glEnd();
-		
-		glLoadIdentity();
-		glDisable(GL_BLEND);
-	}
-	
+	// Default draw method
 	public static void drawQuadImage(Image img, float x, float y, float width, float height)
 	{	
-		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		img.bind();
@@ -109,33 +81,7 @@ public class Graphics {
 		glLoadIdentity();
 		glDisable(GL_BLEND);
 	}
-	
-
-	
-	public static void drawQuadTexRot(Texture tex, float x, float y, float width, float height, float angle)
-	{	
-		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		tex.bind();
-		glTranslatef(x + width/2, y + height/2, 0);
-		glRotatef(angle, 0, 0, 1);
-		glTranslatef(- width / 2, - height / 2, 0);
-				
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);
-		glVertex2f(0, 0);
-		glTexCoord2f(1, 0);
-		glVertex2f(width, 0);
-		glTexCoord2f(1, 1);
-		glVertex2f(width, height);
-		glTexCoord2f(0, 1);
-		glVertex2f(0, height);
-		glEnd();
-		
-		glLoadIdentity();
-		glDisable(GL_BLEND);
-	}
-	
+	// Rotate center
 	public static void drawQuadImageRot(Image image, float x, float y, float width, float height, float angle)
 	{	
 		glEnable(GL_BLEND);
@@ -159,7 +105,7 @@ public class Graphics {
 		glLoadIdentity();
 		glDisable(GL_BLEND);
 	}
-	
+	// Rotate left
 	public static void drawQuadImageRotLeft(Image image, float x, float y, float width, float height, float angle)
 	{	
 		glEnable(GL_BLEND);
@@ -183,7 +129,7 @@ public class Graphics {
 		glLoadIdentity();
 		glDisable(GL_BLEND);
 	}
-	
+	// Rotate right
 	public static void drawQuadImageRotRight(Image image, float x, float y, float width, float height, float angle)
 	{	
 		glEnable(GL_BLEND);
@@ -207,7 +153,7 @@ public class Graphics {
 		glLoadIdentity();
 		glDisable(GL_BLEND);
 	}
-	
+	// Rotate static center
 	public static void drawQuadImageRotStatic(Image image, float x, float y, float width, float height, float angle)
 	{	
 		glEnable(GL_BLEND);
@@ -239,29 +185,13 @@ public class Graphics {
 		anim.draw(x + MOVEMENT_X, y + MOVEMENT_Y, width, height);
 		glDisable(GL_BLEND);
 	}
-	
+	// Not used currently
 	public static void drawAnimationCenter(Animation anim, float x, float y, float width, float height)
 	{
 		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // WICHTIG! -> wenn Texture/Image mit transarentem Hintergrund gemalt werden soll
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // WICHTIG! -> Image mit transarentem Hintergrund gemalt werden soll
 		anim.draw(x, y, width, height);
 		glDisable(GL_BLEND);
-	}
-	
-	public static Texture loadTexture(String path, String fileType)
-	{
-		Texture tex = null;
-		//System.out.println(path);
-		// -> new
-		InputStream in = Graphics.class.getClassLoader().getResourceAsStream(path);
-
-		try {
-			tex = TextureLoader.getTexture(fileType, in);
-		} catch (IOException e) {
-			System.out.println("ERRRROR");
-			e.printStackTrace();
-		}
-		return tex;
 	}
 	
 	public static Image quickLoaderImage(String name)
@@ -276,14 +206,6 @@ public class Graphics {
 		}
 		if(image == null)System.out.println("Image cloud not load!!!");
 		return image;
-	}
-	
-	public static Texture quickLoad(String name)
-	{
-		Texture tex = null;
-		//tex = loadTexture("res/" + name + ".png", "PNG");
-		tex = loadTexture("" + name + ".png", "PNG");
-		return tex;
 	}
 	
 	public static SpriteSheet loadSpriteSheet(String name, int tileWidth, int tileHeight) // idr. 64, 64
