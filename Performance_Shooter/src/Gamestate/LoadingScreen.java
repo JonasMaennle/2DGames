@@ -41,7 +41,7 @@ public class LoadingScreen {
 			Mouse.setCursorPosition((int) (Display.getX() + (Display.getWidth()* 0.75f)), (int)getTopBoarder() + (HEIGHT / 2));
 			saberLength = 0;
 		}
-		saberLength += 100; // += 2 normal value <-
+		saberLength += 10; // += 2 normal value <-
 		draw();
 	}
 	

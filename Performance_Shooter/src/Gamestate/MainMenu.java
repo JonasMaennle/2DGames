@@ -56,11 +56,9 @@ public class MainMenu {
 		this.buttonList = menuUI.getButtonList();
 		this.button_moveY = HEIGHT + 10;
 		this.selectedButton = -1;
-		
 		try {
-			this.mainTheme = new Music("sound/MainTheme.wav");
+			this.mainTheme = new Music("sound/MainThemeShort.wav");
 		} catch (SlickException e) {e.printStackTrace();}
-		
 		Mouse.setGrabbed(true);
 	}
 	
@@ -125,8 +123,8 @@ public class MainMenu {
 			}else{
 				if(enableMouse)
 				{
-					Mouse.setGrabbed(false);
-					Mouse.setCursorPosition(WIDTH/2, (int)(HEIGHT * 0.66f));
+//					Mouse.setGrabbed(false);
+//					Mouse.setCursorPosition(WIDTH/2, (int)(HEIGHT * 0.66f));
 					enableMouse = false;
 					selectedButton = 0;
 				}
