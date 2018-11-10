@@ -23,12 +23,14 @@ public class Handler {
 	private TileGrid map;
 	private StateManager statemanager;
 	private Entity currentEntity;
+	private ParticleEvent event;
 	
 	public Handler(StateManager statemanager)
 	{
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.statemanager = statemanager;
+		this.event = new ParticleEvent(120, 570, 100);
 	}
 	
 	public void update()
@@ -76,6 +78,7 @@ public class Handler {
 			}
 		}
 		
+		event.update();
 		objectInfo();
 	}
 	
@@ -88,7 +91,7 @@ public class Handler {
 		if(gameState != GameState.DEAD && player != null && currentEntity.equals(player))
 				player.draw();
 		
-		
+		// draw at st
 		if(at_st_walker != null)
 			at_st_walker.draw();
 		
@@ -101,6 +104,8 @@ public class Handler {
 		// draw Level Goal
 		if(levelGoal != null)
 			levelGoal.draw();
+		
+		event.draw();
 	}
 	
 	private void objectInfo()

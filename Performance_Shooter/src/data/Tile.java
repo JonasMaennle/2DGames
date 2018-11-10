@@ -13,6 +13,8 @@ public class Tile {
 	private int width, height, hp;
 	private TileType type;
 	private Image image;
+	private Image[] aImage;
+	private int index;
 	
 	public Tile(float x, float y, int width, int height, TileType type)
 	{
@@ -24,10 +26,15 @@ public class Tile {
 		this.hp = type.hp;
 		this.image = quickLoaderImage("tiles/" + type.textureName);
 		tileCounter++;
-		
+		this.aImage = new Image[4];
 		this.maxX = x + TILE_SIZE * 2;
 		this.minX = x - TILE_SIZE * 2;
 		this.velX = 1;
+		this.index = 0;
+		for(int i = 0; i < 4; i++)
+		{
+			aImage[i] = quickLoaderImage("tiles/Rock_Basic_" + i);
+		}
 	}
 	
 	public void update()
@@ -42,6 +49,18 @@ public class Tile {
 		}
 		x += velX * 1;
 	}
+
+	
+
+	public void draw()
+	{
+		if(type == TileType.Rock_Basic)
+		{
+			drawQuadImage(aImage[index], x, y, TILE_SIZE, TILE_SIZE);
+		}else{
+			drawQuadImage(image, x, y, width, height);
+		}
+	}
 	
 	public int getHp() {
 		return hp;
@@ -51,10 +70,17 @@ public class Tile {
 	{
 		this.hp = hp;
 	}
+	
+	public int getIndex() {
+		return index;
+	}
 
-	public void draw()
+	public void addIndex() 
 	{
-		drawQuadImage(image, x, y, width, height);
+		if(this.index < 3)
+		{
+			this.index++;
+		}
 	}
 	
 	public void testDraw()

@@ -334,7 +334,8 @@ public class AT_ST_Walker implements Entity{
 	
 	private void damageTile(Tile tile)
 	{
-		tile.setHp(tile.getHp() - 50);
+		tile.setHp(tile.getHp() - 100);
+		tile.addIndex();
 		// Remove tile if hp <= 0
 		if(tile.getHp() <= 0)
 		{
