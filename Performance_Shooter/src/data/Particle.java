@@ -1,4 +1,4 @@
-package object;
+package data;
 
 import static helpers.Graphics.quickLoaderImage;
 import static helpers.Setup.*;

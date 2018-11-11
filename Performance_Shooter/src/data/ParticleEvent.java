@@ -3,8 +3,6 @@ package data;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import object.Particle;
-
 public class ParticleEvent {
 	
 	private CopyOnWriteArrayList<Particle> list;
