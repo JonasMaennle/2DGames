@@ -23,14 +23,14 @@ public class Handler {
 	private TileGrid map;
 	private StateManager statemanager;
 	private Entity currentEntity;
-	private ParticleEvent event;
+	private CopyOnWriteArrayList<ParticleEvent> eventList;
 	
 	public Handler(StateManager statemanager)
 	{
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.statemanager = statemanager;
-		this.event = new ParticleEvent(120, 570, 100);
+		this.eventList = new CopyOnWriteArrayList<>();
 	}
 	
 	public void update()
@@ -78,7 +78,17 @@ public class Handler {
 			}
 		}
 		
-		event.update();
+		// update particle if tile is dead
+		for(ParticleEvent event : eventList)
+		{
+			if(event.isListEmpty())
+			{
+				eventList.remove(event);
+			}else{
+				event.update();
+			}
+		}
+
 		objectInfo();
 	}
 	
@@ -105,7 +115,16 @@ public class Handler {
 		if(levelGoal != null)
 			levelGoal.draw();
 		
-		event.draw();
+		//draw particles if tile dies
+		for(ParticleEvent event : eventList)
+		{
+			if(event.isListEmpty())
+			{
+				eventList.remove(event);
+			}else{
+				event.draw();
+			}
+		}
 	}
 	
 	private void objectInfo()
@@ -149,5 +168,9 @@ public class Handler {
 
 	public void setCurrentEntity(Entity currentEntity) {
 		this.currentEntity = currentEntity;
+	}
+	
+	public void addParticleEvent(ParticleEvent event){
+		eventList.add(event);
 	}
 }

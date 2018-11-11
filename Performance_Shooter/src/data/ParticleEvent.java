@@ -10,13 +10,14 @@ public class ParticleEvent {
 	private CopyOnWriteArrayList<Particle> list;
 	private Random rand;
 	
-	public ParticleEvent(int startX, int startY, int number)
+	public ParticleEvent(int startX, int startY, int number, String color)
 	{
 		this.list = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
 		for(int i = 0; i < number; i++)
 		{
-			list.add(new Particle(startX, startY, rand.nextInt(10), rand.nextInt(10), rand.nextInt(10)+2, rand.nextInt(10)+2, rand.nextInt(20)+5));
+			// Particle(int x, int y, int width, int height, float velX, float velY, float speed)
+			list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-5, rand.nextInt(5)+5, color));
 		}
 	}
 	
@@ -24,7 +25,12 @@ public class ParticleEvent {
 	{
 		for(Particle p : list)
 		{
-			p.update();
+			if(p.isOutOfMap())
+			{
+				list.remove(p);
+			}else{
+				p.update();
+			}
 		}
 	}
 	
@@ -34,5 +40,13 @@ public class ParticleEvent {
 		{
 			p.draw();
 		}
+	}
+	
+	public boolean isListEmpty()
+	{
+		if(list.size() == 0)
+			return true;
+		
+		return false;
 	}
 }

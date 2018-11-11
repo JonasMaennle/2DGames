@@ -50,8 +50,6 @@ public class Tile {
 		x += velX * 1;
 	}
 
-	
-
 	public void draw()
 	{
 		if(type == TileType.Rock_Basic)

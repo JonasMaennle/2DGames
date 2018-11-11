@@ -20,6 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import data.Camera;
 import data.Handler;
+import data.ParticleEvent;
 import data.Tile;
 
 public class AT_ST_Walker implements Entity{
@@ -340,6 +341,8 @@ public class AT_ST_Walker implements Entity{
 		if(tile.getHp() <= 0)
 		{
 			handler.getMap().setTile(tile.getXPlace(), tile.getYPlace(), TileType.NULL);
+			if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray"));
+			if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "brown"));
 			handler.obstacleList.remove(tile);
 		}
 	}
