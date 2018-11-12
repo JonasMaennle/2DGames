@@ -77,7 +77,7 @@ public class AT_ST_Walker implements Entity{
 		this.anim_IdleLeft = new Animation(loadSpriteSheet("player/atst_idleLeft", 154, 256), 200);
 		
 		try {
-			this.laserShotSound = new Sound("Sound/AT_ST_Laser.wav");
+			this.laserShotSound = new Sound("sound/AT_ST_Laser.wav");
 		} catch (SlickException e) {
 			e.printStackTrace();}
 	}

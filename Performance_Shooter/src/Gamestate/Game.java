@@ -22,7 +22,7 @@ public class Game {
 	private BackgroundHandler backgroundHandler;
 	private HeadUpDisplay ingame_HUD;
 	private Handler handler;
-
+	
 	public Game(Handler handler)
 	{
 		this.camera = new Camera(handler.getCurrentEntity());
