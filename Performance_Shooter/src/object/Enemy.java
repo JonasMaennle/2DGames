@@ -3,6 +3,7 @@ package object;
 import static helpers.Graphics.drawQuad;
 
 import java.awt.Rectangle;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -18,12 +19,15 @@ public abstract class Enemy implements Entity{
 	protected int width, height;
 	protected float speed, x, y, health, velX, velY, angle, destX, destY;
 	protected boolean alive;
+	protected float gravity;
 	protected TileGrid grid;
 	protected Light light;
 	protected Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	protected Rectangle testShot;
 	protected float tX, tY, tVelX, tVelY;
 	protected CopyOnWriteArrayList<Laser> laserList;
+	protected Entity entity;
+	protected Random rand;
 	
 	protected Animation anim_walkRight;
 	protected Animation anim_walkLeft;
@@ -43,6 +47,7 @@ public abstract class Enemy implements Entity{
 		this.destX = 0;
 		this.destY = 0;
 		this.laserList = new CopyOnWriteArrayList<>();
+		this.gravity = 0;
 		
 		this.tX = x;
 		this.tY = y;
@@ -52,6 +57,8 @@ public abstract class Enemy implements Entity{
 		this.rectRight = new Rectangle((int)x + width - 4, (int)y + 4, 4, (height) - 16);
 		this.rectTop = new Rectangle((int)x + 4, (int)y, width - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (height) - 4, width - 8, 4);
+		
+		this.rand = new Random();
 	}
 	
 	public void update()

@@ -17,7 +17,6 @@ public class GunganEnemy extends Enemy{
 	
 	private Image healthBackground, healthBorder, healthForeground;
 	private Handler handler;
-	private Player player;
 	private Sound lasterShot;
 	private long timer1, timer2;
 	private float speed;
@@ -30,14 +29,15 @@ public class GunganEnemy extends Enemy{
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
 		this.velX = 1;
+		if(rand.nextBoolean())this.velX = -1;
 		this.tX = x + (width/2);
 		this.tY = y + 55;
 		this.angle = 0;
 		this.handler = handler;
-		this.player = handler.player;
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
-		this.speed = 3;
+		this.gravity = 4;
+		this.speed = rand.nextInt(3)+1;
 		this.health = width - 8;
 		this.anim_walkRight = new Animation(loadSpriteSheet("enemy/enemy_right_sheet", TILE_SIZE, TILE_SIZE * 2), 50);
 		this.anim_walkLeft = new Animation(loadSpriteSheet("enemy/enemy_left_sheet", TILE_SIZE, TILE_SIZE * 2), 50);
@@ -53,14 +53,15 @@ public class GunganEnemy extends Enemy{
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
 		this.velX = 1;
+		if(rand.nextBoolean())this.velX = -1;
 		this.angle = 0;
 		this.tX = x + (width/2);
 		this.tY = y + 55;
 		this.handler = handler;
-		this.player = handler.player;
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
-		this.speed = 3;
+		this.gravity = 4;
+		this.speed = rand.nextInt(3)+1;
 		this.health = width - 8;
 		this.rangeLeft = (int)x - (range * 64);
 		this.rangeRight = (int)x + (range * 64);
@@ -93,12 +94,19 @@ public class GunganEnemy extends Enemy{
 			}
 		}
 		x += velX * speed;
+		y += gravity;
 		
 		// calc current angle
-		calcAngle(player.getX() + (player.getWidth()/2), player.getY() + (player.getHeight()/4));
+		entity = handler.getCurrentEntity();
+		calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + (entity.getHeight()/4));
+		
 		// check if testShoot() is possible
-		if(x - player.getX() < 1000 || x - player.getX() > 0)
-			testShoot();
+		if(entity.getX() < x)
+			if(x - entity.getX() < (WIDTH/2)-TILE_SIZE)
+				testShoot();
+		if(entity.getX() > x)
+			if(entity.getX() - x < (WIDTH/2)-TILE_SIZE)
+				testShoot();
 
 		
 		updateBounds();
@@ -110,11 +118,11 @@ public class GunganEnemy extends Enemy{
 		{
 			l.update();
 			
-			if(checkCollision(player.getX() + 20, player.getY(), player.getWidth()-40, player.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
+			if(checkCollision(entity.getX() + 20, entity.getY(), entity.getWidth()-40, entity.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 			{
 				laserList.remove(l);
-				// deal damage to player
-				player.damage(20);
+				// deal damage to current entity
+				entity.damage(20);
 			}
 			for(Tile tile : handler.obstacleList)
 			{
@@ -242,16 +250,16 @@ public class GunganEnemy extends Enemy{
 			}
 		}
 		// check player collision
-		if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), player.getX(), player.getY(), player.getWidth(), player.getHeight()))
+		if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), entity.getX(), entity.getY(), entity.getWidth(), entity.getHeight()))
 		{
 			testShot.setLocation((int)x + (width / 2), (int)y + 55);
 			tX = x + (width / 2);
 			tY = y + 55;
 			
 			// check if gungan is facing player
-			if(velX > 0 && player.getX() > x)
+			if(velX > 0 && entity.getX() > x)
 				shoot();
-			if(velX < 0 && player.getX() < x)
+			if(velX < 0 && entity.getX() < x)
 				shoot();
 		}
 	}

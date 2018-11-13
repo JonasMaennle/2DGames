@@ -104,4 +104,9 @@ public class Cloud implements Entity{
 		return 0;
 	}
 
+	@Override
+	public void damage(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
 }

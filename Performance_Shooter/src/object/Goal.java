@@ -99,4 +99,9 @@ public class Goal implements Entity{
 		return 0;
 	}
 
+	@Override
+	public void damage(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
 }

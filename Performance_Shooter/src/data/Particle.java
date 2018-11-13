@@ -38,6 +38,8 @@ public class Particle {
 	{
 		x += velX * speed;
 		y += velY * speed;
+		
+		velY += 0.1f;
 	}
 	
 	public void draw()

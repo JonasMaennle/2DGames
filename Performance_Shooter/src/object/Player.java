@@ -275,15 +275,21 @@ public class Player implements Entity{
 		{
 			if(checkCollision(x, y, TILE_SIZE, TILE_SIZE * 2, handler.at_st_walker.getX(), handler.at_st_walker.getY(), handler.at_st_walker.getWidth(), handler.at_st_walker.getHeight()))
 			{
-				velX = 0;
-				velY = 0;
-				handler.at_st_walker.setEnabled(true);
-				//System.out.println("AT_ST start...");
-				handler.setCurrentEntity(handler.at_st_walker);
-				handler.getStatemanager().getGame().setCamera(new Camera(handler.getCurrentEntity()));
-				handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
+				if(handler.at_st_walker.isAlive())
+					enterATST();
 			}
 		}
+	}
+	
+	private void enterATST()
+	{
+		velX = 0;
+		velY = 0;
+		handler.at_st_walker.setEnabled(true);
+		//System.out.println("AT_ST start...");
+		handler.setCurrentEntity(handler.at_st_walker);
+		handler.getStatemanager().getGame().setCamera(new Camera(handler.getCurrentEntity()));
+		handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
 	}
 	
 	@SuppressWarnings("unused")

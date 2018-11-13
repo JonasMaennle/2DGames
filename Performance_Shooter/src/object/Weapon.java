@@ -6,7 +6,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import Enity.Entity;
+import Enity.TileType;
 import data.Handler;
+import data.ParticleEvent;
 import data.Tile;
 
 import static helpers.Graphics.*;
@@ -59,6 +61,8 @@ public class Weapon implements Entity{
 				if(checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
 					list.remove(l);
+					if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, "gray"));
+					if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, "brown"));
 				}
 				if(l.isOutOfMap())
 				{
@@ -259,6 +263,12 @@ public class Weapon implements Entity{
 	public float getVelY() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void damage(int amount) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -26,12 +26,12 @@ public class Tile {
 		this.hp = type.hp;
 		this.image = quickLoaderImage("tiles/" + type.textureName);
 		tileCounter++;
-		this.aImage = new Image[4];
+		this.aImage = new Image[2];
 		this.maxX = x + TILE_SIZE * 2;
 		this.minX = x - TILE_SIZE * 2;
 		this.velX = 1;
 		this.index = 0;
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < aImage.length; i++)
 		{
 			aImage[i] = quickLoaderImage("tiles/Rock_Basic_" + i);
 		}

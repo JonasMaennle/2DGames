@@ -2,6 +2,7 @@ package Gamestate;
 
 import data.Camera;
 import data.Handler;
+import data.MusicHandler;
 
 import static helpers.Leveler.*;
 
@@ -22,9 +23,11 @@ public class StateManager {
 	private Game game;
 	private Handler handler;
 	private LoadingScreen loadingScreen;
+	private MusicHandler musicHandler;
 	
 	public StateManager()
 	{
+		this.musicHandler = new MusicHandler();
 		this.loadingScreen = new LoadingScreen(this);
 		this.mainMenu = new MainMenu();	
 		this.handler = new Handler(this);
@@ -34,6 +37,8 @@ public class StateManager {
 	
 	public void update()
 	{
+		musicHandler.update();
+		
 		switch (gameState) {
 		case MAINMENU:
 			mainMenu.update();

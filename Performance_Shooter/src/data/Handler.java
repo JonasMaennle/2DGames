@@ -89,7 +89,7 @@ public class Handler {
 			}
 		}
 
-		objectInfo();
+		//objectInfo();
 	}
 	
 	public void draw()
@@ -127,6 +127,7 @@ public class Handler {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void objectInfo()
 	{
 		timer1 = System.currentTimeMillis();

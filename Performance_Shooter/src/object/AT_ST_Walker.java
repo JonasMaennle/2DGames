@@ -26,9 +26,9 @@ import data.Tile;
 public class AT_ST_Walker implements Entity{
 
 	private float x, y, velX, velY, gravity, speed;
-	private int width, height;
+	private int width, height, health;
 	private long timer1, timer2;
-	private Image gun_left, gun_right;
+	private Image gun_left, gun_right, healthBackground, healthForeground, healthBorder;
 	private Animation anim_WalkRight, anim_WalkLeft, anim_IdleRight, anim_IdleLeft;
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	private boolean enabled;
@@ -39,6 +39,8 @@ public class AT_ST_Walker implements Entity{
 	private CopyOnWriteArrayList<Laser> laserList;
 	private float laserSpawnX, laserSpawnY;
 	private Sound laserShotSound;
+	private boolean alive;
+	private CopyOnWriteArrayList<Explosion> explosionList;
 	
 	public AT_ST_Walker(float x, float y, Handler handler) 
 	{
@@ -62,6 +64,8 @@ public class AT_ST_Walker implements Entity{
 		this.laserList = new CopyOnWriteArrayList<>();
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
+		this.health = width - 40;
+		this.alive = true;
 		
 		this.rectLeft = new Rectangle(1,1,1,1);
 		this.rectRight = new Rectangle(1,1,1,1);
@@ -71,10 +75,16 @@ public class AT_ST_Walker implements Entity{
 		this.gun_left = quickLoaderImage("player/atst_gun_left");
 		this.gun_right = quickLoaderImage("player/atst_gun_right");
 		
+		this.healthBackground = quickLoaderImage("enemy/healthBackground");
+		this.healthForeground = quickLoaderImage("enemy/healthForeground");
+		this.healthBorder = quickLoaderImage("enemy/healthBorder");
+		
 		this.anim_WalkRight = new Animation(loadSpriteSheet("player/atst_walkRight", 154, 256), 100);
 		this.anim_WalkLeft = new Animation(loadSpriteSheet("player/atst_walkLeft", 154, 256), 100);
 		this.anim_IdleRight = new Animation(loadSpriteSheet("player/atst_idleRight", 154, 256), 200);
 		this.anim_IdleLeft = new Animation(loadSpriteSheet("player/atst_idleLeft", 154, 256), 200);
+		
+		this.explosionList = new CopyOnWriteArrayList<>();
 		
 		try {
 			this.laserShotSound = new Sound("sound/AT_ST_Laser.wav");
@@ -143,8 +153,9 @@ public class AT_ST_Walker implements Entity{
 			{
 				if(checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
-					laserList.remove(l);	
+					laserList.remove(l);
 					damageTile(tile);
+					explosionList.add(new Explosion((int)tile.getX(), (int)tile.getY(), 196, 20));
 				}
 				if(l.isOutOfMap())
 				{
@@ -158,8 +169,15 @@ public class AT_ST_Walker implements Entity{
 				{
 					g.damage(56); // Gungan got 56 HP
 					laserList.remove(l);
+					explosionList.add(new Explosion((int)g.getX(), (int)g.getY(), 128, 20));
 				}
 			}
+		}
+		
+		for(Explosion e : explosionList)
+		{
+			if(!e.isAlive())
+				explosionList.remove(e);
 		}
 	}
 
@@ -197,6 +215,15 @@ public class AT_ST_Walker implements Entity{
 			break;
 		default:
 			break;
+		}
+		// draw health bar
+		drawQuadImage(healthBackground, x + 20, y-20, width - 40, 8);
+		drawQuadImage(healthForeground, x + 20, y-20, health, 8);
+		drawQuadImage(healthBorder, x + 20, y-20, width - 40, 8);
+		
+		for(Explosion e : explosionList)
+		{
+			e.draw();
 		}
 
 		//drawBounds();
@@ -331,6 +358,10 @@ public class AT_ST_Walker implements Entity{
 		handler.player.setX(x + width/4);
 		handler.player.setY(y + height / 3);
 		handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
+		if(direction.equals("left"))
+			currentAnimation = "anim_idleLeft";
+		else
+			currentAnimation = "anim_idleRight";
 	}
 	
 	private void damageTile(Tile tile)
@@ -344,6 +375,18 @@ public class AT_ST_Walker implements Entity{
 			if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray"));
 			if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "brown"));
 			handler.obstacleList.remove(tile);
+		}
+	}
+
+	@Override
+	public void damage(int amount) 
+	{
+		health -= (int)(amount * 0.2f);
+		if(health <= 0)
+		{
+			health = 0;
+			alive = false;
+			playerExitATST();
 		}
 	}
 	
@@ -410,5 +453,21 @@ public class AT_ST_Walker implements Entity{
 	@Override
 	public float getVelY() {
 		return velY;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 }

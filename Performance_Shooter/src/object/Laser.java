@@ -23,6 +23,7 @@ public class Laser implements Entity{
 		this.height = height;
 		this.angle = angle;
 		this.speed = speed;
+		
 		if(color.equals("red"))
 			this.image = quickLoaderImage("player/laser_small_red");
 		else if(color.equals("green"))
@@ -45,6 +46,7 @@ public class Laser implements Entity{
 		this.destX = destX;
 		this.destY = destY;
 		this.color = color;
+		
 		if(color.equals("red"))
 			this.image = quickLoaderImage("player/laser_small_red");
 		else if(color.equals("green"))
@@ -64,7 +66,6 @@ public class Laser implements Entity{
 	public void draw()
 	{
 		drawQuadImageRot(image, x, y, width, height, angle);
-		//drawQuadImage(image, x, y, width, height);
 	}
 	
 	public boolean isOutOfMap()
@@ -163,5 +164,11 @@ public class Laser implements Entity{
 	@Override
 	public float getVelY() {
 		return velY;
+	}
+
+	@Override
+	public void damage(int amount) {
+		// TODO Auto-generated method stub
+		
 	}
 }
