@@ -43,7 +43,7 @@ public class Handler {
 			if(player.isOutOfMap())
 				statemanager.resetCurrentLevel();	
 		}
-
+		
 		// if at_st exists -> update
 		if(at_st_walker != null)
 		{
