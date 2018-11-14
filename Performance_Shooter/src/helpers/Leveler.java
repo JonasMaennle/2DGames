@@ -91,10 +91,22 @@ public class Leveler {
 					handler.obstacleList.add(grid.getTile(x, y));
 				}
 		// Dirt Tile
-				// Grey -> Dirt_Basic
+				// brown -> Dirt_Basic
 				if(red == 127 && green == 50 && blue == 0)
 				{
 					grid.setTile(x, y, TileType.Dirt_Basic);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
+				// Ramp Start
+				if(red == 80 && green == 50 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.Ramp_Start);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
+				// Ramp End
+				if(red == 70 && green == 50 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.Ramp_End);
 					handler.obstacleList.add(grid.getTile(x, y));
 				}
 		// Rock Tile

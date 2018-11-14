@@ -228,7 +228,7 @@ public class Player implements Entity{
 		}
 		
 		weapon.draw();
-		//drawBounds();
+		drawBounds();
 	}
 	
 	private void mapCollision()
@@ -253,13 +253,26 @@ public class Player implements Entity{
 			}
 			if(r.intersects(rectRight))
 			{
-				velX = 0;
-				x = (float) (r.getX() - TILE_SIZE) + 11;
+
+				if(t.getType() == TileType.Ramp_Start)
+				{
+					System.out.println(y + " " + (((t.getY()+t.getHeight()) + ((t.getX() - (x+TILE_SIZE)))) - TILE_SIZE*2));
+					y = t.getY()+(t.getHeight()) + (t.getX() - (x+TILE_SIZE))  - TILE_SIZE*2;
+				}else{
+					velX = 0;
+					x = (float) (r.getX() - TILE_SIZE) + 11;
+				}
 			}
 			if(r.intersects(rectBottom))
 			{
-				velY = 0;
-				y = (float) (r.getY() - TILE_SIZE * 2);
+				if(t.getType() == TileType.Ramp_Start)
+				{
+
+				}else{
+					velY = 0;
+					y = (float) (r.getY() - TILE_SIZE * 2);
+				}
+
 				jumping = false;
 				if(t.getType() == TileType.Grass_Round_Half)
 				{

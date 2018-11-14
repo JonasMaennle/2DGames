@@ -11,6 +11,7 @@ public enum TileType {
 	TreeBig_06("tree_06", 0, 196, 320),TreeBig_07("tree_07", 0, 348, 448),TreeBig_08("tree_08", 0, 128, 196),
 	
 	Dirt_Basic("Dirt_Basic", 100, TILE_SIZE, TILE_SIZE),
+	Ramp_Start("Ramp_start", 100, TILE_SIZE, TILE_SIZE),Ramp_End("Ramp_end", 100, TILE_SIZE, TILE_SIZE),
 	Rock_Basic("Rock_Basic_0", 200, TILE_SIZE, TILE_SIZE), 
 	NULL("Blank", 0, TILE_SIZE, TILE_SIZE), 
 	Default("Filler", 100, TILE_SIZE, TILE_SIZE);
