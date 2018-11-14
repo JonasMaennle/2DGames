@@ -14,6 +14,7 @@ import object.AT_ST_Walker;
 import object.Goal;
 import object.GunganEnemy;
 import object.Player;
+import object.Speeder;
 
 public class Leveler {
 	
@@ -115,6 +116,11 @@ public class Leveler {
 				{
 					handler.at_st_walker = new AT_ST_Walker(x * TILE_SIZE, y * TILE_SIZE, handler);
 				}
+				// Blue -> Player
+				if(red == 0 && green == 255 && blue == 255)
+				{
+					handler.speeder = new Speeder(x * TILE_SIZE, y * TILE_SIZE, handler);
+				}
 		// Enemy Tile
 				// Green -> GunganEnemy
 				if(red == 0 && green == 255 && blue == 0)
@@ -130,6 +136,40 @@ public class Leveler {
 				if(red == 255 && green == 0 && blue == 255)
 				{
 					handler.levelGoal = new Goal(x * TILE_SIZE, y * TILE_SIZE);
+				}
+		// Decoration Tile -> Tree
+				// Dark Green -> Tree
+				if(red == 0 && green == 125 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_01);
+				}
+				if(red == 0 && green == 120 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_02);
+				}
+				if(red == 0 && green == 115 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_03);
+				}
+				if(red == 0 && green == 110 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_04);
+				}
+				if(red == 0 && green == 100 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_05);
+				}
+				if(red == 0 && green == 90 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_06);
+				}
+				if(red == 0 && green == 80 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_07);
+				}
+				if(red == 0 && green == 70 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.TreeBig_08);
 				}
 			}
 		}

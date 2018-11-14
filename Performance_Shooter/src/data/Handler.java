@@ -11,13 +11,17 @@ import object.AT_ST_Walker;
 import object.Goal;
 import object.GunganEnemy;
 import object.Player;
+import object.Speeder;
 
 public class Handler {
 	
 	public CopyOnWriteArrayList<Tile> obstacleList = new CopyOnWriteArrayList<>();
 	public CopyOnWriteArrayList<GunganEnemy> gunganList = new CopyOnWriteArrayList<>();
+	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
+	public Speeder speeder;
+	
 	public Goal levelGoal;
 	private long timer1, timer2;
 	private TileGrid map;
@@ -51,6 +55,11 @@ public class Handler {
 			if(at_st_walker.isOutOfMap())
 				statemanager.resetCurrentLevel();
 		}	
+		// if speeder exitsts -> update
+		if(speeder != null)
+		{
+			speeder.update();
+		}
 
 		// update Level Goal
 		if(levelGoal != null)
@@ -99,11 +108,15 @@ public class Handler {
 		
 		// draw player
 		if(gameState != GameState.DEAD && player != null && currentEntity.equals(player))
-				player.draw();
+			player.draw();
 		
 		// draw at st
 		if(at_st_walker != null)
 			at_st_walker.draw();
+		
+		// draw speeder
+		if(speeder != null)
+			speeder.draw();
 		
 		// draw gunganEnemy
 		for(GunganEnemy g : gunganList)

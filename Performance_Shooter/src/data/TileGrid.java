@@ -22,8 +22,9 @@ public class TileGrid {
 		if(type == TileType.Grass_Round_Half || type == TileType.Grass_Left_Half || type == TileType.Grass_Right_Half || type == TileType.Grass_Flat_Half)
 		{
 			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, TILE_SIZE, TILE_SIZE/2, type);
-		}else{
-			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, TILE_SIZE, TILE_SIZE, type);
+		}
+		else{
+			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type.width, type.height, type);
 		}
 	}
 	

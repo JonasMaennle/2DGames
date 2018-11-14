@@ -279,6 +279,15 @@ public class Player implements Entity{
 					enterATST();
 			}
 		}
+		// Speeder
+		if(handler.speeder != null && !handler.speeder.isEnabled() && Keyboard.isKeyDown(Keyboard.KEY_C))
+		{
+			if(checkCollision(x, y, TILE_SIZE, TILE_SIZE * 2, handler.speeder.getX(), handler.speeder.getY(), handler.speeder.getWidth(), handler.speeder.getHeight()))
+			{
+				if(handler.speeder.isAlive())
+					enterSpeeder();
+			}
+		}
 	}
 	
 	private void enterATST()
@@ -288,6 +297,17 @@ public class Player implements Entity{
 		handler.at_st_walker.setEnabled(true);
 		//System.out.println("AT_ST start...");
 		handler.setCurrentEntity(handler.at_st_walker);
+		handler.getStatemanager().getGame().setCamera(new Camera(handler.getCurrentEntity()));
+		handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
+	}
+	
+	private void enterSpeeder()
+	{
+		velX = 0;
+		velY = 0;
+		handler.speeder.setEnabled(true);
+		//System.out.println("Speeder start...");
+		handler.setCurrentEntity(handler.speeder);
 		handler.getStatemanager().getGame().setCamera(new Camera(handler.getCurrentEntity()));
 		handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
 	}
