@@ -17,6 +17,7 @@ public class Handler {
 	
 	public CopyOnWriteArrayList<Tile> obstacleList = new CopyOnWriteArrayList<>();
 	public CopyOnWriteArrayList<GunganEnemy> gunganList = new CopyOnWriteArrayList<>();
+	private CopyOnWriteArrayList<ParticleEvent> eventList;
 	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
@@ -27,7 +28,7 @@ public class Handler {
 	private TileGrid map;
 	private StateManager statemanager;
 	private Entity currentEntity;
-	private CopyOnWriteArrayList<ParticleEvent> eventList;
+	
 	
 	public Handler(StateManager statemanager)
 	{
@@ -100,7 +101,7 @@ public class Handler {
 			}
 		}
 
-		//objectInfo();
+		objectInfo();
 	}
 	
 	public void draw()
@@ -142,7 +143,7 @@ public class Handler {
 		}
 	}
 	
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private void objectInfo()
 	{
 		timer1 = System.currentTimeMillis();
@@ -157,9 +158,12 @@ public class Handler {
 	public void wipe()
 	{
 		player = null;
+		at_st_walker = null;
+		speeder = null;
+		levelGoal = null;
 		gunganList.clear();
 		obstacleList.clear();
-		levelGoal = null;
+		eventList.clear();
 	}
 
 	public TileGrid getMap() {

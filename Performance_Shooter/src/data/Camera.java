@@ -21,7 +21,7 @@ public class Camera {
 		playerOptimatePosY = (getTopBoarder() + getBottomBoarder()) / 2.0f;
 		if(entity.getClass().getSimpleName().equals("Speeder"))
 		{
-			playerOptimatePosX = getLeftBoarder() + (WIDTH/3);
+			playerOptimatePosX = getLeftBoarder() + (WIDTH/4);
 		}
 
 		MOVEMENT_X += ((playerOptimatePosX - entity.getX()) * 0.5); // * x.x -> smoothnes factor

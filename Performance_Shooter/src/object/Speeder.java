@@ -106,6 +106,7 @@ public class Speeder implements Entity{
 
 	public void draw() 
 	{
+		//drawBounds();
 		if(!alive)
 			exposion.draw();
 		else{
@@ -113,7 +114,6 @@ public class Speeder implements Entity{
 			if(enabled)
 				drawQuadImageRot2(imagePlayer, x + 50, y - 35, 110, 125, angle);
 		}
-		//drawBounds();
 	}
 	
 	private void mapCollision()
@@ -155,27 +155,27 @@ public class Speeder implements Entity{
 				y = (float) (r.getY() + t.getHeight());
 				return;
 			}
-			if(r.intersects(rectLeft))
-			{
-				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
-				{
-					angle = 0;
-					velX = 0;
-					x = (float) (r.getX() + r.getWidth() - 20);
-				}
-			}
-			if(r.intersects(rectRight))
-			{
-				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
-				{
-					angle = 0;
-					velX = 0;
-					x = (float) (r.getX() - width) + 20;
-				}
-			}
+//			if(r.intersects(rectLeft))
+//			{
+//				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+//				{
+//					angle = 0;
+//					velX = 0;
+//					x = (float) (r.getX() + r.getWidth() - 20);
+//				}
+//			}
+//			if(r.intersects(rectRight))
+//			{
+//				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+//				{
+//					angle = 0;
+//					velX = 0;
+//					x = (float) (r.getX() - width) + 20;
+//				}
+//			}
 			if(r.intersects(rectBottom))
 			{
-				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End && t.getType() != TileType.TreeStump_Left && t.getType() != TileType.TreeStump_Right)
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End && t.getType() != TileType.TreeStump_Left && t.getType() != TileType.TreeStump_Right && t.getType() != TileType.TreeStump_Center)
 				{
 					angle = 0;
 					velY = 0;
@@ -236,7 +236,7 @@ public class Speeder implements Entity{
 		this.rectBottom.setBounds((int)x + 24, (int)y + height - 4, width - 48, 4); // bottom
 		
 		this.rampSensor.setBounds((int)x + (width/2)-2, (int)y + height - 16, 4, 4); // sensor
-		this.hitBox.setBounds((int)x+20, (int)y+55, width-35, 35); // hit box
+		this.hitBox.setBounds((int)x+20, (int)y+55, width-80, 35); // hit box
 	}
 	
 	@SuppressWarnings("unused")
@@ -248,7 +248,7 @@ public class Speeder implements Entity{
 		drawQuad((int)x + 24, (int)y + height - 4, width - 48, 4); // bottom
 		
 		drawQuad((int)x + (width/2)-2, (int)y + height - 16, 4, 4); // sensor
-		drawQuad((int)x+20, (int)y+55, width-35, 35);
+		drawQuad((int)x+20, (int)y+55, width-80, 35);
 	}
 	
 	private void playerExitSpeeder()

@@ -195,31 +195,31 @@ public class MainMenu {
 			}
 			
 			// Mouse hover over button
-			for(Button b : buttonList)
-			{
-				if(b.getName().equals("Start"))
-				{
-					//System.out.println(b.getX() + " " + b.getY() + " " + (HEIGHT - Mouse.getY() - MOVEMENT_Y));
-					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
-					{
-						selectedButton = 0;
-					}
-				}
-				if(b.getName().equals("Settings"))
-				{
-					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
-					{
-						selectedButton = 1;
-					}
-				}
-				if(b.getName().equals("Exit"))
-				{
-					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
-					{
-						selectedButton = 2;
-					}
-				}
-			}
+//			for(Button b : buttonList)
+//			{
+//				if(b.getName().equals("Start"))
+//				{
+//					//System.out.println(b.getX() + " " + b.getY() + " " + (HEIGHT - Mouse.getY() - MOVEMENT_Y));
+//					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+//					{
+//						selectedButton = 0;
+//					}
+//				}
+//				if(b.getName().equals("Settings"))
+//				{
+//					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+//					{
+//						selectedButton = 1;
+//					}
+//				}
+//				if(b.getName().equals("Exit"))
+//				{
+//					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+//					{
+//						selectedButton = 2;
+//					}
+//				}
+//			}
 			
 			// Enter
 			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN))
