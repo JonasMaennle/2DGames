@@ -13,7 +13,7 @@ public class StateManager {
 	}
 	
 	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
-	public static int CURRENT_LEVEL = 0;
+	public static int CURRENT_LEVEL = 2;
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
@@ -44,7 +44,7 @@ public class StateManager {
 			mainMenu.update();
 			break;
 		case GAME:
-			if(CURRENT_LEVEL == 0) // Just for init state = GAME
+			if(CURRENT_LEVEL == 2) // Just for init state = GAME
 			{
 				gameState = GameState.LOADING;
 				return;
@@ -84,6 +84,9 @@ public class StateManager {
 			handler.setMap(loadMap(handler, CURRENT_LEVEL));
 			break;
 		case 2:
+			handler.setMap(loadMap(handler, CURRENT_LEVEL));
+			break;
+		case 3:
 			handler.setMap(loadMap(handler, CURRENT_LEVEL));
 			break;
 

@@ -4,22 +4,24 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 import static helpers.Graphics.*;
+import static helpers.Setup.TILE_SIZE;
 
 import java.awt.Rectangle;
 
 import Enity.Entity;
+import Enity.TileType;
 import data.Camera;
 import data.Handler;
 import data.Tile;
 
 public class Speeder implements Entity{
 	
-	private float x, y, speed, velX, velY, gravity;
+	private float x, y, speed, velX, velY, gravity, angle;
 	private int width, height;
 	private Image imageRight, imagePlayer;
 	private Handler handler;
 	private boolean enabled, alive, init;
-	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
+	private Rectangle rectLeft, rectRight, rectTop, rectBottom, rampSensor;
 	
 	public Speeder(float x, float y, Handler handler)
 	{
@@ -29,12 +31,13 @@ public class Speeder implements Entity{
 		this.height = 128;
 		this.velX = 0;
 		this.velY = 0;
-		this.speed = 6.0f;
-		this.gravity = 4;
+		this.speed = 4.0f;
+		this.gravity = 8;
 		this.enabled = false;
 		this.alive = true;
 		this.handler = handler;
 		this.init = false;
+		this.angle = 0;
 		
 		this.imageRight = quickLoaderImage("player/endor_speeder_right");
 		this.imagePlayer = quickLoaderImage("player/endor_speeder_right_player");
@@ -43,6 +46,8 @@ public class Speeder implements Entity{
 		this.rectRight = new Rectangle(1,1,1,1);
 		this.rectTop = new Rectangle(1,1,1,1);
 		this.rectBottom = new Rectangle(1,1,1,1);
+		
+		this.rampSensor = new Rectangle(1,1,1,1);
 	}
 
 	public void update() 
@@ -54,18 +59,27 @@ public class Speeder implements Entity{
 				init = true;
 				y -= 64;
 			}
-			if(velX > 10)	
-				velX = 10;
+			if(velX > 7)	
+				velX = 7;
+			if(velX < -2)
+				velX = -2;
 			
 			velY = gravity;
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_D))
 			{
-				velX += 2;
+				velX += 0.1;
+			}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_D))
+			{
+				if(velX > 0)
+					velX *= 0.95f;
+				if(velX < 0.1f)
+					velX = 0;
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_A))
 			{
-				velX -= 0.2;
+				velX -= 0.5f;
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_X))
 			{
@@ -76,14 +90,15 @@ public class Speeder implements Entity{
 			y += velY;
 			
 			mapCollision();
+			calcAngle();
 		}
 	}
 
 	public void draw() 
 	{
-		drawQuadImage(imageRight, x, y, width, height);
+		drawQuadImageRot2(imageRight, x, y, width, height, angle);
 		if(enabled)
-			drawQuadImage(imagePlayer, x + 50, y - 35, 110, 125);
+			drawQuadImageRot2(imagePlayer, x + 50, y - 35, 110, 125, angle);
 		
 		//drawBounds();
 	}
@@ -96,28 +111,63 @@ public class Speeder implements Entity{
 		{
 			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), t.getWidth(), t.getHeight());
 			
+			if(r.intersects(rampSensor))
+			{
+				if(t.getType() == TileType.Ramp_Start)
+				{
+					angle = 340;
+					//System.out.println(y + " " + ((x+TILE_SIZE - t.getX())/2));
+					y = (t.getY() - TILE_SIZE) - ((x+(width/2) - t.getX())/2);
+					return;
+				}else if(t.getType() == TileType.Ramp_End)
+				{
+					angle = 340;
+					//System.out.println(y + " " + ((x+TILE_SIZE - t.getX())));
+					y = (t.getY() - TILE_SIZE) - ((x+(width/2) - t.getX()))-32;
+					return;
+				}
+			}
+			
 			if(r.intersects(rectTop))
 			{
+				angle = 0;
 				velY = gravity;
 				y = (float) (r.getY() + t.getHeight());
 				return;
 			}
 			if(r.intersects(rectLeft))
 			{
-				velX = 0;
-				x = (float) (r.getX() + r.getWidth() - 20);
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+				{
+					angle = 0;
+					velX = 0;
+					x = (float) (r.getX() + r.getWidth() - 20);
+				}
 			}
 			if(r.intersects(rectRight))
 			{
-				velX = 0;
-				x = (float) (r.getX() - width) + 20;
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+				{
+					angle = 0;
+					velX = 0;
+					x = (float) (r.getX() - width) + 20;
+				}
 			}
 			if(r.intersects(rectBottom))
 			{
-				velY = 0;
-				y = (float) (r.getY() - height+1);
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+				{
+					angle = 0;
+					velY = 0;
+					y = (float) (r.getY() - height+1);
+				}
 			}
 		}
+	}
+	
+	private void calcAngle()
+	{
+		
 	}
 	
 	private void updateBounds()
@@ -126,6 +176,8 @@ public class Speeder implements Entity{
 		this.rectRight.setBounds((int)x + width - 24, (int)y + 4, 4, height - 18); // right
 		this.rectTop.setBounds((int)x + 24, (int)y, width -48, 4); // top
 		this.rectBottom.setBounds((int)x + 24, (int)y + height - 4, width - 48, 4); // bottom
+		
+		this.rampSensor.setBounds((int)x + (width/2)-2, (int)y + height - 16, 4, 4); // sensor
 	}
 	
 	@SuppressWarnings("unused")
@@ -135,6 +187,8 @@ public class Speeder implements Entity{
 		drawQuad((int)x + width - 24, (int)y + 4, 4, height - 18); // right
 		drawQuad((int)x + 24, (int)y, width -48, 4); // top
 		drawQuad((int)x + 24, (int)y + height - 4, width - 48, 4); // bottom
+		
+		drawQuad((int)x + (width/2)-2, (int)y + height - 16, 4, 4); // sensor
 	}
 	
 	private void playerExitSpeeder()
@@ -142,8 +196,8 @@ public class Speeder implements Entity{
 		enabled = false;
 		handler.setCurrentEntity(handler.player);
 		handler.getStatemanager().getGame().setCamera(new Camera(handler.getCurrentEntity()));
-		handler.player.setX(x + width/4);
-		handler.player.setY(y + height / 3);
+		handler.player.setX(x + width/2 - TILE_SIZE);
+		handler.player.setY(y - TILE_SIZE/2);
 		handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
 	}
 
