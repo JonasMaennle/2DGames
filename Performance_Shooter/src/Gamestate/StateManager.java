@@ -93,7 +93,7 @@ public class StateManager {
 		default:
 			break;
 		}
-		game.setCamera(new Camera(handler.player));
+		game.setCamera(new Camera(handler.getCurrentEntity()));
 		game.setBackgroundHandler(new BackgroundHandler(handler.player));
 	}
 	

@@ -195,9 +195,42 @@ public class Leveler {
 				{
 					grid.setTile(x, y, TileType.TreeBig_07);
 				}
-				if(red == 0 && green == 70 && blue == 0)
+				// Redwood
+				if(red == 180 && green == 55 && blue == 0)
 				{
-					grid.setTile(x, y, TileType.TreeBig_08);
+					grid.setTile(x, y, TileType.RedWood_01);
+				}
+				if(red == 170 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_02);
+				}
+				if(red == 160 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_03);
+				}
+				if(red == 150 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_04);
+				}
+				if(red == 140 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_05);
+				}
+				if(red == 130 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_06);
+				}
+				if(red == 120 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_07);
+				}
+				if(red == 110 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_08);
+				}
+				if(red == 100 && green == 55 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.RedWood_09);
 				}
 			}
 		}

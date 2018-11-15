@@ -8,14 +8,15 @@ public class ParticleEvent {
 	private CopyOnWriteArrayList<Particle> list;
 	private Random rand;
 	
-	public ParticleEvent(int startX, int startY, int number, String color)
+	public ParticleEvent(int startX, int startY, int number, String color, String modus)
 	{
 		this.list = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
 		for(int i = 0; i < number; i++)
 		{
-			// Particle(int x, int y, int width, int height, float velX, float velY, float speed)
-			list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-5, rand.nextInt(5)+5, color));
+			// 										Particle(int x, int y, int width, int height, float velX, float velY, float speed)
+			if(modus.equals("normal"))list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-5, rand.nextInt(5)+5, color));
+			if(modus.equals("small"))list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-10, rand.nextInt(5)+3, color));
 		}
 	}
 	

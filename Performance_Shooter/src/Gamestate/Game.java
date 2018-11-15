@@ -140,4 +140,8 @@ public class Game {
 	{
 		this.backgroundHandler = bh;
 	}
+
+	public Camera getCamera() {
+		return camera;
+	}
 }

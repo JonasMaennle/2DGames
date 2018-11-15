@@ -27,6 +27,7 @@ public class Particle {
 		
 		if(color.equals("gray"))particles = quickLoaderImage("particles/Rock_" + rand.nextInt(5));
 		if(color.equals("brown"))particles = quickLoaderImage("particles/Dirt_" + rand.nextInt(5));
+		if(color.equals("red"))particles = quickLoaderImage("particles/Blood_" + rand.nextInt(5));
 		
 		if(this.velX == 0)
 			this.velX = rand.nextInt(10)+1;

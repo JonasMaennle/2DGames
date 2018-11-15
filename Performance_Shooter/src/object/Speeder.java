@@ -15,6 +15,7 @@ import Gamestate.StateManager;
 import Gamestate.StateManager.GameState;
 import data.Camera;
 import data.Handler;
+import data.ParticleEvent;
 import data.Tile;
 
 public class Speeder implements Entity{
@@ -99,6 +100,7 @@ public class Speeder implements Entity{
 			y += velY;
 			
 			mapCollision();
+			hitEnemy();
 		}
 	}
 
@@ -200,6 +202,20 @@ public class Speeder implements Entity{
 			}
 		}else{
 			frameCount = 120;
+		}
+	}
+	
+	private void hitEnemy()
+	{
+		//handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray", "normal"));
+		for(GunganEnemy g : handler.gunganList)
+		{
+			Rectangle enemyBounds = new Rectangle((int)g.getX(), (int)g.getY(), g.getWidth(), g.getHeight());
+			if(enemyBounds.intersects(hitBox))
+			{
+				handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, "red", "small"));
+				handler.gunganList.remove(g);
+			}
 		}
 	}
 	

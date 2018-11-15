@@ -8,7 +8,11 @@ public enum TileType {
 	Grass_Round_Half("Grass_Round_Half", 100, TILE_SIZE, TILE_SIZE),Grass_Left_Half("Grass_Left_Half", 100, TILE_SIZE, TILE_SIZE),Grass_Right_Half("Grass_Right_Half", 100, TILE_SIZE, TILE_SIZE),Grass_Flat_Half("Grass_Flat_Half", 100, TILE_SIZE, TILE_SIZE),
 	
 	TreeBig_01("tree_01", 0, 448, 640),TreeBig_02("tree_02", 0, 448, 640),TreeBig_03("tree_03", 0, 256, 640),TreeBig_04("tree_04", 0, 256, 640),TreeBig_05("tree_05", 0, 320, 384),
-	TreeBig_06("tree_06", 0, 196, 320),TreeBig_07("tree_07", 0, 348, 448),TreeBig_08("tree_08", 0, 128, 196),
+	TreeBig_06("tree_06", 0, 196, 320),TreeBig_07("tree_07", 0, 348, 448),
+	
+	RedWood_01("redwood_01", 0, 448, 640),RedWood_02("redwood_02", 0, 448, 640),RedWood_03("redwood_03", 0, 448, 640),
+	RedWood_04("redwood_04", 0, 384, 640),RedWood_05("redwood_05", 0, 384, 512),RedWood_06("redwood_06", 0, 384, 512),
+	RedWood_07("redwood_01", 0, 348, 512),RedWood_08("redwood_08", 0, 256, 384),RedWood_09("redwood_01", 0, 512, 768),
 	
 	TreeStump_Left("tree_stump_left", 100, TILE_SIZE, TILE_SIZE),TreeStump_Right("tree_stump_right", 100, TILE_SIZE, TILE_SIZE),TreeStump_Center("tree_stump_center", 100, TILE_SIZE, TILE_SIZE),
 	

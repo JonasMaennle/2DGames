@@ -29,7 +29,7 @@ public class Camera {
 		
 		//System.out.println(getTopBoarder() + " " + getBottomBoarder());
 	}
-	
+
 	public void reset()
 	{
 		MOVEMENT_X = 0;
