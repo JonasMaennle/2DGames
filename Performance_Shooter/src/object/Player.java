@@ -23,7 +23,7 @@ import java.awt.Rectangle;
 public class Player implements Entity{
 	
 	private Weapon weapon;
-	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
+	private Rectangle rectLeft, rectRight, rectTop, rectBottom, rectRampSensor;
 	private Handler handler;
 	
 	protected float x, y, velX, velY;
@@ -67,6 +67,7 @@ public class Player implements Entity{
 		this.rectRight = new Rectangle((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
+		this.rectRampSensor = new Rectangle(1, 1, 1, 1);
 		this.weapon = new Weapon(x, y, 70, 35, this, handler);
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
@@ -228,7 +229,7 @@ public class Player implements Entity{
 		}
 		
 		weapon.draw();
-		drawBounds();
+		//drawBounds();
 	}
 	
 	private void mapCollision()
@@ -239,6 +240,21 @@ public class Player implements Entity{
 		{
 			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), t.getWidth(), t.getHeight());
 			
+			if(r.intersects(rectRampSensor))
+			{
+				if(t.getType() == TileType.Ramp_Start)
+				{
+					//System.out.println(y + " " + ((x+TILE_SIZE - t.getX())/2));
+					y = (t.getY() - TILE_SIZE) - ((x+(TILE_SIZE/2) - t.getX())/2);
+					return;
+				}else if(t.getType() == TileType.Ramp_End)
+				{
+					//System.out.println(y + " " + ((x+TILE_SIZE - t.getX())));
+					y = (t.getY() - TILE_SIZE) - ((x+TILE_SIZE - t.getX()));
+					return;
+				}
+			}
+			
 			if(r.intersects(rectTop))
 			{
 				velY = gravity;
@@ -248,30 +264,36 @@ public class Player implements Entity{
 			}
 			if(r.intersects(rectLeft))
 			{
-				velX = 0;
-				x = (float) (r.getX() + r.getWidth() - 11);
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+				{
+					velX = 0;
+					x = (float) (r.getX() + r.getWidth() - 11);
+				}
 			}
 			if(r.intersects(rectRight))
 			{
-
-				if(t.getType() == TileType.Ramp_Start)
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
 				{
-					System.out.println(y + " " + (((t.getY()+t.getHeight()) + ((t.getX() - (x+TILE_SIZE)))) - TILE_SIZE*2));
-					y = t.getY()+(t.getHeight()) + (t.getX() - (x+TILE_SIZE))  - TILE_SIZE*2;
-				}else{
 					velX = 0;
 					x = (float) (r.getX() - TILE_SIZE) + 11;
 				}
 			}
 			if(r.intersects(rectBottom))
 			{
-				if(t.getType() == TileType.Ramp_Start)
+				if(t.getType() == TileType.Ramp_End)
 				{
-
-				}else{
+					if(rectRampSensor.getX() > t.getX()+32)
+					{
+						y = (float) (r.getY() - TILE_SIZE * 2);
+						return;
+					}
+				}
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+				{
 					velY = 0;
 					y = (float) (r.getY() - TILE_SIZE * 2);
 				}
+
 
 				jumping = false;
 				if(t.getType() == TileType.Grass_Round_Half)
@@ -332,6 +354,8 @@ public class Player implements Entity{
 		drawQuad(x + TILE_SIZE - 14, y + 4, 4, (TILE_SIZE * 2) - 16); // right
 		drawQuad(x + 14, y, TILE_SIZE - 28, 4); // top
 		drawQuad(x + 14, y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
+		
+		drawQuad((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
 	}
 	
 	private void jump()
@@ -364,6 +388,8 @@ public class Player implements Entity{
 		this.rectRight.setBounds((int)x + TILE_SIZE - 14,(int) y + 4, 4, (TILE_SIZE * 2) - 16); // right
 		this.rectTop.setBounds((int)x + 14,(int) y, TILE_SIZE - 28, 4); // top
 		this.rectBottom.setBounds((int)x + 14,(int) y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
+		
+		this.rectRampSensor.setBounds((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
 	}
 
 	public void damage(int amount) 

@@ -8,6 +8,7 @@ import static helpers.Graphics.*;
 import java.awt.Rectangle;
 
 import Enity.Entity;
+import data.Camera;
 import data.Handler;
 import data.Tile;
 
@@ -53,16 +54,22 @@ public class Speeder implements Entity{
 				init = true;
 				y -= 64;
 			}
-			velX = 0;
+			if(velX > 10)	
+				velX = 10;
+			
 			velY = gravity;
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_D))
 			{
-				velX += 1;
+				velX += 2;
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_A))
 			{
 				velX -= 0.2;
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_X))
+			{
+				playerExitSpeeder();
 			}
 			
 			x += velX * speed;
@@ -128,6 +135,16 @@ public class Speeder implements Entity{
 		drawQuad((int)x + width - 24, (int)y + 4, 4, height - 18); // right
 		drawQuad((int)x + 24, (int)y, width -48, 4); // top
 		drawQuad((int)x + 24, (int)y + height - 4, width - 48, 4); // bottom
+	}
+	
+	private void playerExitSpeeder()
+	{
+		enabled = false;
+		handler.setCurrentEntity(handler.player);
+		handler.getStatemanager().getGame().setCamera(new Camera(handler.getCurrentEntity()));
+		handler.player.setX(x + width/4);
+		handler.player.setY(y + height / 3);
+		handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
 	}
 
 	@Override
