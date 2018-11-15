@@ -59,6 +59,8 @@ public class Handler {
 		if(speeder != null)
 		{
 			speeder.update();
+			if(speeder.isOutOfMap())
+				statemanager.resetCurrentLevel();
 		}
 
 		// update Level Goal

@@ -155,6 +155,11 @@ public class Leveler {
 					grid.setTile(x, y, TileType.TreeStump_Left);
 					handler.obstacleList.add(grid.getTile(x, y));
 				}
+				if(red == 85 && green == 0 && blue == 127) // Stump Center
+				{
+					grid.setTile(x, y, TileType.TreeStump_Center);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
 				if(red == 90 && green == 0 && blue == 127) // Stump Right
 				{
 					grid.setTile(x, y, TileType.TreeStump_Right);

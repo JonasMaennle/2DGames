@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 import static helpers.Graphics.*;
+import static helpers.Leveler.getLevelHeight;
 import static helpers.Setup.TILE_SIZE;
 
 import java.awt.Rectangle;
@@ -35,7 +36,7 @@ public class Speeder implements Entity{
 		this.height = 128;
 		this.velX = 0;
 		this.velY = 0;
-		this.speed = 4.0f;
+		this.speed = 3.5f;
 		this.gravity = 8;
 		this.enabled = false;
 		this.alive = true;
@@ -242,6 +243,13 @@ public class Speeder implements Entity{
 		handler.player.setX(x + width/2 - TILE_SIZE);
 		handler.player.setY(y - TILE_SIZE/2);
 		handler.getStatemanager().getGame().getBackgroundHandler().setEntity(handler.getCurrentEntity());
+	}
+	
+	public boolean isOutOfMap()
+	{
+		if((getLevelHeight() * TILE_SIZE) < y)
+			return true;
+		return false;
 	}
 
 	@Override
