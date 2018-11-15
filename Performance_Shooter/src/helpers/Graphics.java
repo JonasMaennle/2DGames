@@ -111,7 +111,7 @@ public class Graphics {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		image.bind();
-		glTranslatef(x + (width / 2) + MOVEMENT_X, y + height/2 + MOVEMENT_Y, 0);
+		glTranslatef(x + (width / 2) + MOVEMENT_X, y + (height * 0.75f) + MOVEMENT_Y, 0);
 		glRotatef(angle, 0, 0, 1);
 		glTranslatef(- width / 2, - height / 2, 0);
 				

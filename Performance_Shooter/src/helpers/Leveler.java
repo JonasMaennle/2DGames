@@ -149,6 +149,17 @@ public class Leveler {
 				{
 					handler.levelGoal = new Goal(x * TILE_SIZE, y * TILE_SIZE);
 				}
+		// Tree stump
+				if(red == 80 && green == 0 && blue == 127) // Stump Left
+				{
+					grid.setTile(x, y, TileType.TreeStump_Left);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
+				if(red == 90 && green == 0 && blue == 127) // Stump Right
+				{
+					grid.setTile(x, y, TileType.TreeStump_Right);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
 		// Decoration Tile -> Tree
 				// Dark Green -> Tree
 				if(red == 0 && green == 125 && blue == 0)
