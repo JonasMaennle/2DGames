@@ -141,7 +141,7 @@ public class Editor {
 			graphics.setPaint(new Color(255, 255, 255));
 			graphics.fillRect(0, 0, bi.getWidth(), bi.getHeight());
 			
-			ImageIO.write(bi, "PNG", new File("res/maps/testeeeeee.PNG"));
+			ImageIO.write(bi, "PNG", new File("res/maps/map_0.PNG"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
