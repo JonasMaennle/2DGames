@@ -4,6 +4,10 @@ import java.awt.image.BufferedImage;
 
 import static Gamestate.StateManager.*;
 import static helpers.Setup.*;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -236,6 +240,28 @@ public class Leveler {
 		}
 		handler.setCurrentEntity(handler.player);
 		return grid;
+	}
+	
+	public static void saveMap(String mapName, TileGrid grid)
+	{
+		String mapData = "";
+		for(int i = 0; i < grid.getTilesWide(); i++)
+		{
+			for(int j = 0; j < grid.getTilesHigh(); j++)
+			{
+				//mapData += getTileID(grid.getTile(i, j));
+			}
+		}
+		
+		try {
+			File file = new File(mapName);
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+			bw.write(mapData);
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("saved");
 	}
 	
 	public static BufferedImage bufferedImageLoader(String path)

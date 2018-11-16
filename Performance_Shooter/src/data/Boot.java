@@ -8,7 +8,7 @@ import static helpers.Setup.*;
 
 public class Boot {
 	
-	public Boot()//com
+	public Boot()
 	{
 		beginSession();
 		StateManager statemanager = new StateManager();

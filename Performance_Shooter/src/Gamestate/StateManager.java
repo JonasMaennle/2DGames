@@ -9,10 +9,10 @@ import static helpers.Leveler.*;
 public class StateManager {
 	
 	public static enum GameState{
-		MAINMENU, GAME, DEAD, LOADING
+		MAINMENU, GAME, DEAD, LOADING, EDITOR
 	}
 	
-	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.EDITOR; // initial state -> gameState = GameState.MAINMENU;
 	public static int CURRENT_LEVEL = 2;
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
@@ -24,6 +24,7 @@ public class StateManager {
 	private Handler handler;
 	private LoadingScreen loadingScreen;
 	private MusicHandler musicHandler;
+	private Editor editor;
 	
 	public StateManager()
 	{
@@ -32,6 +33,7 @@ public class StateManager {
 		this.mainMenu = new MainMenu();	
 		this.handler = new Handler(this);
 		this.game = new Game(handler);
+		this.editor = new Editor(handler);
 		//loadLevel();
 	}
 	
@@ -43,6 +45,7 @@ public class StateManager {
 		case MAINMENU:
 			mainMenu.update();
 			break;
+			
 		case GAME:
 			if(CURRENT_LEVEL == 2) // Just for init state = GAME
 			{
@@ -51,14 +54,21 @@ public class StateManager {
 			}
 			game.update();
 			break;
+			
 		case DEAD:
 			game.deathScreen();
 			break;
+			
 		case LOADING:
 			loadingScreen.update();
 			break;
-		default:
 			
+		case EDITOR:
+			editor.update();
+			break;
+			
+		default:
+			System.out.println("No gamestate found!");
 			break;
 		}
 		

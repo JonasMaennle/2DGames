@@ -228,6 +228,10 @@ public class MainMenu {
 				{
 					StateManager.setState(GameState.LOADING);
 				}
+				if(selectedButton == 1)
+				{
+					StateManager.setState(GameState.EDITOR);
+				}
 				if(selectedButton == 2)
 				{
 					AL.destroy();
