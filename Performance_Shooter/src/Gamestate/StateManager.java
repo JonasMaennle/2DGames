@@ -12,8 +12,8 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, LOADING, EDITOR
 	}
 	
-	public static GameState gameState = GameState.EDITOR; // initial state -> gameState = GameState.MAINMENU;
-	public static int CURRENT_LEVEL = 2;
+	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static int CURRENT_LEVEL = 1;
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
@@ -33,7 +33,7 @@ public class StateManager {
 		this.mainMenu = new MainMenu();	
 		this.handler = new Handler(this);
 		this.game = new Game(handler);
-		this.editor = new Editor(handler);
+		//this.editor = new Editor(handler);
 		//loadLevel();
 	}
 	
@@ -47,7 +47,7 @@ public class StateManager {
 			break;
 			
 		case GAME:
-			if(CURRENT_LEVEL == 2) // Just for init state = GAME
+			if(CURRENT_LEVEL == 1) // Just for init state = GAME
 			{
 				gameState = GameState.LOADING;
 				return;

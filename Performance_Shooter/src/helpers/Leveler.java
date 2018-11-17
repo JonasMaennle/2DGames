@@ -7,9 +7,11 @@ import static helpers.Setup.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
 
 import Enity.TileType;
 import data.Handler;
@@ -268,7 +270,9 @@ public class Leveler {
 	{
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(Leveler.class.getClass().getResource(path));
+			//image = ImageIO.read(new FileInputStream(path));
+			image = ImageIO.read(Leveler.class.getClass().getResourceAsStream(path));
+			//image = ImageIO.read(Leveler.class.getClass().getResource(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
