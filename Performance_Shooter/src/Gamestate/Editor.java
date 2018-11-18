@@ -23,9 +23,12 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.imageout.ImageOut;
+import org.newdawn.slick.util.BufferedImageUtil;
 
 import Enity.Entity;
 import Enity.TileType;
+import Gamestate.StateManager.GameState;
 import UI.UI;
 import UI.UI.Menu;
 import data.Handler;
@@ -39,7 +42,7 @@ public class Editor {
 
 	private TileGrid grid;
 
-	private UI editorUI, menuUI;
+	private UI editorUI, menuUI, controllsUI;
 	private Menu editorMainMenu;
 	private Image menuBackground, space, tile_grid, menu_background_filter;
 	private Handler handler;
@@ -121,7 +124,7 @@ public class Editor {
 			{
 				if (Keyboard.getEventKey() == Keyboard.KEY_O && Keyboard.getEventKeyState()) 
 				{
-					overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
+					//overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
 				}
 			}
 
@@ -251,6 +254,7 @@ public class Editor {
 			drawBackgroundGrid();
 			drawQuadImageStatic(menu_background_filter, Display.getWidth()-300, 0, 512, HEIGHT);
 			editorUI.draw();
+			controllsUI.draw();
 			if(selectedEntity != null)
 				selectedEntity.draw();
 			
@@ -435,23 +439,27 @@ public class Editor {
 					if(player != null)
 					{
 						graphics.setPaint(new Color(255,0,0));
-						graphics.fillRect((int)player.getX()/TILE_SIZE, (int)player.getY()/TILE_SIZE + 1, 1, 1);
+						graphics.fillRect((int)player.getX()/TILE_SIZE, (int)player.getY()/TILE_SIZE, 1, 1);
 					}
 					
 					if(speeder != null)
 					{
 						graphics.setPaint(new Color(0,255,255));
-						graphics.fillRect((int)speeder.getX() / TILE_SIZE, (int)speeder.getY() / TILE_SIZE + 1, 1, 1);
+						graphics.fillRect((int)speeder.getX() / TILE_SIZE, (int)speeder.getY() / TILE_SIZE, 1, 1);
 					}
 					
 					for(GunganEnemy g : enemyList)
 					{
 						graphics.setPaint(new Color(0,255,120));
-						graphics.fillRect((int)g.getX() / TILE_SIZE, (int)g.getY() / TILE_SIZE + 1, 1, 1);
+						graphics.fillRect((int)g.getX() / TILE_SIZE, (int)g.getY() / TILE_SIZE, 1, 1);
 					}
 				}
 			}
+			//Image tmp = new Image(BufferedImageUtil.getTexture("", bi));
+
+			//ImageOut.write(tmp, "res/maps/editor_map_" + activeLevel + ".png");
 			ImageIO.write(bi, "PNG", new File("res/maps/editor_map_" + activeLevel + ".PNG"));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -519,6 +527,10 @@ public class Editor {
 		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
 		
 		editorMainMenu.quickAdd("Speeder", "player/endor_speeder_right", 256, 93);
+		
+		controllsUI = new UI();
+		controllsUI.addButton("play", "editor/button_play", (int)getRightBoarder()-280, 0, 128, 128);
+		controllsUI.addButton("save", "editor/button_save", (int)getRightBoarder()-140, 0, 128, 128);
 	}
 	
 	private void checkClickedButtons()
@@ -532,6 +544,20 @@ public class Editor {
 			
 			if(mouseClicked && !mouseDown)
 			{
+				if(controllsUI.isButtonClicked("play"))
+				{
+					overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
+					try {Thread.sleep(200);
+					} catch (InterruptedException e) {
+						e.printStackTrace();}
+					StateManager.CURRENT_LEVEL = -activeLevel -1;
+					StateManager.gameState = GameState.LOADING;
+				}
+				if(controllsUI.isButtonClicked("save"))
+				{
+					overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
+				}
+				
 				if(editorMainMenu.isButtonClicked("Grass_Flat")){
 					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Flat);
 					selectedType = TileType.Grass_Flat;

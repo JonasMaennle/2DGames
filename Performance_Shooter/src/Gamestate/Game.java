@@ -71,8 +71,7 @@ public class Game {
 	{
 		ingame_HUD.draw();
 		ingame_HUD.drawString(5, HEIGHT-40, "FPS: " + StateManager.framesInLastSecond);
-		ingame_HUD.drawString(150, HEIGHT-40, " ");
-		
+		ingame_HUD.drawString(150, HEIGHT-40, " ");	
 	}
 	
 	private void setupUI()

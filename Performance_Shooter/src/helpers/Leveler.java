@@ -3,11 +3,6 @@ package helpers;
 import static helpers.Setup.*;
 import static helpers.Graphics.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
@@ -27,7 +22,7 @@ public class Leveler {
 	public static TileGrid loadMap(Handler handler, String path)
 	{
 		Image image = quickLoaderImage(path);
-		
+		//System.out.println(image.getResourceReference());
 		int w = image.getWidth();
 		int h = image.getHeight();
 		
@@ -178,35 +173,6 @@ public class Leveler {
 					handler.obstacleList.add(grid.getTile(x, y));
 				}
 		// Decoration Tile -> Tree
-				// Dark Green -> Tree
-//				if(red == 0 && green == 125 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.TreeBig_01);
-//				}
-//				if(red == 0 && green == 120 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.TreeBig_02);
-//				}
-//				if(red == 0 && green == 115 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.TreeBig_03);
-//				}
-//				if(red == 0 && green == 110 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.TreeBig_04);
-//				}
-//				if(red == 0 && green == 100 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.TreeBig_05);
-//				}
-//				if(red == 0 && green == 90 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.TreeBig_06);
-//				}
-//				if(red == 0 && green == 80 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.TreeBig_07);
-//				}
 				// Redwood
 				if(red == 180 && green == 55 && blue == 0)
 				{
@@ -248,27 +214,5 @@ public class Leveler {
 		}
 		handler.setCurrentEntity(handler.player);
 		return grid;
-	}
-	
-	public static void saveMap(String mapName, TileGrid grid)
-	{
-		String mapData = "";
-		for(int i = 0; i < grid.getTilesWide(); i++)
-		{
-			for(int j = 0; j < grid.getTilesHigh(); j++)
-			{
-				//mapData += getTileID(grid.getTile(i, j));
-			}
-		}
-		
-		try {
-			File file = new File(mapName);
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			bw.write(mapData);
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("saved");
 	}
 }

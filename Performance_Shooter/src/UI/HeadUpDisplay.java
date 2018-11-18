@@ -67,6 +67,7 @@ public class HeadUpDisplay {
 	
 	public void drawCustomNumber(int number, int x, int y, int width, int height)
 	{
+		if(number < 0)number *= -1;
 		String num = String.valueOf(number);
 		int offset = 0;
 		for(int i = 0; i < num.length(); i++)

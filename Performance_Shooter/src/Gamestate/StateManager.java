@@ -12,8 +12,8 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, LOADING, EDITOR
 	}
 	
-	public static GameState gameState = GameState.EDITOR; // initial state -> gameState = GameState.MAINMENU;
-	public static int CURRENT_LEVEL = 0;
+	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static int CURRENT_LEVEL = 1;
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
@@ -46,7 +46,7 @@ public class StateManager {
 			break;
 			
 		case GAME:
-			if(CURRENT_LEVEL == 0) // Just for init state = GAME
+			if(CURRENT_LEVEL == 1) // Just for init state = GAME
 			{
 				gameState = GameState.LOADING;
 				return;
@@ -89,6 +89,7 @@ public class StateManager {
 		handler.wipe();
 
 		switch (CURRENT_LEVEL) {
+		// Szenario maps
 		case 1:
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
 			break;
@@ -99,6 +100,19 @@ public class StateManager {
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
 			break;
 
+		// Editor Maps
+		case -1:
+			handler.setMap(loadMap(handler, "maps/editor_map_" + (CURRENT_LEVEL * -1)));
+			break;
+		case -2:
+			handler.setMap(loadMap(handler, "maps/editor_map_" + (CURRENT_LEVEL * -1)));
+			break;
+		case -3:
+			handler.setMap(loadMap(handler, "maps/editor_map_" + (CURRENT_LEVEL * -1)));
+			break;
+		case -4:
+			handler.setMap(loadMap(handler, "maps/editor_map_" + (CURRENT_LEVEL * -1)));
+			break;
 		default:
 			break;
 		}

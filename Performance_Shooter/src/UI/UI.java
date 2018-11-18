@@ -95,7 +95,7 @@ public class UI {
 	public void draw()
 	{
 		for(Button b : buttonList)
-			drawQuadImage(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+			drawQuadImageStatic(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
 		
 		for(Menu m: menuList)
 			m.draw();
