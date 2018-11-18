@@ -12,8 +12,8 @@ public class TileGrid {
 	
 	public TileGrid()
 	{
-		this.tilesWide = getLevelWidth();//WIDTH / TILE_SIZE;
-		this.tilesHigh = getLevelHeight();//HEIGHT / TILE_SIZE; 
+		this.tilesWide = TILES_WIDTH;//WIDTH / TILE_SIZE;
+		this.tilesHigh = TILES_HEIGHT;//HEIGHT / TILE_SIZE; 
 		map = new Tile[tilesWide][tilesHigh];
 	}
 	
@@ -31,9 +31,14 @@ public class TileGrid {
 	public Tile getTile(int xPlace, int yPlace)
 	{
 		if(xPlace < tilesWide && yPlace < tilesHigh && xPlace >= 0 && yPlace >= 0)
-			return map[xPlace][yPlace];
+		{
+			if(map[xPlace][yPlace] == null)
+				return new Tile(0, 0, 0, 0, TileType.NULL);
+			else
+				return map[xPlace][yPlace];
+		}
 		else
-			return new Tile(0, 0, 0, 0, TileType.NULL);
+			return null; //new Tile(0, 0, 0, 0, TileType.NULL);
 	}
 	
 	public void draw()

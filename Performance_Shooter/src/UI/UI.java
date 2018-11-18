@@ -137,17 +137,17 @@ public class UI {
 			setButton(b);
 		}
 		
-		public void quickAdd(String name, String textureName)
+		public void quickAdd(String name, String textureName, int width, int height)
 		{
-			Button b = new Button(name, quickLoaderImage(textureName), 0, 0);
+			Button b = new Button(name, quickLoaderImage(textureName), 0, 0, width, height);
 			setButton(b);
 		}
 		
 		private void setButton(Button b)
 		{
 			if(optionsWidth != 0)
-				b.setY(y + (buttonAmount / optionsWidth) * TILE_SIZE);
-			b.setX(x + (buttonAmount % 2) * (padding + TILE_SIZE) + padding);
+				b.setY(y + (buttonAmount / optionsHeight) * TILE_SIZE);
+			b.setX(x + (buttonAmount % optionsWidth) * (padding + TILE_SIZE) + padding);
 			buttonAmount++;
 			menuButtons.add(b);
 		}
@@ -156,7 +156,7 @@ public class UI {
 		{
 			for(Button b : menuButtons)
 			{
-				drawQuadImage(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
+				drawQuadImageStatic(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight());
 			}
 		}
 		

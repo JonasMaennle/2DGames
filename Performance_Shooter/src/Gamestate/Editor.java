@@ -3,12 +3,16 @@ package Gamestate;
 import static helpers.Graphics.*;
 import static helpers.Leveler.*;
 import static helpers.Setup.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -16,78 +20,216 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.TrueTypeFont;
 
+import Enity.Entity;
 import Enity.TileType;
 import UI.UI;
 import UI.UI.Menu;
 import data.Handler;
+import data.Tile;
 import data.TileGrid;
+import object.GunganEnemy;
+import object.Player;
+import object.Speeder;
 
 public class Editor {
 
 	private TileGrid grid;
-	private int index;
-	private TileType[] types;
-	private UI editorUI;
-	private Menu tilePickerMenu;
-	private Image menuBackground, gitter;
+
+	private UI editorUI, menuUI;
+	private Menu editorMainMenu;
+	private Image menuBackground, space, tile_grid, menu_background_filter;
 	private Handler handler;
+	private int activeLevel, menuY;
+	private String input_width, input_height;
+	private boolean editor_state, createLevel_state, released, insertWidth, insertHeight, menu_state;
+	private String input;
+	private TrueTypeFont font;
+	private Font awtFont;
+	private boolean mouseDown;
+	
+	private Entity selectedEntity;
+	private TileType selectedType;
+	private Player player;
+	private Speeder speeder;
+	private CopyOnWriteArrayList<GunganEnemy> enemyList;
 
 	public Editor(Handler handler) 
 	{
 		this.handler = handler;
+		this.activeLevel = 0;
+		this.editor_state = false;
+		this.createLevel_state = false;
 
-		this.grid = loadMap(this.handler, 0);//new TileGrid();
+		this.awtFont = new Font("Arial", Font.BOLD, 24);
+		this.font = new TrueTypeFont(awtFont, false);
 
+		this.enemyList = new CopyOnWriteArrayList<>();
+		this.mouseDown = true;;
+		this.menuY = 200;
+		this.input_width = "";
+		this.input_height = "";
+		this.input = "";
+		this.released = true;
+		this.insertWidth = true;
+		this.insertHeight = true;
+		this.menu_state = true;
 		
-		this.index = 0;
-		this.types = new TileType[4];
-		this.types[0] = TileType.Grass_Flat;
-		this.types[1] = TileType.Dirt_Basic;
-		this.types[2] = TileType.Rock_Basic;
-		this.types[3] = TileType.Default;
-		this.menuBackground = quickLoaderImage("background/menu_background");
-		this.gitter = quickLoaderImage("background/menu_background_gitter");
-		createLevelFile(600, 100);
+		this.menu_background_filter = quickLoaderImage("editor/menu_background");
+		this.tile_grid = quickLoaderImage("editor/grid");
+		this.space = quickLoaderImage("intro/Background_Space");
+		this.menuBackground = quickLoaderImage("editor/background_white");
+		Mouse.setGrabbed(false);
+		Mouse.setCursorPosition(WIDTH/2, HEIGHT/2);
+		//createLevelFile(200, 10);
 		setupUI();
-	}
-	
-	private void setupUI()
-	{
-		editorUI = new UI();
-		editorUI.createMenu("TilePicker", WIDTH, 100, 192, HEIGHT, 2, 0);
-		tilePickerMenu = editorUI.getMenu("TilePicker");
-		tilePickerMenu.quickAdd("Grass", "tiles/Grass_Flat");
-		tilePickerMenu.quickAdd("Dirt", "tiles/Dirt_Basic");
-		tilePickerMenu.quickAdd("Rock", "tiles/Rock_Basic_0");
-		tilePickerMenu.quickAdd("Default", "tiles/Filler");
 	}
 
 	public void update() 
 	{
 		draw();
 
-		// Handle Mouse Input
-		if(Mouse.next())
+		if(createLevel_state)
 		{
-			boolean mouseClicked = Mouse.isButtonDown(0);
-			if(mouseClicked)
+			createLevelByUser();
+		}
+		
+		if(editor_state)
+		{	
+			checkClickedButtons();
+			// Handle Keyboad Input
+			if (Keyboard.isKeyDown(Keyboard.KEY_A)) 
 			{
-				if(tilePickerMenu.isButtonClicked("Grass"))
+				MOVEMENT_X += 64;
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_D)) 
+			{
+				MOVEMENT_X -= 64;
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_W)) 
+			{
+				MOVEMENT_Y += 64;
+			}
+			if (Keyboard.isKeyDown(Keyboard.KEY_S)) 
+			{
+				MOVEMENT_Y -= 64;
+			}
+			while(Keyboard.next())
+			{
+				if (Keyboard.getEventKey() == Keyboard.KEY_O && Keyboard.getEventKeyState()) 
 				{
-					index = 0;
-				}else if(tilePickerMenu.isButtonClicked("Dirt"))
+					overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
+				}
+			}
+
+			
+			if(selectedEntity != null)
+			{
+				selectedEntity.setX(Mouse.getX() - selectedEntity.getWidth()/2 - MOVEMENT_X);
+				selectedEntity.setY(HEIGHT - Mouse.getY() - selectedEntity.getHeight()/2 - MOVEMENT_Y);
+			}
+
+			
+			// Remove tile/entity
+			if(Mouse.isButtonDown(1))
+			{
+				setTile(TileType.NULL);
+				for(GunganEnemy g : enemyList)
 				{
-					index = 1;
-				}else if(tilePickerMenu.isButtonClicked("Water"))
+					if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y, 2, 2))
+					{
+						enemyList.remove(g);
+					}
+				}
+				if(player != null)
 				{
-					index = 2;
-				}else if(tilePickerMenu.isButtonClicked("Rock"))
+					if(checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y, 2, 2))
+					{
+						player = null;
+					}
+				}
+				if(selectedEntity != null)
 				{
-					index = 3;
-				}else{
-					setTile();
+					selectedEntity = null;
+					selectedType = null;
+				}
+				if(speeder != null)
+				{
+					if(checkCollision(speeder.getX(), speeder.getY(), speeder.getWidth(), speeder.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y, 2, 2))
+					{
+						speeder = null;
+					}
+				}
+			}
+			
+			
+			// draw tile
+			if(Mouse.isButtonDown(0)&& Mouse.getX()-MOVEMENT_X < getRightBoarder() - 300)
+			{
+				if(selectedType != null)setTile(selectedType);
+			}
+			
+			// Draw
+			if(!Mouse.isButtonDown(0) && selectedEntity != null &&  Mouse.getX()-MOVEMENT_X < getRightBoarder() - 350)
+			{
+				if(selectedEntity.getClass().getSimpleName().equals("Player"))
+				{
+					player = (Player) selectedEntity;
+					player.setX(Mouse.getX()-MOVEMENT_X - Mouse.getX()%TILE_SIZE);
+					player.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE);
+					selectedEntity = null;
+					return;
+				}
+				if(selectedEntity.getClass().getSimpleName().equals("GunganEnemy"))
+				{
+					GunganEnemy tmp = (GunganEnemy) selectedEntity; 
+					tmp.setX(Mouse.getX()-MOVEMENT_X - Mouse.getX()%TILE_SIZE);
+					tmp.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE);
+					enemyList.add(tmp);
+					selectedEntity = null;
+					return;
+				}
+				if(selectedEntity.getClass().getSimpleName().equals("Speeder"))
+				{
+					speeder = (Speeder) selectedEntity; 
+					speeder.setX(Mouse.getX()-MOVEMENT_X - Mouse.getX()%64);
+					speeder.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE);
+					selectedEntity = null;
+					return;
+				}
+			}
+		}
+		
+		if(menu_state)
+		{
+			// Handle Mouse Input
+			if(Mouse.next())
+			{
+				boolean mouseClicked = Mouse.isButtonDown(0);
+				if(mouseClicked)
+				{
+					if(menuUI.isButtonClicked("Map1"))
+					{
+						setUpNewMap(1);
+					}
+					
+					if(menuUI.isButtonClicked("Map2"))
+					{
+						setUpNewMap(2);
+					}
+					
+					if(menuUI.isButtonClicked("Map3"))
+					{
+						setUpNewMap(3);
+					}
+					
+					if(menuUI.isButtonClicked("Map4"))
+					{
+						setUpNewMap(4);
+					}
 				}
 			}
 		}
@@ -98,52 +240,391 @@ public class Editor {
 			Display.destroy();
 			System.exit(0);
 		}
-		
-		// Handle Keyboad Input
-		while (Keyboard.next()) {
-			if (Keyboard.getEventKey() == Keyboard.KEY_LEFT && Keyboard.getEventKeyState()) {
-				moveIndex();
-			}
-			if (Keyboard.getEventKey() == Keyboard.KEY_S && Keyboard.getEventKeyState())
-			{
-				saveMap("mapSmall", grid);
-			}
-		}
 	}
 	
 	private void draw()
 	{
-		drawQuadImage(menuBackground, 0, 0, 2048, 2048);
-		drawQuadImage(gitter, 0, 0, 2048, 2048);
-		grid.draw();
-		editorUI.draw();
+		if(editor_state)
+		{
+			drawQuadImageStatic(menuBackground, 0, 0, 2048, 2048);
+			grid.draw();
+			drawBackgroundGrid();
+			drawQuadImageStatic(menu_background_filter, Display.getWidth()-300, 0, 512, HEIGHT);
+			editorUI.draw();
+			if(selectedEntity != null)
+				selectedEntity.draw();
+			
+			if(player != null)
+				player.draw();
+			
+			for(GunganEnemy g : enemyList)
+			{
+				g.draw();
+			}
+			if(speeder != null)
+				speeder.draw();
+			
+		}else if(createLevel_state){
+			drawQuadImage(space, 0, 0, 2048, 2048);
+		}else if(menu_state){
+			drawQuadImage(space, 0, 0, 2048, 2048);
+			menuUI.draw();
+		}
 	}
 
-	private void setTile() 
+	private void setTile(TileType t) 
 	{
-		grid.setTile((int) Math.floor(Mouse.getX() / TILE_SIZE), (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE),types[index]);
+		if(null != grid.getTile((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE, (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE))
+		{
+			grid.setTile((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE, (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE, t);
+			
+		}
 	}
 	
-	// Allows editor to change which TileType is selected
-	private void moveIndex()
+	private void setUpNewMap(int map)
 	{
-		index++;
-		if(index > types.length - 1)
-			index = 0;
+		activeLevel = map;
+		menu_state = false;
+		editor_state = true;
+		createLevel_state = false;
+		this.grid = loadMap(this.handler, "maps/editor_map_" + activeLevel);
+		
+		// update editor non-tile game objects
+		if(handler.player != null)
+			player = handler.player;
+		if(handler.speeder != null)
+			speeder = handler.speeder;
+		if(handler.gunganList.size() != 0)
+			enemyList = handler.gunganList;
 	}
 	
-	private void createLevelFile(int width, int height)
+	private void createLevelByUser()
+	{
+		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && insertWidth)
+		{
+			insertWidth = false;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && !insertWidth && input_height.length() != 0)
+		{
+			insertHeight = false;
+		}
+
+		if(!getUserNumber().equals(""))
+		{
+			if(insertWidth)
+			{
+				input_width += Integer.valueOf(getUserNumber());
+				input = "";
+			}else{
+				input_height += Integer.valueOf(getUserNumber());
+				input = "";
+			}
+		}
+		
+		if(insertWidth)
+		{
+			drawString(WIDTH/3, HEIGHT/2, "Map Width(in 64x64 Tiles), min. 30: " + input_width);
+
+		}else{
+			drawString(WIDTH/3, HEIGHT/2, "Map Height(in 64x64 Tiles), min. 30: " + input_height);
+		}
+
+		// create map file if input is finished
+		if(!insertHeight && !insertWidth)
+		{
+			if(Integer.valueOf(input_width) > 30 && Integer.valueOf(input_height) > 30)
+			{
+				createLevel_state = false;
+				overrideLevel(Integer.valueOf(input_width), Integer.valueOf(input_height));
+				editor_state = true;
+				this.grid = loadMap(this.handler, "maps/editor_map_" + activeLevel);
+			}
+			else
+			{
+				insertWidth = true;
+				insertHeight = false;
+				input = "";
+				input_width = "";
+				input_height = "";
+				createLevel_state = false;
+			}
+		}
+		
+		//System.out.println(input_width);
+	}
+	
+	private String getUserNumber()
+	{
+		// Handle Keyboard Input
+//		if (Keyboard.getEventKey() == Keyboard.KEY_DOWN && Keyboard.getEventKeyState()) 
+//		{
+//			
+//		}
+		int key = Keyboard.getEventKey();
+		if(Keyboard.isKeyDown(key) && released)
+		{
+			switch (Keyboard.getKeyName(key)) {
+			case "0":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "1":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "2":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "3":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "4":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "5":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "6":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "7":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "8":
+				input += Keyboard.getKeyName(key);
+				break;
+			case "9":
+				input += Keyboard.getKeyName(key);
+				break;
+			default:
+				break;
+			}
+			key = Keyboard.getEventKey();
+			released = false;
+		}
+		if(!Keyboard.isKeyDown(key) && !released)
+		{
+			released = true;
+		}
+		//System.out.println(input);
+		return input;
+	}
+	
+	private void overrideLevel(int width, int height)
 	{
 		try {
 			BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D graphics = bi.createGraphics();
 			
 			graphics.setPaint(new Color(255, 255, 255));
+			//graphics.setPaint(new Color(16777215));
 			graphics.fillRect(0, 0, bi.getWidth(), bi.getHeight());
-			
-			ImageIO.write(bi, "PNG", new File("res/maps/map_0.PNG"));
-		} catch (IOException e) {
+
+			for(int y = 0; y < TILES_HEIGHT; y++)
+			{
+				for(int x = 0; x < TILES_WIDTH; x++)
+				{
+					//System.out.println(x + " " + y);
+					
+					//Tile t = grid.getTile(x, y);
+					
+					//System.out.println(t);
+					graphics.setPaint(new Color(grid.getTile(x, y).getType().rgb));
+					graphics.fillRect(x, y, 1, 1);
+					
+					// add player
+					if(player != null)
+					{
+						graphics.setPaint(new Color(255,0,0));
+						graphics.fillRect((int)player.getX()/TILE_SIZE, (int)player.getY()/TILE_SIZE + 1, 1, 1);
+					}
+					
+					if(speeder != null)
+					{
+						graphics.setPaint(new Color(0,255,255));
+						graphics.fillRect((int)speeder.getX() / TILE_SIZE, (int)speeder.getY() / TILE_SIZE + 1, 1, 1);
+					}
+					
+					for(GunganEnemy g : enemyList)
+					{
+						graphics.setPaint(new Color(0,255,120));
+						graphics.fillRect((int)g.getX() / TILE_SIZE, (int)g.getY() / TILE_SIZE + 1, 1, 1);
+					}
+				}
+			}
+			ImageIO.write(bi, "PNG", new File("res/maps/editor_map_" + activeLevel + ".PNG"));
+		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void drawBackgroundGrid()
+	{
+		for(int h = 0; h < grid.getTilesHigh(); h++)
+		{
+			for(int w = 0; w < grid.getTilesWide(); w++)
+			{
+				drawQuadImage(tile_grid, w * TILE_SIZE, h * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			}
+		}
+	}
+	
+	private void drawString(int x, int y, String text)
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+	
+		font.drawString(x, y, text);	
+		GL11.glDisable(GL_BLEND);
+	}
+	
+	private void setupUI()
+	{
+		menuUI = new UI();
+
+		menuUI.addButton("Map1", "editor/button_map1", (WIDTH/2) - 128, menuY, 256, 128);
+		menuY += 200;
+		menuUI.addButton("Map2", "editor/button_map2", (WIDTH/2) - 128, menuY, 256, 128);
+		menuY += 200;
+		menuUI.addButton("Map3", "editor/button_map3", (WIDTH/2) - 128, menuY, 256, 128);
+		menuY += 200;
+		menuUI.addButton("Map4", "editor/button_map4", (WIDTH/2) - 128, menuY, 256, 128);
+		
+		editorUI = new UI();
+		editorUI.createMenu("editorUI", (int)getRightBoarder()-256, 128, 256, HEIGHT, 4, 4); // Menu(String name, int x, int y, int width, int height, int optionsWidth, int optionsHeight)
+		editorMainMenu = editorUI.getMenu("editorUI");
+
+		editorMainMenu.quickAdd("Grass_Flat", "tiles/Grass_Flat", 64, 64);
+		editorMainMenu.quickAdd("Grass_Left", "tiles/Grass_Left", 64, 64);
+		editorMainMenu.quickAdd("Grass_Right", "tiles/Grass_Right", 64, 64);
+		editorMainMenu.quickAdd("Grass_Round", "tiles/Grass_Round", 64, 64);
+		
+		editorMainMenu.quickAdd("Grass_Flat_Half", "tiles/Grass_Flat_Half", 64, 32);
+		editorMainMenu.quickAdd("Grass_Left_Half", "tiles/Grass_Left_Half", 64, 32);
+		editorMainMenu.quickAdd("Grass_Right_Half", "tiles/Grass_Right_Half", 64, 32);
+		editorMainMenu.quickAdd("Grass_Round_Half", "tiles/Grass_Round_Half", 64, 32);
+		
+		editorMainMenu.quickAdd("Dirt_Basic", "tiles/Dirt_Basic", 64, 64);
+		editorMainMenu.quickAdd("Ramp_start", "tiles/Ramp_start", 64, 64);
+		editorMainMenu.quickAdd("Ramp_end", "tiles/Ramp_end", 64, 64);
+		editorMainMenu.quickAdd("Rock_Basic_0", "tiles/Rock_Basic_0", 64, 64);
+		
+		editorMainMenu.quickAdd("Player", "player/player_tmp", 64, 128);
+		editorMainMenu.quickAdd("Gungan", "enemy/enemy_right", 64, 128);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		
+		editorMainMenu.quickAdd("Speeder", "player/endor_speeder_right", 256, 93);
+	}
+	
+	private void checkClickedButtons()
+	{
+		// Handle Mouse Input
+		if(Mouse.next())
+		{
+			if(!Mouse.isButtonDown(0))
+				mouseDown = false;
+			boolean mouseClicked = Mouse.isButtonDown(0);
+			
+			if(mouseClicked && !mouseDown)
+			{
+				if(editorMainMenu.isButtonClicked("Grass_Flat")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Flat);
+					selectedType = TileType.Grass_Flat;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Grass_Left")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Left);
+					selectedType = TileType.Grass_Left;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Grass_Right")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Right);
+					selectedType = TileType.Grass_Right;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Grass_Round")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Round);
+					selectedType = TileType.Grass_Round;
+					mouseDown = true;
+					return;
+				}
+				
+				
+				if(editorMainMenu.isButtonClicked("Grass_Flat_Half")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Flat_Half);
+					selectedType = TileType.Grass_Flat_Half;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Grass_Left_Half")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Left_Half);
+					selectedType = TileType.Grass_Left_Half;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Grass_Right_Half")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Right_Half);
+					selectedType = TileType.Grass_Right_Half;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Grass_Round_Half")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Round_Half);
+					selectedType = TileType.Grass_Round_Half;
+					mouseDown = true;
+					return;
+				}
+				
+				
+				if(editorMainMenu.isButtonClicked("Dirt_Basic")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Dirt_Basic);
+					selectedType = TileType.Dirt_Basic;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Ramp_start")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Ramp_Start);
+					selectedType = TileType.Ramp_Start;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Ramp_end")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Ramp_End);
+					selectedType = TileType.Ramp_End;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Rock_Basic_0")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Rock_Basic);
+					selectedType = TileType.Rock_Basic;
+					mouseDown = true;
+					return;
+				}
+				
+				if(editorMainMenu.isButtonClicked("Player")){
+					selectedEntity = new Player(Mouse.getX(), HEIGHT - Mouse.getY(), handler);
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Gungan")){
+					selectedEntity = new GunganEnemy(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE * 2, handler, 2);
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Speeder")){
+					selectedEntity = new Speeder(Mouse.getX(), HEIGHT - Mouse.getY(), handler);
+					mouseDown = true;
+					return;
+				}
+			}
 		}
 	}
 }

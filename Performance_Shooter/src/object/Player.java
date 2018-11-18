@@ -412,7 +412,7 @@ public class Player implements Entity{
 	
 	public boolean isOutOfMap()
 	{
-		if((getLevelHeight() * TILE_SIZE) < y)
+		if((TILES_HEIGHT * TILE_SIZE) < y)
 			return true;
 		return false;
 	}

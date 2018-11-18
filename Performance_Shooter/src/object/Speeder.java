@@ -4,7 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 import static helpers.Graphics.*;
-import static helpers.Leveler.getLevelHeight;
+import static helpers.Leveler.*;
 import static helpers.Setup.TILE_SIZE;
 
 import java.awt.Rectangle;
@@ -263,7 +263,7 @@ public class Speeder implements Entity{
 	
 	public boolean isOutOfMap()
 	{
-		if((getLevelHeight() * TILE_SIZE) < y)
+		if((TILES_HEIGHT * TILE_SIZE) < y)
 			return true;
 		return false;
 	}

@@ -1,13 +1,15 @@
 package data;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
+import Enity.Entity;
 import Enity.TileType;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
-public class Tile {
+public class Tile implements Entity{
 	
 	private float x, y, maxX, minX, velX;
 	private int width, height, hp;
@@ -150,5 +152,23 @@ public class Tile {
 
 	public void setVelX(float velX) {
 		this.velX = velX;
+	}
+
+	@Override
+	public float getVelY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void damage(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Vector2f[] getVertices() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

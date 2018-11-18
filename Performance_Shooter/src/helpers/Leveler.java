@@ -1,17 +1,15 @@
 package helpers;
 
-import java.awt.image.BufferedImage;
-
-import static Gamestate.StateManager.*;
 import static helpers.Setup.*;
+import static helpers.Graphics.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 
 import Enity.TileType;
 import data.Handler;
@@ -24,22 +22,30 @@ import object.Speeder;
 
 public class Leveler {
 	
-	public static TileGrid loadMap(Handler handler, int level)
+	public static int TILES_WIDTH, TILES_HEIGHT;
+	
+	public static TileGrid loadMap(Handler handler, String path)
 	{
-		TileGrid grid = new TileGrid();
-		BufferedImage image = bufferedImageLoader("/maps/map_" + level +".png");
+		Image image = quickLoaderImage(path);
 		
 		int w = image.getWidth();
 		int h = image.getHeight();
+		
+		TILES_WIDTH = w;
+		TILES_HEIGHT = h;
+		
+		TileGrid grid = new TileGrid();
+
 		//System.out.println("w: " + w + " h: " + h);
 		for(int x = 0; x < w; x++)
 		{
 			for(int y = 0; y < h; y++)
 			{
-				int pixel = image.getRGB(x, y);			
-				int red = (pixel >> 16) & 0xff;
-				int green = (pixel >> 8) & 0xff;
-				int blue = (pixel) & 0xff;
+				Color c = image.getColor(x, y);
+				int red = c.getRed();
+				int green = c.getGreen();
+				int blue = c.getBlue();
+				
 		// Grass Tiles
 				// Black -> Grass_Flat
 				if(red == 0 && green == 0 && blue == 0)
@@ -173,34 +179,34 @@ public class Leveler {
 				}
 		// Decoration Tile -> Tree
 				// Dark Green -> Tree
-				if(red == 0 && green == 125 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.TreeBig_01);
-				}
-				if(red == 0 && green == 120 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.TreeBig_02);
-				}
-				if(red == 0 && green == 115 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.TreeBig_03);
-				}
-				if(red == 0 && green == 110 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.TreeBig_04);
-				}
-				if(red == 0 && green == 100 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.TreeBig_05);
-				}
-				if(red == 0 && green == 90 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.TreeBig_06);
-				}
-				if(red == 0 && green == 80 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.TreeBig_07);
-				}
+//				if(red == 0 && green == 125 && blue == 0)
+//				{
+//					grid.setTile(x, y, TileType.TreeBig_01);
+//				}
+//				if(red == 0 && green == 120 && blue == 0)
+//				{
+//					grid.setTile(x, y, TileType.TreeBig_02);
+//				}
+//				if(red == 0 && green == 115 && blue == 0)
+//				{
+//					grid.setTile(x, y, TileType.TreeBig_03);
+//				}
+//				if(red == 0 && green == 110 && blue == 0)
+//				{
+//					grid.setTile(x, y, TileType.TreeBig_04);
+//				}
+//				if(red == 0 && green == 100 && blue == 0)
+//				{
+//					grid.setTile(x, y, TileType.TreeBig_05);
+//				}
+//				if(red == 0 && green == 90 && blue == 0)
+//				{
+//					grid.setTile(x, y, TileType.TreeBig_06);
+//				}
+//				if(red == 0 && green == 80 && blue == 0)
+//				{
+//					grid.setTile(x, y, TileType.TreeBig_07);
+//				}
 				// Redwood
 				if(red == 180 && green == 55 && blue == 0)
 				{
@@ -264,29 +270,5 @@ public class Leveler {
 			e.printStackTrace();
 		}
 		System.out.println("saved");
-	}
-	
-	public static BufferedImage bufferedImageLoader(String path)
-	{
-		BufferedImage image = null;
-		try {
-			//image = ImageIO.read(new FileInputStream(path));
-			image = ImageIO.read(Leveler.class.getClass().getResourceAsStream(path));
-			//image = ImageIO.read(Leveler.class.getClass().getResource(path));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return image;
-	}
-	
-	public static int getLevelWidth()
-	{
-		return bufferedImageLoader("/maps/map_" + CURRENT_LEVEL + ".png").getWidth();
-	}
-	
-	public static int getLevelHeight()
-	{
-		return bufferedImageLoader("/maps/map_" + CURRENT_LEVEL + ".png").getHeight();
 	}
 }

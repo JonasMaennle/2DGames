@@ -12,7 +12,7 @@ import Enity.Entity;
 import Enity.TileType;
 
 import static helpers.Graphics.*;
-import static helpers.Leveler.getLevelHeight;
+import static helpers.Leveler.*;
 import static helpers.Setup.*;
 
 import java.awt.Rectangle;
@@ -392,7 +392,7 @@ public class AT_ST_Walker implements Entity{
 	
 	public boolean isOutOfMap()
 	{
-		if((getLevelHeight() * TILE_SIZE) < y)
+		if((TILES_HEIGHT * TILE_SIZE) < y)
 			return true;
 		return false;
 	}
