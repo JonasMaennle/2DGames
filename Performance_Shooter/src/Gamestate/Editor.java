@@ -3,12 +3,9 @@ package Gamestate;
 import static helpers.Graphics.*;
 import static helpers.Leveler.*;
 import static helpers.Setup.*;
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glEnable;
+
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,9 +17,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.TrueTypeFont;
 
 import Enity.Entity;
 import Enity.TileType;
@@ -47,11 +42,7 @@ public class Editor {
 	private Handler handler;
 	private Game game;
 	private int activeLevel, menuY;
-	private String input_width, input_height;
-	private boolean editor_state, createLevel_state, released, insertWidth, insertHeight, menu_state;
-	private String input;
-	private TrueTypeFont font;
-	private Font awtFont;
+	private boolean editor_state, createLevel_state, menu_state;
 	private boolean mouseDown;
 	
 	private Entity selectedEntity;
@@ -66,20 +57,11 @@ public class Editor {
 		this.game = game;
 		this.activeLevel = 0;
 		this.editor_state = false;
-		this.createLevel_state = false;
-
-		this.awtFont = new Font("Arial", Font.BOLD, 24);
-		this.font = new TrueTypeFont(awtFont, false);
+		this.createLevel_state = false;;
 
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.mouseDown = true;;
 		this.menuY = 100;
-		this.input_width = "";
-		this.input_height = "";
-		this.input = "";
-		this.released = true;
-		this.insertWidth = true;
-		this.insertHeight = true;
 		this.menu_state = true;
 		
 		this.menu_background_filter = quickLoaderImage("editor/menu_background");
@@ -88,18 +70,12 @@ public class Editor {
 		this.menuBackground = quickLoaderImage("editor/background_white");
 		Mouse.setGrabbed(false);
 		Mouse.setCursorPosition(WIDTH/2, HEIGHT/2);
-		//createLevelFile(200, 10);
 		setupUI();
 	}
 
 	public void update() 
 	{
 		draw();
-
-		if(createLevel_state)
-		{
-			createLevelByUser();
-		}
 		
 		if(editor_state)
 		{	
@@ -121,21 +97,12 @@ public class Editor {
 			{
 				MOVEMENT_Y -= 64;
 			}
-			while(Keyboard.next())
-			{
-				if (Keyboard.getEventKey() == Keyboard.KEY_O && Keyboard.getEventKeyState()) 
-				{
-					//overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
-				}
-			}
-
 			
 			if(selectedEntity != null)
 			{
 				selectedEntity.setX(Mouse.getX() - selectedEntity.getWidth()/2 - MOVEMENT_X);
 				selectedEntity.setY(HEIGHT - Mouse.getY() - selectedEntity.getHeight()/2 - MOVEMENT_Y);
 			}
-
 			
 			// Remove tile/entity
 			if(Mouse.isButtonDown(1))
@@ -169,14 +136,13 @@ public class Editor {
 				}
 			}
 			
-			
 			// draw tile
 			if(Mouse.isButtonDown(0)&& Mouse.getX()-MOVEMENT_X < getRightBoarder() - 300)
 			{
 				if(selectedType != null)setTile(selectedType);
 			}
 			
-			// Draw
+			// Draw non-Tile
 			if(!Mouse.isButtonDown(0) && selectedEntity != null &&  Mouse.getX()-MOVEMENT_X < getRightBoarder() - 350)
 			{
 				if(selectedEntity.getClass().getSimpleName().equals("Player"))
@@ -237,6 +203,8 @@ public class Editor {
 					
 					if(menuUI.isButtonClicked("Return"))
 					{
+						MOVEMENT_X = 0;
+						MOVEMENT_Y = 0;
 						StateManager.gameState = GameState.MAINMENU;
 					}
 				}
@@ -320,118 +288,7 @@ public class Editor {
 			enemyList = handler.gunganList;
 	}
 	
-	private void createLevelByUser()
-	{
-		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && insertWidth)
-		{
-			insertWidth = false;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN) && !insertWidth && input_height.length() != 0)
-		{
-			insertHeight = false;
-		}
-
-		if(!getUserNumber().equals(""))
-		{
-			if(insertWidth)
-			{
-				input_width += Integer.valueOf(getUserNumber());
-				input = "";
-			}else{
-				input_height += Integer.valueOf(getUserNumber());
-				input = "";
-			}
-		}
-		
-		if(insertWidth)
-		{
-			drawString(WIDTH/3, HEIGHT/2, "Map Width(in 64x64 Tiles), min. 30: " + input_width);
-
-		}else{
-			drawString(WIDTH/3, HEIGHT/2, "Map Height(in 64x64 Tiles), min. 30: " + input_height);
-		}
-
-		// create map file if input is finished
-		if(!insertHeight && !insertWidth)
-		{
-			if(Integer.valueOf(input_width) > 30 && Integer.valueOf(input_height) > 30)
-			{
-				createLevel_state = false;
-				overrideLevel(Integer.valueOf(input_width), Integer.valueOf(input_height));
-				editor_state = true;
-				this.grid = loadMap(this.handler, "maps/editor_map_" + activeLevel);
-			}
-			else
-			{
-				insertWidth = true;
-				insertHeight = false;
-				input = "";
-				input_width = "";
-				input_height = "";
-				createLevel_state = false;
-			}
-		}
-		
-		//System.out.println(input_width);
-	}
-	
-	private String getUserNumber()
-	{
-		// Handle Keyboard Input
-//		if (Keyboard.getEventKey() == Keyboard.KEY_DOWN && Keyboard.getEventKeyState()) 
-//		{
-//			
-//		}
-		int key = Keyboard.getEventKey();
-		if(Keyboard.isKeyDown(key) && released)
-		{
-			switch (Keyboard.getKeyName(key)) {
-			case "0":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "1":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "2":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "3":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "4":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "5":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "6":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "7":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "8":
-				input += Keyboard.getKeyName(key);
-				break;
-			case "9":
-				input += Keyboard.getKeyName(key);
-				break;
-			default:
-				break;
-			}
-			key = Keyboard.getEventKey();
-			released = false;
-		}
-		if(!Keyboard.isKeyDown(key) && !released)
-		{
-			released = true;
-		}
-		//System.out.println(input);
-		return input;
-	}
-	
-	private void overrideLevel(int width, int height)
+	private void saveMap(int width, int height)
 	{
 		try {
 			BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -492,15 +349,6 @@ public class Editor {
 		}
 	}
 	
-	private void drawString(int x, int y, String text)
-	{
-		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-	
-		font.drawString(x, y, text);	
-		GL11.glDisable(GL_BLEND);
-	}
-	
 	private void transmitDatatoHandler()
 	{
 		StateManager.CURRENT_LEVEL = -activeLevel -1;
@@ -511,9 +359,6 @@ public class Editor {
 		handler.speeder = speeder;
 		handler.at_st_walker = null;
 		handler.setCurrentEntity(player);
-
-		if(handler.getGameUI().getButton("ReturnToEditor") == null)
-			handler.getGameUI().addButton("ReturnToEditor", "tiles/Filler", (int)(getLeftBoarder() + MOVEMENT_X), (int)(getTopBoarder() + MOVEMENT_Y), 64, 64);
 		
 		game.setCamera(new Camera(handler.getCurrentEntity()));
 		game.setBackgroundHandler(new BackgroundHandler(handler.player));
@@ -521,6 +366,9 @@ public class Editor {
 	
 	public void transmitDataFromHandler()
 	{
+		editor_state = false;
+		menu_state = true;
+		
 		activeLevel = StateManager.CURRENT_LEVEL * -1;
 		grid = handler.getMap();
 		enemyList = handler.gunganList;
@@ -578,6 +426,7 @@ public class Editor {
 		controllsUI = new UI();
 		controllsUI.addButton("play", "editor/button_play", (int)getRightBoarder()-280, 0, 128, 128);
 		controllsUI.addButton("save", "editor/button_save", (int)getRightBoarder()-140, 0, 128, 128);
+		controllsUI.addButton("Return", "intro/Return", (int)getLeftBoarder() + 10, (int)getTopBoarder() + 10, 128, 64);
 	}
 	
 	private void checkClickedButtons()
@@ -593,14 +442,21 @@ public class Editor {
 			{
 				if(controllsUI.isButtonClicked("play"))
 				{
-					overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
-//					StateManager.gameState = GameState.LOADING;
+					saveMap(grid.getTilesWide(), grid.getTilesHigh());
 					transmitDatatoHandler();
+					
+					StateManager.lastState = GameState.EDITOR;
 					StateManager.gameState = GameState.GAME;
 				}
 				if(controllsUI.isButtonClicked("save"))
 				{
-					overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
+					saveMap(grid.getTilesWide(), grid.getTilesHigh());
+				}
+				
+				if(controllsUI.isButtonClicked("Return"))
+				{
+					this.editor_state = false;
+					this.menu_state = true;
 				}
 				
 				if(editorMainMenu.isButtonClicked("Grass_Flat")){

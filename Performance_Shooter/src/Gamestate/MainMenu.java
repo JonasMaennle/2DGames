@@ -38,9 +38,9 @@ public class MainMenu {
 		this.background_space = quickLoaderImage("intro/Background_Space");
 
 		menuUI = new UI();
-		menuUI.addButton("Start", "intro/Start_Button2", WIDTH / 2 - 175, (int)HEIGHT, 600, 150);
-		menuUI.addButton("Settings", "intro/Settings_Button2", WIDTH / 2 - 175, (int) HEIGHT, 600, 150);
-		menuUI.addButton("Exit", "intro/Exit_Button2", WIDTH / 2 - 175, (int) HEIGHT, 600, 150);
+		menuUI.addButton("Start", "intro/Start_Button", WIDTH / 2 - 175, (int)HEIGHT, 350, 80);
+		menuUI.addButton("Editor", "intro/Editor_Button", WIDTH / 2 - 175, (int) HEIGHT, 350, 80);
+		menuUI.addButton("Exit", "intro/Exit_Button", WIDTH / 2 - 175, (int) HEIGHT, 350, 80);
 		
 		scaleWidth = text_big.getWidth();
 		scaleHeight = text_big.getHeight();	
@@ -60,17 +60,29 @@ public class MainMenu {
 		try {
 			this.mainTheme = new Music("sound/MainThemeShort.wav");
 		} catch (SlickException e) {e.printStackTrace();}
+		
 		Mouse.setGrabbed(true);
-		Mouse.setCursorPosition(-2000, -2000);
+		Mouse.setCursorPosition(200, 200);
 	}
 	
 	public void update()
 	{
+		// Exit Game
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 		{
 			AL.destroy();
 			Display.destroy();
 			System.exit(0);
+		}
+		
+		// Skip Intro
+		if(Keyboard.isKeyDown(Keyboard.KEY_I)) 
+		{
+			showAtStart = false;
+			button_moveY = (HEIGHT * 0.35f) + 1;
+			scaleWidth = 0;
+			scaleHeight = 0;
+			mainTheme.stop();
 		}
 		// Draw Space
 		drawQuadImageStatic(background_space, 0, 0, 2048, 2048);
@@ -84,6 +96,9 @@ public class MainMenu {
 			{
 				mainTheme.play();
 				playMusic = false;
+				
+				Mouse.setGrabbed(true);
+				Mouse.setCursorPosition(200, 200);
 			}
 			//timer2 = timer2;
 			scaleWidth -= 1.0f * speed;
@@ -103,13 +118,14 @@ public class MainMenu {
 			showAtStart = false;
 			menuUI.draw();
 			updateButton();
+			
 			for(Button b : buttonList)
 			{
 				if(b.getName().equals("Start"))
 				{
 					b.setY((int)button_moveY);
 				}
-				if(b.getName().equals("Settings"))
+				if(b.getName().equals("Editor"))
 				{
 					b.setY((int)button_moveY + 150);
 				}
@@ -125,46 +141,11 @@ public class MainMenu {
 			}else{
 				if(enableMouse)
 				{
-//					Mouse.setGrabbed(false);
-//					Mouse.setCursorPosition(WIDTH/2, (int)(HEIGHT * 0.66f));
+					Mouse.setGrabbed(false);
+					Mouse.setCursorPosition(WIDTH/2, (int)(HEIGHT * 0.66f));
 					enableMouse = false;
 					selectedButton = 0;
 				}
-			}
-			// Update button image
-			switch (selectedButton) {
-			case 0:
-				for(Button b : buttonList){
-					if(b.getName().equals("Start"))
-						b.setImage(quickLoaderImage("intro/Start_Button2_Selected"));
-					if(b.getName().equals("Settings"))
-						b.setImage(quickLoaderImage("intro/Settings_Button2"));
-					if(b.getName().equals("Exit"))
-						b.setImage(quickLoaderImage("intro/Exit_Button2"));
-				}
-				break;
-			case 1:
-				for(Button b : buttonList){
-					if(b.getName().equals("Start"))
-						b.setImage(quickLoaderImage("intro/Start_Button2"));
-					if(b.getName().equals("Settings"))
-						b.setImage(quickLoaderImage("intro/Settings_Button2_Selected"));
-					if(b.getName().equals("Exit"))
-						b.setImage(quickLoaderImage("intro/Exit_Button2"));
-				}
-				break;
-			case 2:
-				for(Button b : buttonList){
-					if(b.getName().equals("Start"))
-						b.setImage(quickLoaderImage("intro/Start_Button2"));
-					if(b.getName().equals("Settings"))
-						b.setImage(quickLoaderImage("intro/Settings_Button2"));
-					if(b.getName().equals("Exit"))
-						b.setImage(quickLoaderImage("intro/Exit_Button2_Selected"));
-				}
-				break;
-			default:
-				break;
 			}
 			
 			// Select button via keyboard
@@ -194,33 +175,6 @@ public class MainMenu {
 				up = false;
 			}
 			
-			// Mouse hover over button
-//			for(Button b : buttonList)
-//			{
-//				if(b.getName().equals("Start"))
-//				{
-//					//System.out.println(b.getX() + " " + b.getY() + " " + (HEIGHT - Mouse.getY() - MOVEMENT_Y));
-//					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
-//					{
-//						selectedButton = 0;
-//					}
-//				}
-//				if(b.getName().equals("Settings"))
-//				{
-//					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
-//					{
-//						selectedButton = 1;
-//					}
-//				}
-//				if(b.getName().equals("Exit"))
-//				{
-//					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
-//					{
-//						selectedButton = 2;
-//					}
-//				}
-//			}
-			
 			// Enter
 			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN))
 			{
@@ -239,25 +193,88 @@ public class MainMenu {
 					System.exit(0);
 				}
 			}	
+
+			// Mouse hover over button
+			for(Button b : buttonList)
+			{
+				if(b.getName().equals("Start"))
+				{
+					//System.out.println(b.getX() + " " + b.getY() + " " + (HEIGHT - Mouse.getY() - MOVEMENT_Y));
+					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+					{
+						selectedButton = 0;
+					}
+				}
+				if(b.getName().equals("Editor"))
+				{
+					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+					{
+						selectedButton = 1;
+					}
+				}
+				if(b.getName().equals("Exit"))
+				{
+					if(checkCollision(b.getX(), b.getY(), b.getWidth(), b.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY()-MOVEMENT_Y, 2, 2))
+					{
+						selectedButton = 2;
+					}
+				}
+			}
 			//System.out.println(selectedButton);
+			
+			// Update button image
+			switch (selectedButton) {
+			case 0:
+				for(Button b : buttonList){
+					if(b.getName().equals("Start"))
+						b.setImage(quickLoaderImage("intro/Start_Button_Selected"));
+					if(b.getName().equals("Editor"))
+						b.setImage(quickLoaderImage("intro/Editor_Button"));
+					if(b.getName().equals("Exit"))
+						b.setImage(quickLoaderImage("intro/Exit_Button"));
+				}
+				break;
+			case 1:
+				for(Button b : buttonList){
+					if(b.getName().equals("Start"))
+						b.setImage(quickLoaderImage("intro/Start_Button"));
+					if(b.getName().equals("Editor"))
+						b.setImage(quickLoaderImage("intro/Editor_Button_Selected"));
+					if(b.getName().equals("Exit"))
+						b.setImage(quickLoaderImage("intro/Exit_Button"));
+				}
+				break;
+			case 2:
+				for(Button b : buttonList){
+					if(b.getName().equals("Start"))
+						b.setImage(quickLoaderImage("intro/Start_Button"));
+					if(b.getName().equals("Editor"))
+						b.setImage(quickLoaderImage("intro/Editor_Button"));
+					if(b.getName().equals("Exit"))
+						b.setImage(quickLoaderImage("intro/Exit_Button_Selected"));
+				}
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	
 	// Check if a button is clicked by the user, if so do an action
 	private void updateButton()
 	{
-		if(Mouse.isButtonDown(0))
+		if(Mouse.next())
 		{
 			if(menuUI.isButtonClicked("Start"))
 			{
 				StateManager.setState(GameState.LOADING);
 			}
-			
-			if(menuUI.isButtonClicked("Settings"))
+				
+			if(menuUI.isButtonClicked("Editor"))
 			{
-				System.out.println("Settings");
+				StateManager.gameState = GameState.EDITOR;
 			}
-			
+				
 			if(menuUI.isButtonClicked("Exit"))
 			{
 				AL.destroy();

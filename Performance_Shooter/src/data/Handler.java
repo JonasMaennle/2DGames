@@ -4,6 +4,8 @@ import static Gamestate.StateManager.*;
 import static helpers.Setup.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.lwjgl.input.Mouse;
+
 import Enity.Entity;
 import Enity.TileType;
 import Gamestate.StateManager;
@@ -39,6 +41,7 @@ public class Handler {
 		this.statemanager = statemanager;
 		this.eventList = new CopyOnWriteArrayList<>();
 		this.gameUI = new UI();
+		this.gameUI.addButton("Return", "intro/Return", (int)(getLeftBoarder() + MOVEMENT_X) + 5, (int)(getTopBoarder() + MOVEMENT_Y) + 5, 128, 64);
 	}
 	
 	public void update()
@@ -105,10 +108,25 @@ public class Handler {
 		}
 		
 		// If level was created in editor
-		if(gameUI.isButtonClicked("ReturnToEditor"))
+		if(gameUI.getButton("Return") != null)
 		{
-			StateManager.gameState = GameState.EDITOR;
-			statemanager.getEditor().transmitDataFromHandler();
+			while(Mouse.next())
+			{
+				if(gameUI.isButtonClicked("Return"))
+				{
+					if(lastState == GameState.EDITOR)
+					{
+						StateManager.gameState = GameState.EDITOR;
+						statemanager.getEditor().transmitDataFromHandler();
+					}else{
+						StateManager.CURRENT_LEVEL = 0;
+						MOVEMENT_X = 0;
+						MOVEMENT_Y = 0;
+						StateManager.gameState = GameState.MAINMENU;
+					}
+					lastState = GameState.GAME;
+				}
+			}
 		}
 
 		objectInfo();
