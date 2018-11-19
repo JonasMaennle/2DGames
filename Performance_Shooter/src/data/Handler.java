@@ -7,6 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import Enity.Entity;
 import Enity.TileType;
 import Gamestate.StateManager;
+import UI.UI;
 import object.AT_ST_Walker;
 import object.Goal;
 import object.GunganEnemy;
@@ -28,6 +29,7 @@ public class Handler {
 	private TileGrid map;
 	private StateManager statemanager;
 	private Entity currentEntity;
+	private UI gameUI;
 	
 	
 	public Handler(StateManager statemanager)
@@ -36,6 +38,7 @@ public class Handler {
 		this.timer2 = timer1;
 		this.statemanager = statemanager;
 		this.eventList = new CopyOnWriteArrayList<>();
+		this.gameUI = new UI();
 	}
 	
 	public void update()
@@ -100,6 +103,13 @@ public class Handler {
 				event.update();
 			}
 		}
+		
+		// If level was created in editor
+		if(gameUI.isButtonClicked("ReturnToEditor"))
+		{
+			StateManager.gameState = GameState.EDITOR;
+			statemanager.getEditor().transmitDataFromHandler();
+		}
 
 		objectInfo();
 	}
@@ -141,6 +151,9 @@ public class Handler {
 				event.draw();
 			}
 		}
+		
+		// draw Buttons
+		gameUI.draw();
 	}
 	
 	//@SuppressWarnings("unused")
@@ -192,5 +205,13 @@ public class Handler {
 	
 	public void addParticleEvent(ParticleEvent event){
 		eventList.add(event);
+	}
+
+	public UI getGameUI() {
+		return gameUI;
+	}
+
+	public void setGameUI(UI gameUI) {
+		this.gameUI = gameUI;
 	}
 }

@@ -53,7 +53,7 @@ public class UI {
 	{
 		Button b = getButton(buttonName);
 		float mouseY = HEIGHT - Mouse.getY() - 1;
-		if(Mouse.getX() > b.getX() && Mouse.getX() < b.getX() + b.getWidth() &&
+		if(Mouse.isButtonDown(0) && Mouse.getX() > b.getX() && Mouse.getX() < b.getX() + b.getWidth() &&
 				mouseY > b.getY() && mouseY < b.getY() + b.getHeight()){
 			return true;
 		}else

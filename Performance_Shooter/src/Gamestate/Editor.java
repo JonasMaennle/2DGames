@@ -23,14 +23,13 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.imageout.ImageOut;
-import org.newdawn.slick.util.BufferedImageUtil;
 
 import Enity.Entity;
 import Enity.TileType;
 import Gamestate.StateManager.GameState;
 import UI.UI;
 import UI.UI.Menu;
+import data.Camera;
 import data.Handler;
 import data.Tile;
 import data.TileGrid;
@@ -46,6 +45,7 @@ public class Editor {
 	private Menu editorMainMenu;
 	private Image menuBackground, space, tile_grid, menu_background_filter;
 	private Handler handler;
+	private Game game;
 	private int activeLevel, menuY;
 	private String input_width, input_height;
 	private boolean editor_state, createLevel_state, released, insertWidth, insertHeight, menu_state;
@@ -60,9 +60,10 @@ public class Editor {
 	private Speeder speeder;
 	private CopyOnWriteArrayList<GunganEnemy> enemyList;
 
-	public Editor(Handler handler) 
+	public Editor(Handler handler, Game game) 
 	{
 		this.handler = handler;
+		this.game = game;
 		this.activeLevel = 0;
 		this.editor_state = false;
 		this.createLevel_state = false;
@@ -72,7 +73,7 @@ public class Editor {
 
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.mouseDown = true;;
-		this.menuY = 200;
+		this.menuY = 100;
 		this.input_width = "";
 		this.input_height = "";
 		this.input = "";
@@ -278,11 +279,24 @@ public class Editor {
 
 	private void setTile(TileType t) 
 	{
+		if(t == TileType.NULL)
+		{
+			for(int i = 0; i < handler.obstacleList.size(); i++)
+			{
+				if(handler.obstacleList.get(i).getXPlace() == (int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE 
+						&& handler.obstacleList.get(i).getYPlace() == (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE){
+					handler.obstacleList.remove(i);
+					
+				}
+			}
+		}
+		
 		if(null != grid.getTile((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE, (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE))
 		{
 			grid.setTile((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE, (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE, t);
-			
-		}
+			if(t != TileType.NULL)handler.obstacleList.add(grid.getTile((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE, (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE));
+			System.out.println((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE);
+		}	
 	}
 	
 	private void setUpNewMap(int map)
@@ -458,7 +472,8 @@ public class Editor {
 			//Image tmp = new Image(BufferedImageUtil.getTexture("", bi));
 
 			//ImageOut.write(tmp, "res/maps/editor_map_" + activeLevel + ".png");
-			ImageIO.write(bi, "PNG", new File("res/maps/editor_map_" + activeLevel + ".PNG"));
+			ImageIO.write(bi, "PNG", new File("res/maps/editor_map_" + activeLevel + ".png"));
+			System.out.println("Saved:   res/maps/editor_map_" + activeLevel + ".png");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -485,16 +500,44 @@ public class Editor {
 		GL11.glDisable(GL_BLEND);
 	}
 	
+	private void transmitDatatoHandler()
+	{
+		StateManager.CURRENT_LEVEL = -activeLevel -1;
+		
+		handler.setMap(grid);
+		handler.gunganList = enemyList;
+		handler.player = player;
+		handler.speeder = speeder;
+		handler.at_st_walker = null;
+		handler.setCurrentEntity(player);
+		handler.getGameUI().addButton("ReturnToEditor", "tiles/Filler", (int)getLeftBoarder(), (int)getTopBoarder(), 64, 64);
+		
+		game.setCamera(new Camera(handler.getCurrentEntity()));
+		game.setBackgroundHandler(new BackgroundHandler(handler.player));
+	}
+	
+	public void transmitDataFromHandler()
+	{
+		activeLevel = StateManager.CURRENT_LEVEL * -1;
+		grid = handler.getMap();
+		enemyList = handler.gunganList;
+		player = handler.player;
+		speeder = handler.speeder;
+		
+		MOVEMENT_X = 0;
+		MOVEMENT_Y = 0;
+	}
+	
 	private void setupUI()
 	{
 		menuUI = new UI();
 
 		menuUI.addButton("Map1", "editor/button_map1", (WIDTH/2) - 128, menuY, 256, 128);
-		menuY += 200;
+		menuY += 150;
 		menuUI.addButton("Map2", "editor/button_map2", (WIDTH/2) - 128, menuY, 256, 128);
-		menuY += 200;
+		menuY += 150;
 		menuUI.addButton("Map3", "editor/button_map3", (WIDTH/2) - 128, menuY, 256, 128);
-		menuY += 200;
+		menuY += 150;
 		menuUI.addButton("Map4", "editor/button_map4", (WIDTH/2) - 128, menuY, 256, 128);
 		
 		editorUI = new UI();
@@ -547,11 +590,9 @@ public class Editor {
 				if(controllsUI.isButtonClicked("play"))
 				{
 					overrideLevel(grid.getTilesWide(), grid.getTilesHigh());
-					try {Thread.sleep(200);
-					} catch (InterruptedException e) {
-						e.printStackTrace();}
-					StateManager.CURRENT_LEVEL = -activeLevel -1;
-					StateManager.gameState = GameState.LOADING;
+//					StateManager.gameState = GameState.LOADING;
+					transmitDatatoHandler();
+					StateManager.gameState = GameState.GAME;
 				}
 				if(controllsUI.isButtonClicked("save"))
 				{
