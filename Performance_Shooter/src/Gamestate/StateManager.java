@@ -1,10 +1,10 @@
 package Gamestate;
 
-import data.Camera;
 import data.Handler;
 import data.MusicHandler;
 
 import static helpers.Leveler.*;
+import static helpers.Graphics.*;
 
 public class StateManager {
 	
@@ -12,7 +12,7 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, LOADING, EDITOR
 	}
 	
-	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.EDITOR; // initial state -> gameState = GameState.MAINMENU;
 	public static GameState lastState = GameState.MAINMENU;
 	public static int CURRENT_LEVEL = 0;
 
@@ -96,6 +96,7 @@ public class StateManager {
 			break;
 		case 2:
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
+			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
 			break;
 		case 3:
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
@@ -117,8 +118,8 @@ public class StateManager {
 		default:
 			break;
 		}
-		game.setCamera(new Camera(handler.getCurrentEntity()));
-		game.setBackgroundHandler(new BackgroundHandler(handler.player));
+		game.getCamera().setEntity(handler.getCurrentEntity());
+		game.getBackgroundHandler().setEntity(handler.getCurrentEntity());
 	}
 	
 	public void resetCurrentLevel()
