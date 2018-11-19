@@ -234,6 +234,11 @@ public class Editor {
 					{
 						setUpNewMap(4);
 					}
+					
+					if(menuUI.isButtonClicked("Return"))
+					{
+						StateManager.gameState = GameState.MAINMENU;
+					}
 				}
 			}
 		}
@@ -295,7 +300,6 @@ public class Editor {
 		{
 			grid.setTile((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE, (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE, t);
 			if(t != TileType.NULL)handler.obstacleList.add(grid.getTile((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE, (int) Math.floor((HEIGHT - Mouse.getY() - 1) / TILE_SIZE) - (int)MOVEMENT_Y/TILE_SIZE));
-			System.out.println((int) Math.floor(Mouse.getX() / TILE_SIZE) - (int)MOVEMENT_X/TILE_SIZE);
 		}	
 	}
 	
@@ -469,9 +473,6 @@ public class Editor {
 					}
 				}
 			}
-			//Image tmp = new Image(BufferedImageUtil.getTexture("", bi));
-
-			//ImageOut.write(tmp, "res/maps/editor_map_" + activeLevel + ".png");
 			ImageIO.write(bi, "PNG", new File("res/maps/editor_map_" + activeLevel + ".png"));
 			System.out.println("Saved:   res/maps/editor_map_" + activeLevel + ".png");
 			
@@ -510,7 +511,9 @@ public class Editor {
 		handler.speeder = speeder;
 		handler.at_st_walker = null;
 		handler.setCurrentEntity(player);
-		handler.getGameUI().addButton("ReturnToEditor", "tiles/Filler", (int)getLeftBoarder(), (int)getTopBoarder(), 64, 64);
+
+		if(handler.getGameUI().getButton("ReturnToEditor") == null)
+			handler.getGameUI().addButton("ReturnToEditor", "tiles/Filler", (int)(getLeftBoarder() + MOVEMENT_X), (int)(getTopBoarder() + MOVEMENT_Y), 64, 64);
 		
 		game.setCamera(new Camera(handler.getCurrentEntity()));
 		game.setBackgroundHandler(new BackgroundHandler(handler.player));
@@ -539,6 +542,7 @@ public class Editor {
 		menuUI.addButton("Map3", "editor/button_map3", (WIDTH/2) - 128, menuY, 256, 128);
 		menuY += 150;
 		menuUI.addButton("Map4", "editor/button_map4", (WIDTH/2) - 128, menuY, 256, 128);
+		menuUI.addButton("Return", "intro/Return", (int)getLeftBoarder() + 10, (int)getTopBoarder() + 10, 128, 64);
 		
 		editorUI = new UI();
 		editorUI.createMenu("editorUI", (int)getRightBoarder()-256, 128, 256, HEIGHT, 4, 4); // Menu(String name, int x, int y, int width, int height, int optionsWidth, int optionsHeight)

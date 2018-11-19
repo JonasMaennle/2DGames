@@ -60,7 +60,7 @@ public class UI {
 			return false;
 	}
 	
-	private Button getButton(String buttonName)
+	public Button getButton(String buttonName)
 	{
 		for(Button b : buttonList)
 		{
