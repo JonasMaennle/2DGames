@@ -25,15 +25,26 @@ import shader.Light;
 public class Setup {
 
 	// Game Settings
-	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static int tileCounter = 0;
 	
 	public static final int TILE_SIZE = 64;
 	public static ArrayList<Light> lights = new ArrayList<Light>();
 	public static float MOVEMENT_X, MOVEMENT_Y = 0;
+	private static boolean setFullScreen = true;
 	
 	public static void beginSession()
 	{
+//		WIDTH = 960;
+//		HEIGHT = 640;
+//		setFullScreen = false;
+//		
+		if(WIDTH > 1920){
+			WIDTH = 1920;
+			HEIGHT = 1080;
+			setFullScreen = false;
+		}
+			
 		Display.setTitle("StarWars Shooter");
 		//Display.setLocation((Display.getDisplayMode().getWidth()-WIDTH) / 2, 0);
 		try {
@@ -51,10 +62,11 @@ public class Setup {
 	               }
 	         }
 			
-			//Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+			if(!setFullScreen)Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			
-			Display.setFullscreen(true);
+			Display.setFullscreen(setFullScreen);
 			Display.create(new PixelFormat(0, 16, 1));
+			
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}

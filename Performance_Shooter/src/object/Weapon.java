@@ -156,7 +156,7 @@ public class Weapon implements Entity{
 	// Calc Angle in degree between x,y and destX,destY <- nice
 	public void calcAngle(float destX, float destY)
 	{
-		angle = -(float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
+		angle = (float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
 
 	    if(angle < 0){
 	        angle += 360;

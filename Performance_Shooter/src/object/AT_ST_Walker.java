@@ -100,7 +100,7 @@ public class AT_ST_Walker implements Entity{
 			velY = gravity;
 			
 			updateDirection(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y);
-			calcAngle(Mouse.getX() - MOVEMENT_X,Mouse.getY()-MOVEMENT_Y + 154);
+			calcAngle(Mouse.getX() - MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y);
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_D))
 			{
@@ -168,6 +168,7 @@ public class AT_ST_Walker implements Entity{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
 					g.damage(56); // Gungan got 56 HP
+					handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, "red", "small"));
 					laserList.remove(l);
 					explosionList.add(new Explosion((int)g.getX(), (int)g.getY(), 128, 20));
 				}
@@ -232,7 +233,7 @@ public class AT_ST_Walker implements Entity{
 	// Calc Angle in degree between x,y and destX,destY <- nice
 	private void calcAngle(float destX, float destY)
 	{
-		angle = -(float) Math.toDegrees(Math.atan2(destY - (y + 75), destX - (x)));
+		angle = (float) Math.toDegrees(Math.atan2(destY - (y + 75), destX - (x)));
 
 	    if(angle < 0){
 	        angle += 360;

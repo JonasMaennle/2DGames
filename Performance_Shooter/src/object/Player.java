@@ -88,8 +88,8 @@ public class Player implements Entity{
 	{	
 		velX = 0;
 		velY = gravity;
-		
-		weapon.calcAngle(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y + 64);
+		//System.out.println(y + "      " + (HEIGHT - Mouse.getY() - MOVEMENT_Y)); // top 767 - bottom 0
+		weapon.calcAngle(Mouse.getX() - MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y);
 		updateDirection(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_D))

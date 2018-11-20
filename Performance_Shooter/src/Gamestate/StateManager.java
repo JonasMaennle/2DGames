@@ -4,7 +4,6 @@ import data.Handler;
 import data.MusicHandler;
 
 import static helpers.Leveler.*;
-import static helpers.Graphics.*;
 
 public class StateManager {
 	
@@ -96,7 +95,7 @@ public class StateManager {
 			break;
 		case 2:
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
-			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
+			// game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
 			break;
 		case 3:
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));

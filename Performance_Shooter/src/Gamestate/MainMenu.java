@@ -38,9 +38,9 @@ public class MainMenu {
 		this.background_space = quickLoaderImage("intro/Background_Space");
 
 		menuUI = new UI();
-		menuUI.addButton("Start", "intro/Start_Button", WIDTH / 2 - 75, (int)HEIGHT, 350, 80);
-		menuUI.addButton("Editor", "intro/Editor_Button", WIDTH / 2 - 75, (int) HEIGHT, 350, 80);
-		menuUI.addButton("Exit", "intro/Exit_Button", WIDTH / 2 - 75, (int) HEIGHT, 350, 80);
+		menuUI.addButton("Start", "intro/Start_Button", WIDTH / 2 - 100, (int)HEIGHT, 350, 80);
+		menuUI.addButton("Editor", "intro/Editor_Button", WIDTH / 2 - 100, (int) HEIGHT, 350, 80);
+		menuUI.addButton("Exit", "intro/Exit_Button", WIDTH / 2 - 100, (int) HEIGHT, 350, 80);
 		
 		scaleWidth = text_big.getWidth();
 		scaleHeight = text_big.getHeight();	

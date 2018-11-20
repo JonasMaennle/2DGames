@@ -89,7 +89,7 @@ public class Laser implements Entity{
 		// set direction based on position of target relative to tower
 		if(color.equals("red"))
 		{
-			if(destY > y)
+			if(destY < y)
 				velY *= -1;
 		}
 		if(color.equals("green"))
