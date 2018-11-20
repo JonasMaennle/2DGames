@@ -87,22 +87,22 @@ public class Setup {
       return round / 100; 
     }
 	
-	public static float getLeftBoarder()
+	public static float getLeftBorder()
 	{
 		return MOVEMENT_X * -1;
 	}
 	
-	public static float getRightBoarder()
+	public static float getRightBorder()
 	{
 		return (MOVEMENT_X * -1) + WIDTH;
 	}
 	
-	public static float getTopBoarder()
+	public static float getTopBorder()
 	{
 		return (MOVEMENT_Y * -1);
 	}
 	
-	public static float getBottomBoarder()
+	public static float getBottomBorder()
 	{
 		return (MOVEMENT_Y * -1) + HEIGHT;
 	}

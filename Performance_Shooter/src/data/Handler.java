@@ -41,7 +41,7 @@ public class Handler {
 		this.statemanager = statemanager;
 		this.eventList = new CopyOnWriteArrayList<>();
 		this.gameUI = new UI();
-		this.gameUI.addButton("Return", "intro/Return", (int)(getLeftBoarder() + MOVEMENT_X) + 5, (int)(getTopBoarder() + MOVEMENT_Y) + 5, 128, 64);
+		this.gameUI.addButton("Return", "intro/Return", (int)(getLeftBorder() + MOVEMENT_X) + 5, (int)(getTopBorder() + MOVEMENT_Y) + 5, 128, 64);
 	}
 	
 	public void update()

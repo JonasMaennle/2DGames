@@ -50,7 +50,7 @@ public class Particle {
 	
 	public boolean isOutOfMap()
 	{
-		if(x < getLeftBoarder() || x > getRightBoarder() || y < getTopBoarder() || y > getBottomBoarder())
+		if(x < getLeftBorder() || x > getRightBorder() || y < getTopBorder() || y > getBottomBorder())
 			return true;
 		
 		return false;

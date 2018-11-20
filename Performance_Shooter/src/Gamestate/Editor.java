@@ -9,11 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.imageio.ImageIO;
@@ -33,6 +28,7 @@ import data.Camera;
 import data.Handler;
 import data.Tile;
 import data.TileGrid;
+import object.AT_ST_Walker;
 import object.GunganEnemy;
 import object.Player;
 import object.Speeder;
@@ -41,19 +37,21 @@ public class Editor {
 
 	private TileGrid grid;
 
-	private UI editorUI, menuUI, controllsUI;
-	private Menu editorMainMenu;
+	private UI editorUI, editorUI_tree, menuUI, controllsUI;
+	private Menu editorMainMenu, editorMainMenu_Page2;
 	private Image menuBackground, space, tile_grid, menu_background_filter;
 	private Handler handler;
 	private Game game;
 	private int activeLevel, menuY;
 	private boolean editor_state, createLevel_state, menu_state;
 	private boolean mouseDown;
+	private int menuIndex;
 	
 	private Entity selectedEntity;
 	private TileType selectedType;
 	private Player player;
 	private Speeder speeder;
+	private AT_ST_Walker at_st_walker;
 	private CopyOnWriteArrayList<GunganEnemy> enemyList;
 
 	public Editor(Handler handler, Game game) 
@@ -62,7 +60,8 @@ public class Editor {
 		this.game = game;
 		this.activeLevel = 0;
 		this.editor_state = false;
-		this.createLevel_state = false;;
+		this.createLevel_state = false;
+		this.menuIndex = 0;
 
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.mouseDown = true;;
@@ -139,16 +138,23 @@ public class Editor {
 						speeder = null;
 					}
 				}
+				if(at_st_walker != null)
+				{
+					if(checkCollision(at_st_walker.getX(), at_st_walker.getY(), at_st_walker.getWidth(), at_st_walker.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y, 2, 2))
+					{
+						at_st_walker = null;
+					}
+				}
 			}
 			
 			// draw tile
-			if(Mouse.isButtonDown(0)&& Mouse.getX()-MOVEMENT_X < getRightBoarder() - 300)
+			if(Mouse.isButtonDown(0)&& Mouse.getX()-MOVEMENT_X < getRightBorder() - 300)
 			{
 				if(selectedType != null)setTile(selectedType);
 			}
 			
 			// Draw non-Tile
-			if(!Mouse.isButtonDown(0) && selectedEntity != null &&  Mouse.getX()-MOVEMENT_X < getRightBoarder() - 350)
+			if(!Mouse.isButtonDown(0) && selectedEntity != null &&  Mouse.getX()-MOVEMENT_X < getRightBorder() - 350)
 			{
 				if(selectedEntity.getClass().getSimpleName().equals("Player"))
 				{
@@ -171,13 +177,21 @@ public class Editor {
 				{
 					speeder = (Speeder) selectedEntity; 
 					speeder.setX(Mouse.getX()-MOVEMENT_X - Mouse.getX()%64);
-					speeder.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE);
+					speeder.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE*2);
+					selectedEntity = null;
+					return;
+				}
+				if(selectedEntity.getClass().getSimpleName().equals("AT_ST_Walker"))
+				{
+					at_st_walker = (AT_ST_Walker) selectedEntity; 
+					at_st_walker.setX(Mouse.getX()-MOVEMENT_X - Mouse.getX()%TILE_SIZE);
+					at_st_walker.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE*2);
 					selectedEntity = null;
 					return;
 				}
 			}
 		}
-		
+
 		if(menu_state)
 		{
 			// Handle Mouse Input
@@ -232,7 +246,19 @@ public class Editor {
 			grid.draw();
 			drawBackgroundGrid();
 			drawQuadImageStatic(menu_background_filter, Display.getWidth()-300, 0, 512, HEIGHT);
-			editorUI.draw();
+			
+			switch (menuIndex) {
+			case 0:
+				editorUI.draw();
+				break;
+			case 1:
+				editorUI_tree.draw();
+				break;
+			default:
+				break;
+			}
+
+			
 			controllsUI.draw();
 			if(selectedEntity != null)
 				selectedEntity.draw();
@@ -246,6 +272,9 @@ public class Editor {
 			}
 			if(speeder != null)
 				speeder.draw();
+			
+			if(at_st_walker != null)
+				at_st_walker.draw();
 			
 		}else if(createLevel_state){
 			drawQuadImage(space, 0, 0, 2048, 2048);
@@ -289,6 +318,8 @@ public class Editor {
 			player = handler.player;
 		if(handler.speeder != null)
 			speeder = handler.speeder;
+		if(handler.at_st_walker != null)
+			at_st_walker = handler.at_st_walker;
 		if(handler.gunganList.size() != 0)
 			enemyList = handler.gunganList;
 	}
@@ -328,6 +359,12 @@ public class Editor {
 						graphics.fillRect((int)speeder.getX() / TILE_SIZE, (int)speeder.getY() / TILE_SIZE, 1, 1);
 					}
 					
+					if(at_st_walker != null)
+					{
+						graphics.setPaint(new Color(0,0,255));
+						graphics.fillRect((int)at_st_walker.getX() / TILE_SIZE, (int)at_st_walker.getY() / TILE_SIZE, 1, 1);
+					}
+					
 					for(GunganEnemy g : enemyList)
 					{
 						graphics.setPaint(new Color(0,255,120));
@@ -362,7 +399,7 @@ public class Editor {
 		handler.gunganList = enemyList;
 		handler.player = player;
 		handler.speeder = speeder;
-		handler.at_st_walker = null;
+		handler.at_st_walker = at_st_walker;
 		handler.setCurrentEntity(player);
 		
 		game.setCamera(new Camera(handler.getCurrentEntity()));
@@ -381,6 +418,7 @@ public class Editor {
 		enemyList = handler.gunganList;
 		player = handler.player;
 		speeder = handler.speeder;
+		at_st_walker = handler.at_st_walker;
 		
 		MOVEMENT_X = 0;
 		MOVEMENT_Y = 0;
@@ -397,11 +435,15 @@ public class Editor {
 		menuUI.addButton("Map3", "editor/button_map3", (WIDTH/2) - 128, menuY, 256, 128);
 		menuY += 150;
 		menuUI.addButton("Map4", "editor/button_map4", (WIDTH/2) - 128, menuY, 256, 128);
-		menuUI.addButton("Return", "intro/Return", (int)getLeftBoarder() + 10, (int)getTopBoarder() + 10, 128, 64);
+		menuUI.addButton("Return", "intro/Return", (int)getLeftBorder() + 10, (int)getTopBorder() + 10, 128, 64);
 		
 		editorUI = new UI();
-		editorUI.createMenu("editorUI", (int)getRightBoarder()-256, 128, 256, HEIGHT, 4, 4); // Menu(String name, int x, int y, int width, int height, int optionsWidth, int optionsHeight)
+		editorUI.createMenu("editorUI", (int)getRightBorder()-256, 128, 256, HEIGHT, 4, 4); // Menu(String name, int x, int y, int width, int height, int optionsWidth, int optionsHeight)
 		editorMainMenu = editorUI.getMenu("editorUI");
+		
+		editorUI_tree = new UI();
+		editorUI_tree.createMenu("editorUI_tree", (int)getRightBorder()-256, 128, 256, HEIGHT, 4, 4);
+		editorMainMenu_Page2 = editorUI_tree.getMenu("editorUI_tree");
 
 		editorMainMenu.quickAdd("Grass_Flat", "tiles/Grass_Flat", 64, 64);
 		editorMainMenu.quickAdd("Grass_Left", "tiles/Grass_Left", 64, 64);
@@ -428,12 +470,44 @@ public class Editor {
 		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
 		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
 		
-		editorMainMenu.quickAdd("Speeder", "player/endor_speeder_right", 256, 93);
+		editorMainMenu.quickAdd("Speeder", "player/endor_speeder_right", 128, 64);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		
+		editorMainMenu.quickAdd("AT_ST_Walker", "player/atst_tmp", 128, 128);
+		
+		editorMainMenu_Page2.quickAdd("Redwood_01", "tiles/redwood_01", 64, 128);
+		editorMainMenu_Page2.quickAdd("Redwood_02", "tiles/redwood_02", 64, 128);
+		editorMainMenu_Page2.quickAdd("Redwood_03", "tiles/redwood_03", 64, 128);
+		editorMainMenu_Page2.quickAdd("Redwood_04", "tiles/redwood_04", 64, 128);
+		
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		
+		editorMainMenu_Page2.quickAdd("Redwood_05", "tiles/redwood_05", 64, 96);
+		editorMainMenu_Page2.quickAdd("Redwood_06", "tiles/redwood_06", 64, 96);
+		editorMainMenu_Page2.quickAdd("Redwood_07", "tiles/redwood_01", 64, 96);
+		editorMainMenu_Page2.quickAdd("Redwood_09", "tiles/redwood_01", 64, 164);
+		
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu_Page2.quickAdd("Blank", "tiles/Blank", 64, 64);
+		
+		editorMainMenu_Page2.quickAdd("Redwood_08", "tiles/redwood_01", 48, 80);
+		editorMainMenu_Page2.quickAdd("tree_stump_left", "tiles/tree_stump_left", 64, 64);
+		editorMainMenu_Page2.quickAdd("tree_stump_center", "tiles/tree_stump_center", 64, 64);
+		editorMainMenu_Page2.quickAdd("tree_stump_right", "tiles/tree_stump_right", 64, 64);
 		
 		controllsUI = new UI();
-		controllsUI.addButton("play", "editor/button_play", (int)getRightBoarder()-280, 0, 128, 128);
-		controllsUI.addButton("save", "editor/button_save", (int)getRightBoarder()-140, 0, 128, 128);
-		controllsUI.addButton("Return", "intro/Return", (int)getLeftBoarder() + 10, (int)getTopBoarder() + 10, 128, 64);
+		controllsUI.addButton("play", "editor/button_play", (int)getRightBorder()-280, 0, 128, 48);
+		controllsUI.addButton("save", "editor/button_save", (int)getRightBorder()-140, 0, 128, 48);
+		controllsUI.addButton("Return", "intro/Return", (int)getLeftBorder() + 10, (int)getTopBorder() + 10, 128, 64);
+		controllsUI.addButton("Page_Left", "editor/left", (int)getRightBorder()-260, (int)getTopBorder() + 50, 100, 50);
+		controllsUI.addButton("Page_Right", "editor/right", (int)getRightBorder()-120, (int)getTopBorder() + 50, 100, 50);
 	}
 	
 	private void checkClickedButtons()
@@ -465,7 +539,21 @@ public class Editor {
 					this.editor_state = false;
 					this.menu_state = true;
 				}
-				
+				if(controllsUI.isButtonClicked("Page_Left"))
+				{
+					if(menuIndex > 0)
+						menuIndex--;
+				}
+				if(controllsUI.isButtonClicked("Page_Right"))
+				{
+					if(menuIndex < 1)
+						menuIndex++;
+				}
+			}
+			
+			
+			if(mouseClicked && !mouseDown && menuIndex == 0)
+			{
 				if(editorMainMenu.isButtonClicked("Grass_Flat")){
 					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Flat);
 					selectedType = TileType.Grass_Flat;
@@ -555,6 +643,88 @@ public class Editor {
 				}
 				if(editorMainMenu.isButtonClicked("Speeder")){
 					selectedEntity = new Speeder(Mouse.getX(), HEIGHT - Mouse.getY(), handler);
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("AT_ST_Walker")){
+					selectedEntity = new AT_ST_Walker(Mouse.getX(), HEIGHT - Mouse.getY(), handler);
+					mouseDown = true;
+					return;
+				}
+			}
+			
+			if(mouseClicked && !mouseDown && menuIndex == 1)
+			{
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_01")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_01);
+					selectedType = TileType.RedWood_01;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_02")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_02);
+					selectedType = TileType.RedWood_02;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_03")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_03);
+					selectedType = TileType.RedWood_03;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_04")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_04);
+					selectedType = TileType.RedWood_04;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_05")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_05);
+					selectedType = TileType.RedWood_05;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_06")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_06);
+					selectedType = TileType.RedWood_06;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_07")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_07);
+					selectedType = TileType.RedWood_07;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_08")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_08);
+					selectedType = TileType.RedWood_08;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("Redwood_09")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_09);
+					selectedType = TileType.RedWood_09;
+					mouseDown = true;
+					return;
+				}
+				
+				if(editorMainMenu_Page2.isButtonClicked("tree_stump_left")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.TreeStump_Left);
+					selectedType = TileType.TreeStump_Left;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("tree_stump_center")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.TreeStump_Center);
+					selectedType = TileType.TreeStump_Center;
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu_Page2.isButtonClicked("tree_stump_right")){
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.TreeStump_Right);
+					selectedType = TileType.TreeStump_Right;
 					mouseDown = true;
 					return;
 				}

@@ -129,7 +129,7 @@ public class BackgroundHandler {
 			bg05_offset = Display.getX() + Display.getWidth() -1;
 		}
 		// Dark Bottom
-		drawQuadImageStatic(bottom, 0, (MOVEMENT_Y * 0.1f) + HEIGHT, 2048, 2048);
+		drawQuadImageStatic(bottom, 0, HEIGHT - 100, 2048, 2048);
 		
 		drawQuadImageStatic(foreground, bg03_offset, (MOVEMENT_Y * 0.1f) + 100, WIDTH, foreground.getHeight()/2);
 		drawQuadImageStatic(foreground, bg04_offset, (MOVEMENT_Y * 0.1f) + 100, WIDTH, foreground.getHeight()/2);

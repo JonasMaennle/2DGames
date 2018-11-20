@@ -135,7 +135,7 @@ public class Weapon implements Entity{
 		{
 			if(destX < x + (width/2))
 			{
-				destX = getRightBoarder() - destX;
+				destX = getRightBorder() - destX;
 			}
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
 			laserShotSound.play();
@@ -146,7 +146,7 @@ public class Weapon implements Entity{
 		{
 			if(destX > x + (width/2))
 			{
-				destX = getLeftBoarder() + destX;
+				destX = getLeftBorder() + destX;
 			}
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
 			laserShotSound.play();

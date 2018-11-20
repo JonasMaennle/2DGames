@@ -307,7 +307,7 @@ public class AT_ST_Walker implements Entity{
 		{
 			if(destX < x + (width/2))
 			{
-				destX = getRightBoarder() - destX;
+				destX = getRightBorder() - destX;
 			}
 			laserList.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 42, 4, 30, "red", angle));
 			laserShotSound.play();
@@ -318,7 +318,7 @@ public class AT_ST_Walker implements Entity{
 		{
 			if(destX > x + (width/2))
 			{
-				destX = getLeftBoarder() + destX;
+				destX = getLeftBorder() + destX;
 			}
 			laserList.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 42, 4, 30, "red", angle));
 			laserShotSound.play();
