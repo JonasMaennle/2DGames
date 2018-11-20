@@ -12,7 +12,7 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, LOADING, EDITOR
 	}
 	
-	public static GameState gameState = GameState.EDITOR; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
 	public static GameState lastState = GameState.MAINMENU;
 	public static int CURRENT_LEVEL = 0;
 

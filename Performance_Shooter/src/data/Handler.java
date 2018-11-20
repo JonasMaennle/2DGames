@@ -84,7 +84,8 @@ public class Handler {
 		if(levelGoal != null && checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
 		{
 			//statemanager.loadLevel();
-			StateManager.gameState = GameState.LOADING;
+			if(lastState == GameState.EDITOR)StateManager.gameState = GameState.EDITOR;
+			if(lastState != GameState.EDITOR)StateManager.gameState = GameState.LOADING;
 		}
 		
 		// update map

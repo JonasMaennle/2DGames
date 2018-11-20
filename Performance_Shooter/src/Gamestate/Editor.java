@@ -29,6 +29,7 @@ import data.Handler;
 import data.Tile;
 import data.TileGrid;
 import object.AT_ST_Walker;
+import object.Goal;
 import object.GunganEnemy;
 import object.Player;
 import object.Speeder;
@@ -52,6 +53,7 @@ public class Editor {
 	private Player player;
 	private Speeder speeder;
 	private AT_ST_Walker at_st_walker;
+	private Goal goal;
 	private CopyOnWriteArrayList<GunganEnemy> enemyList;
 
 	public Editor(Handler handler, Game game) 
@@ -145,6 +147,13 @@ public class Editor {
 						at_st_walker = null;
 					}
 				}
+				if(goal != null)
+				{
+					if(checkCollision(goal.getX(), goal.getY(), goal.getWidth(), goal.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y, 2, 2))
+					{
+						goal = null;
+					}
+				}
 			}
 			
 			// draw tile
@@ -186,6 +195,14 @@ public class Editor {
 					at_st_walker = (AT_ST_Walker) selectedEntity; 
 					at_st_walker.setX(Mouse.getX()-MOVEMENT_X - Mouse.getX()%TILE_SIZE);
 					at_st_walker.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE*2);
+					selectedEntity = null;
+					return;
+				}
+				if(selectedEntity.getClass().getSimpleName().equals("Goal"))
+				{
+					goal = (Goal) selectedEntity; 
+					goal.setX(Mouse.getX()-MOVEMENT_X - Mouse.getX()%TILE_SIZE);
+					goal.setY(HEIGHT - (Mouse.getY() - Mouse.getY()%TILE_SIZE) - MOVEMENT_Y - TILE_SIZE);
 					selectedEntity = null;
 					return;
 				}
@@ -276,10 +293,13 @@ public class Editor {
 			if(at_st_walker != null)
 				at_st_walker.draw();
 			
+			if(goal != null)
+				goal.draw();
+			
 		}else if(createLevel_state){
-			drawQuadImage(space, 0, 0, 2048, 2048);
+			drawQuadImageStatic(space, 0, 0, 2048, 2048);
 		}else if(menu_state){
-			drawQuadImage(space, 0, 0, 2048, 2048);
+			drawQuadImageStatic(space, 0, 0, 2048, 2048);
 			menuUI.draw();
 		}
 	}
@@ -320,6 +340,8 @@ public class Editor {
 			speeder = handler.speeder;
 		if(handler.at_st_walker != null)
 			at_st_walker = handler.at_st_walker;
+		if(handler.levelGoal != null)
+			goal = handler.levelGoal;
 		if(handler.gunganList.size() != 0)
 			enemyList = handler.gunganList;
 	}
@@ -370,6 +392,12 @@ public class Editor {
 						graphics.setPaint(new Color(0,255,120));
 						graphics.fillRect((int)g.getX() / TILE_SIZE, (int)g.getY() / TILE_SIZE, 1, 1);
 					}
+					
+					if(goal != null)
+					{
+						graphics.setPaint(new Color(255,0,255));
+						graphics.fillRect((int)goal.getX() / TILE_SIZE, (int)goal.getY() / TILE_SIZE, 1, 1);
+					}
 				}
 			}
 			ImageIO.write(bi, "PNG", new File("res/maps/editor_map_" + activeLevel + ".png"));
@@ -400,6 +428,7 @@ public class Editor {
 		handler.player = player;
 		handler.speeder = speeder;
 		handler.at_st_walker = at_st_walker;
+		handler.levelGoal = goal;
 		handler.setCurrentEntity(player);
 		
 		game.setCamera(new Camera(handler.getCurrentEntity()));
@@ -419,6 +448,7 @@ public class Editor {
 		player = handler.player;
 		speeder = handler.speeder;
 		at_st_walker = handler.at_st_walker;
+		goal = handler.levelGoal;
 		
 		MOVEMENT_X = 0;
 		MOVEMENT_Y = 0;
@@ -462,7 +492,7 @@ public class Editor {
 		
 		editorMainMenu.quickAdd("Player", "player/player_tmp", 64, 128);
 		editorMainMenu.quickAdd("Gungan", "enemy/enemy_right", 64, 128);
-		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
+		editorMainMenu.quickAdd("Goal", "objects/goal", 64, 64);
 		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
 		
 		editorMainMenu.quickAdd("Blank", "tiles/Blank", 64, 64);
@@ -648,6 +678,11 @@ public class Editor {
 				}
 				if(editorMainMenu.isButtonClicked("AT_ST_Walker")){
 					selectedEntity = new AT_ST_Walker(Mouse.getX(), HEIGHT - Mouse.getY(), handler);
+					mouseDown = true;
+					return;
+				}
+				if(editorMainMenu.isButtonClicked("Goal")){
+					selectedEntity = new Goal(Mouse.getX(), HEIGHT - Mouse.getY());
 					mouseDown = true;
 					return;
 				}

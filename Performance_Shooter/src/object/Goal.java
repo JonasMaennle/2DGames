@@ -59,26 +59,23 @@ public class Goal implements Entity{
 
 	@Override
 	public void setWidth(int width) {
-		// TODO Auto-generated method stub
-		
+		this.width = width;
 	}
 
 	@Override
 	public void setHeight(int height) {
-		// TODO Auto-generated method stub
-		
+		this.height = height;
 	}
 
 	@Override
-	public void setX(float x) {
-		// TODO Auto-generated method stub
-		
+	public void setX(float x) 
+	{
+		this.x = x;
 	}
 
 	@Override
 	public void setY(float y) {
-		// TODO Auto-generated method stub
-		
+		this.y = y;
 	}
 
 	@Override
