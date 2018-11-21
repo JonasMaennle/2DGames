@@ -24,7 +24,7 @@ public class Goal implements Entity{
 	@Override
 	public void update() 
 	{
-		
+		System.out.println("Does nothing");
 	}
 
 	@Override
@@ -100,5 +100,10 @@ public class Goal implements Entity{
 	public void damage(int amount) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isOutOfMap() {
+		return false;
 	}
 }

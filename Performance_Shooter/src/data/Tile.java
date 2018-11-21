@@ -8,6 +8,7 @@ import Enity.TileType;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
+import static Gamestate.StateManager.*;
 
 public class Tile implements Entity{
 	
@@ -26,7 +27,7 @@ public class Tile implements Entity{
 		this.height = height;
 		this.type = type;
 		this.hp = type.hp;
-		this.image = quickLoaderImage("tiles/" + type.textureName);
+		this.image = quickLoaderImage("tiles/" + type.textureName + "" + ENVIRONMENT_SETTING);
 		tileCounter++;
 		this.aImage = new Image[2];
 		this.maxX = x + TILE_SIZE * 2;
@@ -170,5 +171,10 @@ public class Tile implements Entity{
 	public Vector2f[] getVertices() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean isOutOfMap() {
+		return false;
 	}
 }

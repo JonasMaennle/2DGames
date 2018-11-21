@@ -18,61 +18,49 @@ import object.Speeder;
 
 public class Handler {
 	
-	public CopyOnWriteArrayList<Tile> obstacleList = new CopyOnWriteArrayList<>();
-	public CopyOnWriteArrayList<GunganEnemy> gunganList = new CopyOnWriteArrayList<>();
+	private StateManager statemanager;
+	public CopyOnWriteArrayList<Tile> obstacleList;
+	public CopyOnWriteArrayList<GunganEnemy> gunganList;
 	private CopyOnWriteArrayList<ParticleEvent> eventList;
 	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
 	public Speeder speeder;
-	
 	public Goal levelGoal;
+	
 	private long timer1, timer2;
 	private TileGrid map;
-	private StateManager statemanager;
 	private Entity currentEntity;
 	private UI gameUI;
 	
-	
 	public Handler(StateManager statemanager)
 	{
+		this.statemanager = statemanager;
+		this.obstacleList = new CopyOnWriteArrayList<>();
+		this.gunganList = new CopyOnWriteArrayList<>();
+		this.eventList = new CopyOnWriteArrayList<>();
+		
+		this.player = null;
+		this.at_st_walker = null;
+		this.speeder = null;
+		this.levelGoal = null;
+		
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
-		this.statemanager = statemanager;
-		this.eventList = new CopyOnWriteArrayList<>();
+		this.currentEntity = null;
 		this.gameUI = new UI();
 		this.gameUI.addButton("Return", "intro/Return", (int)(getLeftBorder() + MOVEMENT_X) + 5, (int)(getTopBorder() + MOVEMENT_Y) + 5, 128, 64);
 	}
 	
 	public void update()
 	{
-		// if player exists -> update
-		if(player != null && currentEntity.equals(player))
+		// update current entity (player || at_st || speeder)
+		if(currentEntity != null)
 		{
-			player.update();
-
-			if(player.isOutOfMap())
-				statemanager.resetCurrentLevel();	
-		}
-		
-		// if at_st exists -> update
-		if(at_st_walker != null)
-		{
-			at_st_walker.update();
-			if(at_st_walker.isOutOfMap())
-				statemanager.resetCurrentLevel();
-		}	
-		// if speeder exitsts -> update
-		if(speeder != null)
-		{
-			speeder.update();
-			if(speeder.isOutOfMap())
+			currentEntity.update();
+			if(currentEntity.isOutOfMap())
 				statemanager.resetCurrentLevel();
 		}
-
-		// update Level Goal
-		if(levelGoal != null)
-			levelGoal.update();
 		
 		// update gunganEnemy
 		for(GunganEnemy g : gunganList)
@@ -80,8 +68,8 @@ public class Handler {
 			g.update();
 		}
 
-		// check player collision with level goal
-		if(levelGoal != null && checkCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
+		// check current entity for collision with goal
+		if(levelGoal != null && checkCollision(currentEntity.getX(), currentEntity.getY(), currentEntity.getWidth(), currentEntity.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
 		{
 			//statemanager.loadLevel();
 			if(lastState == GameState.EDITOR)StateManager.gameState = GameState.EDITOR;
@@ -108,7 +96,7 @@ public class Handler {
 			}
 		}
 		
-		// If level was created in editor
+		// Check if "Return" Button was clicked
 		if(gameUI.getButton("Return") != null)
 		{
 			while(Mouse.next())
@@ -120,9 +108,7 @@ public class Handler {
 						StateManager.gameState = GameState.EDITOR;
 						statemanager.getEditor().transmitDataFromHandler();
 					}else{
-						StateManager.CURRENT_LEVEL = 0;
-						MOVEMENT_X = 0;
-						MOVEMENT_Y = 0;
+						statemanager.getMainMenu().enterMainMenu();
 						StateManager.gameState = GameState.MAINMENU;
 					}
 					lastState = GameState.GAME;
@@ -130,6 +116,7 @@ public class Handler {
 			}
 		}
 
+		// Game information output in console
 		objectInfo();
 	}
 	

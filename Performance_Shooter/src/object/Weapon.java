@@ -12,6 +12,7 @@ import data.ParticleEvent;
 import data.Tile;
 
 import static helpers.Graphics.*;
+import static helpers.Leveler.TILES_HEIGHT;
 import static helpers.Setup.*;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -271,4 +272,10 @@ public class Weapon implements Entity{
 		
 	}
 
+	@Override
+	public boolean isOutOfMap() {
+		if((TILES_HEIGHT * TILE_SIZE) < y)
+			return true;
+		return false;
+	}
 }

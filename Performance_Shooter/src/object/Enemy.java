@@ -1,6 +1,8 @@
 package object;
 
 import static helpers.Graphics.drawQuad;
+import static helpers.Leveler.TILES_HEIGHT;
+import static helpers.Setup.TILE_SIZE;
 
 import java.awt.Rectangle;
 import java.util.Random;
@@ -154,5 +156,12 @@ public abstract class Enemy implements Entity{
 	public Vector2f[] getVertices() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public boolean isOutOfMap()
+	{
+		if((TILES_HEIGHT * TILE_SIZE) < y)
+			return true;
+		return false;
 	}
 }

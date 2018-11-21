@@ -239,8 +239,7 @@ public class Editor {
 					
 					if(menuUI.isButtonClicked("Return"))
 					{
-						MOVEMENT_X = 0;
-						MOVEMENT_Y = 0;
+						handler.getStatemanager().getMainMenu().enterMainMenu();
 						StateManager.gameState = GameState.MAINMENU;
 					}
 				}
@@ -566,6 +565,7 @@ public class Editor {
 				
 				if(controllsUI.isButtonClicked("Return"))
 				{
+					StateManager.CURRENT_LEVEL = 0;
 					this.editor_state = false;
 					this.menu_state = true;
 				}

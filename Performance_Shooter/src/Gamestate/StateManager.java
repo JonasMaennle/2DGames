@@ -2,6 +2,7 @@ package Gamestate;
 
 import data.Handler;
 import data.MusicHandler;
+import static helpers.Graphics.*;
 
 import static helpers.Leveler.*;
 
@@ -11,9 +12,13 @@ public class StateManager {
 		MAINMENU, GAME, DEAD, LOADING, EDITOR
 	}
 	
+	// Start parameter
+	private static final int START_LEVEL = 1;
 	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
+	public static String ENVIRONMENT_SETTING = "";
+	
 	public static GameState lastState = GameState.MAINMENU;
-	public static int CURRENT_LEVEL = 0;
+	public static int CURRENT_LEVEL = (START_LEVEL - 1);;
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
@@ -46,9 +51,10 @@ public class StateManager {
 			break;
 			
 		case GAME:
-			if(CURRENT_LEVEL == 0) // Just for init state = GAME
+			if(CURRENT_LEVEL == (START_LEVEL - 1)) // Just for init state = GAME
 			{
 				gameState = GameState.LOADING;
+				lastState = GameState.GAME;
 				return;
 			}
 			game.update();
@@ -88,9 +94,12 @@ public class StateManager {
 		CURRENT_LEVEL++;
 		handler.wipe();
 
-		switch (CURRENT_LEVEL) {
+		switch (CURRENT_LEVEL) 
+		{
 		// Szenario maps
 		case 1:
+			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
+			ENVIRONMENT_SETTING = "_Snow";
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
 			break;
 		case 2:
@@ -98,7 +107,13 @@ public class StateManager {
 			// game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
 			break;
 		case 3:
+			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
+			ENVIRONMENT_SETTING = "_Snow";
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
+			break;
+		case 4:
+			mainMenu.enterMainMenu();
+			gameState = GameState.MAINMENU;
 			break;
 
 		// Editor Maps
@@ -123,7 +138,7 @@ public class StateManager {
 	
 	public void resetCurrentLevel()
 	{
-		CURRENT_LEVEL--;
+		if(lastState != GameState.EDITOR)CURRENT_LEVEL--;
 		loadLevel();
 		gameState = GameState.GAME;
 	}
@@ -140,5 +155,10 @@ public class StateManager {
 	public Editor getEditor()
 	{
 		return editor;
+	}
+	
+	public MainMenu getMainMenu()
+	{
+		return mainMenu;
 	}
 }

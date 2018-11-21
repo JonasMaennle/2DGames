@@ -283,4 +283,15 @@ public class MainMenu {
 			}
 		}
 	}
+	
+	public void enterMainMenu()
+	{
+		StateManager.CURRENT_LEVEL = 0;
+		MOVEMENT_X = 0;
+		MOVEMENT_Y = 0;
+		Mouse.setGrabbed(false);
+		Mouse.setCursorPosition(WIDTH/2, (int)(HEIGHT * 0.66f));
+		enableMouse = false;
+		selectedButton = 0;
+	}
 }

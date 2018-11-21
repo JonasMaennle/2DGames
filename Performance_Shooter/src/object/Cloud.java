@@ -109,4 +109,9 @@ public class Cloud implements Entity{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean isOutOfMap() {
+		return false;
+	}
 }
