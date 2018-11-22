@@ -12,9 +12,10 @@ public class Particle {
 	private Image particles;
 	private Random rand;
 	private int x, y, width, height;
-	private float velX, velY, speed;
+	private float velX, velY, speed, angle;
+	private String color;
 	
-	public Particle(int x, int y, int width, int height, float velX, float velY, float speed, String color)
+	public Particle(int x, int y, int width, int height, float velX, float velY, float speed, String color, float angle)
 	{
 		this.x = x;
 		this.y = y;
@@ -24,10 +25,13 @@ public class Particle {
 		this.width = width;
 		this.height = height;
 		this.speed = speed;
+		this.angle = angle;
+		this.color = color;
 		
 		if(color.equals("gray"))particles = quickLoaderImage("particles/Rock_" + rand.nextInt(5));
 		if(color.equals("brown"))particles = quickLoaderImage("particles/Dirt_" + rand.nextInt(5));
 		if(color.equals("red"))particles = quickLoaderImage("particles/Blood_" + rand.nextInt(5));
+		if(color.equals("white"))particles = quickLoaderImage("particles/Snow_" + rand.nextInt(5));
 		
 		if(this.velX == 0)
 			this.velX = rand.nextInt(10)+1;
@@ -41,11 +45,21 @@ public class Particle {
 		y += velY * speed;
 		
 		velY += 0.1f;
+		
+		if(color.equals("white"))
+		{
+			velX -= 0.1f;
+			
+			if(velX < -10)
+				velX = -10;
+			if(velY > 10)
+				velY = 10;
+		}
 	}
 	
 	public void draw()
 	{
-		drawQuadImage(particles, x, y, width, height);
+		drawQuadImageRot(particles, x, y, width, height, angle);
 	}
 	
 	public boolean isOutOfMap()
@@ -53,6 +67,13 @@ public class Particle {
 		if(x < getLeftBorder() || x > getRightBorder() || y < getTopBorder() || y > getBottomBorder())
 			return true;
 		
+		return false;
+	}
+	
+	public boolean isOutOfMapBottom()
+	{
+		if(y > getBottomBorder())
+			return true;
 		return false;
 	}
 }

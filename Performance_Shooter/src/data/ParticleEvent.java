@@ -15,8 +15,8 @@ public class ParticleEvent {
 		for(int i = 0; i < number; i++)
 		{
 			// 										Particle(int x, int y, int width, int height, float velX, float velY, float speed)
-			if(modus.equals("normal"))list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-5, rand.nextInt(5)+5, color));
-			if(modus.equals("small"))list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-10, rand.nextInt(5)+3, color));
+			if(modus.equals("normal"))list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-5, rand.nextInt(5)+5, color, 0));
+			if(modus.equals("small"))list.add(new Particle(startX, startY, rand.nextInt(10)+1, rand.nextInt(10)+1, rand.nextInt(10)-5, rand.nextInt(10)-10, rand.nextInt(5)+3, color, 0));
 		}
 	}
 	

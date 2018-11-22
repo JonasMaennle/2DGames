@@ -3,11 +3,15 @@ package Gamestate;
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
 import Enity.Entity;
+import data.Particle;
 import object.Cloud;
 
 public class BackgroundHandler {
@@ -18,6 +22,9 @@ public class BackgroundHandler {
 	private float alpha;
 	private Cloud cloud;
 	private Entity entity;
+	private CopyOnWriteArrayList<Particle> snowList;
+	private Random rand;
+	private long timer1, timer2;
 	
 	public BackgroundHandler(Entity entity)
 	{
@@ -36,6 +43,11 @@ public class BackgroundHandler {
 		this.bg03_offset = Display.getX() - Display.getWidth();
 		this.bg04_offset = Display.getX();
 		this.bg05_offset = Display.getX() + Display.getWidth();
+		
+		this.snowList = new CopyOnWriteArrayList<>();
+		this.rand = new Random();
+		this.timer1 = System.currentTimeMillis();
+		this.timer2 = timer1;
 		
 		this.alpha = 0.1f; // for nightmode 1 = dark
 	}
@@ -135,6 +147,27 @@ public class BackgroundHandler {
 		GL11.glColor4f(0, 0, 0, alpha);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
+		
+		if(StateManager.ENVIRONMENT_SETTING.equals("_Snow"))letItSnow();
+		// Draw Snow
+		for(Particle snow : snowList)
+		{
+			snow.update();
+			snow.draw();
+			if(snow.isOutOfMapBottom())
+				snowList.remove(snow);
+		}
+	}
+	
+	private void letItSnow()
+	{
+		timer1 = System.currentTimeMillis();
+		if(timer1 - timer2 > 10) // Spawn snowflake each x ms
+		{
+			timer2 = timer1;
+			//				 Particle(int x, int y, int width, int height, float velX, float velY, float speed, String color, float angle)
+			snowList.add(new Particle((int)getLeftBorder() - WIDTH + rand.nextInt(WIDTH*3), (int)getTopBorder() - 16, 16, 16, -2, 2, 0.2f, "white", rand.nextInt(360)));
+		}
 	}
 	
 	public void setCustomBackground(Image foreground, Image background)
