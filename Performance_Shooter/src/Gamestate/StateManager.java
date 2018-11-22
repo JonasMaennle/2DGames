@@ -13,7 +13,7 @@ public class StateManager {
 	}
 	
 	// Start parameter
-	private static final int START_LEVEL = 1;
+	private static final int START_LEVEL = 4;
 	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static String ENVIRONMENT_SETTING = "";
 	
@@ -98,20 +98,20 @@ public class StateManager {
 		{
 		// Szenario maps
 		case 1:
-			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
-			ENVIRONMENT_SETTING = "_Snow";
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
 			break;
 		case 2:
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
-			// game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
 			break;
 		case 3:
+			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
+			break;
+		case 4:
 			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
 			ENVIRONMENT_SETTING = "_Snow";
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
 			break;
-		case 4:
+		case 5:
 			mainMenu.enterMainMenu();
 			gameState = GameState.MAINMENU;
 			break;

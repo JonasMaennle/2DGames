@@ -210,6 +210,12 @@ public class Leveler {
 				{
 					grid.setTile(x, y, TileType.RedWood_09);
 				}
+		// Ice
+				if(red == 0 && green == 148 && blue == 255)
+				{
+					grid.setTile(x, y, TileType.Ice_Basic);
+					handler.obstacleList.add(grid.getTile(x, y));
+				}
 			}
 		}
 		handler.setCurrentEntity(handler.player);

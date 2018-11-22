@@ -26,7 +26,7 @@ public class Player implements Entity{
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom, rectRampSensor;
 	private Handler handler;
 	
-	protected float x, y, velX, velY;
+	protected float x, y, velX, velY, snowVelX;
 	private float speed, gravity;
 	private int health;
 	private boolean falling, jumping;
@@ -34,7 +34,7 @@ public class Player implements Entity{
 	private int frameCount;
 	private String currentAnimation;
 	private String direction;
-	private boolean shooting;
+	private boolean shooting, onIce;
 	private long timer1, timer2;
 	private int idleStop;
 	
@@ -57,12 +57,14 @@ public class Player implements Entity{
 		this.y = y;
 		this.direction = "right";
 		this.jumping = false;
+		this.snowVelX = 1;
 		this.falling = true;
 		this.frameCount = 100;
 		this.health = 100;
 		this.gravity = 4;
 		this.idleStop = 9;
 		this.shooting = false;
+		this.onIce = false;
 		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectRight = new Rectangle((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
@@ -86,7 +88,16 @@ public class Player implements Entity{
 	
 	public void update()
 	{	
-		velX = 0;
+		if(onIce)
+		{
+			if(velX > 0)
+				velX = snowVelX;
+			if(velX < 0)
+				velX = -snowVelX;
+		}else{
+			velX = 0;
+		}
+
 		velY = gravity;
 		//System.out.println(y + "      " + (HEIGHT - Mouse.getY() - MOVEMENT_Y)); // top 767 - bottom 0
 		weapon.calcAngle(Mouse.getX() - MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y);
@@ -94,12 +105,14 @@ public class Player implements Entity{
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
+			snowVelX = 1;
 			velX += 1;
 			currentAnimation = "anim_walkRight";
 			direction = "right";
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
+			snowVelX = 1;
 			velX -= 1;
 			currentAnimation = "anim_walkLeft";
 			direction = "left";
@@ -107,6 +120,7 @@ public class Player implements Entity{
 		
 		if(!Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
+			if(snowVelX > 0)snowVelX -= 0.01f;
 			if(direction.equals("right"))
 				currentAnimation = "anim_idleRight";
 			else
@@ -290,6 +304,13 @@ public class Player implements Entity{
 				}
 				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
 				{
+					onIce = false;
+					velY = 0;
+					y = (float) (r.getY() - TILE_SIZE * 2);
+				}
+				if(t.getType() == TileType.Ice_Basic)
+				{
+					onIce = true;
 					velY = 0;
 					y = (float) (r.getY() - TILE_SIZE * 2);
 				}

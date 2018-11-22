@@ -78,11 +78,7 @@ public class MainMenu {
 		// Skip Intro
 		if(Keyboard.isKeyDown(Keyboard.KEY_I)) 
 		{
-			showAtStart = false;
-			button_moveY = (HEIGHT * 0.35f) + 1;
-			scaleWidth = 0;
-			scaleHeight = 0;
-			mainTheme.stop();
+			enterMainMenu();
 		}
 		// Draw Space
 		drawQuadImageStatic(background_space, 0, 0, 2048, 2048);
@@ -289,9 +285,16 @@ public class MainMenu {
 		StateManager.CURRENT_LEVEL = 0;
 		MOVEMENT_X = 0;
 		MOVEMENT_Y = 0;
+		StateManager.ENVIRONMENT_SETTING = "";
 		Mouse.setGrabbed(false);
-		Mouse.setCursorPosition(WIDTH/2, (int)(HEIGHT * 0.66f));
+		Mouse.setCursorPosition((int)getLeftBorder() + WIDTH/2, (int)(getTopBorder() + (HEIGHT * 0.66f)));
 		enableMouse = false;
 		selectedButton = 0;
+		
+		showAtStart = false;
+		button_moveY = (HEIGHT * 0.35f) + 1;
+		scaleWidth = 0;
+		scaleHeight = 0;
+		mainTheme.stop();
 	}
 }
