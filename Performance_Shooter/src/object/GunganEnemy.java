@@ -98,15 +98,24 @@ public class GunganEnemy extends Enemy{
 		
 		// calc current angle
 		entity = handler.getCurrentEntity();
-		calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + (entity.getHeight()/4));
+		
 		
 		// check if testShoot() is possible
-		if(entity.getX() < x)
-			if(x - entity.getX() < (WIDTH/2)-TILE_SIZE)
-				testShoot();
-		if(entity.getX() > x)
-			if(entity.getX() - x < (WIDTH/2)-TILE_SIZE)
-				testShoot();
+//		if(entity.getX() < x)
+//			if(x - entity.getX() < (WIDTH/2)-TILE_SIZE)
+//			{
+//				calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + rand.nextInt(entity.getHeight()));
+//				testShoot((int)destX, (int)destY);
+//			}
+//
+//		if(entity.getX() > x)
+//			if(entity.getX() - x < (WIDTH/2)-TILE_SIZE)
+//			{
+//				calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + rand.nextInt(entity.getHeight()));
+//				testShoot((int)destX, (int)destY);
+//			}
+		
+		calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + rand.nextInt(entity.getHeight())); //  rand.nextInt(entity.getHeight()
 
 		
 		updateBounds();
@@ -162,7 +171,7 @@ public class GunganEnemy extends Enemy{
 		drawQuadImage(healthForeground, x + 4, y - 20, health, 6);
 		drawQuadImage(healthBorder, x + 4, y - 20, width - 8, 6);
 
-		//drawQuad((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight());
+		drawQuad((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight());
 		
 		//drawBounds();
 	}
@@ -214,11 +223,11 @@ public class GunganEnemy extends Enemy{
 	    if(angle < 0){
 	        angle += 360;
 	    }
-	    
+		testShoot((int)destX, (int)destY);
 		//System.out.println("Angle: " + angle);
 	}
 	
-	private void testShoot()
+	private void testShoot(int destX, int destY)
 	{
 		float totalAllowedMovement = 1.0f;
 		float xDistanceFromTarget = Math.abs(destX - x);
@@ -230,13 +239,13 @@ public class GunganEnemy extends Enemy{
 		tVelY = totalAllowedMovement - xPercentOfMovement;
 		
 		// set direction based on position of target relative to tower
-		if(destY-30 < tY)
+		if(destY - 5 < tY)
 			tVelY *= -1;
 		if(destX < tX)
 			tVelX *= -1;	
 		// move test bullet
-		tX += tVelX * 50;
-		tY += tVelY * 50;
+		tX += tVelX * 20;
+		tY += tVelY * 20;
 		testShot.setLocation((int)tX, (int)tY);
 		
 		// check map collisions
@@ -244,27 +253,27 @@ public class GunganEnemy extends Enemy{
 		{
 			if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), t.getX(), t.getY(), t.getWidth(), t.getHeight()))
 			{
-				testShot.setLocation((int)x, (int)y);
+				testShot.setLocation((int)x, (int)y + 45);
 				tX = x + (width / 2);
-				tY = y + 55;
+				tY = y + 45;
 			}
 		}
 		// check player collision
 		if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), entity.getX(), entity.getY(), entity.getWidth(), entity.getHeight()))
 		{
-			testShot.setLocation((int)x + (width / 2), (int)y + 55);
+			testShot.setLocation((int)x + (width / 2), (int)y + 45);
 			tX = x + (width / 2);
-			tY = y + 55;
+			tY = y + 45;
 			
 			// check if gungan is facing player
-			if(velX > 0 && entity.getX() > x)
-				shoot();
-			if(velX < 0 && entity.getX() < x)
-				shoot();
+			//if(velX > 0 && entity.getX() > x)
+				shoot(destX, destY);
+			//if(velX < 0 && entity.getX() < x)
+				//shoot(destX, destY);
 		}
 	}
 	
-	private void shoot()
+	private void shoot(int destX, int destY)
 	{
 		// shoot every 500 ms
 		timer1 = System.currentTimeMillis();
@@ -272,7 +281,7 @@ public class GunganEnemy extends Enemy{
 		{
 			timer2 = timer1;
 			//System.out.println("x:" + x + " y: " + y + "  destX: " + destX + " destY: " +destY);
-			laserList.add(new Laser(x + (width/2), y + 55, destX, destY, 25, 4, 15, "green", -angle));
+			laserList.add(new Laser(x + (width/2), y + 45, destX, destY, 25, 4, 25, "green", -angle));
 			lasterShot.play();
 		}
 	}
