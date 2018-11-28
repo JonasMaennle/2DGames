@@ -30,8 +30,7 @@ public class GunganEnemy extends Enemy{
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
 		this.velX = 1;
 		if(rand.nextBoolean())this.velX = -1;
-		this.tX = x + (width/2);
-		this.tY = y + 55;
+		
 		this.angle = 0;
 		this.handler = handler;
 		this.timer1 = System.currentTimeMillis();
@@ -39,11 +38,19 @@ public class GunganEnemy extends Enemy{
 		this.gravity = 4;
 		this.speed = rand.nextInt(3)+1;
 		this.health = width - 8;
+		
+		this.idleLeft = quickLoaderImage("enemy/enemy_left");
+		this.idleRight = quickLoaderImage("enemy/enemy_right");
+		
 		this.anim_walkRight = new Animation(loadSpriteSheet("enemy/enemy_right_sheet", TILE_SIZE, TILE_SIZE * 2), 50);
 		this.anim_walkLeft = new Animation(loadSpriteSheet("enemy/enemy_left_sheet", TILE_SIZE, TILE_SIZE * 2), 50);
 		try {
 			this.lasterShot = new Sound("sound/rebel_laser.wav");
 		} catch (SlickException e) {e.printStackTrace();}
+		
+		this.direction = "right";
+		if(velX < 0)
+			direction = "left";
 	}
 	
 	public GunganEnemy(float x, float y, int width, int height, Handler handler, int range) 
@@ -55,8 +62,7 @@ public class GunganEnemy extends Enemy{
 		this.velX = 1;
 		if(rand.nextBoolean())this.velX = -1;
 		this.angle = 0;
-		this.tX = x + (width/2);
-		this.tY = y + 55;
+
 		this.handler = handler;
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
@@ -65,12 +71,20 @@ public class GunganEnemy extends Enemy{
 		this.health = width - 8;
 		this.rangeLeft = (int)x - (range * 64);
 		this.rangeRight = (int)x + (range * 64);
+		
+		this.idleLeft = quickLoaderImage("enemy/enemy_left");
+		this.idleRight = quickLoaderImage("enemy/enemy_right");
+		
 		this.anim_walkRight = new Animation(loadSpriteSheet("enemy/enemy_right_sheet", TILE_SIZE, TILE_SIZE * 2), 500);
 		this.anim_walkLeft = new Animation(loadSpriteSheet("enemy/enemy_left_sheet", TILE_SIZE, TILE_SIZE * 2), 500);
 		
 		try {
 			this.lasterShot = new Sound("sound/rebel_laser.wav");
 		} catch (SlickException e) {e.printStackTrace();}
+		
+		this.direction = "right";
+		if(velX < 0)
+			direction = "left";
 	}
 	
 	public void update()
@@ -79,44 +93,39 @@ public class GunganEnemy extends Enemy{
 		{
 			if(rangeRight > x && velX > 0)
 			{
+				direction = "right";
 				velX = 1;
 			}else if(rangeRight < x)
 			{
+				direction = "left";
 				velX = -1;
 			}
 			
 			if(rangeLeft < x && velX < 0)
 			{
+				direction = "left";
 				velX = -1;
 			}else if(rangeLeft > x)
 			{
+				direction = "right";
 				velX = 1;
 			}
 		}
-		x += velX * speed;
-		y += gravity;
 		
 		// calc current angle
 		entity = handler.getCurrentEntity();
+		calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + 5 + rand.nextInt(entity.getHeight()-10) ); //  rand.nextInt(entity.getHeight()-10)
 		
+		if(System.currentTimeMillis() - lastShot > 1500)
+		{
+			if(direction.equals("left"))
+				velX = -1;
+			if(direction.equals("right"))
+				velX = 1;
+		}
 		
-		// check if testShoot() is possible
-//		if(entity.getX() < x)
-//			if(x - entity.getX() < (WIDTH/2)-TILE_SIZE)
-//			{
-//				calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + rand.nextInt(entity.getHeight()));
-//				testShoot((int)destX, (int)destY);
-//			}
-//
-//		if(entity.getX() > x)
-//			if(entity.getX() - x < (WIDTH/2)-TILE_SIZE)
-//			{
-//				calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + rand.nextInt(entity.getHeight()));
-//				testShoot((int)destX, (int)destY);
-//			}
-		
-		calcAngle(entity.getX() + (entity.getWidth()/2), entity.getY() + rand.nextInt(entity.getHeight())); //  rand.nextInt(entity.getHeight()
-
+		x += velX * speed;
+		y += gravity;
 		
 		updateBounds();
 		mapCollision();
@@ -161,9 +170,18 @@ public class GunganEnemy extends Enemy{
 			//drawQuadImage(image_right, x, y, width, height);
 			drawAnimation(anim_walkRight, x, y, TILE_SIZE, TILE_SIZE * 2);
 			
-		}else{
+		}else if (velX < 0){
 			//drawQuadImage(image_left, x, y, width, height);
 			drawAnimation(anim_walkLeft, x, y, TILE_SIZE, TILE_SIZE * 2);
+		}
+		
+		if(velX == 0 && direction.equals("right"))
+		{
+			drawQuadImage(idleRight, x, y, width, height);
+		}
+		if(velX == 0 && direction.equals("left"))
+		{
+			drawQuadImage(idleLeft, x, y, width, height);
 		}
 		
 		// draw health bar
@@ -171,7 +189,7 @@ public class GunganEnemy extends Enemy{
 		drawQuadImage(healthForeground, x + 4, y - 20, health, 6);
 		drawQuadImage(healthBorder, x + 4, y - 20, width - 8, 6);
 
-		drawQuad((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight());
+		//if(testShot != null)testShot.draw();
 		
 		//drawBounds();
 	}
@@ -197,11 +215,13 @@ public class GunganEnemy extends Enemy{
 
 			if(r.intersects(rectLeft))
 			{
+				direction = "right";
 				velX = 1;
 				x = (float) ((float) r.getX() + r.getWidth() + 1);
 			}
 			if(r.intersects(rectRight))
 			{
+				direction = "left";
 				velX = -1;
 				x = (float) (r.getX() - width - 1);
 			}
@@ -223,65 +243,53 @@ public class GunganEnemy extends Enemy{
 	    if(angle < 0){
 	        angle += 360;
 	    }
-		testShoot((int)destX, (int)destY);
+		calcTestShot((int)destX, (int)destY);
 		//System.out.println("Angle: " + angle);
 	}
 	
-	private void testShoot(int destX, int destY)
+	private void calcTestShot(int destX, int destY)
 	{
-		float totalAllowedMovement = 1.0f;
-		float xDistanceFromTarget = Math.abs(destX - x);
-		float yDistanceFromTarget = Math.abs(destY-30 - y);
-		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
-		float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
+		if(testShot == null)
+			testShot = new TestShot(x + (width/2), y + 55, destX, destY, 4, 4, 32);
 		
-		tVelX = xPercentOfMovement;
-		tVelY = totalAllowedMovement - xPercentOfMovement;
+		testShot.update();
 		
-		// set direction based on position of target relative to tower
-		if(destY - 5 < tY)
-			tVelY *= -1;
-		if(destX < tX)
-			tVelX *= -1;	
-		// move test bullet
-		tX += tVelX * 20;
-		tY += tVelY * 20;
-		testShot.setLocation((int)tX, (int)tY);
+		if(testShot.isOutOfMap())
+			testShot = null;
 		
 		// check map collisions
 		for(Tile t : handler.obstacleList)
 		{
-			if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), t.getX(), t.getY(), t.getWidth(), t.getHeight()))
+			if(testShot != null && checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), t.getX(), t.getY(), t.getWidth(), t.getHeight()))
 			{
-				testShot.setLocation((int)x, (int)y + 45);
-				tX = x + (width / 2);
-				tY = y + 45;
+				testShot = null;
 			}
 		}
 		// check player collision
-		if(checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), entity.getX(), entity.getY(), entity.getWidth(), entity.getHeight()))
+		if(testShot != null && checkCollision((float)testShot.getX(), (float)testShot.getY(), (float)testShot.getWidth(), (float)testShot.getHeight(), entity.getX(), entity.getY(), entity.getWidth(), entity.getHeight()))
 		{
-			testShot.setLocation((int)x + (width / 2), (int)y + 45);
-			tX = x + (width / 2);
-			tY = y + 45;
+			testShot = null;
 			
 			// check if gungan is facing player
-			//if(velX > 0 && entity.getX() > x)
+			if(velX >= 0 && entity.getX() > x)
 				shoot(destX, destY);
-			//if(velX < 0 && entity.getX() < x)
-				//shoot(destX, destY);
+			if(velX <= 0 && entity.getX() < x)
+				shoot(destX, destY);
 		}
 	}
 	
 	private void shoot(int destX, int destY)
 	{
+		velX = 0;
+		lastShot = System.currentTimeMillis();
+		
 		// shoot every 500 ms
 		timer1 = System.currentTimeMillis();
 		if(timer1 - timer2 > 500)
 		{
 			timer2 = timer1;
 			//System.out.println("x:" + x + " y: " + y + "  destX: " + destX + " destY: " +destY);
-			laserList.add(new Laser(x + (width/2), y + 45, destX, destY, 25, 4, 25, "green", -angle));
+			laserList.add(new Laser(x + (width/2), y + 50, destX, destY, 25, 4, 10, "green", -angle));
 			lasterShot.play();
 		}
 	}

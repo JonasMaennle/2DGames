@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 
 import Enity.Entity;
 import data.TileGrid;
@@ -25,11 +26,16 @@ public abstract class Enemy implements Entity{
 	protected TileGrid grid;
 	protected Light light;
 	protected Rectangle rectLeft, rectRight, rectTop, rectBottom;
-	protected Rectangle testShot;
 	protected float tX, tY, tVelX, tVelY;
 	protected CopyOnWriteArrayList<Laser> laserList;
 	protected Entity entity;
 	protected Random rand;
+	protected TestShot testShot;
+	protected long lastShot;
+	
+	protected String direction;
+	
+	protected Image idleLeft, idleRight;
 	
 	protected Animation anim_walkRight;
 	protected Animation anim_walkLeft;
@@ -53,7 +59,7 @@ public abstract class Enemy implements Entity{
 		
 		this.tX = x;
 		this.tY = y;
-		this.testShot = new Rectangle((int)tX, (int)tY, 4, 4);
+		//this.testShot = new TestShot(x + (width/2), y + 45, 0, 0, 4, 4, 5);
 		
 		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (height) - 16);
 		this.rectRight = new Rectangle((int)x + width - 4, (int)y + 4, 4, (height) - 16);

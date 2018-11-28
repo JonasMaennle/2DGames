@@ -415,7 +415,7 @@ public class Player implements Entity{
 
 	public void damage(int amount) 
 	{
-		health -= amount;
+		//health -= amount;
 		if(health <= 0)
 		{
 			health = 0;

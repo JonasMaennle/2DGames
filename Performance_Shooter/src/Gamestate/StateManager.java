@@ -18,7 +18,7 @@ public class StateManager {
 	public static String ENVIRONMENT_SETTING = "";
 	
 	public static GameState lastState = GameState.MAINMENU;
-	public static int CURRENT_LEVEL = (START_LEVEL - 1);;
+	public static int CURRENT_LEVEL = (START_LEVEL - 1);
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
