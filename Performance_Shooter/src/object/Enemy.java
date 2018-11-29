@@ -170,4 +170,13 @@ public abstract class Enemy implements Entity{
 			return true;
 		return false;
 	}
+	
+	
+	public float getVelX() {
+		return velX;
+	}
+
+	public float getVelY() {
+		return velY;
+	}
 }
