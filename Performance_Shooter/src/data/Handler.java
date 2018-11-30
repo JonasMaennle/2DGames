@@ -133,7 +133,7 @@ public class Handler {
 		
 
 		// Draw alpha FILTER
-		GL11.glColor4f(0, 0, 0, 0.2f);
+		GL11.glColor4f(0, 0, 0, 0.3f);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
 		
@@ -182,7 +182,7 @@ public class Handler {
 		{
 			timer2 = timer1;
 			// Data output
-			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond);
+			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight:" + lights.size());
 		}
 	}
 	

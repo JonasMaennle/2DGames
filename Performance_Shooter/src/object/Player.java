@@ -137,10 +137,10 @@ public class Player implements Entity{
 		}
 		
 		// Shoot
-		if(Mouse.isButtonDown(0) && !shooting)
+		if(Mouse.isButtonDown(0) && !shooting && Mouse.getY() < 1000)
 		{
 			shooting = true;
-
+			//System.out.println(Mouse.getY());
 			weapon.shoot();
 			anim_idleRight.restart();
 			anim_idleLeft.restart();
