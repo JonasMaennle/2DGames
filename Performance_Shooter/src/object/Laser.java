@@ -4,6 +4,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
 import Enity.Entity;
+import shader.Light;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
@@ -16,6 +17,7 @@ public class Laser implements Entity{
 	private float x, y, width, height, angle, destX, destY, speed;
 	private float velX, velY;
 	private String color;
+	private Light light;
 	
 	public Laser(float x, float y, float width, float height, String direction, int speed, String color, float angle)
 	{
@@ -26,15 +28,24 @@ public class Laser implements Entity{
 		this.angle = angle;
 		this.speed = speed;
 		
+		
 		if(color.equals("red"))
+		{
+			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 5, 0, 0, 1f);
 			this.image = quickLoaderImage("player/laser_small_red");
-		else if(color.equals("green"))
+		}else if(color.equals("green"))
+		{
+			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 5, 0, 1f);
 			this.image = quickLoaderImage("player/laser_small_green");
+		}
+
 		
 		if(direction.equals("right"))
 			velX = 1;
 		else
 			velX = -1;
+		
+		lights.add(light);
 	}
 	
 	public Laser(float x, float y, float destX, float destY, float width, float height, int speed, String color, float angle)
@@ -50,10 +61,17 @@ public class Laser implements Entity{
 		this.color = color;
 		
 		if(color.equals("red"))
+		{
+			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 5, 0, 0, 4f);
 			this.image = quickLoaderImage("player/laser_small_red");
-		else if(color.equals("green"))
+		}else if(color.equals("green"))
+		{
+			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 5, 0, 4f);
 			this.image = quickLoaderImage("player/laser_small_green");
-		
+		}
+		lights.add(light);
+		//System.out.println(light.getLocation().x);
+		//System.out.println(x);
 		calculateDirection();
 	}
 	
@@ -61,9 +79,9 @@ public class Laser implements Entity{
 	{
 		y += velY * speed;
 		x += velX * speed;;
+		
+		light.setLocation(new Vector2f(x+ MOVEMENT_X + width/2, y + MOVEMENT_Y + 4));
 	}
-	
-	
 	
 	public void draw()
 	{
@@ -73,7 +91,10 @@ public class Laser implements Entity{
 	public boolean isOutOfMap()
 	{
 		if(x - width < getLeftBorder()-500 || x > getRightBorder()+500)
+		{
 			return true;
+		}
+
 		return false;
 	}
 	
@@ -102,6 +123,11 @@ public class Laser implements Entity{
 		
 		if(destX < x)
 			velX *= -1;	
+	}
+	
+	public void removeLight()
+	{
+		lights.remove(light);
 	}
 
 	@Override
@@ -177,5 +203,13 @@ public class Laser implements Entity{
 	public Rectangle getBounds()
 	{
 		return new Rectangle((int)x, (int)y, (int)width, (int)height);
+	}
+
+	public Light getLight() {
+		return light;
+	}
+
+	public void setLight(Light light) {
+		this.light = light;
 	}
 }

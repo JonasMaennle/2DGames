@@ -176,6 +176,7 @@ public class MainMenu {
 			{
 				if(selectedButton == 0)
 				{
+					StateManager.CURRENT_LEVEL = 0;
 					StateManager.setState(GameState.LOADING);
 				}
 				if(selectedButton == 1)
@@ -263,6 +264,7 @@ public class MainMenu {
 		{
 			if(menuUI.isButtonClicked("Start"))
 			{
+				StateManager.CURRENT_LEVEL = 0;
 				StateManager.setState(GameState.LOADING);
 			}
 				
@@ -296,5 +298,7 @@ public class MainMenu {
 		scaleWidth = 0;
 		scaleHeight = 0;
 		mainTheme.stop();
+		
+		lights.clear();
 	}
 }

@@ -24,21 +24,26 @@ public class Shader {
 	
 	private int programId;
 	private int fragmentShader;
+	private StringBuilder fragmentShaderSource;
+	private float input;
 	
-	public Shader() {
+	public Shader(float input) 
+	{
 		programId = glCreateProgram();
 		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		this.input = input;
 	}
 	
-	public void loadFragmentShader(String path) {
-		StringBuilder fragmentShaderSource = new StringBuilder();
+	public void loadFragmentShader() {
+		fragmentShaderSource = new StringBuilder();
 
 		try {
 			String line;
 			InputStreamReader in = new InputStreamReader(this.getClass().getResourceAsStream("/shaders/shader.frag"));
 			BufferedReader reader = new BufferedReader(in);
-			while ((line = reader.readLine()) != null) {
-				fragmentShaderSource.append(line).append("\n");
+			while ((line = reader.readLine()) != null) 
+			{
+				fragmentShaderSource.append(line); // .append("\n")
 			}
 			reader.close();
 		} catch (FileNotFoundException e) {
@@ -46,8 +51,27 @@ public class Shader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		fragmentShaderSource.replace(187, 191, "" + input + "f");
+		
+		//System.out.println(fragmentShaderSource.toString());
 		glShaderSource(fragmentShader, fragmentShaderSource);
 	}
+	
+//	public void changeShader(float input)
+//	{
+//		this.input = input;
+//		//System.out.println(fragmentShaderSource.substring(187, 191));
+//		fragmentShaderSource.replace(187, 191, "" + this.input + "f");
+//		//System.out.println(fragmentShaderSource.toString());
+//		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+//		
+//		programId = glCreateProgram();
+//		glShaderSource(fragmentShader, fragmentShaderSource);
+//		compile();
+//		
+//		unUse();
+//	}
 	
 	public void compile() {
 		glCompileShader(fragmentShader);
@@ -74,5 +98,13 @@ public class Shader {
 	
 	public int getProgram() {
 		return programId;
+	}
+
+	public float getInput() {
+		return input;
+	}
+
+	public void setInput(float input) {
+		this.input = input;
 	}
 }

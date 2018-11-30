@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
 import Enity.Entity;
+import data.Handler;
 import data.Particle;
 import object.Cloud;
 
@@ -26,7 +27,7 @@ public class BackgroundHandler {
 	private Random rand;
 	private long timer1, timer2;
 	
-	public BackgroundHandler(Entity entity)
+	public BackgroundHandler(Entity entity, Handler handler)
 	{
 		this.background = quickLoaderImage("background/background_00");
 		this.foreground = quickLoaderImage("background/background_03");
@@ -48,8 +49,8 @@ public class BackgroundHandler {
 		this.rand = new Random();
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
-		
-		this.alpha = 0.1f; // for nightmode 1 = dark
+
+		this.alpha = 0.4f; // for nightmode 1 = dark
 	}
 	
 	public void draw()
@@ -97,7 +98,7 @@ public class BackgroundHandler {
 		drawQuadImageStatic(background, bg00_offset + 1, 0, WIDTH, HEIGHT*2);
 		drawQuadImageStatic(background, bg01_offset, 0, WIDTH, HEIGHT*2);
 		drawQuadImageStatic(background, bg02_offset - 1, 0, WIDTH, HEIGHT*2);
-
+		
 		// Calculate and draw CLOUDS
 		cloud.update();
 		cloud.draw();

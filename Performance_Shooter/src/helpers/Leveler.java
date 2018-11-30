@@ -48,30 +48,35 @@ public class Leveler {
 				{
 					grid.setTile(x, y, TileType.Grass_Flat);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Grey -> Grass_Left
 				if(red == 64 && green == 64 && blue == 64)
 				{
 					grid.setTile(x, y, TileType.Grass_Left);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Grey -> Grass_Right
 				if(red == 48 && green == 48 && blue == 48)
 				{
 					grid.setTile(x, y, TileType.Grass_Right);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Grey -> Grass_Round
 				if(red == 128 && green == 128 && blue == 128)
 				{
 					grid.setTile(x, y, TileType.Grass_Round);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Brown -> Grass_Round_Half -> velX = 1
 				if(red == 100 && green == 50 && blue == 50)
 				{
 					grid.setTile(x, y, TileType.Grass_Round_Half);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Brown -> Grass_Round_Half -> velX = -1
 				if(red == 100 && green == 50 && blue == 100)
@@ -79,24 +84,28 @@ public class Leveler {
 					grid.setTile(x, y, TileType.Grass_Round_Half);
 					grid.getTile(x, y).setVelX(-1);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Brown -> Grass_Left_Half
 				if(red == 150 && green == 50 && blue == 50)
 				{
 					grid.setTile(x, y, TileType.Grass_Left_Half);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Brown -> Grass_Right_Half
 				if(red == 150 && green == 50 && blue == 70)
 				{
 					grid.setTile(x, y, TileType.Grass_Right_Half);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Brown -> Grass_Flat_Half
 				if(red == 150 && green == 70 && blue == 70)
 				{
 					grid.setTile(x, y, TileType.Grass_Flat_Half);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 		// Dirt Tile
 				// brown -> Dirt_Basic
@@ -104,18 +113,21 @@ public class Leveler {
 				{
 					grid.setTile(x, y, TileType.Dirt_Basic);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Ramp Start
 				if(red == 80 && green == 50 && blue == 0)
 				{
 					grid.setTile(x, y, TileType.Ramp_Start);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				// Ramp End
 				if(red == 70 && green == 50 && blue == 0)
 				{
 					grid.setTile(x, y, TileType.Ramp_End);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 		// Rock Tile
 				// Grey -> Rock_Basic
@@ -123,6 +135,7 @@ public class Leveler {
 				{
 					grid.setTile(x, y, TileType.Rock_Basic);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 				
 		// Player Tile
@@ -221,6 +234,7 @@ public class Leveler {
 				{
 					grid.setTile(x, y, TileType.Ice_Basic);
 					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
 				}
 			}
 		}

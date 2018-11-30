@@ -1,10 +1,14 @@
 package data;
 
 import static Gamestate.StateManager.*;
+import static helpers.Graphics.drawQuadImageStatic;
+import static helpers.Graphics.quickLoaderImage;
 import static helpers.Setup.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Image;
 
 import Enity.Entity;
 import Enity.TileType;
@@ -32,6 +36,7 @@ public class Handler {
 	private TileGrid map;
 	private Entity currentEntity;
 	private UI gameUI;
+	private Image filter;
 	
 	public Handler(StateManager statemanager)
 	{
@@ -44,6 +49,7 @@ public class Handler {
 		this.at_st_walker = null;
 		this.speeder = null;
 		this.levelGoal = null;
+		this.filter = quickLoaderImage("background/filter");
 		
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
@@ -124,6 +130,12 @@ public class Handler {
 	{
 		// draw tile map
 		map.draw();
+		
+
+		// Draw alpha FILTER
+		GL11.glColor4f(0, 0, 0, 0.2f);
+		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
+		GL11.glColor4f(1, 1, 1, 1);
 		
 		// draw player
 		if(gameState != GameState.DEAD && player != null && currentEntity.equals(player))

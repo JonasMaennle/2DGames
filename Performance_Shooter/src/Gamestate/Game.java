@@ -1,36 +1,40 @@
 package Gamestate;
 
 import static helpers.Setup.*;
-import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
-import static org.lwjgl.opengl.GL11.glClearColor;
-import static org.lwjgl.opengl.GL11.glEnable;
+import static helpers.Graphics.*;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 
 import Gamestate.StateManager.GameState;
 import UI.HeadUpDisplay;
 import data.Camera;
 import data.Handler;
-import shader.Shader;
+import shader.Light;
 
 public class Game {
 	
-	private Shader shader;
 	private Camera camera;
 	private BackgroundHandler backgroundHandler;
 	private HeadUpDisplay ingame_HUD;
 	private Handler handler;
+	private Light sun;
+	
+	// Tmp
+	private Light mouseLight;
 	
 	public Game(Handler handler)
 	{
 		this.camera = new Camera(handler.getCurrentEntity());
-		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity());
+		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity(), handler);
 		this.handler = handler;
 		
+		this.sun = new Light(new Vector2f(WIDTH, 0), 10, 2, 0, 0.1f);
+		
 		setupUI();
-		initShader();
 		setUpObjects();
 	}
 	
@@ -50,6 +54,7 @@ public class Game {
 		}
 		// render entire game graphics
 		render();
+
 	}
 	
 	// Renders lightning into the game
@@ -57,14 +62,20 @@ public class Game {
 	{
 		// draw background
 		backgroundHandler.draw();
+		
+		// render sun
+		renderLightStatic(shadowObstacleList, sun);
+		
+		// draw map, game-objects
 		handler.draw();
 		
 		// draw ingame UI
 		updateUI();
 		
-		//mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));
-		// lightList, entityList, shader
-		//renderLightEntity(towerList, shader);
+		mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));	
+		
+		//render lights
+		renderLightEntity(shadowObstacleList);
 	}
 	
 	private void updateUI()
@@ -79,18 +90,9 @@ public class Game {
 		ingame_HUD = new HeadUpDisplay(handler);	
 	}
 	
-	private void initShader()
-	{
-		shader = new Shader();
-		shader.loadFragmentShader("not used -> path in Shader");
-		shader.compile();
-
-		glEnable(GL_STENCIL_TEST);
-		glClearColor(0, 0, 0, 0);
-	}
-	
 	private void setUpObjects() 
 	{
+		mouseLight = new Light(new Vector2f(0, 0), 10, 2, 0, 1);
 		//lights.add(mouseLight);
 	}
 	
@@ -142,5 +144,13 @@ public class Game {
 
 	public Camera getCamera() {
 		return camera;
+	}
+
+	public Light getSun() {
+		return sun;
+	}
+
+	public void setSun(Light sun) {
+		this.sun = sun;
 	}
 }

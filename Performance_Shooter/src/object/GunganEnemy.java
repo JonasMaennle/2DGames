@@ -138,6 +138,7 @@ public class GunganEnemy extends Enemy{
 			
 			if(checkCollision(entity.getX() + 20, entity.getY(), entity.getWidth()-40, entity.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 			{
+				l.removeLight();
 				laserList.remove(l);
 				// deal damage to current entity
 				entity.damage(20);
@@ -146,10 +147,12 @@ public class GunganEnemy extends Enemy{
 			{
 				if(checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
+					l.removeLight();
 					laserList.remove(l);
 				}
 				if(l.isOutOfMap())
 				{
+					l.removeLight();
 					laserList.remove(l);
 				}
 			}
@@ -202,6 +205,10 @@ public class GunganEnemy extends Enemy{
 			health -= amount;
 			if(health <= 0)
 			{
+				for(Laser l : laserList)
+				{
+					l.removeLight();
+				}
 				handler.enemyList.remove(this); 
 			}
 		}

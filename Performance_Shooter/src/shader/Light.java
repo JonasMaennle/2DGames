@@ -1,5 +1,9 @@
 package shader;
 
+import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glEnable;
+
 import org.lwjgl.util.vector.Vector2f;
 
 public class Light {
@@ -8,12 +12,25 @@ public class Light {
 	public float green;
 	public float blue;
 	private float radius;
+	private Shader shader;
 
 	public Light(Vector2f location, float red, float green, float blue, float radius) {
 		this.location = location;
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+		
+		initNewShader(radius);
+	}
+	
+	private void initNewShader(float lightSize)
+	{
+		shader = new Shader(lightSize);
+		shader.loadFragmentShader();
+		shader.compile();
+
+		glEnable(GL_STENCIL_TEST);
+		glClearColor(0, 0, 0, 0);
 	}
 	
 	public void setLocation(Vector2f location) {
@@ -31,5 +48,13 @@ public class Light {
 	public void setRadius(float radius)
 	{
 		this.radius = radius;
+	}
+
+	public Shader getShader() {
+		return shader;
+	}
+
+	public void setShader(Shader shader) {
+		this.shader = shader;
 	}
 }

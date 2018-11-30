@@ -40,7 +40,7 @@ public class Arrow implements Entity{
 			image = quickLoaderImage("enemy/Ewok_Arrow_right");
 		}
 		else{
-			image = quickLoaderImage("enemy/Ewok_Arrow_left");
+			image = quickLoaderImage("enemy/Ewok_Arrow_right");
 			this.angle = 210;
 		}
 

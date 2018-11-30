@@ -22,12 +22,12 @@ public class Tile implements Entity{
 	private Image[] aImage;
 	private int index;
 	
-	public Tile(float x, float y, int width, int height, TileType type)
+	public Tile(float x, float y, TileType type)
 	{
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.width = type.width;
+		this.height = type.height;
 		this.type = type;
 		this.hp = type.hp;
 		this.image = quickLoaderImage("tiles/" + type.textureName + "" + ENVIRONMENT_SETTING);
@@ -171,9 +171,14 @@ public class Tile implements Entity{
 	}
 
 	@Override
-	public Vector2f[] getVertices() {
-		// TODO Auto-generated method stub
-		return null;
+	public Vector2f[] getVertices() 
+	{
+		return new Vector2f[] {
+				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 8), // left top
+				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
+				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
+				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + 8) // right top
+		};
 	}
 
 	@Override

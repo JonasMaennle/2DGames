@@ -432,7 +432,7 @@ public class Editor {
 		handler.setCurrentEntity(player);
 		
 		game.setCamera(new Camera(handler.getCurrentEntity()));
-		game.setBackgroundHandler(new BackgroundHandler(handler.player));
+		game.setBackgroundHandler(new BackgroundHandler(handler.player, handler));
 	}
 	
 	public void transmitDataFromHandler()
@@ -586,25 +586,25 @@ public class Editor {
 			if(mouseClicked && !mouseDown && menuIndex == 0)
 			{
 				if(editorMainMenu.isButtonClicked("Grass_Flat")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Flat);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Flat);
 					selectedType = TileType.Grass_Flat;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Grass_Left")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Left);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Left);
 					selectedType = TileType.Grass_Left;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Grass_Right")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Right);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Right);
 					selectedType = TileType.Grass_Right;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Grass_Round")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Round);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Round);
 					selectedType = TileType.Grass_Round;
 					mouseDown = true;
 					return;
@@ -612,25 +612,25 @@ public class Editor {
 				
 				
 				if(editorMainMenu.isButtonClicked("Grass_Flat_Half")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Flat_Half);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Flat_Half);
 					selectedType = TileType.Grass_Flat_Half;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Grass_Left_Half")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Left_Half);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Left_Half);
 					selectedType = TileType.Grass_Left_Half;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Grass_Right_Half")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Right_Half);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Right_Half);
 					selectedType = TileType.Grass_Right_Half;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Grass_Round_Half")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Grass_Round_Half);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Grass_Round_Half);
 					selectedType = TileType.Grass_Round_Half;
 					mouseDown = true;
 					return;
@@ -638,25 +638,25 @@ public class Editor {
 				
 				
 				if(editorMainMenu.isButtonClicked("Dirt_Basic")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Dirt_Basic);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Dirt_Basic);
 					selectedType = TileType.Dirt_Basic;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Ramp_start")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Ramp_Start);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Ramp_Start);
 					selectedType = TileType.Ramp_Start;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Ramp_end")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Ramp_End);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Ramp_End);
 					selectedType = TileType.Ramp_End;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu.isButtonClicked("Rock_Basic_0")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.Rock_Basic);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.Rock_Basic);
 					selectedType = TileType.Rock_Basic;
 					mouseDown = true;
 					return;
@@ -692,74 +692,74 @@ public class Editor {
 			if(mouseClicked && !mouseDown && menuIndex == 1)
 			{
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_01")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_01);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_01);
 					selectedType = TileType.RedWood_01;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_02")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_02);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_02);
 					selectedType = TileType.RedWood_02;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_03")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_03);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_03);
 					selectedType = TileType.RedWood_03;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_04")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_04);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_04);
 					selectedType = TileType.RedWood_04;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_05")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_05);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_05);
 					selectedType = TileType.RedWood_05;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_06")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_06);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_06);
 					selectedType = TileType.RedWood_06;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_07")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_07);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_07);
 					selectedType = TileType.RedWood_07;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_08")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_08);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_08);
 					selectedType = TileType.RedWood_08;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("Redwood_09")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.RedWood_09);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.RedWood_09);
 					selectedType = TileType.RedWood_09;
 					mouseDown = true;
 					return;
 				}
 				
 				if(editorMainMenu_Page2.isButtonClicked("tree_stump_left")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.TreeStump_Left);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.TreeStump_Left);
 					selectedType = TileType.TreeStump_Left;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("tree_stump_center")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.TreeStump_Center);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.TreeStump_Center);
 					selectedType = TileType.TreeStump_Center;
 					mouseDown = true;
 					return;
 				}
 				if(editorMainMenu_Page2.isButtonClicked("tree_stump_right")){
-					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TILE_SIZE, TILE_SIZE, TileType.TreeStump_Right);
+					selectedEntity = new Tile(Mouse.getX(), HEIGHT - Mouse.getY(), TileType.TreeStump_Right);
 					selectedType = TileType.TreeStump_Right;
 					mouseDown = true;
 					return;

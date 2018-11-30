@@ -21,10 +21,10 @@ public class TileGrid {
 	{
 		if(type == TileType.Grass_Round_Half || type == TileType.Grass_Left_Half || type == TileType.Grass_Right_Half || type == TileType.Grass_Flat_Half)
 		{
-			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, TILE_SIZE, TILE_SIZE/2, type);
+			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type);
 		}
 		else{
-			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type.width, type.height, type);
+			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type);
 		}
 	}
 	
@@ -33,7 +33,7 @@ public class TileGrid {
 		if(xPlace < tilesWide && yPlace < tilesHigh && xPlace >= 0 && yPlace >= 0)
 		{
 			if(map[xPlace][yPlace] == null)
-				return new Tile(0, 0, 0, 0, TileType.NULL);
+				return new Tile(0, 0, TileType.NULL);
 			else
 				return map[xPlace][yPlace];
 		}

@@ -14,12 +14,14 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 
+import Enity.Entity;
 import shader.Light;
 
 public class Setup {
@@ -32,6 +34,7 @@ public class Setup {
 	public static ArrayList<Light> lights = new ArrayList<Light>();
 	public static float MOVEMENT_X, MOVEMENT_Y = 0;
 	private static boolean setFullScreen = true;
+	public static CopyOnWriteArrayList<Entity> shadowObstacleList = new CopyOnWriteArrayList<>();
 	
 	public static void beginSession()
 	{

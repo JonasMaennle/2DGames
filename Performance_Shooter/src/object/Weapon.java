@@ -62,12 +62,14 @@ public class Weapon implements Entity{
 			{
 				if(checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
+					l.removeLight();
 					list.remove(l);
 					if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, "gray", "normal"));
 					if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, "brown", "normal"));
 				}
 				if(l.isOutOfMap())
 				{
+					l.removeLight();
 					list.remove(l);
 				}
 			}
@@ -77,6 +79,7 @@ public class Weapon implements Entity{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
 					g.damage(14); // Gungan got 56 HP
+					l.removeLight();
 					list.remove(l);
 				}
 			}

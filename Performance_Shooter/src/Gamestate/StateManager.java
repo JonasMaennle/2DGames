@@ -2,7 +2,12 @@ package Gamestate;
 
 import data.Handler;
 import data.MusicHandler;
+import shader.Light;
+
 import static helpers.Graphics.*;
+import static helpers.Setup.*;
+
+import org.lwjgl.util.vector.Vector2f;
 
 import static helpers.Leveler.*;
 
@@ -93,6 +98,7 @@ public class StateManager {
 	{
 		CURRENT_LEVEL++;
 		handler.wipe();
+		shadowObstacleList.clear();
 
 		switch (CURRENT_LEVEL) 
 		{
@@ -110,6 +116,7 @@ public class StateManager {
 			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
 			ENVIRONMENT_SETTING = "_Snow";
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
+			game.setSun(new Light(new Vector2f(WIDTH, 0), 9, 10, 10, 0.1f));
 			break;
 		case 5:
 			mainMenu.enterMainMenu();
