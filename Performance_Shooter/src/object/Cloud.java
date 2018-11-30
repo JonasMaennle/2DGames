@@ -8,6 +8,8 @@ import Enity.Entity;
 
 import static helpers.Graphics.*;
 
+import java.awt.Rectangle;
+
 public class Cloud implements Entity{
 	
 	private float x, y;
@@ -113,5 +115,11 @@ public class Cloud implements Entity{
 	@Override
 	public boolean isOutOfMap() {
 		return false;
+	}
+
+	@Override
+	public Rectangle getBounds() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

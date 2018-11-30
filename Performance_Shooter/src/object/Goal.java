@@ -5,6 +5,8 @@ import org.newdawn.slick.Image;
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
+import java.awt.Rectangle;
+
 import Enity.Entity;
 
 public class Goal implements Entity{
@@ -105,5 +107,11 @@ public class Goal implements Entity{
 	@Override
 	public boolean isOutOfMap() {
 		return false;
+	}
+
+	@Override
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, (int)width, (int)height);
 	}
 }

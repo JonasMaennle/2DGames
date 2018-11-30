@@ -15,6 +15,7 @@ import static helpers.Graphics.*;
 import static helpers.Leveler.TILES_HEIGHT;
 import static helpers.Setup.*;
 
+import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Weapon implements Entity{
@@ -191,6 +192,11 @@ public class Weapon implements Entity{
 	    	}
 	    }
 		//System.out.println("Angle: " + angle);
+	}
+	
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, (int)width, (int)height);
 	}
 	
 	@Override

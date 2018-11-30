@@ -179,4 +179,9 @@ public abstract class Enemy implements Entity{
 	public float getVelY() {
 		return velY;
 	}
+	
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, width, height);
+	}
 }

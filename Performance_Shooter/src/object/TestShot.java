@@ -7,6 +7,8 @@ import Enity.Entity;
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
+import java.awt.Rectangle;
+
 public class TestShot implements Entity{
 	
 	private float x, y, width, height, destX, destY, speed;
@@ -145,5 +147,11 @@ public class TestShot implements Entity{
 
 	public void setDestY(float destY) {
 		this.destY = destY;
+	}
+
+	@Override
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, (int)width, (int)height);
 	}
 }

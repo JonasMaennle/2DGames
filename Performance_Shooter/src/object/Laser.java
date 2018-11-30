@@ -8,6 +8,8 @@ import Enity.Entity;
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
+import java.awt.Rectangle;
+
 public class Laser implements Entity{
 	
 	private Image image;
@@ -170,5 +172,10 @@ public class Laser implements Entity{
 	public void damage(int amount) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, (int)width, (int)height);
 	}
 }

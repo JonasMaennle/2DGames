@@ -471,4 +471,9 @@ public class AT_ST_Walker implements Entity{
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
+	
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, width, height);
+	}
 }

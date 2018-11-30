@@ -34,26 +34,45 @@ public class EwokArcherEnemy extends Enemy{
 		{
 			time = System.currentTimeMillis();
 			
-			
-			shoot();
+			if(x > currentEntity.getX() && x - currentEntity.getX() < 700)
+			{
+				// shoot if facing entity
+				if(velX >= 0 && currentEntity.getX() > x)
+					shoot();
+				if(velX <= 0 && currentEntity.getX() < x)
+					shoot();
+			}
+
+			if(x < currentEntity.getX() && x - currentEntity.getX() > - 700)
+			{
+				// shoot if facing entity
+				if(velX >= 0 && currentEntity.getX() > x)
+					shoot();
+				if(velX <= 0 && currentEntity.getX() < x)
+					shoot();
+			}
 		}
-		
 		
 		for(Arrow a : arrowList)
 		{
 			a.update();
-			if(checkCollision(a.getX(), a.getY(), a.getWidth(), a.getHeight(), currentEntity.getX(), currentEntity.getY(), currentEntity.getWidth(), currentEntity.getHeight()));
-			{
-				// damage player
-			}
 			
-			for(Tile t : handler.obstacleList)
+			for(Tile tile : handler.obstacleList)
 			{
-				if(checkCollision(a.getX(), a.getY(), a.getWidth(), a.getHeight(), t.getX(), t.getY(), t.getWidth(), t.getHeight()));
+				if(!a.isStopped() && checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), a.getX(), a.getY(), a.getWidth(), a.getHeight()))
 				{
 					a.stop();
 				}
 			}
+			
+			if(handler.getCurrentEntity().getBounds().intersects(a.getBounds()))
+			{
+				if(a.getVelX() != 0)handler.getCurrentEntity().damage(10);
+				arrowList.remove(a);
+			}
+			
+			if(a.isDead())
+				arrowList.remove(a);
 		}
 	}
 
@@ -69,6 +88,6 @@ public class EwokArcherEnemy extends Enemy{
 	
 	private void shoot()
 	{
-		arrowList.add(new Arrow(x, y, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity));
+		arrowList.add(new Arrow(x + width/2, y + 10, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity));
 	}
 }

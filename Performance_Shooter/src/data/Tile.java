@@ -8,6 +8,9 @@ import Enity.TileType;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
+
+import java.awt.Rectangle;
+
 import static Gamestate.StateManager.*;
 
 public class Tile implements Entity{
@@ -176,5 +179,10 @@ public class Tile implements Entity{
 	@Override
 	public boolean isOutOfMap() {
 		return false;
+	}
+
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, TILE_SIZE, TILE_SIZE);
 	}
 }

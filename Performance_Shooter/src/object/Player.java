@@ -415,7 +415,7 @@ public class Player implements Entity{
 
 	public void damage(int amount) 
 	{
-		//health -= amount;
+		health -= amount;
 		if(health <= 0)
 		{
 			health = 0;
@@ -454,6 +454,11 @@ public class Player implements Entity{
 	public int getWidth()
 	{
 		return TILE_SIZE;
+	}
+	
+	public Rectangle getBounds()
+	{
+		return new Rectangle((int)x, (int)y, TILE_SIZE, TILE_SIZE*2);
 	}
 
 	@Override
