@@ -1,10 +1,12 @@
 package data;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import Enity.Entity;
 import Enity.TileType;
+import shader.Light;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
@@ -21,6 +23,9 @@ public class Tile implements Entity{
 	private Image image;
 	private Image[] aImage;
 	private int index;
+	private Animation anim;
+	private Light lavaLight;
+	private ParticleEvent event;
 	
 	public Tile(float x, float y, TileType type)
 	{
@@ -37,6 +42,18 @@ public class Tile implements Entity{
 		this.minX = x - TILE_SIZE * 2;
 		this.velX = 1;
 		this.index = 0;
+		
+		if(type == TileType.Lava)
+		{
+			this.anim = new Animation(loadSpriteSheet("tiles/Lava_Sheet", 64, 64), 1000);
+		}
+		if(type == TileType.Lava_Light)
+		{
+			this.anim = new Animation(loadSpriteSheet("tiles/Lava_Sheet", 64, 64), 1000);
+			this.lavaLight = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 15, 5, 1, 2f);
+			this.event = new ParticleEvent((int)x + 32, (int)y + 32, 2, "orange", "tiny");
+		}
+		
 		for(int i = 0; i < aImage.length; i++)
 		{
 			aImage[i] = quickLoaderImage("tiles/Rock_Basic_" + i);
@@ -45,22 +62,48 @@ public class Tile implements Entity{
 	
 	public void update()
 	{
-		if(x > maxX)
+		// update Lava Light
+		if(type == TileType.Lava_Light)
 		{
-			velX -= 1;
+			if(lavaLight != null)lavaLight.setLocation(new Vector2f(x + MOVEMENT_X + 30, y + MOVEMENT_Y + 30));
+			if(event != null)
+			{
+				event.update();
+				
+				if(event.isListEmpty())
+					this.event = new ParticleEvent((int)x + 32, (int)y + 32, 5, "orange", "tiny");
+			}
 		}
-		if(x < minX)
+		
+		// Moving platform
+		if(type == TileType.Grass_Round_Half)
 		{
-			velX = 1;
+			if(x > maxX)
+			{
+				velX -= 1;
+			}
+			if(x < minX)
+			{
+				velX = 1;
+			}
+			x += velX * 1;
 		}
-		x += velX * 1;
 	}
 
 	public void draw()
 	{
+		
 		if(type == TileType.Rock_Basic)
 		{
 			drawQuadImage(aImage[index], x, y, TILE_SIZE, TILE_SIZE);
+		}else if(type == TileType.Lava)
+		{
+			drawAnimation(anim, x, y, width, height);
+		}else if(type == TileType.Lava_Light)
+		{
+			renderSingleLightStatic(shadowObstacleList, lavaLight);
+			event.draw();
+			drawAnimation(anim, x, y, width, height);
 		}else{
 			drawQuadImage(image, x, y, width, height);
 		}
@@ -173,6 +216,26 @@ public class Tile implements Entity{
 	@Override
 	public Vector2f[] getVertices() 
 	{
+		if(type == TileType.Rock_Basic)
+		{
+			return new Vector2f[] {
+					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), // left top
+					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
+					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
+					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y) // right top
+			};
+		}
+		
+		if(type == TileType.Lava_Light || type == TileType.Lava)
+		{
+			return new Vector2f[] {
+					new Vector2f(x + MOVEMENT_X + 32, y + MOVEMENT_Y + 32), // left top
+					new Vector2f(x + MOVEMENT_X + 32, y + MOVEMENT_Y + height - 32), // left bottom
+					new Vector2f(x + MOVEMENT_X + width - 32, y + MOVEMENT_Y + height- 32), // right bottom
+					new Vector2f(x + MOVEMENT_X + width - 32, y + MOVEMENT_Y + 32) // right top
+			};
+		}
+		
 		return new Vector2f[] {
 				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 8), // left top
 				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom

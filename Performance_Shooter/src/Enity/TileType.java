@@ -27,6 +27,9 @@ public enum TileType {
 	Ramp_End("Ramp_end", 100, TILE_SIZE, TILE_SIZE, 4600320),
 	
 	Ice_Basic("Ice", 200, TILE_SIZE, TILE_SIZE, 38143),
+	Lava("Lava_Sheet", 200, TILE_SIZE, TILE_SIZE, 13125120),
+	Lava_Light("Lava_Sheet", 200, TILE_SIZE, TILE_SIZE, 16729600),
+	
 	Rock_Basic("Rock_Basic_0", 200, TILE_SIZE, TILE_SIZE, 12895428),
 	
 	NULL("Blank", 0, TILE_SIZE, TILE_SIZE, 16777215);

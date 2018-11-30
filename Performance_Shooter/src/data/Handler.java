@@ -82,15 +82,22 @@ public class Handler {
 			if(lastState != GameState.EDITOR)StateManager.gameState = GameState.LOADING;
 		}
 		
-		// update map
+		// update map if player is near
 		for(Tile t : obstacleList)
 		{
-			if(t.getType() == TileType.Grass_Round_Half)
+			if(t.getType() == TileType.Lava_Light || t.getType() == TileType.Grass_Round_Half)
 			{
-				t.update();
+				if(t.getX() > currentEntity.getX() && t.getX() - currentEntity.getX() < WIDTH)
+				{
+					t.update();
+				}
+				if(t.getX() < currentEntity.getX() && t.getX() - currentEntity.getX() > - WIDTH)
+				{
+					t.update();
+				}
 			}
 		}
-		
+
 		// update particle if tile is dead
 		for(ParticleEvent event : eventList)
 		{
@@ -133,7 +140,7 @@ public class Handler {
 		
 
 		// Draw alpha FILTER
-		GL11.glColor4f(0, 0, 0, 0.3f);
+		GL11.glColor4f(0, 0, 0, 0.2f);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
 		

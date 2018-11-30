@@ -314,7 +314,11 @@ public class Player implements Entity{
 					velY = 0;
 					y = (float) (r.getY() - TILE_SIZE * 2);
 				}
-
+				
+				if(t.getType() == TileType.Lava_Light)
+				{
+					damage(5);
+				}
 
 				jumping = false;
 				if(t.getType() == TileType.Grass_Round_Half)

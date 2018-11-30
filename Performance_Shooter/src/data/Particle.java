@@ -32,11 +32,12 @@ public class Particle {
 		if(color.equals("brown"))particles = quickLoaderImage("particles/Dirt_" + rand.nextInt(5));
 		if(color.equals("red"))particles = quickLoaderImage("particles/Blood_" + rand.nextInt(5));
 		if(color.equals("white"))particles = quickLoaderImage("particles/Snow_" + rand.nextInt(5));
+		if(color.equals("orange"))particles = quickLoaderImage("particles/Lava_" + rand.nextInt(5));
 		
 		if(this.velX == 0)
-			this.velX = rand.nextInt(10)+1;
+			this.velX = rand.nextInt(4)+1;
 		if(this.velY == 0)
-			this.velY = rand.nextInt(10)+1;
+			this.velY = rand.nextInt(3)+1;
 	}
 	
 	public void update()

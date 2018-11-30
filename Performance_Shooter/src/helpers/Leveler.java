@@ -236,6 +236,19 @@ public class Leveler {
 					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
+		// Lava 
+				if(red == 200 && green == 70 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.Lava);
+					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
+				}
+				if(red == 255 && green == 70 && blue == 0)
+				{
+					grid.setTile(x, y, TileType.Lava_Light);
+					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
+				}
 			}
 		}
 		handler.setCurrentEntity(handler.player);
