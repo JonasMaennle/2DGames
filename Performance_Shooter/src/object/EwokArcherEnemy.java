@@ -1,11 +1,13 @@
 package object;
 
 import static helpers.Graphics.*;
+import static helpers.Setup.*;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import Enity.Entity;
 import data.Handler;
+import data.Tile;
 
 public class EwokArcherEnemy extends Enemy{
 	
@@ -28,7 +30,7 @@ public class EwokArcherEnemy extends Enemy{
 		currentEntity = handler.getCurrentEntity();
 		
 		// Shoot if possible
-		if(System.currentTimeMillis() - time > 1000)
+		if(System.currentTimeMillis() - time > 2000)
 		{
 			time = System.currentTimeMillis();
 			
@@ -40,6 +42,18 @@ public class EwokArcherEnemy extends Enemy{
 		for(Arrow a : arrowList)
 		{
 			a.update();
+			if(checkCollision(a.getX(), a.getY(), a.getWidth(), a.getHeight(), currentEntity.getX(), currentEntity.getY(), currentEntity.getWidth(), currentEntity.getHeight()));
+			{
+				// damage player
+			}
+			
+			for(Tile t : handler.obstacleList)
+			{
+				if(checkCollision(a.getX(), a.getY(), a.getWidth(), a.getHeight(), t.getX(), t.getY(), t.getWidth(), t.getHeight()));
+				{
+					a.stop();
+				}
+			}
 		}
 	}
 
@@ -55,6 +69,6 @@ public class EwokArcherEnemy extends Enemy{
 	
 	private void shoot()
 	{
-		arrowList.add(new Arrow(x, y, currentEntity.getX() - x, currentEntity.getY() - y));
+		arrowList.add(new Arrow(x, y, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity));
 	}
 }
