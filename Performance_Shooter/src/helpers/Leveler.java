@@ -10,6 +10,7 @@ import Enity.TileType;
 import data.Handler;
 import data.TileGrid;
 import object.AT_ST_Walker;
+import object.EwokArcherEnemy;
 import object.Goal;
 import object.GunganEnemy;
 import object.Player;
@@ -144,11 +145,16 @@ public class Leveler {
 				// Green -> GunganEnemy
 				if(red == 0 && green == 255 && blue == 0)
 				{
-					handler.gunganList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128, handler));
+					handler.enemyList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128, handler));
 				}
 				if(red == 0 && green == 255 && blue == 120)
 				{
-					handler.gunganList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128, handler, 2));
+					handler.enemyList.add(new GunganEnemy(x * TILE_SIZE, y * TILE_SIZE, 64, 128, handler, 2));
+				}
+				// Ewok Archer
+				if(red == 0 && green == 127 && blue == 0)
+				{
+					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, handler));
 				}
 		// Goal Tile
 				// Pink -> Level Goal

@@ -11,8 +11,8 @@ import Enity.TileType;
 import Gamestate.StateManager;
 import UI.UI;
 import object.AT_ST_Walker;
+import object.Enemy;
 import object.Goal;
-import object.GunganEnemy;
 import object.Player;
 import object.Speeder;
 
@@ -20,8 +20,8 @@ public class Handler {
 	
 	private StateManager statemanager;
 	public CopyOnWriteArrayList<Tile> obstacleList;
-	public CopyOnWriteArrayList<GunganEnemy> gunganList;
 	private CopyOnWriteArrayList<ParticleEvent> eventList;
+	public CopyOnWriteArrayList<Enemy> enemyList;
 	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
@@ -37,8 +37,8 @@ public class Handler {
 	{
 		this.statemanager = statemanager;
 		this.obstacleList = new CopyOnWriteArrayList<>();
-		this.gunganList = new CopyOnWriteArrayList<>();
 		this.eventList = new CopyOnWriteArrayList<>();
+		this.enemyList = new CopyOnWriteArrayList<>();
 		
 		this.player = null;
 		this.at_st_walker = null;
@@ -62,10 +62,10 @@ public class Handler {
 				statemanager.resetCurrentLevel();
 		}
 		
-		// update gunganEnemy
-		for(GunganEnemy g : gunganList)
+		// update enemies
+		for(Enemy e : enemyList)
 		{
-			g.update();
+			e.update();
 		}
 
 		// check current entity for collision with goal
@@ -137,10 +137,10 @@ public class Handler {
 		if(speeder != null)
 			speeder.draw();
 		
-		// draw gunganEnemy
-		for(GunganEnemy g : gunganList)
+		// draw enemies
+		for(Enemy e : enemyList)
 		{
-			g.draw();
+			e.draw();
 		}
 		
 		// draw Level Goal
@@ -170,7 +170,7 @@ public class Handler {
 		{
 			timer2 = timer1;
 			// Data output
-			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + gunganList.size() + "\tFPS: " + StateManager.framesInLastSecond);
+			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond);
 		}
 	}
 	
@@ -180,7 +180,7 @@ public class Handler {
 		at_st_walker = null;
 		speeder = null;
 		levelGoal = null;
-		gunganList.clear();
+		enemyList.clear();
 		obstacleList.clear();
 		eventList.clear();
 	}

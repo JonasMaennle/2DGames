@@ -29,6 +29,7 @@ import data.Handler;
 import data.Tile;
 import data.TileGrid;
 import object.AT_ST_Walker;
+import object.Enemy;
 import object.Goal;
 import object.GunganEnemy;
 import object.Player;
@@ -54,7 +55,7 @@ public class Editor {
 	private Speeder speeder;
 	private AT_ST_Walker at_st_walker;
 	private Goal goal;
-	private CopyOnWriteArrayList<GunganEnemy> enemyList;
+	private CopyOnWriteArrayList<Enemy> enemyList;
 
 	public Editor(Handler handler, Game game) 
 	{
@@ -114,7 +115,7 @@ public class Editor {
 			if(Mouse.isButtonDown(1))
 			{
 				setTile(TileType.NULL);
-				for(GunganEnemy g : enemyList)
+				for(Enemy g : enemyList)
 				{
 					if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), Mouse.getX()-MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y, 2, 2))
 					{
@@ -282,7 +283,7 @@ public class Editor {
 			if(player != null)
 				player.draw();
 			
-			for(GunganEnemy g : enemyList)
+			for(Enemy g : enemyList)
 			{
 				g.draw();
 			}
@@ -341,8 +342,8 @@ public class Editor {
 			at_st_walker = handler.at_st_walker;
 		if(handler.levelGoal != null)
 			goal = handler.levelGoal;
-		if(handler.gunganList.size() != 0)
-			enemyList = handler.gunganList;
+		if(handler.enemyList.size() != 0)
+			enemyList = handler.enemyList;
 	}
 	
 	private void saveMap(int width, int height)
@@ -386,7 +387,7 @@ public class Editor {
 						graphics.fillRect((int)at_st_walker.getX() / TILE_SIZE, (int)at_st_walker.getY() / TILE_SIZE, 1, 1);
 					}
 					
-					for(GunganEnemy g : enemyList)
+					for(Enemy g : enemyList)
 					{
 						graphics.setPaint(new Color(0,255,120));
 						graphics.fillRect((int)g.getX() / TILE_SIZE, (int)g.getY() / TILE_SIZE, 1, 1);
@@ -423,7 +424,7 @@ public class Editor {
 		StateManager.CURRENT_LEVEL = -activeLevel -1;
 		
 		handler.setMap(grid);
-		handler.gunganList = enemyList;
+		handler.enemyList = enemyList;
 		handler.player = player;
 		handler.speeder = speeder;
 		handler.at_st_walker = at_st_walker;
@@ -443,7 +444,7 @@ public class Editor {
 		grid = handler.getMap();
 		//this.grid = loadMap(this.handler, "maps/editor_map_" + activeLevel);
 		
-		enemyList = handler.gunganList;
+		enemyList = handler.enemyList;
 		player = handler.player;
 		speeder = handler.speeder;
 		at_st_walker = handler.at_st_walker;

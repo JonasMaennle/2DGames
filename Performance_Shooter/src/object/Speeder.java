@@ -208,13 +208,13 @@ public class Speeder implements Entity{
 	private void hitEnemy()
 	{
 		//handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray", "normal"));
-		for(GunganEnemy g : handler.gunganList)
+		for(Enemy g : handler.enemyList)
 		{
 			Rectangle enemyBounds = new Rectangle((int)g.getX(), (int)g.getY(), g.getWidth(), g.getHeight());
 			if(enemyBounds.intersects(hitBox))
 			{
 				handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, "red", "small"));
-				handler.gunganList.remove(g);
+				handler.enemyList.remove(g);
 			}
 		}
 	}

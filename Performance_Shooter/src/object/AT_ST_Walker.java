@@ -163,7 +163,7 @@ public class AT_ST_Walker implements Entity{
 				}
 			}
 			// Check Laser collision with enemies
-			for(GunganEnemy g : handler.gunganList)
+			for(Enemy g : handler.enemyList)
 			{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{

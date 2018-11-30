@@ -202,7 +202,7 @@ public class GunganEnemy extends Enemy{
 			health -= amount;
 			if(health <= 0)
 			{
-				handler.gunganList.remove(this); 
+				handler.enemyList.remove(this); 
 			}
 		}
 	}
