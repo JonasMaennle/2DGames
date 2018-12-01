@@ -90,7 +90,7 @@ public class Laser implements Entity{
 	
 	public boolean isOutOfMap()
 	{
-		if(x - width < getLeftBorder()-500 || x > getRightBorder()+500)
+		if(x - width < getLeftBorder()-100 || x > getRightBorder()+100)
 		{
 			return true;
 		}

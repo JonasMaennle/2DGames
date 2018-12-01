@@ -209,6 +209,9 @@ public class Handler {
 		enemyList.clear();
 		obstacleList.clear();
 		eventList.clear();
+		
+		// clean lights
+		lights.clear();
 	}
 
 	public TileGrid getMap() {

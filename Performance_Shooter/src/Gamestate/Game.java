@@ -32,7 +32,7 @@ public class Game {
 		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity(), handler);
 		this.handler = handler;
 		
-		this.sun = new Light(new Vector2f(WIDTH, 0), 10, 2, 0, 0.1f);
+		this.sun = new Light(new Vector2f(WIDTH, -200), 200, 80, 0, 1f); //  10, 2, 0, 0.1f);
 		
 		setupUI();
 		setUpObjects();
