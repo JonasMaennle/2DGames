@@ -32,6 +32,7 @@ public abstract class Enemy implements Entity{
 	protected Random rand;
 	protected TestShot testShot;
 	protected long lastShot;
+	protected Image healthBackground, healthBorder, healthForeground;
 	
 	protected String direction;
 	

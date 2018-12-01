@@ -9,6 +9,7 @@ import static helpers.Setup.getLeftBorder;
 import static helpers.Setup.getRightBorder;
 
 import java.awt.Rectangle;
+import java.util.Random;
 
 public class Arrow implements Entity{
 
@@ -18,25 +19,26 @@ public class Arrow implements Entity{
 	private boolean dynamic, dead, stopped;
 	private Rectangle bounds;
 	private long despawnTimer;
+	private Random rand;
 	
 	public Arrow(float x, float y, float distanceX, float distanceY, Entity entity)
 	{
 		this.x = x;
 		this.y = y;
+		this.rand = new Random();
 		this.distanceX = distanceX;
-		this.speed = 3.0f;
+		this.speed = 3.0f + ( -rand.nextFloat());
 		this.width = 32;
 		this.height = 16;
 		this.dynamic = true;
 		this.dead = false;
 		this.stopped = false;
 		
-		
 		this.angle = 310;
 		
 		if(distanceX > 0)
 		{
-			this.angle = 310;
+			this.angle = 330;
 			image = quickLoaderImage("enemy/Ewok_Arrow_right");
 		}
 		else{
@@ -57,11 +59,12 @@ public class Arrow implements Entity{
 	
 	public void update() 
 	{
+
 		velY += gravity;
-		
+			
 		x += velX * speed;
 		y += velY * speed;
-		
+			
 		if(dynamic)calcAngle(destX, destY);
 		
 		if(stopped)
@@ -76,6 +79,7 @@ public class Arrow implements Entity{
 	public void draw() 
 	{
 		drawQuadImageRot(image, x, y, width, height, angle);
+		
 	}
 	public void calcAngle(float destX, float destY)
 	{
@@ -215,5 +219,13 @@ public class Arrow implements Entity{
 
 	public void setStopped(boolean stopped) {
 		this.stopped = stopped;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 }

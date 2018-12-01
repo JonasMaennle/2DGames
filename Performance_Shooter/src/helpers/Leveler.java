@@ -167,7 +167,7 @@ public class Leveler {
 				// Ewok Archer
 				if(red == 0 && green == 127 && blue == 0)
 				{
-					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, handler));
+					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE, y * TILE_SIZE, 48, 80, handler));
 				}
 		// Goal Tile
 				// Pink -> Level Goal

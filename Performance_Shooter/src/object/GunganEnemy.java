@@ -1,7 +1,6 @@
 package object;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -15,7 +14,6 @@ import data.Tile;
 
 public class GunganEnemy extends Enemy{
 	
-	private Image healthBackground, healthBorder, healthForeground;
 	private Handler handler;
 	private Sound lasterShot;
 	private long timer1, timer2;
