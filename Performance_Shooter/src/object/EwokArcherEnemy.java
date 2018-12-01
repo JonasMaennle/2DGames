@@ -74,14 +74,6 @@ public class EwokArcherEnemy extends Enemy{
 		{
 			a.update();
 			
-			for(Tile tile : handler.obstacleList)
-			{
-				if(!a.isStopped() && checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), a.getX(), a.getY(), a.getWidth(), a.getHeight()))
-				{
-					a.stop();
-				}
-			}
-			
 			if(handler.getCurrentEntity().getBounds().intersects(a.getBounds()))
 			{
 				if(a.getVelX() != 0)handler.getCurrentEntity().damage(10);
@@ -135,7 +127,7 @@ public class EwokArcherEnemy extends Enemy{
 				if(bow_left.getFrame() == 0)
 				{
 					isShooting = false;
-					tempArrow = new Arrow(x  - 22, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity);
+					tempArrow = new Arrow(x  - 22, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
 				}
 				if(bow_left.getFrame() == 5 && !isShooting)
 				{		
@@ -151,7 +143,7 @@ public class EwokArcherEnemy extends Enemy{
 				if(bow_right.getFrame() == 0)
 				{
 					isShooting = false;
-					tempArrow = new Arrow(x  + 44, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity);
+					tempArrow = new Arrow(x  + 44, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
 				}
 				if(bow_right.getFrame() == 5 && !isShooting)
 				{		
@@ -215,9 +207,9 @@ public class EwokArcherEnemy extends Enemy{
 			health -= amount;
 			if(health <= 0)
 			{
-				for(Laser l : laserList)
+				for(Arrow a : arrowList)
 				{
-					l.removeLight();
+					projectileList.add(a);
 				}
 				handler.enemyList.remove(this); 
 			}

@@ -205,7 +205,7 @@ public class GunganEnemy extends Enemy{
 			{
 				for(Laser l : laserList)
 				{
-					l.removeLight();
+					projectileList.add(l);
 				}
 				handler.enemyList.remove(this); 
 			}

@@ -17,6 +17,7 @@ import UI.UI;
 import object.AT_ST_Walker;
 import object.Enemy;
 import object.Goal;
+import object.Laser;
 import object.Player;
 import object.Speeder;
 
@@ -116,6 +117,29 @@ public class Handler {
 			}
 		}
 		
+		// update "dead" projectiles
+		for(Entity e : projectileList)
+		{
+			e.update();
+			
+			if(e.getVelX() == 0)
+				projectileList.remove(e);
+			
+			if(e.isOutOfMap())
+				projectileList.remove(e);
+			
+			if(e.getBounds().intersects(currentEntity.getBounds()))
+			{
+				currentEntity.damage(10);
+				projectileList.remove(e);
+				if(e.getClass().getSimpleName().equals("Laser"))
+				{
+					Laser l = (Laser)e;
+					l.removeLight();
+				}
+			}
+		}
+		
 		// Check if "Return" Button was clicked
 		if(gameUI.getButton("Return") != null)
 		{
@@ -169,6 +193,12 @@ public class Handler {
 			e.draw();
 		}
 		
+		// draw "dead" projectiles
+		for(Entity e : projectileList)
+		{
+			e.draw();
+		}
+		
 		// draw Level Goal
 		if(levelGoal != null)
 			levelGoal.draw();
@@ -212,6 +242,9 @@ public class Handler {
 		
 		// clean lights
 		lights.clear();
+		
+		// clear old projectiles
+		projectileList.clear();
 	}
 
 	public TileGrid getMap() {

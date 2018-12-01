@@ -4,7 +4,11 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
 import Enity.Entity;
+import data.Handler;
+import data.Tile;
+
 import static helpers.Graphics.*;
+import static helpers.Setup.checkCollision;
 import static helpers.Setup.getLeftBorder;
 import static helpers.Setup.getRightBorder;
 
@@ -20,8 +24,9 @@ public class Arrow implements Entity{
 	private Rectangle bounds;
 	private long despawnTimer;
 	private Random rand;
+	private Handler handler;
 	
-	public Arrow(float x, float y, float distanceX, float distanceY, Entity entity)
+	public Arrow(float x, float y, float distanceX, float distanceY, Entity entity, Handler handler)
 	{
 		this.x = x;
 		this.y = y;
@@ -33,6 +38,7 @@ public class Arrow implements Entity{
 		this.dynamic = true;
 		this.dead = false;
 		this.stopped = false;
+		this.handler = handler;
 		
 		this.angle = 310;
 		
@@ -72,6 +78,14 @@ public class Arrow implements Entity{
 			if(System.currentTimeMillis() - despawnTimer > 3000)
 			{
 				dead = true;
+			}
+		}
+		
+		for(Tile tile : handler.obstacleList)
+		{
+			if(!this.isStopped() && checkCollision(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), this.getX(), this.getY(), this.getWidth(), this.getHeight()))
+			{
+				stop();
 			}
 		}
 	}

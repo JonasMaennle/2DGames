@@ -35,6 +35,7 @@ public class Setup {
 	public static float MOVEMENT_X, MOVEMENT_Y = 0;
 	private static boolean setFullScreen = true;
 	public static CopyOnWriteArrayList<Entity> shadowObstacleList = new CopyOnWriteArrayList<>();
+	public static CopyOnWriteArrayList<Entity> projectileList = new CopyOnWriteArrayList<>();
 	
 	public static void beginSession()
 	{
