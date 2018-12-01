@@ -120,6 +120,10 @@ public class EwokArcherEnemy extends Enemy{
 
 		// draw bow
 		if(tempArrow != null)tempArrow.draw();
+		
+		if(currentEntity == null)
+			return;
+		
 		if(x > currentEntity.getX() && x - currentEntity.getX() < 700 || x < currentEntity.getX() && x - currentEntity.getX() > - 700)
 		{
 
