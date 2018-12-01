@@ -9,12 +9,14 @@ public class TileGrid {
 	
 	public Tile[][] map;
 	private int tilesWide, tilesHigh;
+	private Handler handler;
 	
-	public TileGrid()
+	public TileGrid(Handler handler)
 	{
 		this.tilesWide = TILES_WIDTH;//WIDTH / TILE_SIZE;
 		this.tilesHigh = TILES_HEIGHT;//HEIGHT / TILE_SIZE; 
 		map = new Tile[tilesWide][tilesHigh];
+		this.handler = handler;
 	}
 	
 	public void setTile(int xCoord, int yCoord, TileType type)
@@ -46,8 +48,18 @@ public class TileGrid {
 		for(int i = 0; i < map.length; i++)
 		{
 			for(int j = 0; j < map[i].length; j++)
-			{
-				if(!(map[i][j] == null))map[i][j].draw();
+			{	
+				if(!(map[i][j] == null))
+				{
+					if(map[i][j].getX() >= handler.getCurrentEntity().getX() && map[i][j].getX() - handler.getCurrentEntity().getX() < WIDTH)
+					{
+						map[i][j].draw();
+					}
+					if(map[i][j].getX() <= handler.getCurrentEntity().getX() && map[i][j].getX() - handler.getCurrentEntity().getX() > - WIDTH)
+					{
+						map[i][j].draw();
+					}
+				}
 			}
 		}
 	}

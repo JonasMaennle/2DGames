@@ -71,7 +71,14 @@ public class Handler {
 		// update enemies
 		for(Enemy e : enemyList)
 		{
-			e.update();
+			if(e.getX() >= currentEntity.getX() && e.getX() - currentEntity.getX() < WIDTH)
+			{
+				e.update();
+			}
+			if(e.getX() <= currentEntity.getX() && e.getX() - currentEntity.getX() > - WIDTH)
+			{
+				e.update();
+			}
 		}
 
 		// check current entity for collision with goal
@@ -87,11 +94,11 @@ public class Handler {
 		{
 			if(t.getType() == TileType.Lava_Light || t.getType() == TileType.Grass_Round_Half)
 			{
-				if(t.getX() > currentEntity.getX() && t.getX() - currentEntity.getX() < WIDTH)
+				if(t.getX() >= currentEntity.getX() && t.getX() - currentEntity.getX() < WIDTH)
 				{
 					t.update();
 				}
-				if(t.getX() < currentEntity.getX() && t.getX() - currentEntity.getX() > - WIDTH)
+				if(t.getX() <= currentEntity.getX() && t.getX() - currentEntity.getX() > - WIDTH)
 				{
 					t.update();
 				}
