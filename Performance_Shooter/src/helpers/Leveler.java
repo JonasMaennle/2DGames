@@ -182,7 +182,7 @@ public class Leveler {
 				// Ewok Archer
 				if(red == 0 && green == 127 && blue == 0)
 				{
-					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE, y * TILE_SIZE, 48, 80, handler));
+					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE, y * TILE_SIZE, 48, 80, true, handler));
 				}
 				// Ewok Soldier
 				if(red == 0 && green == 70 && blue == 0)
@@ -248,6 +248,12 @@ public class Leveler {
 				if(red == 100 && green == 55 && blue == 0)
 				{
 					grid.setTile(x, y, TileType.RedWood_09);
+				}
+				// Platform
+				if(red == 70 && green == 0 && blue == 255)
+				{
+					grid.setTile(x, y, TileType.Platform);
+					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE + 40, y * TILE_SIZE - 48, 48, 80, false, handler));
 				}
 		// Ice
 				if(red == 0 && green == 148 && blue == 255)

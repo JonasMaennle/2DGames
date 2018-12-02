@@ -24,13 +24,18 @@ public class EwokArcherEnemy extends Enemy{
 	private Arrow tempArrow;
 	private boolean isShooting;
 
-	public EwokArcherEnemy(float x, float y, int width, int height, Handler handler) 
+	public EwokArcherEnemy(float x, float y, int width, int height, boolean gravity, Handler handler) 
 	{
 		super(x, y, width, height);
 		this.handler = handler;
 		this.currentEntity = handler.getCurrentEntity();
 		this.arrowList = new CopyOnWriteArrayList<>();
-		this.gravity = 4;
+		if(gravity)
+		{
+			this.gravity = 4;
+		}else{
+			this.gravity = 0;
+		}
 		this.speed = 2;
 		this.direction = "left";
 		this.isShooting = false;
