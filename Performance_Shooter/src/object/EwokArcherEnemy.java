@@ -120,42 +120,49 @@ public class EwokArcherEnemy extends Enemy{
 		
 		if(currentEntity == null)
 			return;
-		
-		if(x > currentEntity.getX() && x - currentEntity.getX() < 700 || x < currentEntity.getX() && x - currentEntity.getX() > - 700)
+		if(y - handler.getCurrentEntity().getY() > - 400 && y - handler.getCurrentEntity().getY() < 400)
 		{
-
-			
-			if(direction.equals("left"))
+			if(x > currentEntity.getX() && x - currentEntity.getX() < 700 || x < currentEntity.getX() && x - currentEntity.getX() > - 700)
 			{
-				drawAnimation(bow_left, x - 10, y + 10, 32, 48);
-
-				if(bow_left.getFrame() == 0)
+				if(direction.equals("left"))
 				{
-					isShooting = false;
-					tempArrow = new Arrow(x  - 22, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
-				}
-				if(bow_left.getFrame() == 5 && !isShooting)
-				{		
-					isShooting = true;
-					arrowList.add(tempArrow);
-				}else{
-					if(tempArrow != null)tempArrow.setX(tempArrow.getX() + bow_left.getFrame()*0.1f);
-				}
+					drawAnimation(bow_left, x - 10, y + 10, 32, 48);
 
+					if(bow_left.getFrame() == 0)
+					{
+						isShooting = false;
+						tempArrow = new Arrow(x  - 22, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
+					}
+					if(bow_left.getFrame() == 5 && !isShooting)
+					{		
+						isShooting = true;
+						arrowList.add(tempArrow);
+					}else{
+						if(tempArrow != null)tempArrow.setX(tempArrow.getX() + bow_left.getFrame()*0.1f);
+					}
+
+				}else{
+					drawAnimation(bow_right, x + 30, y + 10, 32, 48);
+
+					if(bow_right.getFrame() == 0)
+					{
+						isShooting = false;
+						tempArrow = new Arrow(x  + 44, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
+					}
+					if(bow_right.getFrame() == 5 && !isShooting)
+					{		
+						isShooting = true;
+						arrowList.add(tempArrow);
+					}else{
+						if(tempArrow != null)tempArrow.setX(tempArrow.getX() - bow_right.getFrame()*0.1f);
+					}
+				}
 			}else{
-				drawAnimation(bow_right, x + 30, y + 10, 32, 48);
-
-				if(bow_right.getFrame() == 0)
+				if(direction.equals("left"))
 				{
-					isShooting = false;
-					tempArrow = new Arrow(x  + 44, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
-				}
-				if(bow_right.getFrame() == 5 && !isShooting)
-				{		
-					isShooting = true;
-					arrowList.add(tempArrow);
+					drawQuadImage(bow_left_idle, x - 10, y + 10, 32, 48);
 				}else{
-					if(tempArrow != null)tempArrow.setX(tempArrow.getX() - bow_right.getFrame()*0.1f);
+					drawQuadImage(bow_right_idle, x + 30, y + 10, 32, 48);
 				}
 			}
 		}else{

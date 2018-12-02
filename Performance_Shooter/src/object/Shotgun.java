@@ -36,7 +36,7 @@ public class Shotgun extends Weapon{
 		this.angle = 0;
 		
 		try {
-			this.laserShotSound = new Sound("sound/blaster_sound.wav");
+			this.laserShotSound = new Sound("sound/shotgun_sound.wav");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
