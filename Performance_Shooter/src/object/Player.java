@@ -29,7 +29,6 @@ public class Player implements Entity{
 	
 	protected float x, y, velX, velY, snowVelX;
 	private float speed, gravity;
-	private float health;
 	private boolean falling, jumping;
 	private final float MAX_SPEED = 30;
 	private int frameCount;
@@ -61,7 +60,7 @@ public class Player implements Entity{
 		this.snowVelX = 1;
 		this.falling = true;
 		this.frameCount = 100;
-		this.health = 100;
+
 		this.gravity = 4;
 		this.idleStop = 9;
 		this.shooting = false;
@@ -446,10 +445,10 @@ public class Player implements Entity{
 
 	public void damage(float amount) 
 	{
-		health -= amount;
-		if(health <= 0)
+		HeadUpDisplay.playerHealth -= amount;
+		if(HeadUpDisplay.playerHealth <= 0)
 		{
-			health = 0;
+			HeadUpDisplay.playerHealth = 0;
 			StateManager.setState(GameState.DEAD);
 		}
 	}
@@ -627,14 +626,6 @@ public class Player implements Entity{
 
 	public void setRectBottom(Rectangle rectBottom) {
 		this.rectBottom = rectBottom;
-	}
-
-	public float getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
 	}
 
 	public boolean isShooting() {

@@ -19,7 +19,7 @@ public class StateManager {
 	
 	// Start parameter
 	private static final int START_LEVEL = 1;
-	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static String ENVIRONMENT_SETTING = "";
 	
 	public static GameState lastState = GameState.MAINMENU;
@@ -119,6 +119,11 @@ public class StateManager {
 			game.setSun(new Light(new Vector2f(WIDTH, 0), 9, 10, 10, 0.1f));
 			break;
 		case 5:
+			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_03"), quickLoaderImage("background/background_00"));
+			ENVIRONMENT_SETTING = "";
+			game.setSun(new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 1f));
+			
+			loadingScreen = new LoadingScreen(this);
 			mainMenu.enterMainMenu();
 			gameState = GameState.MAINMENU;
 			break;

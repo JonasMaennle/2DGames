@@ -22,8 +22,9 @@ public class HeadUpDisplay {
 	private Image hud, healthBackground, healthBorder, healthBar, infinity;
 	public static Image hud_weapon = null;
 	private Image[] font_sw;
-	private Handler handler;
+
 	public static int shotsLeft = -1;
+	public static float playerHealth = 100;
 	
 	@SuppressWarnings("static-access")
 	public HeadUpDisplay(Handler handler)
@@ -38,7 +39,7 @@ public class HeadUpDisplay {
 		{
 			font_sw[i] = quickLoaderImage("font/font_" + i);
 		}
-		this.handler = handler;
+
 		// Player HP bar
 		this.healthBackground = quickLoaderImage("enemy/healthBackground");
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
@@ -74,7 +75,7 @@ public class HeadUpDisplay {
 		
 		// draw HP Bar
 		drawQuadImageStatic(healthBackground, (WIDTH/2) - 270, 13, 100, 16);
-		drawQuadImageStatic(healthBar, (WIDTH/2) - 270, 13, handler.player.getHealth(), 16);
+		drawQuadImageStatic(healthBar, (WIDTH/2) - 270, 13, playerHealth, 16);
 		drawQuadImageStatic(healthBorder, (WIDTH/2) - 270, 13, 100, 16);
 	}
 	
