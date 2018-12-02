@@ -16,7 +16,6 @@ public class Laser implements Entity{
 	private Image image;
 	private float x, y, width, height, angle, destX, destY, speed;
 	private float velX, velY;
-	private String color;
 	private Light light;
 	
 	public Laser(float x, float y, float width, float height, String direction, int speed, String color, float angle)
@@ -37,6 +36,10 @@ public class Laser implements Entity{
 		{
 			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 5, 0, 1f);
 			this.image = quickLoaderImage("player/laser_small_green");
+		}else if(color.equals("blue"))
+		{
+			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 0, 5, 2f);
+			this.image = quickLoaderImage("enemy/laser_blue");
 		}
 
 		
@@ -58,7 +61,6 @@ public class Laser implements Entity{
 		this.speed = speed;
 		this.destX = destX;
 		this.destY = destY;
-		this.color = color;
 		
 		if(color.equals("red"))
 		{
@@ -68,6 +70,11 @@ public class Laser implements Entity{
 		{
 			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 5, 0, 4f);
 			this.image = quickLoaderImage("player/laser_small_green");
+		}
+		else if(color.equals("blue"))
+		{
+			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 0, 5, 2f);
+			this.image = quickLoaderImage("enemy/laser_blue");
 		}
 		lights.add(light);
 		//System.out.println(light.getLocation().x);
@@ -110,16 +117,9 @@ public class Laser implements Entity{
 		velY = totalAllowedMovement - xPercentOfMovement;
 		
 		// set direction based on position of target relative to tower
-		if(color.equals("red"))
-		{
-			if(destY < y)
-				velY *= -1;
-		}
-		if(color.equals("green"))
-		{
-			if(destY < y)
-				velY *= -1;
-		}
+
+		if(destY < y)
+			velY *= -1;
 		
 		if(destX < x)
 			velX *= -1;	
@@ -195,7 +195,7 @@ public class Laser implements Entity{
 	}
 
 	@Override
-	public void damage(int amount) {
+	public void damage(float amount) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -18,6 +18,7 @@ import object.AT_ST_Walker;
 import object.Enemy;
 import object.Goal;
 import object.Laser;
+import object.MapWeapon;
 import object.Player;
 import object.Speeder;
 
@@ -27,6 +28,7 @@ public class Handler {
 	public CopyOnWriteArrayList<Tile> obstacleList;
 	private CopyOnWriteArrayList<ParticleEvent> eventList;
 	public CopyOnWriteArrayList<Enemy> enemyList;
+	public CopyOnWriteArrayList<MapWeapon> weaponList;
 	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
@@ -45,6 +47,7 @@ public class Handler {
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.eventList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
+		this.weaponList = new CopyOnWriteArrayList<>();
 		
 		this.player = null;
 		this.at_st_walker = null;
@@ -93,17 +96,16 @@ public class Handler {
 		// update map if player is near
 		for(Tile t : obstacleList)
 		{
-			if(t.getType() == TileType.Lava_Light || t.getType() == TileType.Grass_Round_Half)
+			if(t.getType() == TileType.Lava_Light)
 			{
 				if(t.getX() >= currentEntity.getX() && t.getX() - currentEntity.getX() < WIDTH)
-				{
 					t.update();
-				}
+				
 				if(t.getX() <= currentEntity.getX() && t.getX() - currentEntity.getX() > - WIDTH)
-				{
 					t.update();
-				}
 			}
+			if(t.getType() == TileType.Grass_Round_Half || t.getType() == TileType.Rock_Half)
+				t.update();
 		}
 
 		// update particle if tile is dead
@@ -199,6 +201,12 @@ public class Handler {
 			e.draw();
 		}
 		
+		// draw weapons
+		for(MapWeapon w : weaponList)
+		{
+			w.draw();
+		}
+		
 		// draw Level Goal
 		if(levelGoal != null)
 			levelGoal.draw();
@@ -239,6 +247,7 @@ public class Handler {
 		enemyList.clear();
 		obstacleList.clear();
 		eventList.clear();
+		weaponList.clear();
 		
 		// clean lights
 		lights.clear();

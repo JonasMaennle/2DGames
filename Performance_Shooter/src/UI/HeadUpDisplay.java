@@ -19,14 +19,18 @@ public class HeadUpDisplay {
 	
 	private TrueTypeFont font;
 	private Font awtFont;
-	private Image hud, hud_weapon, healthBackground, healthBorder, healthBar;
+	private Image hud, healthBackground, healthBorder, healthBar, infinity;
+	public static Image hud_weapon = null;
 	private Image[] font_sw;
 	private Handler handler;
+	public static int shotsLeft = -1;
 	
+	@SuppressWarnings("static-access")
 	public HeadUpDisplay(Handler handler)
 	{
 		this.hud = quickLoaderImage("font/HUD");
 		this.hud_weapon = quickLoaderImage("player/weapon_right");
+		this.infinity = quickLoaderImage("font/infinity");
 		this.awtFont = new Font("Arial", Font.BOLD, 24);
 		this.font = new TrueTypeFont(awtFont, false);
 		font_sw = new Image[10];
@@ -56,6 +60,15 @@ public class HeadUpDisplay {
 		drawQuadImageStatic(hud, (WIDTH/2) - 500, 0, hud.getWidth(), hud.getHeight());
 		// draw HUD weapon
 		drawQuadImageRotStatic(hud_weapon, (WIDTH/2) + 185, -2, 50, 25, -5);
+		
+		// draw weapon ammo count
+		if(shotsLeft == -1){
+			drawQuadImageStatic(infinity, (WIDTH/2) + 235, 3, 64, 64);
+		}
+		else {
+			drawCustomNumber(shotsLeft, (WIDTH/2) + 235, -1, 20, 40);
+		}
+		
 		// draw Level counter
 		drawCustomNumber(CURRENT_LEVEL, (WIDTH/2) - 54, -1, 20, 40);
 		

@@ -18,7 +18,7 @@ public interface Entity {
 	public void setY(float y);
 	public float getVelX();
 	public float getVelY();
-	public void damage(int amount);
+	public void damage(float amount);
 	public boolean isOutOfMap();
 	public Rectangle getBounds();
 	public Vector2f[] getVertices();

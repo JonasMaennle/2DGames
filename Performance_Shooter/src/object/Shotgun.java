@@ -5,8 +5,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import Enity.Entity;
 import Enity.TileType;
+import UI.HeadUpDisplay;
 import data.Handler;
 import data.ParticleEvent;
 import data.Tile;
@@ -18,24 +18,17 @@ import static helpers.Setup.*;
 import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Weapon implements Entity{
+public class Shotgun extends Weapon{
 	
-	protected float x, y, width, height, angle, destX, destY;
-	protected Player player;
-	protected Image default_right, default_left;
-	protected CopyOnWriteArrayList<Laser> list;
-	protected Sound laserShotSound;
-	protected Handler handler;
-	protected float laserSpawnX, laserSpawnY;
+	private float angle, destX, destY;
+	private Image default_right, default_left;
+	private CopyOnWriteArrayList<Laser> list;
+	private Sound laserShotSound;
+	private float laserSpawnX, laserSpawnY;
 	
-	public Weapon(float x, float y, float width, float height, Player player, Handler handler, Image left, Image right)
+	public Shotgun(float x, float y, float width, float height, Player player, Handler handler, Image left, Image right)
 	{
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.player = player;
-		this.handler = handler;
+		super(x, y, width, height, player, handler, left, right);
 		this.default_right = right; //quickLoaderImage("player/weapon_right");
 		this.default_left =  left; //quickLoaderImage("player/weapon_left");
 		
@@ -47,6 +40,9 @@ public class Weapon implements Entity{
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		
+		// set max. ammo
+		HeadUpDisplay.shotsLeft = 30;
 	}
 
 	// Check Laser - Map collision
@@ -143,8 +139,13 @@ public class Weapon implements Entity{
 			{
 				destX = getRightBorder() - destX;
 			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 20	, 12, 6, 30, "red", angle)); // top
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY		, 12, 6, 30, "red", angle)); // normal
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 20	, 12, 6, 30, "red", angle)); // bottom
 			laserShotSound.play();
+			
+			// recoil
+			//player.setX(player.getX() - 5);
 		}
 		
 		// walk left
@@ -154,8 +155,13 @@ public class Weapon implements Entity{
 			{
 				destX = getLeftBorder() + destX;
 			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 20	, 12, 6, 30, "red", angle)); // top
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY		, 12, 6, 30, "red", angle)); // normal
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 20	, 12, 6, 30, "red", angle)); // bottom
 			laserShotSound.play();
+			
+			// recoil
+			//player.setX(player.getX() + 5);
 		}
 	}
 	
@@ -203,6 +209,7 @@ public class Weapon implements Entity{
 		return new Rectangle((int)x, (int)y, (int)width, (int)height);
 	}
 	
+	@Override
 	public void addToProjectileList()
 	{
 		for(Laser l: list)
@@ -296,6 +303,12 @@ public class Weapon implements Entity{
 			return true;
 		return false;
 	}
-	
-	
+
+	public CopyOnWriteArrayList<Laser> getList() {
+		return list;
+	}
+
+	public void setList(CopyOnWriteArrayList<Laser> list) {
+		this.list = list;
+	}
 }

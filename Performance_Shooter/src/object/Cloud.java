@@ -107,7 +107,7 @@ public class Cloud implements Entity{
 	}
 
 	@Override
-	public void damage(int amount) {
+	public void damage(float amount) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -12,6 +12,7 @@ import Enity.Entity;
 import Enity.TileType;
 import Gamestate.StateManager;
 import Gamestate.StateManager.GameState;
+import UI.HeadUpDisplay;
 import data.Camera;
 import data.Handler;
 import data.Tile;
@@ -28,7 +29,7 @@ public class Player implements Entity{
 	
 	protected float x, y, velX, velY, snowVelX;
 	private float speed, gravity;
-	private int health;
+	private float health;
 	private boolean falling, jumping;
 	private final float MAX_SPEED = 30;
 	private int frameCount;
@@ -70,7 +71,7 @@ public class Player implements Entity{
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
 		this.rectRampSensor = new Rectangle(1, 1, 1, 1);
-		this.weapon = new Weapon(x, y, 70, 35, this, handler);
+		this.weapon = new Weapon(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_left"), quickLoaderImage("player/weapon_right"));
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		
@@ -137,11 +138,23 @@ public class Player implements Entity{
 		}
 		
 		// Shoot
-		if(Mouse.isButtonDown(0) && !shooting && Mouse.getY() < 1000)
+		if(Mouse.isButtonDown(0) && !shooting && Mouse.getY() < HEIGHT - 100)
 		{
 			shooting = true;
 			//System.out.println(Mouse.getY());
-			weapon.shoot();
+			if(HeadUpDisplay.shotsLeft > 0 || HeadUpDisplay.shotsLeft == -1)weapon.shoot();
+			
+			if(HeadUpDisplay.shotsLeft == 0)
+			{
+				HeadUpDisplay.shotsLeft = -1;
+				weapon.addToProjectileList();
+				setWeapon(new Weapon(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_left"), quickLoaderImage("player/weapon_right")));
+				HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_right");
+			}
+			
+			if(HeadUpDisplay.shotsLeft > 0)HeadUpDisplay.shotsLeft--;
+				
+			
 			anim_idleRight.restart();
 			anim_idleLeft.restart();
 			idleStop = 0;
@@ -170,10 +183,8 @@ public class Player implements Entity{
 		}
 		
 		// switch direction -> mouse movement
-		
 
 		jump();
-
 		
 		x += velX * speed;
 		y += velY * speed;
@@ -246,7 +257,7 @@ public class Player implements Entity{
 		//drawBounds();
 	}
 	
-	private void mapCollision()
+	public void mapCollision()
 	{
 		updateBounds();
 
@@ -321,7 +332,7 @@ public class Player implements Entity{
 				}
 
 				jumping = false;
-				if(t.getType() == TileType.Grass_Round_Half)
+				if(t.getType() == TileType.Grass_Round_Half || t.getType() == TileType.Rock_Half)
 				{
 					//x = t.getX();//
 					velX = t.getVelX();
@@ -346,6 +357,22 @@ public class Player implements Entity{
 			{
 				if(handler.speeder.isAlive())
 					enterSpeeder();
+			}
+		}
+		
+		// weapon
+		for(MapWeapon w : handler.weaponList)
+		{
+			if(w.getBounds().intersects(getBounds()))
+			{
+				// Shotgun
+				if(w.getName().equals("Shotgun"))
+				{
+					setWeapon(new Shotgun(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_shotgun_left"), quickLoaderImage("player/weapon_shotgun_right")));
+					handler.weaponList.remove(w);
+					HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_shotgun_right");
+				}
+				// ...
 			}
 		}
 	}
@@ -417,7 +444,7 @@ public class Player implements Entity{
 		this.rectRampSensor.setBounds((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
 	}
 
-	public void damage(int amount) 
+	public void damage(float amount) 
 	{
 		health -= amount;
 		if(health <= 0)
@@ -602,7 +629,7 @@ public class Player implements Entity{
 		this.rectBottom = rectBottom;
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 

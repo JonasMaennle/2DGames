@@ -200,7 +200,7 @@ public class EwokArcherEnemy extends Enemy{
 	}
 	
 	@Override
-	public void damage(int amount)
+	public void damage(float amount)
 	{
 		if(health > 0)
 		{

@@ -2,6 +2,8 @@ package object;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import Enity.Entity;
 import data.Handler;
@@ -20,11 +22,12 @@ public class Arrow implements Entity{
 	private float x, y, velX, velY, speed, gravity, angle, destX, destY, distanceX;
 	private int width, height;
 	private Image image; 
-	private boolean dynamic, dead, stopped;
+	private boolean dynamic, dead, stopped, playSound;
 	private Rectangle bounds;
 	private long despawnTimer;
 	private Random rand;
 	private Handler handler;
+	private Sound sound;
 	
 	public Arrow(float x, float y, float distanceX, float distanceY, Entity entity, Handler handler)
 	{
@@ -38,9 +41,16 @@ public class Arrow implements Entity{
 		this.dynamic = true;
 		this.dead = false;
 		this.stopped = false;
+		this.playSound = true;
 		this.handler = handler;
 		
 		this.angle = 310;
+		
+		try {
+			this.sound = new Sound("sound/arrow_sound.wav");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		
 		if(distanceX > 0)
 		{
@@ -65,6 +75,11 @@ public class Arrow implements Entity{
 	
 	public void update() 
 	{
+		if(playSound)
+		{
+			sound.play();
+			playSound = false;
+		}
 
 		velY += gravity;
 			
@@ -193,7 +208,7 @@ public class Arrow implements Entity{
 	}
 
 	@Override
-	public void damage(int amount) {
+	public void damage(float amount) {
 		// TODO Auto-generated method stub
 		
 	}

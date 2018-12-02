@@ -386,7 +386,7 @@ public class AT_ST_Walker implements Entity{
 	}
 
 	@Override
-	public void damage(int amount) 
+	public void damage(float amount) 
 	{
 		health -= (int)(amount * 0.2f);
 		if(health <= 0)

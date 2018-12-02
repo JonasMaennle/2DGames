@@ -196,7 +196,7 @@ public class GunganEnemy extends Enemy{
 	}
 	
 	@Override
-	public void damage(int amount)
+	public void damage(float amount)
 	{
 		if(health > 0)
 		{
@@ -294,7 +294,7 @@ public class GunganEnemy extends Enemy{
 		{
 			timer2 = timer1;
 			//System.out.println("x:" + x + " y: " + y + "  destX: " + destX + " destY: " +destY);
-			laserList.add(new Laser(x + (width/2), y + 50, destX, destY, 25, 4, 10, "green", -angle));
+			laserList.add(new Laser(x + (width/2), y + 50, destX, destY, 4, 4, 10, "blue", -angle));
 			lasterShot.play();
 		}
 	}

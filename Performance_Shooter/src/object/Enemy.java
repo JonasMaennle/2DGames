@@ -92,7 +92,7 @@ public abstract class Enemy implements Entity{
 	}
 	
 	// Take damage from external source
-	public void damage(int amount)
+	public void damage(float amount)
 	{
 			
 	}

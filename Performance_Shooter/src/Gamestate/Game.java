@@ -32,7 +32,7 @@ public class Game {
 		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity(), handler);
 		this.handler = handler;
 		
-		this.sun = new Light(new Vector2f(WIDTH, -200), 200, 80, 0, 1f); //  10, 2, 0, 0.1f);
+		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 1f); //  10, 2, 0, 0.1f);
 		
 		setupUI();
 		setUpObjects();
@@ -42,6 +42,7 @@ public class Game {
 	{
 		camera.update();
 		handler.update();
+		sun.setLocation(new Vector2f(WIDTH, 1));
 		
 		while(Keyboard.next())
 		{
@@ -54,7 +55,6 @@ public class Game {
 		}
 		// render entire game graphics
 		render();
-
 	}
 	
 	// Renders lightning into the game

@@ -11,8 +11,10 @@ import data.Handler;
 import data.TileGrid;
 import object.AT_ST_Walker;
 import object.EwokArcherEnemy;
+import object.EwokSoldierEnemy;
 import object.Goal;
 import object.GunganEnemy;
+import object.MapWeapon;
 import object.Player;
 import object.Speeder;
 
@@ -137,6 +139,13 @@ public class Leveler {
 					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
+				// Movable half block
+				if(red == 80 && green == 80 && blue == 80)
+				{
+					grid.setTile(x, y, TileType.Rock_Half);
+					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
+				}
 				
 		// Player Tile
 				// Red -> Player
@@ -154,6 +163,12 @@ public class Leveler {
 				{
 					handler.speeder = new Speeder(x * TILE_SIZE, y * TILE_SIZE, handler);
 				}
+		// Weapon
+				// Shotgun
+				if(red == 255 && green == 200 && blue == 0)
+				{
+					handler.weaponList.add(new MapWeapon(x * TILE_SIZE, y * TILE_SIZE, 70, 35, "Shotgun",quickLoaderImage("player/weapon_shotgun_left")));
+				}
 		// Enemy Tile
 				// Green -> GunganEnemy
 				if(red == 0 && green == 255 && blue == 0)
@@ -168,6 +183,11 @@ public class Leveler {
 				if(red == 0 && green == 127 && blue == 0)
 				{
 					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE, y * TILE_SIZE, 48, 80, handler));
+				}
+				// Ewok Soldier
+				if(red == 0 && green == 70 && blue == 0)
+				{
+					handler.enemyList.add(new EwokSoldierEnemy(x * TILE_SIZE, y * TILE_SIZE, 48, 80, handler));
 				}
 		// Goal Tile
 				// Pink -> Level Goal
