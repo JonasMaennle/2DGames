@@ -15,27 +15,26 @@ import static helpers.Setup.getLeftBorder;
 import static helpers.Setup.getRightBorder;
 
 import java.awt.Rectangle;
-import java.util.Random;
 
 public class Arrow implements Entity{
 
-	private float x, y, velX, velY, speed, gravity, angle, destX, destY, distanceX;
+	private float x, y, velX, velY, speed, gravity, angle, destX, destY, distanceX, distanceY, randSpeed;
 	private int width, height;
 	private Image image; 
 	private boolean dynamic, dead, stopped, playSound;
 	private Rectangle bounds;
 	private long despawnTimer;
-	private Random rand;
 	private Handler handler;
 	private Sound sound;
 	
-	public Arrow(float x, float y, float distanceX, float distanceY, Entity entity, Handler handler)
+	public Arrow(float x, float y, float distanceX, float distanceY, float randSpeed, Entity entity, Handler handler)
 	{
 		this.x = x;
 		this.y = y;
-		this.rand = new Random();
 		this.distanceX = distanceX;
-		this.speed = 3.0f + ( -rand.nextFloat());
+		this.distanceY = distanceY;
+		this.speed = 3.0f - randSpeed;
+		this.randSpeed = randSpeed;
 		this.width = 32;
 		this.height = 16;
 		this.dynamic = true;
@@ -256,5 +255,29 @@ public class Arrow implements Entity{
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+
+	public float getDistanceX() {
+		return distanceX;
+	}
+
+	public void setDistanceX(float distanceX) {
+		this.distanceX = distanceX;
+	}
+
+	public float getDistanceY() {
+		return distanceY;
+	}
+
+	public void setDistanceY(float distanceY) {
+		this.distanceY = distanceY;
+	}
+
+	public float getRandSpeed() {
+		return randSpeed;
+	}
+
+	public void setRandSpeed(float randSpeed) {
+		this.randSpeed = randSpeed;
 	}
 }

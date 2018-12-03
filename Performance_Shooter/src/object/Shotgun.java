@@ -54,6 +54,14 @@ public class Shotgun extends Weapon{
 		for(Laser l : list)
 		{
 			l.update();
+			
+			// check range over time
+			if(System.currentTimeMillis() - l.getTimeAlive() > 280)
+			{
+				l.removeLight();
+				list.remove(l);
+			}
+			
 			// Check Laser collision with tiles
 			for(Tile tile : handler.obstacleList)
 			{
@@ -75,6 +83,15 @@ public class Shotgun extends Weapon{
 			{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
+					//recoil
+					if(g.getX() > handler.getCurrentEntity().getX())
+					{
+						g.setX(g.getX() + 20);
+					}else if(g.getX() < handler.getCurrentEntity().getX())
+					{
+						g.setX(g.getX() - 20);
+					}
+					
 					g.damage(14); // Gungan got 56 HP
 					l.removeLight();
 					list.remove(l);
@@ -139,9 +156,11 @@ public class Shotgun extends Weapon{
 			{
 				destX = getRightBorder() - destX;
 			}
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 40	, 12, 6, 30, "red", angle)); // top
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 20	, 12, 6, 30, "red", angle)); // top
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY		, 12, 6, 30, "red", angle)); // normal
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 20	, 12, 6, 30, "red", angle)); // bottom
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 40	, 12, 6, 30, "red", angle)); // bottom
 			laserShotSound.play();
 			
 			// recoil
@@ -155,9 +174,11 @@ public class Shotgun extends Weapon{
 			{
 				destX = getLeftBorder() + destX;
 			}
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 40	, 12, 6, 30, "red", angle)); // top
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 20	, 12, 6, 30, "red", angle)); // top
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY		, 12, 6, 30, "red", angle)); // normal
 			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 20	, 12, 6, 30, "red", angle)); // bottom
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 40	, 12, 6, 30, "red", angle)); // bottom
 			laserShotSound.play();
 			
 			// recoil

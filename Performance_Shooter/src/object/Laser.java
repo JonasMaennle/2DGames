@@ -17,6 +17,7 @@ public class Laser implements Entity{
 	private float x, y, width, height, angle, destX, destY, speed;
 	private float velX, velY;
 	private Light light;
+	private long timeAlive;
 	
 	public Laser(float x, float y, float width, float height, String direction, int speed, String color, float angle)
 	{
@@ -26,7 +27,7 @@ public class Laser implements Entity{
 		this.height = height;
 		this.angle = angle;
 		this.speed = speed;
-		
+		this.timeAlive = System.currentTimeMillis();
 		
 		if(color.equals("red"))
 		{
@@ -61,6 +62,7 @@ public class Laser implements Entity{
 		this.speed = speed;
 		this.destX = destX;
 		this.destY = destY;
+		this.timeAlive = System.currentTimeMillis();
 		
 		if(color.equals("red"))
 		{
@@ -211,5 +213,13 @@ public class Laser implements Entity{
 
 	public void setLight(Light light) {
 		this.light = light;
+	}
+
+	public long getTimeAlive() {
+		return timeAlive;
+	}
+
+	public void setTimeAlive(long timeAlive) {
+		this.timeAlive = timeAlive;
 	}
 }

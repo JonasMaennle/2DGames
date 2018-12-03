@@ -115,6 +115,7 @@ public class Game {
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_R))
 		{
+			HeadUpDisplay.playerHealth = 100;
 			handler.getStatemanager().resetCurrentLevel();
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_M))

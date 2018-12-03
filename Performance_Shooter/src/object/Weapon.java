@@ -79,7 +79,7 @@ public class Weapon implements Entity{
 			{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
-					g.damage(14); // Gungan got 56 HP
+					g.damage(7); // Gungan got 56 HP
 					l.removeLight();
 					list.remove(l);
 				}

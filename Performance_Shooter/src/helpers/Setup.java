@@ -38,16 +38,17 @@ public class Setup {
 	public static CopyOnWriteArrayList<Entity> projectileList = new CopyOnWriteArrayList<>();
 	
 	public static void beginSession()
-	{
-//		WIDTH = 960;
-//		HEIGHT = 640;
-//		setFullScreen = false;
-//		
+	{	
 		if(WIDTH > 1920){
 			WIDTH = 1920;
 			HEIGHT = 1080;
 			setFullScreen = false;
 		}
+		
+//		WIDTH = 960;
+//		HEIGHT = 720;
+//		setFullScreen = false;
+//		Display.setLocation(0, 0);
 			
 		Display.setTitle("StarWars Shooter");
 		//Display.setLocation((Display.getDisplayMode().getWidth()-WIDTH) / 2, 0);

@@ -4,32 +4,33 @@ import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
 import java.awt.Rectangle;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
-import Enity.Entity;
 import data.Handler;
 import data.Tile;
 
 public class EwokArcherEnemy extends Enemy{
 	
 	private Handler handler;
-	private Entity currentEntity;
 	private CopyOnWriteArrayList<Arrow> arrowList;
 	private Animation walk_right, walk_left, bow_left, bow_right;
 	private Image idle_left, idle_right, bow_left_idle, bow_right_idle;
 	private String direction;
 	private Arrow tempArrow;
 	private boolean isShooting;
+	private float destX, destY, randSpeed;
+	private Random rand;
 
 	public EwokArcherEnemy(float x, float y, int width, int height, boolean gravity, Handler handler) 
 	{
 		super(x, y, width, height);
 		this.handler = handler;
-		this.currentEntity = handler.getCurrentEntity();
 		this.arrowList = new CopyOnWriteArrayList<>();
+		this.rand = new Random();
 		if(gravity)
 		{
 			this.gravity = 4;
@@ -61,7 +62,11 @@ public class EwokArcherEnemy extends Enemy{
 	public void update()
 	{
 		velY = gravity;
-		currentEntity = handler.getCurrentEntity();
+		
+		destX = handler.getCurrentEntity().getX() - x;
+		destY = handler.getCurrentEntity().getY() - y;
+		
+		randSpeed = rand.nextFloat();
 		
 		if(handler.getCurrentEntity().getX() >= x)
 		{
@@ -81,6 +86,10 @@ public class EwokArcherEnemy extends Enemy{
 			
 			if(handler.getCurrentEntity().getBounds().intersects(a.getBounds()))
 			{
+				destX = a.getDistanceX();
+				destY = a.getDistanceY();
+				randSpeed = a.getRandSpeed();
+				
 				if(a.getVelX() != 0)handler.getCurrentEntity().damage(10);
 				arrowList.remove(a);
 			}
@@ -118,11 +127,9 @@ public class EwokArcherEnemy extends Enemy{
 		// draw bow
 		if(tempArrow != null)tempArrow.draw();
 		
-		if(currentEntity == null)
-			return;
 		if(y - handler.getCurrentEntity().getY() > - 400 && y - handler.getCurrentEntity().getY() < 400)
 		{
-			if(x > currentEntity.getX() && x - currentEntity.getX() < 700 || x < currentEntity.getX() && x - currentEntity.getX() > - 700)
+			if(x > handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() < 700 || x < handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() > - 700)
 			{
 				if(direction.equals("left"))
 				{
@@ -131,7 +138,7 @@ public class EwokArcherEnemy extends Enemy{
 					if(bow_left.getFrame() == 0)
 					{
 						isShooting = false;
-						tempArrow = new Arrow(x  - 22, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
+						tempArrow = new Arrow(x  - 22, y + 18, destX, destY, randSpeed, handler.getCurrentEntity(), handler);
 					}
 					if(bow_left.getFrame() == 5 && !isShooting)
 					{		
@@ -147,7 +154,7 @@ public class EwokArcherEnemy extends Enemy{
 					if(bow_right.getFrame() == 0)
 					{
 						isShooting = false;
-						tempArrow = new Arrow(x  + 44, y + 18, currentEntity.getX() - x, currentEntity.getY() - y, currentEntity, handler);
+						tempArrow = new Arrow(x  + 44, y + 18, destX, destY, randSpeed, handler.getCurrentEntity(), handler);
 					}
 					if(bow_right.getFrame() == 5 && !isShooting)
 					{		
