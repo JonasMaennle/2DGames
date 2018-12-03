@@ -147,7 +147,7 @@ public class StateManager {
 		default:
 			break;
 		}
-		if(HeadUpDisplay.shotsLeft > 0)
+		if(HeadUpDisplay.shotsLeft > 0 && gameState != GameState.MAINMENU)
 			handler.player.setWeapon(new Shotgun(handler.player.getX(), handler.player.getY(), 70, 35, handler.player, handler, quickLoaderImage("player/weapon_shotgun_left"), quickLoaderImage("player/weapon_shotgun_right")));
 		
 		game.getCamera().setEntity(handler.getCurrentEntity());
