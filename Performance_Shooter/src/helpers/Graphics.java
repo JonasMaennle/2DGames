@@ -252,7 +252,7 @@ public class Graphics {
 		for (Entity e : entityList) 
 		{
 			// check if e is in range
-			if(e.getX() > getLeftBorder() - 500 && e.getX() < getRightBorder() + 500)
+			if(e.getX() > getLeftBorder() - 512 && e.getX() < getRightBorder() + 512)
 			{
 				Vector2f[] vertices = e.getVertices();
 				for (int i = 0; i < vertices.length; i++) 
@@ -334,7 +334,7 @@ public class Graphics {
 			for (Entity e : entityList) 
 			{
 				// check if e is in range
-				if(e.getX() > getLeftBorder() - 64 && e.getX() < getRightBorder() + 64)
+				if(e.getX() > getLeftBorder() - 512 && e.getX() < getRightBorder() + 512)
 				{
 					Vector2f[] vertices = e.getVertices();
 					for (int i = 0; i < vertices.length; i++) 

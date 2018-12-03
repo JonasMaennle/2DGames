@@ -23,7 +23,7 @@ public class Goal implements Entity{
 		this.width = TILE_SIZE;
 		this.height = TILE_SIZE;
 		this.image = quickLoaderImage("objects/goal");
-		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 255, 51, 255, 10f);
+		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 255, 51, 255, 14f);
 		lights.add(light);
 	}
 
