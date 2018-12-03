@@ -6,7 +6,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import Enity.TileType;
-import UI.HeadUpDisplay;
 import data.Handler;
 import data.ParticleEvent;
 import data.Tile;
@@ -40,9 +39,6 @@ public class Shotgun extends Weapon{
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
-		// set max. ammo
-		HeadUpDisplay.shotsLeft = 30;
 	}
 
 	// Check Laser - Map collision

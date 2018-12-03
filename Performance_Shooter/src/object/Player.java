@@ -370,6 +370,9 @@ public class Player implements Entity{
 					setWeapon(new Shotgun(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_shotgun_left"), quickLoaderImage("player/weapon_shotgun_right")));
 					handler.weaponList.remove(w);
 					HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_shotgun_right");
+					
+					// set max. ammo
+					HeadUpDisplay.shotsLeft = 30;
 				}
 				// ...
 			}

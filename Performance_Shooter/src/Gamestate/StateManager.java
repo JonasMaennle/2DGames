@@ -2,12 +2,15 @@ package Gamestate;
 
 import data.Handler;
 import data.MusicHandler;
+import object.Shotgun;
 import shader.Light;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
 import org.lwjgl.util.vector.Vector2f;
+
+import UI.HeadUpDisplay;
 
 import static helpers.Leveler.*;
 
@@ -144,6 +147,9 @@ public class StateManager {
 		default:
 			break;
 		}
+		if(HeadUpDisplay.shotsLeft > 0)
+			handler.player.setWeapon(new Shotgun(handler.player.getX(), handler.player.getY(), 70, 35, handler.player, handler, quickLoaderImage("player/weapon_shotgun_left"), quickLoaderImage("player/weapon_shotgun_right")));
+		
 		game.getCamera().setEntity(handler.getCurrentEntity());
 		game.getBackgroundHandler().setEntity(handler.getCurrentEntity());
 	}

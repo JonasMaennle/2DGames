@@ -242,48 +242,50 @@ public class Graphics {
 		return tempSheet;
 	}
 	
-	public static void renderSingleLightStatic(CopyOnWriteArrayList<?> objectList, Light light)
+	// for sun rendering
+	public static void renderSingleLightStatic(CopyOnWriteArrayList<Entity> entityList, Light light)
 	{
-		@SuppressWarnings("unchecked")
-		CopyOnWriteArrayList<Entity> entityList = (CopyOnWriteArrayList<Entity>) objectList;
-
 		glColorMask(false, false, false, false);
 		glStencilFunc(GL_ALWAYS, 1, 1);
 		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 		for (Entity e : entityList) 
 		{
-			Vector2f[] vertices = e.getVertices();
-			for (int i = 0; i < vertices.length; i++) 
+			// check if e is in range
+			if(e.getX() > getLeftBorder() - 500 && e.getX() < getRightBorder() + 500)
 			{
-				Vector2f currentVertex = vertices[i];
-				Vector2f nextVertex = vertices[(i + 1) % vertices.length];
-				Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
-				Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
-				Vector2f lightToCurrent = Vector2f.sub(currentVertex,
-						light.location, null);
-				if (Vector2f.dot(normal, lightToCurrent) > 0) 
+				Vector2f[] vertices = e.getVertices();
+				for (int i = 0; i < vertices.length; i++) 
 				{
-					Vector2f point1 = Vector2f.add(
-							currentVertex,
-							(Vector2f) Vector2f.sub(currentVertex, light.location, null).
-							scale(800), 
-							null
-							);
-					Vector2f point2 = Vector2f.add(
-							nextVertex,
-							(Vector2f) Vector2f.sub(nextVertex, light.location, null).
-							scale(800), 
-							null
-							);
-					glBegin(GL_QUADS);
+					Vector2f currentVertex = vertices[i];
+					Vector2f nextVertex = vertices[(i + 1) % vertices.length];
+					Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
+					Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
+					Vector2f lightToCurrent = Vector2f.sub(currentVertex,
+							light.location, null);
+					if (Vector2f.dot(normal, lightToCurrent) > 0) 
 					{
-						glVertex2f(currentVertex.getX(), currentVertex.getY());
-						glVertex2f(point1.getX(), point1.getY());
-						glVertex2f(point2.getX(), point2.getY());
-						glVertex2f(nextVertex.getX(), nextVertex.getY());
+						Vector2f point1 = Vector2f.add(
+								currentVertex,
+								(Vector2f) Vector2f.sub(currentVertex, light.location, null).
+								scale(800), 
+								null
+								);
+						Vector2f point2 = Vector2f.add(
+								nextVertex,
+								(Vector2f) Vector2f.sub(nextVertex, light.location, null).
+								scale(800), 
+								null
+								);
+						glBegin(GL_QUADS);
+						{
+							glVertex2f(currentVertex.getX(), currentVertex.getY());
+							glVertex2f(point1.getX(), point1.getY());
+							glVertex2f(point2.getX(), point2.getY());
+							glVertex2f(nextVertex.getX(), nextVertex.getY());
+						}
+						glEnd();
 					}
-					glEnd();
 				}
 			}
 		}
@@ -317,11 +319,12 @@ public class Graphics {
 			glClear(GL_STENCIL_BUFFER_BIT);
 	}
 	
-	public static void renderLightEntity(CopyOnWriteArrayList<?> objectList)
+	
+	// render all lights from light list
+	public static void renderLightEntity(CopyOnWriteArrayList<Entity> entityList)
 	{
 		//System.out.println(lights.size());
-		@SuppressWarnings("unchecked")
-		CopyOnWriteArrayList<Entity> entityList = (CopyOnWriteArrayList<Entity>) objectList;
+
 		for (Light light : lights) 
 		{
 			glColorMask(false, false, false, false);
@@ -330,37 +333,41 @@ public class Graphics {
 
 			for (Entity e : entityList) 
 			{
-				Vector2f[] vertices = e.getVertices();
-				for (int i = 0; i < vertices.length; i++) 
+				// check if e is in range
+				if(e.getX() > getLeftBorder() - 64 && e.getX() < getRightBorder() + 64)
 				{
-					Vector2f currentVertex = vertices[i];
-					Vector2f nextVertex = vertices[(i + 1) % vertices.length];
-					Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
-					Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
-					Vector2f lightToCurrent = Vector2f.sub(currentVertex,
-							light.location, null);
-					if (Vector2f.dot(normal, lightToCurrent) > 0) 
+					Vector2f[] vertices = e.getVertices();
+					for (int i = 0; i < vertices.length; i++) 
 					{
-						Vector2f point1 = Vector2f.add(
-								currentVertex,
-								(Vector2f) Vector2f.sub(currentVertex, light.location, null).
-								scale(800), 
-								null
-								);
-						Vector2f point2 = Vector2f.add(
-								nextVertex,
-								(Vector2f) Vector2f.sub(nextVertex, light.location, null).
-								scale(800), 
-								null
-								);
-						glBegin(GL_QUADS);
+						Vector2f currentVertex = vertices[i];
+						Vector2f nextVertex = vertices[(i + 1) % vertices.length];
+						Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
+						Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
+						Vector2f lightToCurrent = Vector2f.sub(currentVertex,
+								light.location, null);
+						if (Vector2f.dot(normal, lightToCurrent) > 0) 
 						{
-							glVertex2f(currentVertex.getX(), currentVertex.getY());
-							glVertex2f(point1.getX(), point1.getY());
-							glVertex2f(point2.getX(), point2.getY());
-							glVertex2f(nextVertex.getX(), nextVertex.getY());
+							Vector2f point1 = Vector2f.add(
+									currentVertex,
+									(Vector2f) Vector2f.sub(currentVertex, light.location, null).
+									scale(800), 
+									null
+									);
+							Vector2f point2 = Vector2f.add(
+									nextVertex,
+									(Vector2f) Vector2f.sub(nextVertex, light.location, null).
+									scale(800), 
+									null
+									);
+							glBegin(GL_QUADS);
+							{
+								glVertex2f(currentVertex.getX(), currentVertex.getY());
+								glVertex2f(point1.getX(), point1.getY());
+								glVertex2f(point2.getX(), point2.getY());
+								glVertex2f(nextVertex.getX(), nextVertex.getY());
+							}
+							glEnd();
 						}
-						glEnd();
 					}
 				}
 			}

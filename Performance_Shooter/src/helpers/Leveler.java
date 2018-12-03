@@ -139,6 +139,12 @@ public class Leveler {
 					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
+				// Grey -> Rock_Basic
+				if(red == 225 && green == 225 && blue == 225)
+				{
+					grid.setTile(x, y, TileType.Rock_Decoration);
+					shadowObstacleList.add(grid.getTile(x, y));
+				}
 				// Movable half block
 				if(red == 80 && green == 80 && blue == 80)
 				{

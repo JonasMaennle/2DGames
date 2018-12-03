@@ -4,7 +4,6 @@ import static helpers.Setup.*;
 import static helpers.Graphics.*;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
@@ -24,7 +23,7 @@ public class Game {
 	private Light sun;
 	
 	// Tmp
-	private Light mouseLight;
+	//private Light mouseLight;
 	
 	public Game(Handler handler)
 	{
@@ -32,7 +31,7 @@ public class Game {
 		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity(), handler);
 		this.handler = handler;
 		
-		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 1f); // 200, 80, 0, 0.1f);
+		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 0.4f); // 200, 80, 0, 0.1f);
 		
 		setupUI();
 		setUpObjects();
@@ -42,7 +41,7 @@ public class Game {
 	{
 		camera.update();
 		handler.update();
-		sun.setLocation(new Vector2f(WIDTH + 100, -100));
+		sun.setLocation(new Vector2f(WIDTH + 700, -700));
 		
 		while(Keyboard.next())
 		{
@@ -63,7 +62,7 @@ public class Game {
 		// draw background
 		backgroundHandler.draw();
 		
-		// render sun
+		// render sun, lava
 		renderSingleLightStatic(shadowObstacleList, sun);
 		
 		// draw map, game-objects
@@ -72,9 +71,9 @@ public class Game {
 		// draw ingame UI
 		updateUI();
 		
-		mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));	
+		//mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));	
 		
-		//render lights
+		//render lights (laser etc.)
 		renderLightEntity(shadowObstacleList);
 	}
 	
@@ -92,7 +91,7 @@ public class Game {
 	
 	private void setUpObjects() 
 	{
-		mouseLight = new Light(new Vector2f(0, 0), 10, 2, 0, 1);
+		//mouseLight = new Light(new Vector2f(0, 0), 10, 2, 0, 1);
 		//lights.add(mouseLight);
 	}
 	

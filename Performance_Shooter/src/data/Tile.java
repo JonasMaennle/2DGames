@@ -42,7 +42,11 @@ public class Tile implements Entity{
 		this.minX = x - TILE_SIZE * 2;
 		this.velX = 1;
 		this.index = 0;
-		
+		if(type == TileType.Rock_Half)
+		{
+			this.maxX = x + TILE_SIZE * 3;
+			this.minX = x - TILE_SIZE * 3;
+		}
 		if(type == TileType.Lava)
 		{
 			this.anim = new Animation(loadSpriteSheet("tiles/Lava_Sheet", 64, 64), 1000);

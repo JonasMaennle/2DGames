@@ -66,7 +66,10 @@ public class EwokArcherEnemy extends Enemy{
 		destX = handler.getCurrentEntity().getX() - x;
 		destY = handler.getCurrentEntity().getY() - y;
 		
-		randSpeed = rand.nextFloat();
+		if(gravity == 0)
+			randSpeed = rand.nextFloat()+1;
+		else
+			randSpeed = rand.nextFloat();
 		
 		if(handler.getCurrentEntity().getX() >= x)
 		{
@@ -129,7 +132,7 @@ public class EwokArcherEnemy extends Enemy{
 		
 		if(y - handler.getCurrentEntity().getY() > - 400 && y - handler.getCurrentEntity().getY() < 400)
 		{
-			if(x > handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() < 700 || x < handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() > - 700)
+			if(x > handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() < 800 || x < handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() > - 800)
 			{
 				if(direction.equals("left"))
 				{
