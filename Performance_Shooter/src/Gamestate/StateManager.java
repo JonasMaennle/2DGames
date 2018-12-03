@@ -21,7 +21,7 @@ public class StateManager {
 	}
 	
 	// Start parameter
-	private static final int START_LEVEL = 1;
+	private static final int START_LEVEL = 4;
 	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static String ENVIRONMENT_SETTING = "";
 	
@@ -119,12 +119,12 @@ public class StateManager {
 			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_snow01"), quickLoaderImage("background/background_snow00"));
 			ENVIRONMENT_SETTING = "_Snow";
 			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
-			game.setSun(new Light(new Vector2f(WIDTH, 0), 9, 10, 10, 0.1f));
+			game.setSun(new Light(new Vector2f(WIDTH + 700, -700), 153, 214, 255, 0.4f));
 			break;
 		case 5:
 			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_03"), quickLoaderImage("background/background_00"));
 			ENVIRONMENT_SETTING = "";
-			game.setSun(new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 1f));
+			game.setSun(new Light(new Vector2f(WIDTH + 700, -700), 200, 80, 0, 0.4f));
 			
 			loadingScreen = new LoadingScreen(this);
 			mainMenu.enterMainMenu();

@@ -8,11 +8,13 @@ import static helpers.Setup.*;
 import java.awt.Rectangle;
 
 import Enity.Entity;
+import shader.Light;
 
 public class Goal implements Entity{
 
 	private Image image;
 	private float x, y, width, height;
+	private Light light;
 	
 	public Goal(float x, float y)
 	{
@@ -21,12 +23,14 @@ public class Goal implements Entity{
 		this.width = TILE_SIZE;
 		this.height = TILE_SIZE;
 		this.image = quickLoaderImage("objects/goal");
+		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 255, 51, 255, 10f);
+		lights.add(light);
 	}
 
 	@Override
 	public void update() 
 	{
-		System.out.println("Does nothing");
+		light.setLocation(new Vector2f(x + MOVEMENT_X + 32, y + MOVEMENT_Y + 32));
 	}
 
 	@Override

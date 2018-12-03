@@ -220,7 +220,29 @@ public class Tile implements Entity{
 	@Override
 	public Vector2f[] getVertices() 
 	{
-		if(type == TileType.Rock_Basic)
+		// ramp start
+		if(type == TileType.Ramp_Start)
+		{
+			return new Vector2f[] {
+					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left top
+					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
+					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
+					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height/2) // right top
+			};
+		}
+		// ramp end
+		if(type == TileType.Ramp_End)
+		{
+			return new Vector2f[] {
+					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height/2), // left top
+					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
+					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
+					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height) // right top
+			};
+		}
+		
+		// rock (full)
+		if(type == TileType.Rock_Basic || type == TileType.Rock_Decoration)
 		{
 			return new Vector2f[] {
 					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), // left top
@@ -230,6 +252,7 @@ public class Tile implements Entity{
 			};
 		}
 		
+		// non
 		if(type == TileType.Lava_Light || type == TileType.Lava)
 		{
 			return new Vector2f[] {
@@ -240,6 +263,7 @@ public class Tile implements Entity{
 			};
 		}
 		
+		// lower top
 		return new Vector2f[] {
 				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 8), // left top
 				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom

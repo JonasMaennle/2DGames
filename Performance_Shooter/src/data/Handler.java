@@ -80,21 +80,27 @@ public class Handler {
 				e.update();
 			}
 		}
-
-		// check current entity for collision with goal
-		if(levelGoal != null && checkCollision(currentEntity.getX(), currentEntity.getY(), currentEntity.getWidth(), currentEntity.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
+		
+		// update goal
+		if(levelGoal != null)
 		{
-			//statemanager.loadLevel();
-			if(lastState == GameState.EDITOR)StateManager.gameState = GameState.EDITOR;
-			if(lastState != GameState.EDITOR)StateManager.gameState = GameState.LOADING;
+			levelGoal.update();
+			// check current entity for collision with goal
+			if(checkCollision(currentEntity.getX(), currentEntity.getY(), currentEntity.getWidth(), currentEntity.getHeight(), levelGoal.getX(), levelGoal.getY(), levelGoal.getWidth(), levelGoal.getHeight()))
+			{
+				//statemanager.loadLevel();
+				if(lastState == GameState.EDITOR)StateManager.gameState = GameState.EDITOR;
+				if(lastState != GameState.EDITOR)StateManager.gameState = GameState.LOADING;
+			}
 		}
+
 		
 		// update map if player is near
 		for(Tile t : obstacleList)
 		{
 			if(t.getType() == TileType.Lava_Light)
 			{
-				if(t.getX() > getLeftBorder() - 100 && t.getX() < getRightBorder() + 100 && t.getY() > getTopBorder() - 100 && t.getY() < getBottomBorder() + 100)
+				//if(t.getX() > getLeftBorder() - 100 && t.getX() < getRightBorder() + 100 && t.getY() > getTopBorder() - 100 && t.getY() < getBottomBorder() + 100)
 				{
 					t.update();
 				}

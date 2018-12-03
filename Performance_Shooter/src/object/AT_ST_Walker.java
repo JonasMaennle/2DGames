@@ -302,6 +302,23 @@ public class AT_ST_Walker implements Entity{
 				y = (float) (r.getY() - height+1);
 			}
 		}
+		
+		// enemy collision
+		for(Enemy e : handler.enemyList)
+		{
+			if(e.getBounds().intersects(getBounds()) && velX != 0)
+			{
+				if(e.getX() > handler.getCurrentEntity().getX())
+				{
+					e.setX(e.getX() + 1);
+				}else if(e.getX() < handler.getCurrentEntity().getX())
+				{
+					e.setX(e.getX() - 10);
+				}
+				
+				e.damage(2f);
+			}
+		}
 	}
 	
 	private void shoot()
@@ -370,19 +387,30 @@ public class AT_ST_Walker implements Entity{
 	
 	private void damageTile(Tile tile)
 	{
-		tile.setHp(tile.getHp() - 100);
-		tile.addIndex();
-		// Remove tile if hp <= 0
-		if(tile.getHp() <= 0)
-		{
-			// Remove shadow
-			shadowObstacleList.remove(tile);
-			
-			handler.getMap().setTile(tile.getXPlace(), tile.getYPlace(), TileType.NULL);
-			if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray", "normal"));
-			if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "brown", "normal"));
-			handler.obstacleList.remove(tile);
-		}
+		if(tile.getType() == TileType.Rock_Basic || tile.getType() == TileType.Rock_Decoration)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray", "normal"));
+		if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "brown", "normal"));
+		
+		return;
+		
+		// NOT USED CURRENTLY
+		
+		
+//		if(tile.getType() == TileType.Rock_Basic || tile.getType() == TileType.Rock_Decoration)
+//			return;
+		
+//		tile.setHp(tile.getHp() - 100);
+//		tile.addIndex();
+//		// Remove tile if hp <= 0
+//		if(tile.getHp() <= 0)
+//		{
+//			// Remove shadow
+//			shadowObstacleList.remove(tile);
+//			
+//			handler.getMap().setTile(tile.getXPlace(), tile.getYPlace(), TileType.NULL);
+//			if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray", "normal"));
+//			if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "brown", "normal"));
+//			handler.obstacleList.remove(tile);
+//		}
 	}
 
 	@Override
