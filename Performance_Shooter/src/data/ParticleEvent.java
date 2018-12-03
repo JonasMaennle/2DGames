@@ -7,11 +7,15 @@ public class ParticleEvent {
 	
 	private CopyOnWriteArrayList<Particle> list;
 	private Random rand;
+	private float x, y;
 	
 	public ParticleEvent(int startX, int startY, int number, String color, String modus)
 	{
 		this.list = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
+		this.x = startX;
+		this.y = startY;
+		
 		for(int i = 0; i < number; i++)
 		{
 			// 										Particle(int x, int y, int width, int height, float velX, float velY, float speed)
@@ -48,5 +52,21 @@ public class ParticleEvent {
 			return true;
 		
 		return false;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
 	}
 }

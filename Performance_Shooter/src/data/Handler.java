@@ -75,11 +75,7 @@ public class Handler {
 		// update enemies
 		for(Enemy e : enemyList)
 		{
-			if(e.getX() >= currentEntity.getX() && e.getX() - currentEntity.getX() < WIDTH)
-			{
-				e.update();
-			}
-			if(e.getX() <= currentEntity.getX() && e.getX() - currentEntity.getX() > - WIDTH)
+			if(e.getX() > getLeftBorder() - 100 && e.getX() < getRightBorder() + 100 && e.getY() > getTopBorder() - 100 && e.getY() < getBottomBorder() + 100)
 			{
 				e.update();
 			}
@@ -98,11 +94,10 @@ public class Handler {
 		{
 			if(t.getType() == TileType.Lava_Light)
 			{
-				if(t.getX() >= currentEntity.getX() && t.getX() - currentEntity.getX() < WIDTH)
+				if(t.getX() > getLeftBorder() - 100 && t.getX() < getRightBorder() + 100 && t.getY() > getTopBorder() - 100 && t.getY() < getBottomBorder() + 100)
+				{
 					t.update();
-				
-				if(t.getX() <= currentEntity.getX() && t.getX() - currentEntity.getX() > - WIDTH)
-					t.update();
+				}
 			}
 			if(t.getType() == TileType.Grass_Round_Half || t.getType() == TileType.Rock_Half)
 				t.update();
@@ -115,7 +110,10 @@ public class Handler {
 			{
 				eventList.remove(event);
 			}else{
-				event.update();
+				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 100 && event.getY() < getBottomBorder() + 100)
+				{
+					event.update();
+				}
 			}
 		}
 		
@@ -170,7 +168,6 @@ public class Handler {
 	{
 		// draw tile map
 		map.draw();
-		
 
 		// Draw alpha FILTER
 		GL11.glColor4f(0, 0, 0, 0.2f);
@@ -192,7 +189,10 @@ public class Handler {
 		// draw enemies
 		for(Enemy e : enemyList)
 		{
-			e.draw();
+			if(e.getX() > getLeftBorder() - 100 && e.getX() < getRightBorder() + 100 && e.getY() > getTopBorder() - 100 && e.getY() < getBottomBorder() + 100)
+			{
+				e.draw();
+			}
 		}
 		
 		// draw "dead" projectiles
@@ -218,7 +218,10 @@ public class Handler {
 			{
 				eventList.remove(event);
 			}else{
-				event.draw();
+				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 100 && event.getY() < getBottomBorder() + 100)
+				{
+					event.draw();
+				}
 			}
 		}
 		

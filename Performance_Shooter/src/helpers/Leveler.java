@@ -32,7 +32,7 @@ public class Leveler {
 		TILES_WIDTH = w;
 		TILES_HEIGHT = h;
 		
-		TileGrid grid = new TileGrid(handler);
+		TileGrid grid = new TileGrid();
 
 		//System.out.println("w: " + w + " h: " + h);
 		for(int x = 0; x < w; x++)
