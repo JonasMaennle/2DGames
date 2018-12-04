@@ -45,7 +45,6 @@ public class EwokArcherEnemy extends Enemy{
 		
 		try {
 			this.sound = new Sound("sound/Ewok/ewok_sound_" + rand.nextInt(4) + ".wav");
-			this.deathSound = new Sound("sound/Ewok/ewok_death.wav");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -241,7 +240,6 @@ public class EwokArcherEnemy extends Enemy{
 			if(health <= 0)
 			{
 				sound.stop();
-				deathSound.play();
 				for(Arrow a : arrowList)
 				{
 					projectileList.add(a);

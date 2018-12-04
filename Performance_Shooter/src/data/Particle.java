@@ -3,6 +3,7 @@ package data;
 import static helpers.Graphics.quickLoaderImage;
 import static helpers.Setup.*;
 
+import java.awt.Rectangle;
 import java.util.Random;
 import static helpers.Graphics.*;
 import org.newdawn.slick.Image;
@@ -85,6 +86,11 @@ public class Particle {
 		}
 	}
 	
+	public void stop()
+	{
+		speed = 0;
+	}
+	
 	public void draw()
 	{
 		drawQuadImageRot(particles, x, y, width, height, angle);
@@ -103,5 +109,10 @@ public class Particle {
 		if(y > getBottomBorder())
 			return true;
 		return false;
+	}
+	
+	public Rectangle getBounds()
+	{
+		return new Rectangle(x, y, width, height);
 	}
 }

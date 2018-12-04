@@ -121,7 +121,7 @@ public class Handler {
 			}else{
 				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 256 && event.getY() < getBottomBorder() + 256)
 				{
-					event.update();
+					event.update(this);
 				}
 			}
 		}

@@ -34,7 +34,7 @@ public abstract class Enemy implements Entity{
 	protected TestShot testShot;
 	protected long lastShot;
 	protected Image healthBackground, healthBorder, healthForeground;
-	protected Sound sound, deathSound;
+	protected Sound sound;
 	
 	protected String direction;
 	

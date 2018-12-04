@@ -30,14 +30,14 @@ public class ParticleEvent {
 		if(modus.equals("ewok_explosion"))
 		{
 			// body parts
-			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(3)-3, rand.nextInt(4)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_0")));
-			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(3)-3, rand.nextInt(4)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_1")));
-			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(3)-3, rand.nextInt(4)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_1")));
-			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(3)-3, rand.nextInt(4)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_2")));
+			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(6)-6, rand.nextInt(1)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_0")));
+			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(6)-6, rand.nextInt(1)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_1")));
+			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(6)-6, rand.nextInt(1)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_1")));
+			list.add(new Particle(startX, startY, rand.nextInt(3)+30, rand.nextInt(3)+30, velX * (rand.nextInt(3) + 3), rand.nextInt(6)-6, rand.nextInt(1)+2, "ewok", rand.nextInt(360), quickLoaderImage("particles/Ewok/death_2")));
 		}
 	}
 	
-	public void update()
+	public void update(Handler handler)
 	{
 		for(Particle p : list)
 		{

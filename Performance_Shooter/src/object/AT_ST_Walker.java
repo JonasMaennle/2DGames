@@ -169,6 +169,12 @@ public class AT_ST_Walker implements Entity{
 			{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
+					if(x < g.getX())
+						handler.addParticleEvent(new ParticleEvent((int)g.getX() + g.getWidth()/2, (int)g.getY() + g.getHeight() / 2, 50, 1, "red", "ewok_explosion"));
+					if(x > g.getX())
+						handler.addParticleEvent(new ParticleEvent((int)g.getX() + g.getWidth()/2, (int)g.getY() + g.getHeight() / 2, 50, -1, "red", "ewok_explosion"));
+					
+					
 					g.damage(56); // Gungan got 56 HP
 					handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, 0, "red", "small"));
 					l.removeLight();
