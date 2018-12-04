@@ -170,7 +170,7 @@ public class AT_ST_Walker implements Entity{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
 					g.damage(56); // Gungan got 56 HP
-					handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, "red", "small"));
+					handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, 0, "red", "small"));
 					l.removeLight();
 					laserList.remove(l);
 					explosionList.add(new Explosion((int)g.getX(), (int)g.getY(), 128, 20));
@@ -387,8 +387,8 @@ public class AT_ST_Walker implements Entity{
 	
 	private void damageTile(Tile tile)
 	{
-		if(tile.getType() == TileType.Rock_Basic || tile.getType() == TileType.Rock_Decoration)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "gray", "normal"));
-		if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, "brown", "normal"));
+		if(tile.getType() == TileType.Rock_Basic || tile.getType() == TileType.Rock_Decoration)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, 0,"gray", "normal"));
+		if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 100, 0,"brown", "normal"));
 		
 		return;
 		

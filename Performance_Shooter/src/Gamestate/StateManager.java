@@ -21,7 +21,7 @@ public class StateManager {
 	}
 	
 	// Start parameter
-	private static final int START_LEVEL = 2;
+	private static final int START_LEVEL = 1;
 	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static String ENVIRONMENT_SETTING = "";
 	

@@ -213,7 +213,7 @@ public class Speeder implements Entity{
 			Rectangle enemyBounds = new Rectangle((int)g.getX(), (int)g.getY(), g.getWidth(), g.getHeight());
 			if(enemyBounds.intersects(hitBox))
 			{
-				handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, "red", "small"));
+				handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 100, 0, "red", "small"));
 				handler.enemyList.remove(g);
 			}
 		}

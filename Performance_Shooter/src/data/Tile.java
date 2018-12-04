@@ -59,7 +59,7 @@ public class Tile implements Entity{
 		{
 			this.anim = new Animation(loadSpriteSheet("tiles/Lava_Sheet", 64, 64), 1000);
 			this.lavaLight = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 15, 5, 1, 2f);
-			this.event = new ParticleEvent((int)x + 32, (int)y + 32, 2, "orange", "tiny");
+			this.event = new ParticleEvent((int)x + 32, (int)y + 32, 2, 0, "orange", "tiny");
 		}
 		
 		for(int i = 0; i < aImage.length; i++)
@@ -80,7 +80,7 @@ public class Tile implements Entity{
 			if(System.currentTimeMillis() - timer > 1000)
 			{
 				timer = System.currentTimeMillis();
-				handler.addParticleEvent(new ParticleEvent((int)x + 32, (int)y + 32, 5, "orange", "tiny"));
+				handler.addParticleEvent(new ParticleEvent((int)x + 32, (int)y + 32, 5, 0, "orange", "tiny"));
 			}
 		}
 		
