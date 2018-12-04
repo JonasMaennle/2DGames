@@ -13,7 +13,6 @@ import org.newdawn.slick.Sound;
 
 import Enity.TileType;
 import data.Handler;
-import data.ParticleEvent;
 import data.Tile;
 
 public class EwokSoldierEnemy extends Enemy{
@@ -277,7 +276,6 @@ public class EwokSoldierEnemy extends Enemy{
 			health -= amount;
 			if(health <= 0)
 			{
-				handler.addParticleEvent(new ParticleEvent((int)x, (int)y, 10, (velX * -1), "red", "ewok_explosion"));
 				sound.stop();
 				deathSound.play();
 				handler.enemyList.remove(this); 

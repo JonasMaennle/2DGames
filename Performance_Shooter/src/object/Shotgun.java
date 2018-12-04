@@ -88,7 +88,12 @@ public class Shotgun extends Weapon{
 						g.setX(g.getX() - 20);
 					}
 					
+					if(g.getHealth() <=14)
+					{
+						handler.addParticleEvent(new ParticleEvent((int)g.getX() + g.getWidth()/2, (int)g.getY() + g.getHeight() / 2, 20, (g.getVelX() * -1), "red", "ewok_explosion"));
+					}
 					g.damage(14); // Gungan got 56 HP
+					
 					l.removeLight();
 					list.remove(l);
 				}
