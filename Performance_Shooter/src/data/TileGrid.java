@@ -9,22 +9,24 @@ public class TileGrid {
 	
 	public Tile[][] map;
 	private int tilesWide, tilesHigh;
+	private Handler handler;
 	
-	public TileGrid()
+	public TileGrid(Handler handler)
 	{
 		this.tilesWide = TILES_WIDTH;//WIDTH / TILE_SIZE;
 		this.tilesHigh = TILES_HEIGHT;//HEIGHT / TILE_SIZE; 
 		map = new Tile[tilesWide][tilesHigh];
+		this.handler = handler;
 	}
 	
 	public void setTile(int xCoord, int yCoord, TileType type)
 	{
 		if(type == TileType.Grass_Round_Half || type == TileType.Grass_Left_Half || type == TileType.Grass_Right_Half || type == TileType.Grass_Flat_Half)
 		{
-			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type);
+			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type, handler);
 		}
 		else{
-			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type);
+			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type, handler);
 		}
 	}
 	
@@ -33,7 +35,7 @@ public class TileGrid {
 		if(xPlace < tilesWide && yPlace < tilesHigh && xPlace >= 0 && yPlace >= 0)
 		{
 			if(map[xPlace][yPlace] == null)
-				return new Tile(0, 0, TileType.NULL);
+				return new Tile(0, 0, TileType.NULL, handler);
 			else
 				return map[xPlace][yPlace];
 		}

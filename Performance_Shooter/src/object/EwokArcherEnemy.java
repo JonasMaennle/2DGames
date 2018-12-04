@@ -9,6 +9,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import data.Handler;
 import data.Tile;
@@ -23,7 +25,6 @@ public class EwokArcherEnemy extends Enemy{
 	private Arrow tempArrow;
 	private boolean isShooting;
 	private float destX, destY, randSpeed;
-	private Random rand;
 
 	public EwokArcherEnemy(float x, float y, int width, int height, boolean gravity, Handler handler) 
 	{
@@ -41,6 +42,13 @@ public class EwokArcherEnemy extends Enemy{
 		this.direction = "left";
 		this.isShooting = false;
 		this.health = width -8;
+		
+		try {
+			this.sound = new Sound("sound/Ewok/ewok_sound_" + rand.nextInt(4) + ".wav");
+			this.deathSound = new Sound("sound/Ewok/ewok_death.wav");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 		
 		this.healthBackground = quickLoaderImage("enemy/healthBackground");
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
@@ -134,6 +142,9 @@ public class EwokArcherEnemy extends Enemy{
 		{
 			if(x > handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() < 800 || x < handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() > - 800)
 			{
+				if(!sound.playing())
+					sound.play();
+				
 				if(direction.equals("left"))
 				{
 					drawAnimation(bow_left, x - 10, y + 10, 32, 48);
@@ -229,6 +240,8 @@ public class EwokArcherEnemy extends Enemy{
 			health -= amount;
 			if(health <= 0)
 			{
+				sound.stop();
+				deathSound.play();
 				for(Arrow a : arrowList)
 				{
 					projectileList.add(a);

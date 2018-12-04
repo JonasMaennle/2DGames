@@ -64,17 +64,16 @@ public class Game {
 		
 		// render sun, lava
 		renderSingleLightStatic(shadowObstacleList, sun);
-		
+
 		// draw map, game-objects
 		handler.draw();
-		
+		renderLightEntity(shadowObstacleList);
 		// draw ingame UI
 		updateUI();
 		
 		//mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));	
 		
 		//render lights (laser etc.)
-		renderLightEntity(shadowObstacleList);
 	}
 	
 	private void updateUI()

@@ -25,7 +25,7 @@ public class EwokSoldierEnemy extends Enemy{
 	private float spearAngle, spearX, velXSpear, spearY, velYSpear;
 	private int frameCount;
 	private boolean jumping, dying;
-	private Sound sound;
+	private Sound sound, attack_sound;
 	private Random rand;
 
 	public EwokSoldierEnemy(float x, float y, int width, int height, Handler handler) 
@@ -44,6 +44,13 @@ public class EwokSoldierEnemy extends Enemy{
 		this.velYSpear = -1;	
 		this.health = width -8;
 		
+		try {
+			this.sound = new Sound("sound/Ewok/ewok_sound_" + rand.nextInt(4) + ".wav");
+			this.deathSound = new Sound("sound/Ewok/ewok_death.wav");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
 		this.healthBackground = quickLoaderImage("enemy/healthBackground");
 		this.healthBorder = quickLoaderImage("enemy/healthBorder");
 		this.healthForeground = quickLoaderImage("enemy/healthForeground");
@@ -58,7 +65,7 @@ public class EwokSoldierEnemy extends Enemy{
 		this.direction = "left";
 		
 		try {
-			this.sound = new Sound("sound/spear_sound.wav");
+			this.attack_sound = new Sound("sound/spear_sound.wav");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -119,6 +126,8 @@ public class EwokSoldierEnemy extends Enemy{
 			// Move  x to entity if in range (700px)
 			if(x > handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() < 700) // entity left
 			{
+				if(!sound.playing())
+					sound.play();
 				if(getBounds().intersects(handler.getCurrentEntity().getBounds()))
 				{
 					velX = 0;
@@ -132,6 +141,8 @@ public class EwokSoldierEnemy extends Enemy{
 			
 			if(x < handler.getCurrentEntity().getX() && x - handler.getCurrentEntity().getX() > - 700) // entity right
 			{
+				if(!sound.playing())
+					sound.play();
 				if(getBounds().intersects(handler.getCurrentEntity().getBounds()))
 				{
 					velX = 0;
@@ -168,7 +179,7 @@ public class EwokSoldierEnemy extends Enemy{
 			}
 			
 			if(spearX == -6)
-				sound.play();
+				attack_sound.play();
 				
 			spearX += velXSpear;
 			spearY += velYSpear;
@@ -192,7 +203,7 @@ public class EwokSoldierEnemy extends Enemy{
 			}
 			
 			if(spearX == 6)
-				sound.play();
+				attack_sound.play();
 				
 			spearX += velXSpear;
 			spearY += velYSpear;
@@ -265,6 +276,8 @@ public class EwokSoldierEnemy extends Enemy{
 			health -= amount;
 			if(health <= 0)
 			{
+				sound.stop();
+				deathSound.play();
 				handler.enemyList.remove(this); 
 			}
 		}

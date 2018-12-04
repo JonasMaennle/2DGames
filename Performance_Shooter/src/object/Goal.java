@@ -8,12 +8,13 @@ import static helpers.Setup.*;
 import java.awt.Rectangle;
 
 import Enity.Entity;
+import shader.Light;
 
 public class Goal implements Entity{
 
 	private Image image;
 	private float x, y, width, height;
-	//private Light light;
+	private Light light;
 	
 	public Goal(float x, float y)
 	{
@@ -22,20 +23,23 @@ public class Goal implements Entity{
 		this.width = TILE_SIZE;
 		this.height = TILE_SIZE;
 		this.image = quickLoaderImage("objects/goal");
-		//this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 255, 51, 255, 14f);
-		//lights.add(light);
+		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 25, 5, 25, 2f);
 	}
 
 	@Override
 	public void update() 
 	{
-		//light.setLocation(new Vector2f(x + MOVEMENT_X + 32, y + MOVEMENT_Y + 32));
+		light.setLocation(new Vector2f(x + MOVEMENT_X + 32, y + MOVEMENT_Y + 32));
 	}
 
 	@Override
 	public void draw() 
 	{
-		drawQuadImage(image, x, y, width, height);
+		if(x > getLeftBorder() - 64 && x < getRightBorder() + 64 && y > getTopBorder() - 64 && y < getBottomBorder() + 64)
+		{
+			renderSingleLightStatic(shadowObstacleList, light);
+			drawQuadImage(image, x, y, width, height);
+		}
 	}
 	
 	@Override

@@ -75,7 +75,7 @@ public class Handler {
 		// update enemies
 		for(Enemy e : enemyList)
 		{
-			if(e.getX() > getLeftBorder() - 100 && e.getX() < getRightBorder() + 100 && e.getY() > getTopBorder() - 100 && e.getY() < getBottomBorder() + 100)
+			if(e.getX() > getLeftBorder() - 256 && e.getX() < getRightBorder() + 256 && e.getY() > getTopBorder() - 100 && e.getY() < getBottomBorder() + 100)
 			{
 				e.update();
 			}
@@ -84,7 +84,7 @@ public class Handler {
 		// update goal
 		if(levelGoal != null)
 		{
-			if(levelGoal.getX() > getLeftBorder() && levelGoal.getX() < getRightBorder() && levelGoal.getY() > getTopBorder() && levelGoal.getY() < getBottomBorder())
+			if(levelGoal.getX() > getLeftBorder() - 100 && levelGoal.getX() < getRightBorder() + 100 && levelGoal.getY() > getTopBorder()  - 100 && levelGoal.getY() < getBottomBorder() + 100)
 			{
 				levelGoal.update();
 				// check current entity for collision with goal
@@ -101,16 +101,15 @@ public class Handler {
 		// update map if player is near
 		for(Tile t : obstacleList)
 		{
-			if(t.getX() > getLeftBorder() - 100 && t.getX() < getRightBorder() + 100 && t.getY() > getTopBorder() - 100 && t.getY() < getBottomBorder() + 100)
+			if(t.getX() > getLeftBorder() - 256 && t.getX() < getRightBorder() + 256 && t.getY() > getTopBorder() - 640 && t.getY() < getBottomBorder() + 640)
 			{
 				if(t.getType() == TileType.Lava_Light)
 				{
 					t.update();
 				}
-				
-				if(t.getType() == TileType.Grass_Round_Half || t.getType() == TileType.Rock_Half)
-					t.update();
 			}
+			if(t.getType() == TileType.Grass_Round_Half || t.getType() == TileType.Rock_Half)
+				t.update();
 		}
 
 		// update particle if tile is dead
@@ -120,7 +119,7 @@ public class Handler {
 			{
 				eventList.remove(event);
 			}else{
-				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 100 && event.getY() < getBottomBorder() + 100)
+				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 256 && event.getY() < getBottomBorder() + 256)
 				{
 					event.update();
 				}
@@ -199,7 +198,7 @@ public class Handler {
 		// draw enemies
 		for(Enemy e : enemyList)
 		{
-			if(e.getX() > getLeftBorder() - 100 && e.getX() < getRightBorder() + 100 && e.getY() > getTopBorder() - 100 && e.getY() < getBottomBorder() + 100)
+			if(e.getX() > getLeftBorder() - 256 && e.getX() < getRightBorder() + 256 && e.getY() > getTopBorder() - 256 && e.getY() < getBottomBorder() + 256)
 			{
 				e.draw();
 			}
@@ -228,7 +227,7 @@ public class Handler {
 			{
 				eventList.remove(event);
 			}else{
-				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 100 && event.getY() < getBottomBorder() + 100)
+				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 256 && event.getY() < getBottomBorder() + 256)
 				{
 					event.draw();
 				}

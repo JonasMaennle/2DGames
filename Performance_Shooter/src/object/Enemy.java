@@ -11,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 import Enity.Entity;
 import data.TileGrid;
@@ -33,6 +34,7 @@ public abstract class Enemy implements Entity{
 	protected TestShot testShot;
 	protected long lastShot;
 	protected Image healthBackground, healthBorder, healthForeground;
+	protected Sound sound, deathSound;
 	
 	protected String direction;
 	

@@ -21,7 +21,7 @@ public class StateManager {
 	}
 	
 	// Start parameter
-	private static final int START_LEVEL = 1;
+	private static final int START_LEVEL = 2;
 	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static String ENVIRONMENT_SETTING = "";
 	
@@ -51,7 +51,7 @@ public class StateManager {
 	
 	public void update()
 	{
-		musicHandler.update();
+		//musicHandler.update();
 		
 		switch (gameState) {
 		case MAINMENU:
@@ -178,5 +178,13 @@ public class StateManager {
 	public MainMenu getMainMenu()
 	{
 		return mainMenu;
+	}
+
+	public MusicHandler getMusicHandler() {
+		return musicHandler;
+	}
+
+	public void setMusicHandler(MusicHandler musicHandler) {
+		this.musicHandler = musicHandler;
 	}
 }

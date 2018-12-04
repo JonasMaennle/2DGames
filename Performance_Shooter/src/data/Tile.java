@@ -26,8 +26,10 @@ public class Tile implements Entity{
 	private Animation anim;
 	private Light lavaLight;
 	private ParticleEvent event;
+	private Handler handler;
+	private long timer;
 	
-	public Tile(float x, float y, TileType type)
+	public Tile(float x, float y, TileType type, Handler handler)
 	{
 		this.x = x;
 		this.y = y;
@@ -35,6 +37,8 @@ public class Tile implements Entity{
 		this.height = type.height;
 		this.type = type;
 		this.hp = type.hp;
+		this.handler = handler;
+		this.timer = System.currentTimeMillis();
 		this.image = quickLoaderImage("tiles/" + type.textureName + "" + ENVIRONMENT_SETTING);
 		tileCounter++;
 		this.aImage = new Image[2];
@@ -69,13 +73,14 @@ public class Tile implements Entity{
 		// update Lava Light
 		if(type == TileType.Lava_Light)
 		{
+			// update light location
 			if(lavaLight != null)lavaLight.setLocation(new Vector2f(x + MOVEMENT_X + 30, y + MOVEMENT_Y + 30));
-			if(event != null)
+			
+			// create new particle event
+			if(System.currentTimeMillis() - timer > 1000)
 			{
-				event.update();
-				
-				if(event.isListEmpty())
-					this.event = new ParticleEvent((int)x + 32, (int)y + 32, 5, "orange", "tiny");
+				timer = System.currentTimeMillis();
+				handler.addParticleEvent(new ParticleEvent((int)x + 32, (int)y + 32, 5, "orange", "tiny"));
 			}
 		}
 		
@@ -265,10 +270,10 @@ public class Tile implements Entity{
 		
 		// lower top
 		return new Vector2f[] {
-				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 8), // left top
+				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 10), // left top
 				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
 				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
-				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + 8) // right top
+				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + 10) // right top
 		};
 	}
 
