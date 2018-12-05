@@ -14,13 +14,13 @@ import Enity.Entity;
 import Enity.TileType;
 import Gamestate.StateManager;
 import UI.UI;
-import object.AT_ST_Walker;
-import object.Enemy;
 import object.Goal;
-import object.Laser;
-import object.MapWeapon;
-import object.Player;
-import object.Speeder;
+import object.enemy.Enemy;
+import object.entity.AT_ST_Walker;
+import object.entity.Player;
+import object.entity.Speeder;
+import object.weapon.Laser;
+import object.weapon.MapWeapon;
 
 public class Handler {
 	

@@ -1,4 +1,4 @@
-package object;
+package object.entity;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -16,6 +16,10 @@ import UI.HeadUpDisplay;
 import data.Camera;
 import data.Handler;
 import data.Tile;
+import object.weapon.MapWeapon;
+import object.weapon.Minigun;
+import object.weapon.Shotgun;
+import object.weapon.Weapon;
 
 import static helpers.Graphics.*;
 
@@ -381,7 +385,7 @@ public class Player implements Entity{
 					HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_minigun_right");
 					
 					// set max. ammo
-					HeadUpDisplay.shotsLeft = 100;
+					HeadUpDisplay.shotsLeft = 250;
 				}
 			}
 		}

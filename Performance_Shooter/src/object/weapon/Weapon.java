@@ -1,15 +1,17 @@
-package object;
+package object.weapon;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+import Enity.Entity;
 import Enity.TileType;
-import UI.HeadUpDisplay;
 import data.Handler;
 import data.ParticleEvent;
 import data.Tile;
+import object.enemy.Enemy;
+import object.entity.Player;
 
 import static helpers.Graphics.*;
 import static helpers.Leveler.TILES_HEIGHT;
@@ -18,22 +20,27 @@ import static helpers.Setup.*;
 import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Minigun extends Weapon{
+public class Weapon implements Entity{
 	
-	private float angle, destX, destY;
-	private Image default_right, default_left;
-	private CopyOnWriteArrayList<Laser> list;
-	private Sound laserShotSound;
-	private float laserSpawnX, laserSpawnY;
-	private long timer;
+	protected float x, y, width, height, angle, destX, destY;
+	protected Player player;
+	protected Image default_right, default_left;
+	protected CopyOnWriteArrayList<Laser> list;
+	protected Sound laserShotSound;
+	protected Handler handler;
+	protected float laserSpawnX, laserSpawnY;
 	
-	public Minigun(float x, float y, float width, float height, Player player, Handler handler, Image left, Image right)
+	public Weapon(float x, float y, float width, float height, Player player, Handler handler, Image left, Image right)
 	{
-		super(x, y, width, height, player, handler, left, right);
-
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.player = player;
+		this.handler = handler;
 		this.default_right = right; //quickLoaderImage("player/weapon_right");
 		this.default_left =  left; //quickLoaderImage("player/weapon_left");
-		this.timer = System.currentTimeMillis();
+		
 		this.list = new CopyOnWriteArrayList<>();
 		this.angle = 0;
 		
@@ -74,8 +81,7 @@ public class Minigun extends Weapon{
 			{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
-					handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 10, 0, "red", "small"));
-					g.damage(3); // Gungan got 56 HP
+					g.damage(7); // Gungan got 56 HP
 					l.removeLight();
 					list.remove(l);
 				}
@@ -132,35 +138,26 @@ public class Minigun extends Weapon{
 	
 	public void shoot()
 	{
-		// check timer
-		if(System.currentTimeMillis() - timer > 75)
+		// walk right
+		if(player.getDirection().equals("right") && destX > laserSpawnX)
 		{
-			timer = System.currentTimeMillis();
-			
-			if(HeadUpDisplay.shotsLeft > 0)HeadUpDisplay.shotsLeft--;
-			// walk right
-			if(player.getDirection().equals("right") && destX > laserSpawnX)
+			if(destX < x + (width/2))
 			{
-				if(destX < x + (width/2))
-				{
-					destX = getRightBorder() - destX;
-				}
-				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "pink", angle));
-				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "pink", angle));
-				laserShotSound.play();
+				destX = getRightBorder() - destX;
 			}
-			
-			// walk left
-			if(player.getDirection().equals("left") && destX < laserSpawnX)
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
+			laserShotSound.play();
+		}
+		
+		// walk left
+		if(player.getDirection().equals("left") && destX < laserSpawnX)
+		{
+			if(destX > x + (width/2))
 			{
-				if(destX > x + (width/2))
-				{
-					destX = getLeftBorder() + destX;
-				}
-				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "pink", angle));
-				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "pink", angle));
-				laserShotSound.play();
+				destX = getLeftBorder() + destX;
 			}
+			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
+			laserShotSound.play();
 		}
 	}
 	

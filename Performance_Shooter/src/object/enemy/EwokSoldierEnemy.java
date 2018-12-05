@@ -1,4 +1,4 @@
-package object;
+package object.enemy;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.TILE_SIZE;

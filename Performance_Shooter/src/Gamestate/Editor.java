@@ -28,12 +28,12 @@ import data.Camera;
 import data.Handler;
 import data.Tile;
 import data.TileGrid;
-import object.AT_ST_Walker;
-import object.Enemy;
 import object.Goal;
-import object.GunganEnemy;
-import object.Player;
-import object.Speeder;
+import object.enemy.Enemy;
+import object.enemy.GunganEnemy;
+import object.entity.AT_ST_Walker;
+import object.entity.Player;
+import object.entity.Speeder;
 
 public class Editor {
 

@@ -1,4 +1,4 @@
-package object;
+package object.enemy;
 
 import static helpers.Graphics.drawQuad;
 import static helpers.Leveler.TILES_HEIGHT;
@@ -15,6 +15,8 @@ import org.newdawn.slick.Sound;
 
 import Enity.Entity;
 import data.TileGrid;
+import object.weapon.Laser;
+import object.weapon.TestShot;
 import shader.Light;
 
 

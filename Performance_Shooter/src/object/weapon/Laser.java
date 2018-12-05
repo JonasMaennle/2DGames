@@ -1,4 +1,4 @@
-package object;
+package object.weapon;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;

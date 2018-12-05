@@ -1,69 +1,34 @@
-package object;
+package object.enemy;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
-import java.awt.Rectangle;
-import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-
 import data.Handler;
-import data.Tile;
+import object.weapon.Arrow;
+import object.weapon.FireArrow;
+import shader.Light;
 
-public class EwokArcherEnemy extends Enemy{
+
+public class EwokArcherEnemyRed extends EwokArcherEnemy{
+
+	private FireArrow tempArrow;
+	private CopyOnWriteArrayList<FireArrow> arrowList;
 	
-	private Handler handler;
-	private CopyOnWriteArrayList<Arrow> arrowList;
-	private Animation walk_right, walk_left, bow_left, bow_right;
-	private Image idle_left, idle_right, bow_left_idle, bow_right_idle;
-	private String direction;
-	private Arrow tempArrow;
-	private boolean isShooting;
-	private float destX, destY, randSpeed;
-
-	public EwokArcherEnemy(float x, float y, int width, int height, boolean gravity, Handler handler) 
+	public EwokArcherEnemyRed(float x, float y, int width, int height, boolean gravity, Handler handler) 
 	{
-		super(x, y, width, height);
-		this.handler = handler;
+		super(x, y, width, height, gravity, handler);
+		
 		this.arrowList = new CopyOnWriteArrayList<>();
-		this.rand = new Random();
-		if(gravity)
-		{
-			this.gravity = 4;
-		}else{
-			this.gravity = 0;
-		}
-		this.speed = 2;
-		this.direction = "left";
-		this.isShooting = false;
-		this.health = width -8;
 		
-		try {
-			this.sound = new Sound("sound/Ewok/ewok_sound_" + rand.nextInt(4) + ".wav");
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		this.walk_left = new Animation(loadSpriteSheet("enemy/ewok_walk_left_red", 48, 80), 50);
+		this.walk_right = new Animation(loadSpriteSheet("enemy/ewok_walk_right_red", 48, 80), 50);
 		
-		this.healthBackground = quickLoaderImage("enemy/healthBackground");
-		this.healthBorder = quickLoaderImage("enemy/healthBorder");
-		this.healthForeground = quickLoaderImage("enemy/healthForeground");
-		
-		this.walk_left = new Animation(loadSpriteSheet("enemy/ewok_walk_left", 48, 80), 50);
-		this.walk_right = new Animation(loadSpriteSheet("enemy/ewok_walk_right", 48, 80), 50);
-		
-		this.bow_left = new Animation(loadSpriteSheet("enemy/bow_left", 32, 32), 200);
-		this.bow_right = new Animation(loadSpriteSheet("enemy/bow_right", 32, 32), 200);
-		
-		this.idle_left = quickLoaderImage("enemy/ewok_idle_left");
-		this.idle_right = quickLoaderImage("enemy/ewok_idle_right");
-		
-		this.bow_left_idle = quickLoaderImage("enemy/bow_left_idle");
-		this.bow_right_idle = quickLoaderImage("enemy/bow_right_idle");
+		this.idle_left = quickLoaderImage("enemy/ewok_idle_left_red");
+		this.idle_right = quickLoaderImage("enemy/ewok_idle_right_red");
 	}
 	
 	public void update()
@@ -90,7 +55,7 @@ public class EwokArcherEnemy extends Enemy{
 		x += velX * speed;
 		y += velY * speed;
 		
-		for(Arrow a : arrowList)
+		for(FireArrow a : arrowList)
 		{
 			a.update();
 			
@@ -100,16 +65,22 @@ public class EwokArcherEnemy extends Enemy{
 				destY = a.getDistanceY();
 				randSpeed = a.getRandSpeed();
 				
-				if(a.getVelX() != 0)handler.getCurrentEntity().damage(10);
+				if(a.getVelX() != 0)handler.getCurrentEntity().damage(25);
+				a.removeLight();
 				arrowList.remove(a);
+
 			}
 			
 			if(a.isDead())
+			{
+				a.removeLight();
 				arrowList.remove(a);
+			}
+
 		}
 		
 		updateBounds();
-		mapCollision();
+		super.mapCollision();
 	}
 
 	public void draw()
@@ -151,11 +122,12 @@ public class EwokArcherEnemy extends Enemy{
 					if(bow_left.getFrame() == 0)
 					{
 						isShooting = false;
-						tempArrow = new Arrow(x  - 22, y + 18, destX, destY, randSpeed, handler.getCurrentEntity(), handler);
+						tempArrow = new FireArrow(x  - 22, y + 18, destX, destY, randSpeed, handler.getCurrentEntity(), handler, "left");
 					}
 					if(bow_left.getFrame() == 5 && !isShooting)
 					{		
 						isShooting = true;
+						tempArrow.setLight(new Light(new Vector2f(x + width/2 + MOVEMENT_X, y + height/2 + MOVEMENT_Y), 5, 1, 0, 0.9f));
 						arrowList.add(tempArrow);
 					}else{
 						if(tempArrow != null)tempArrow.setX(tempArrow.getX() + bow_left.getFrame()*0.1f);
@@ -167,11 +139,12 @@ public class EwokArcherEnemy extends Enemy{
 					if(bow_right.getFrame() == 0)
 					{
 						isShooting = false;
-						tempArrow = new Arrow(x  + 44, y + 18, destX, destY, randSpeed, handler.getCurrentEntity(), handler);
+						tempArrow = new FireArrow(x  + 44, y + 18, destX, destY, randSpeed, handler.getCurrentEntity(), handler, "right");
 					}
 					if(bow_right.getFrame() == 5 && !isShooting)
 					{		
 						isShooting = true;
+						tempArrow.setLight(new Light(new Vector2f(x + width/2 + MOVEMENT_X, y + height/2 + MOVEMENT_Y), 5, 1, 0, 0.9f));
 						arrowList.add(tempArrow);
 					}else{
 						if(tempArrow != null)tempArrow.setX(tempArrow.getX() - bow_right.getFrame()*0.1f);
@@ -205,32 +178,6 @@ public class EwokArcherEnemy extends Enemy{
 		}
 	}
 	
-	private void mapCollision()
-	{
-		for(Tile t : handler.obstacleList)
-		{
-			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), TILE_SIZE, TILE_SIZE);
-
-			if(r.intersects(rectLeft))
-			{
-				direction = "right";
-				velX = 1;
-				x = (float) ((float) r.getX() + r.getWidth() + 1);
-			}
-			if(r.intersects(rectRight))
-			{
-				direction = "left";
-				velX = -1;
-				x = (float) (r.getX() - width - 1);
-			}
-			if(r.intersects(rectBottom))
-			{
-				velY = 0;
-				y = (float) (r.getY() - height);
-			}
-		}
-	}
-	
 	@Override
 	public void damage(float amount)
 	{
@@ -240,8 +187,9 @@ public class EwokArcherEnemy extends Enemy{
 			if(health <= 0)
 			{
 				sound.stop();
-				for(Arrow a : arrowList)
+				for(FireArrow a : arrowList)
 				{
+					a.removeLight();
 					projectileList.add(a);
 				}
 				handler.enemyList.remove(this); 

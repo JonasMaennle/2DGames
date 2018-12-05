@@ -1,4 +1,4 @@
-package object;
+package object.weapon;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
@@ -18,14 +18,14 @@ import java.awt.Rectangle;
 
 public class Arrow implements Entity{
 
-	private float x, y, velX, velY, speed, gravity, angle, destX, destY, distanceX, distanceY, randSpeed;
-	private int width, height;
-	private Image image; 
-	private boolean dynamic, dead, stopped, playSound;
-	private Rectangle bounds;
-	private long despawnTimer;
-	private Handler handler;
-	private Sound sound;
+	protected float x, y, velX, velY, speed, gravity, angle, destX, destY, distanceX, distanceY, randSpeed;
+	protected int width, height;
+	protected Image image; 
+	protected boolean dynamic, dead, stopped, playSound;
+	protected Rectangle bounds;
+	protected long despawnTimer;
+	protected Handler handler;
+	protected Sound sound;
 	
 	public Arrow(float x, float y, float distanceX, float distanceY, float randSpeed, Entity entity, Handler handler)
 	{

@@ -1,4 +1,4 @@
-package object;
+package object.entity;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
@@ -17,6 +17,8 @@ import data.Camera;
 import data.Handler;
 import data.ParticleEvent;
 import data.Tile;
+import object.Explosion;
+import object.enemy.Enemy;
 
 public class Speeder implements Entity{
 	

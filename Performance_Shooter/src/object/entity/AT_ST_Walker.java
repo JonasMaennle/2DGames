@@ -1,4 +1,4 @@
-package object;
+package object.entity;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -22,6 +22,9 @@ import data.Camera;
 import data.Handler;
 import data.ParticleEvent;
 import data.Tile;
+import object.Explosion;
+import object.enemy.Enemy;
+import object.weapon.Laser;
 
 public class AT_ST_Walker implements Entity{
 

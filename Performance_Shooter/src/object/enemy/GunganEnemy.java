@@ -1,4 +1,4 @@
-package object;
+package object.enemy;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
@@ -11,6 +11,8 @@ import java.awt.Rectangle;
 
 import data.Handler;
 import data.Tile;
+import object.weapon.Laser;
+import object.weapon.TestShot;
 
 public class GunganEnemy extends Enemy{
 	

@@ -9,14 +9,15 @@ import org.newdawn.slick.Image;
 import Enity.TileType;
 import data.Handler;
 import data.TileGrid;
-import object.AT_ST_Walker;
-import object.EwokArcherEnemy;
-import object.EwokSoldierEnemy;
 import object.Goal;
-import object.GunganEnemy;
-import object.MapWeapon;
-import object.Player;
-import object.Speeder;
+import object.enemy.EwokArcherEnemy;
+import object.enemy.EwokArcherEnemyRed;
+import object.enemy.EwokSoldierEnemy;
+import object.enemy.GunganEnemy;
+import object.entity.AT_ST_Walker;
+import object.entity.Player;
+import object.entity.Speeder;
+import object.weapon.MapWeapon;
 
 public class Leveler {
 	
@@ -193,6 +194,11 @@ public class Leveler {
 				if(red == 0 && green == 127 && blue == 0)
 				{
 					handler.enemyList.add(new EwokArcherEnemy(x * TILE_SIZE, y * TILE_SIZE, 48, 80, true, handler));
+				}
+				// Ewok FireArcher
+				if(red == 0 && green == 100 && blue == 0)
+				{
+					handler.enemyList.add(new EwokArcherEnemyRed(x * TILE_SIZE, y * TILE_SIZE, 48, 80, true, handler));
 				}
 				// Ewok Soldier
 				if(red == 0 && green == 70 && blue == 0)
