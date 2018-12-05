@@ -1,13 +1,14 @@
 package Gamestate;
 
 import data.Handler;
-import data.MusicHandler;
 import shader.Light;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
 import org.lwjgl.util.vector.Vector2f;
+
+import UI.HeadUpDisplay;
 
 import static helpers.Leveler.*;
 
@@ -33,12 +34,10 @@ public class StateManager {
 	private Game game;
 	private Handler handler;
 	private LoadingScreen loadingScreen;
-	private MusicHandler musicHandler;
 	private Editor editor;
 	
 	public StateManager()
 	{
-		this.musicHandler = new MusicHandler();
 		this.loadingScreen = new LoadingScreen(this);
 		this.mainMenu = new MainMenu();	
 		this.handler = new Handler(this);
@@ -48,8 +47,6 @@ public class StateManager {
 	
 	public void update()
 	{
-		//musicHandler.update();
-		
 		switch (gameState) {
 		case MAINMENU:
 			mainMenu.update();
@@ -146,7 +143,7 @@ public class StateManager {
 		}
 //		if(HeadUpDisplay.shotsLeft > 0 && gameState != GameState.MAINMENU)
 //			handler.player.setWeapon(new Shotgun(handler.player.getX(), handler.player.getY(), 70, 35, handler.player, handler, quickLoaderImage("player/weapon_shotgun_left"), quickLoaderImage("player/weapon_shotgun_right")));
-		
+		HeadUpDisplay.shotsLeft = -1;
 		game.getCamera().setEntity(handler.getCurrentEntity());
 		game.getBackgroundHandler().setEntity(handler.getCurrentEntity());
 	}
@@ -175,13 +172,5 @@ public class StateManager {
 	public MainMenu getMainMenu()
 	{
 		return mainMenu;
-	}
-
-	public MusicHandler getMusicHandler() {
-		return musicHandler;
-	}
-
-	public void setMusicHandler(MusicHandler musicHandler) {
-		this.musicHandler = musicHandler;
 	}
 }
