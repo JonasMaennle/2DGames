@@ -174,7 +174,11 @@ public class Handler {
 	}
 	
 	public void draw()
-	{
+	{		
+		// round movemnt x, y // test
+		MOVEMENT_X = (int)MOVEMENT_X;
+		MOVEMENT_Y = (int)MOVEMENT_Y;
+		
 		// draw tile map
 		map.draw();
 
@@ -246,7 +250,7 @@ public class Handler {
 		{
 			timer2 = timer1;
 			// Data output
-			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size());
+			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tMovementX: " + MOVEMENT_X);
 		}
 	}
 	
