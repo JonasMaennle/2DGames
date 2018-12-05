@@ -31,9 +31,11 @@ public class MainMenu {
 	private boolean playMusic, enableMouse, showAtStart;
 	private int selectedButton;
 	private boolean down, up;
+	private StateManager statemanager;
 	
-	public MainMenu()
+	public MainMenu(StateManager statemanager)
 	{
+		this.statemanager = statemanager;
 		this.text_big = quickLoaderImage("intro/Text_big");
 		this.background_space = quickLoaderImage("intro/Background_Space");
 
@@ -67,6 +69,10 @@ public class MainMenu {
 	
 	public void update()
 	{
+		statemanager.setRed_color(255);
+		statemanager.setGreen_color(255);
+		statemanager.setBlue_color(255);
+		statemanager.setLightRadius(50);
 		// Exit Game
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 		{
@@ -288,7 +294,7 @@ public class MainMenu {
 		MOVEMENT_X = 0;
 		MOVEMENT_Y = 0;
 		StateManager.ENVIRONMENT_SETTING = "";
-		Mouse.setGrabbed(false);
+		Mouse.setGrabbed(true);
 		Mouse.setCursorPosition((int)getLeftBorder() + WIDTH/2, (int)(getTopBorder() + (HEIGHT * 0.66f)));
 		enableMouse = false;
 		selectedButton = 0;

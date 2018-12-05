@@ -6,7 +6,9 @@ import shader.Light;
 import static helpers.Graphics.*;
 import static helpers.Setup.*;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Image;
 
 import UI.HeadUpDisplay;
 
@@ -35,14 +37,27 @@ public class StateManager {
 	private Handler handler;
 	private LoadingScreen loadingScreen;
 	private Editor editor;
+	private Image cursor;
+	private Light mouseLight;
+	private int red_color, green_color, blue_color;
+	private float lightRadius;
 	
 	public StateManager()
 	{
 		this.loadingScreen = new LoadingScreen(this);
-		this.mainMenu = new MainMenu();	
+		this.mainMenu = new MainMenu(this);	
 		this.handler = new Handler(this);
 		this.game = new Game(handler);
 		this.editor = new Editor(handler, game);
+		this.cursor = quickLoaderImage("objects/cursor");
+		
+		this.red_color = 5;
+		this.green_color = 0;
+		this.blue_color = 0;
+		this.lightRadius = 4;
+		
+		this.mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
+		Mouse.setGrabbed(true);
 	}
 	
 	public void update()
@@ -89,6 +104,20 @@ public class StateManager {
 			framesInCurrentSecond = 0;
 		}
 		framesInCurrentSecond++;
+		
+		// draw cursor
+		mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));	
+		
+		mouseLight.setRadius(1);
+		renderSingleLightMouse(shadowObstacleList, mouseLight);
+		
+		// Mouse update -> depends on rendering
+		if(mouseLight.getRadius() == 0)
+			mouseLight = new Light(new Vector2f(0, 0), 0, 0, 0, 0f);
+		if(mouseLight.getRadius() != 0)
+			mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
+		
+		drawQuadImageStatic(cursor, Mouse.getX() - 16, HEIGHT - Mouse.getY() - 16, 32, 32);
 	}
 	
 	public void loadLevel()
@@ -96,6 +125,11 @@ public class StateManager {
 		CURRENT_LEVEL++;
 		handler.wipe();
 		shadowObstacleList.clear();
+		
+		red_color = 5;
+		green_color = 0;
+		blue_color = 0;
+		lightRadius = 4;
 
 		switch (CURRENT_LEVEL) 
 		{
@@ -172,5 +206,25 @@ public class StateManager {
 	public MainMenu getMainMenu()
 	{
 		return mainMenu;
+	}
+
+	public void setRed_color(int red_color) 
+	{
+		this.red_color = red_color;
+	}
+
+	public void setGreen_color(int green_color) 
+	{
+		this.green_color = green_color;
+	}
+
+	public void setBlue_color(int blue_color) 
+	{
+		this.blue_color = blue_color;
+	}
+
+	public void setLightRadius(float lightRadius) 
+	{
+		this.lightRadius = lightRadius;
 	}
 }

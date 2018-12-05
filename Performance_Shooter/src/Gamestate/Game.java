@@ -22,9 +22,6 @@ public class Game {
 	private Handler handler;
 	private Light sun;
 	
-	// Tmp
-	//private Light mouseLight;
-	
 	public Game(Handler handler)
 	{
 		this.camera = new Camera(handler.getCurrentEntity());
@@ -33,8 +30,8 @@ public class Game {
 		
 		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 0.4f); // 200, 80, 0, 0.1f);
 		
+		
 		setupUI();
-		setUpObjects();
 	}
 	
 	public void update()
@@ -42,6 +39,7 @@ public class Game {
 		camera.update();
 		handler.update();
 		sun.setLocation(new Vector2f(WIDTH + 700, -700));
+
 		
 		while(Keyboard.next())
 		{
@@ -52,6 +50,7 @@ public class Game {
 				System.exit(0);
 			}
 		}
+		
 		// render entire game graphics
 		render();
 	}
@@ -68,12 +67,12 @@ public class Game {
 		// draw map, game-objects
 		handler.draw();
 		renderLightEntity(shadowObstacleList);
+		
+
+
 		// draw ingame UI
 		updateUI();
 		
-		//mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));	
-		
-		//render lights (laser etc.)
 	}
 	
 	private void updateUI()
@@ -86,12 +85,6 @@ public class Game {
 	private void setupUI()
 	{
 		ingame_HUD = new HeadUpDisplay(handler);	
-	}
-	
-	private void setUpObjects() 
-	{
-		//mouseLight = new Light(new Vector2f(0, 0), 10, 2, 0, 1);
-		//lights.add(mouseLight);
 	}
 	
 	public BackgroundHandler getBackgroundHandler()

@@ -38,7 +38,7 @@ public class LoadingScreen {
 		{
 			loadingDone = false;
 			StateManager.gameState = GameState.GAME;
-			Mouse.setGrabbed(false);
+			//Mouse.setGrabbed(false);
 			Mouse.setCursorPosition((int) (Display.getX() + (Display.getWidth()* 0.75f)), (int)getTopBorder() + (HEIGHT / 2));
 			saberLength = 0;
 		}

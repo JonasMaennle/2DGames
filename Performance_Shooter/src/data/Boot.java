@@ -1,5 +1,6 @@
 package data;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import Gamestate.StateManager;
@@ -10,6 +11,7 @@ public class Boot {
 	
 	public Boot()
 	{
+		Mouse.setGrabbed(true);
 		beginSession();
 		StateManager statemanager = new StateManager();
 		

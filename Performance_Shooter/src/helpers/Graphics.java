@@ -1,5 +1,6 @@
 package helpers;
 
+import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -8,6 +9,7 @@ import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUniform3f;
 import static helpers.Setup.*;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.vector.Vector2f;
@@ -401,4 +403,91 @@ public class Graphics {
 			glClear(GL_STENCIL_BUFFER_BIT);
 		}
 	}
+	
+	// for mouse rendering
+	public static void renderSingleLightMouse(CopyOnWriteArrayList<Entity> entityList, Light light)
+	{
+		glColorMask(false, false, false, false);
+		glStencilFunc(GL_ALWAYS, 1, 1);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
+		Rectangle mouseRect = new Rectangle(Mouse.getX() - (int)MOVEMENT_X - 16, HEIGHT - Mouse.getY() - (int)MOVEMENT_Y - 16, 32, 32);
+		for (Entity e : entityList) 
+		{
+			
+			if(e.getBounds().intersects(mouseRect))
+			{
+				light.setRadius(0);
+			}else{
+				// check if e is in range
+				if(e.getX() > getLeftBorder() - WIDTH/2 && e.getX() < getRightBorder() + WIDTH/2) // 
+				{
+					Vector2f[] vertices = e.getVertices();
+
+					for (int i = 0; i < vertices.length; i++) 
+					{
+						Vector2f currentVertex = vertices[i];
+						Vector2f nextVertex = vertices[(i + 1) % vertices.length];
+						Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
+						Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
+						Vector2f lightToCurrent = Vector2f.sub(currentVertex,
+								light.location, null);
+						if (Vector2f.dot(normal, lightToCurrent) > 0) 
+						{
+							Vector2f point1 = Vector2f.add(
+									currentVertex,
+									(Vector2f) Vector2f.sub(currentVertex, light.location, null).
+									scale(800), 
+									null
+									);
+							Vector2f point2 = Vector2f.add(
+									nextVertex,
+									(Vector2f) Vector2f.sub(nextVertex, light.location, null).
+									scale(800), 
+									null
+									);
+							glBegin(GL_QUADS);
+							{
+								glVertex2f(currentVertex.getX(), currentVertex.getY());
+								glVertex2f(point1.getX(), point1.getY());
+								glVertex2f(point2.getX(), point2.getY());
+								glVertex2f(nextVertex.getX(), nextVertex.getY());
+							}
+							glEnd();
+						}
+					}
+				}
+			}
+		}
+			
+			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+			glStencilFunc(GL_EQUAL, 0, 1);
+			glColorMask(true, true, true, true);
+
+			light.getShader().useProgram();
+			glUniform2f(
+					glGetUniformLocation(light.getShader().getProgram(), "lightLocation"),
+					light.location.getX(), HEIGHT - light.location.getY());
+			glUniform3f(
+					glGetUniformLocation(light.getShader().getProgram(), "lightColor"),
+					light.red, light.green, light.blue);
+
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_ONE, GL_ONE);
+			
+			glBegin(GL_QUADS);
+			{
+				glVertex2f(0, 0);
+				glVertex2f(0, HEIGHT);
+				glVertex2f(WIDTH, HEIGHT);
+				glVertex2f(WIDTH, 0);
+			}
+			glEnd();
+
+			glDisable(GL_BLEND);
+			light.getShader().unUse();
+			glClear(GL_STENCIL_BUFFER_BIT);
+	}
+	
+
 }

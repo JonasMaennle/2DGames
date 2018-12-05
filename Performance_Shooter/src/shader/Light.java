@@ -19,6 +19,7 @@ public class Light {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+		this.radius = radius;
 		
 		initNewShader(radius);
 	}
