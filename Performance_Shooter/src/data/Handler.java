@@ -227,7 +227,7 @@ public class Handler {
 			{
 				eventList.remove(event);
 			}else{
-				if(event.getX() > getLeftBorder() - 100 && event.getX() < getRightBorder() + 100 && event.getY() > getTopBorder() - 256 && event.getY() < getBottomBorder() + 256)
+				if(event.getX() > getLeftBorder() - WIDTH && event.getX() < getRightBorder() + WIDTH && event.getY() > getTopBorder() - 512 && event.getY() < getBottomBorder() + 512)
 				{
 					event.draw();
 				}

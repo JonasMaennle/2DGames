@@ -18,25 +18,27 @@ import static helpers.Setup.*;
 import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Shotgun extends Weapon{
+public class Minigun extends Weapon{
 	
 	private float angle, destX, destY;
 	private Image default_right, default_left;
 	private CopyOnWriteArrayList<Laser> list;
 	private Sound laserShotSound;
 	private float laserSpawnX, laserSpawnY;
+	private long timer;
 	
-	public Shotgun(float x, float y, float width, float height, Player player, Handler handler, Image left, Image right)
+	public Minigun(float x, float y, float width, float height, Player player, Handler handler, Image left, Image right)
 	{
 		super(x, y, width, height, player, handler, left, right);
+
 		this.default_right = right; //quickLoaderImage("player/weapon_right");
 		this.default_left =  left; //quickLoaderImage("player/weapon_left");
-		
+		this.timer = System.currentTimeMillis();
 		this.list = new CopyOnWriteArrayList<>();
 		this.angle = 0;
 		
 		try {
-			this.laserShotSound = new Sound("sound/shotgun_sound.wav");
+			this.laserShotSound = new Sound("sound/blaster_sound.wav");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -51,14 +53,6 @@ public class Shotgun extends Weapon{
 		for(Laser l : list)
 		{
 			l.update();
-			
-			// check range over time
-			if(System.currentTimeMillis() - l.getTimeAlive() > 280)
-			{
-				l.removeLight();
-				list.remove(l);
-			}
-			
 			// Check Laser collision with tiles
 			for(Tile tile : handler.obstacleList)
 			{
@@ -80,25 +74,8 @@ public class Shotgun extends Weapon{
 			{
 				if(checkCollision(g.getX(), g.getY(), g.getWidth(), g.getHeight(), l.getX(), l.getY(), l.getWidth(), l.getHeight()))
 				{
-					//recoil
-					if(g.getX() > handler.getCurrentEntity().getX())
-					{
-						g.setX(g.getX() + 20);
-						
-						if(g.getHealth() < 14 && g instanceof EwokSoldierEnemy || g instanceof EwokArcherEnemy)
-							handler.addParticleEvent(new ParticleEvent((int)g.getX() + g.getWidth()/2, (int)g.getY() + g.getHeight() / 2, 50, 1, "red", "ewok_explosion"));
-						
-					}else if(g.getX() < handler.getCurrentEntity().getX())
-					{
-						g.setX(g.getX() - 20);
-						
-						if(g.getHealth() < 14 && g instanceof EwokSoldierEnemy || g instanceof EwokArcherEnemy)
-							handler.addParticleEvent(new ParticleEvent((int)g.getX() + g.getWidth()/2, (int)g.getY() + g.getHeight() / 2, 50, -1, "red", "ewok_explosion"));
-						
-					}
-					
-					g.damage(14); // Gungan got 56 HP
-					
+					handler.addParticleEvent(new ParticleEvent((int)g.getX(), (int)g.getY()+(g.getHeight()/2), 10, 0, "red", "small"));
+					g.damage(3); // Gungan got 56 HP
 					l.removeLight();
 					list.remove(l);
 				}
@@ -155,41 +132,35 @@ public class Shotgun extends Weapon{
 	
 	public void shoot()
 	{
-		if(HeadUpDisplay.shotsLeft > 0)HeadUpDisplay.shotsLeft--;
-		// walk right
-		if(player.getDirection().equals("right") && destX > laserSpawnX)
+		// check timer
+		if(System.currentTimeMillis() - timer > 75)
 		{
-			if(destX < x + (width/2))
-			{
-				destX = getRightBorder() - destX;
-			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 40	, 12, 6, 30, "red", angle)); // top
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 20	, 12, 6, 30, "red", angle)); // top
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY		, 12, 6, 30, "red", angle)); // normal
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 20	, 12, 6, 30, "red", angle)); // bottom
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 40	, 12, 6, 30, "red", angle)); // bottom
-			laserShotSound.play();
+			timer = System.currentTimeMillis();
 			
-			// recoil
-			//player.setX(player.getX() - 5);
-		}
-		
-		// walk left
-		if(player.getDirection().equals("left") && destX < laserSpawnX)
-		{
-			if(destX > x + (width/2))
+			if(HeadUpDisplay.shotsLeft > 0)HeadUpDisplay.shotsLeft--;
+			// walk right
+			if(player.getDirection().equals("right") && destX > laserSpawnX)
 			{
-				destX = getLeftBorder() + destX;
+				if(destX < x + (width/2))
+				{
+					destX = getRightBorder() - destX;
+				}
+				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "pink", angle));
+				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "pink", angle));
+				laserShotSound.play();
 			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 40	, 12, 6, 30, "red", angle)); // top
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY - 20	, 12, 6, 30, "red", angle)); // top
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY		, 12, 6, 30, "red", angle)); // normal
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 20	, 12, 6, 30, "red", angle)); // bottom
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY + 40	, 12, 6, 30, "red", angle)); // bottom
-			laserShotSound.play();
 			
-			// recoil
-			//player.setX(player.getX() + 5);
+			// walk left
+			if(player.getDirection().equals("left") && destX < laserSpawnX)
+			{
+				if(destX > x + (width/2))
+				{
+					destX = getLeftBorder() + destX;
+				}
+				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "pink", angle));
+				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "pink", angle));
+				laserShotSound.play();
+			}
 		}
 	}
 	
@@ -237,7 +208,6 @@ public class Shotgun extends Weapon{
 		return new Rectangle((int)x, (int)y, (int)width, (int)height);
 	}
 	
-	@Override
 	public void addToProjectileList()
 	{
 		for(Laser l: list)
@@ -331,12 +301,6 @@ public class Shotgun extends Weapon{
 			return true;
 		return false;
 	}
-
-	public CopyOnWriteArrayList<Laser> getList() {
-		return list;
-	}
-
-	public void setList(CopyOnWriteArrayList<Laser> list) {
-		this.list = list;
-	}
+	
+	
 }

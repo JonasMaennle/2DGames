@@ -284,6 +284,6 @@ public class Tile implements Entity{
 
 	public Rectangle getBounds()
 	{
-		return new Rectangle((int)x, (int)y, TILE_SIZE, TILE_SIZE);
+		return new Rectangle((int)x, (int)y, width, height);
 	}
 }

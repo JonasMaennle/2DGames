@@ -10,6 +10,7 @@ public class ParticleEvent {
 	private CopyOnWriteArrayList<Particle> list;
 	private Random rand;
 	private float x, y;
+	private String modus;
 	
 	public ParticleEvent(int startX, int startY, int number, float velX, String color, String modus)
 	{
@@ -17,6 +18,7 @@ public class ParticleEvent {
 		this.rand = new Random();
 		this.x = startX;
 		this.y = startY;
+		this.modus = modus;
 		
 		for(int i = 0; i < number; i++)
 		{
@@ -45,7 +47,14 @@ public class ParticleEvent {
 			{
 				list.remove(p);
 			}else{
-				p.update();
+				if(!modus.equals("ewok_explosion"))
+				{
+					p.update();
+				}else{
+					p.update();
+					p.mapCollision(handler);
+				}	
+				//p.update();
 			}
 		}
 	}

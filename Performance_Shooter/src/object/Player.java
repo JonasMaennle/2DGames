@@ -139,7 +139,7 @@ public class Player implements Entity{
 		// Shoot
 		if(Mouse.isButtonDown(0) && !shooting && Mouse.getY() < HEIGHT - 100)
 		{
-			shooting = true;
+			if(!(weapon instanceof Minigun))shooting = true;
 			//System.out.println(Mouse.getY());
 			if(HeadUpDisplay.shotsLeft > 0 || HeadUpDisplay.shotsLeft == -1)weapon.shoot();
 			
@@ -150,8 +150,7 @@ public class Player implements Entity{
 				setWeapon(new Weapon(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_left"), quickLoaderImage("player/weapon_right")));
 				HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_right");
 			}
-			
-			if(HeadUpDisplay.shotsLeft > 0)HeadUpDisplay.shotsLeft--;
+		
 				
 			
 			anim_idleRight.restart();
@@ -374,7 +373,16 @@ public class Player implements Entity{
 					// set max. ammo
 					HeadUpDisplay.shotsLeft = 30;
 				}
-				// ...
+				// Minigun
+				if(w.getName().equals("Minigun"))
+				{
+					setWeapon(new Minigun(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_minigun_left"), quickLoaderImage("player/weapon_minigun_right")));
+					handler.weaponList.remove(w);
+					HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_minigun_right");
+					
+					// set max. ammo
+					HeadUpDisplay.shotsLeft = 100;
+				}
 			}
 		}
 	}

@@ -86,6 +86,20 @@ public class Particle {
 		}
 	}
 	
+	public void mapCollision(Handler handler)
+	{
+		if(speed == 0)
+			return;
+		
+		for(Tile t: handler.obstacleList)
+		{
+			if(t.getBounds().intersects(getBounds()))
+			{
+				speed = 0;
+			}
+		}
+	}
+	
 	public void stop()
 	{
 		speed = 0;
@@ -115,4 +129,14 @@ public class Particle {
 	{
 		return new Rectangle(x, y, width, height);
 	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+	
+	
 }

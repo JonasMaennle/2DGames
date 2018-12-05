@@ -175,6 +175,10 @@ public class Leveler {
 				{
 					handler.weaponList.add(new MapWeapon(x * TILE_SIZE, y * TILE_SIZE, 70, 35, "Shotgun",quickLoaderImage("player/weapon_shotgun_left")));
 				}
+				if(red == 255 && green == 160 && blue == 0)
+				{
+					handler.weaponList.add(new MapWeapon(x * TILE_SIZE, y * TILE_SIZE, 70, 35, "Minigun",quickLoaderImage("player/weapon_minigun_left")));
+				}
 		// Enemy Tile
 				// Green -> GunganEnemy
 				if(red == 0 && green == 255 && blue == 0)
