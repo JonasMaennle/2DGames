@@ -147,8 +147,8 @@ public class Minigun extends Weapon{
 				{
 					destX = getRightBorder() - destX;
 				}
-				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "pink", angle));
-				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "pink", angle));
+				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "orange", angle));
+				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "orange", angle));
 				laserShotSound.play();
 			}
 			
@@ -159,8 +159,8 @@ public class Minigun extends Weapon{
 				{
 					destX = getLeftBorder() + destX;
 				}
-				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "pink", angle));
-				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "pink", angle));
+				list.add(new Laser(laserSpawnX, laserSpawnY - 5, destX, destY - 5, 12, 4, 30, "orange", angle));
+				list.add(new Laser(laserSpawnX, laserSpawnY + 5, destX, destY + 5, 12, 4, 30, "orange", angle));
 				laserShotSound.play();
 			}
 		}

@@ -77,9 +77,9 @@ public class Laser implements Entity{
 		{
 			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 0, 5, 2f);
 			this.image = quickLoaderImage("enemy/laser_blue");
-		}else if(color.equals("pink"))
+		}else if(color.equals("orange"))
 		{
-			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 25, 3, 14, 25f);
+			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 25, 10, 0, 15f);
 			this.image = quickLoaderImage("player/laser_small_red");
 		}
 		
