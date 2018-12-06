@@ -2,7 +2,7 @@ package object.weapon;
 
 import Enity.Entity;
 import data.Handler;
-import data.Tile;
+import object.Tile;
 import shader.Light;
 
 import static helpers.Graphics.*;

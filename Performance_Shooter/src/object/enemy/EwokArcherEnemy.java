@@ -13,7 +13,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import data.Handler;
-import data.Tile;
+import object.Tile;
 import object.weapon.Arrow;
 
 public class EwokArcherEnemy extends Enemy{

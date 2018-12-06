@@ -1,4 +1,4 @@
-package data;
+package object;
 
 import static helpers.Graphics.quickLoaderImage;
 import static helpers.Setup.*;
@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.util.Random;
 import static helpers.Graphics.*;
 import org.newdawn.slick.Image;
+
+import data.Handler;
 
 public class Particle {
 	

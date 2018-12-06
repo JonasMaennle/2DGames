@@ -21,8 +21,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import data.Camera;
 import data.Handler;
 import data.ParticleEvent;
-import data.Tile;
 import object.Explosion;
+import object.Tile;
 import object.enemy.Enemy;
 import object.weapon.Laser;
 

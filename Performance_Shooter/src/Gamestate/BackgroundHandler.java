@@ -12,8 +12,8 @@ import org.newdawn.slick.Image;
 
 import Enity.Entity;
 import data.Handler;
-import data.Particle;
 import object.Cloud;
+import object.Particle;
 
 public class BackgroundHandler {
 	

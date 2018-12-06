@@ -16,8 +16,8 @@ import Gamestate.StateManager.GameState;
 import data.Camera;
 import data.Handler;
 import data.ParticleEvent;
-import data.Tile;
 import object.Explosion;
+import object.Tile;
 import object.enemy.Enemy;
 
 public class Speeder implements Entity{

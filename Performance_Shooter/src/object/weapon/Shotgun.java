@@ -9,7 +9,7 @@ import Enity.TileType;
 import UI.HeadUpDisplay;
 import data.Handler;
 import data.ParticleEvent;
-import data.Tile;
+import object.Tile;
 import object.enemy.Enemy;
 import object.enemy.EwokArcherEnemy;
 import object.enemy.EwokSoldierEnemy;

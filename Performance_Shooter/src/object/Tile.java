@@ -1,4 +1,4 @@
-package data;
+package object;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
@@ -6,6 +6,8 @@ import org.newdawn.slick.Image;
 
 import Enity.Entity;
 import Enity.TileType;
+import data.Handler;
+import data.ParticleEvent;
 import shader.Light;
 
 import static helpers.Graphics.*;

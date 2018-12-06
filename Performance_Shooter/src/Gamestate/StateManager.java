@@ -186,6 +186,7 @@ public class StateManager {
 	{
 		if(lastState != GameState.EDITOR)CURRENT_LEVEL--;
 		loadLevel();
+		HeadUpDisplay.playerHealth = 100;
 		gameState = GameState.GAME;
 	}
 	

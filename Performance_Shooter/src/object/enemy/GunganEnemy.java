@@ -10,7 +10,7 @@ import static helpers.Setup.*;
 import java.awt.Rectangle;
 
 import data.Handler;
-import data.Tile;
+import object.Tile;
 import object.weapon.Laser;
 import object.weapon.TestShot;
 

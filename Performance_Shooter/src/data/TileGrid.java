@@ -4,6 +4,7 @@ import static helpers.Leveler.*;
 import static helpers.Setup.*;
 
 import Enity.TileType;
+import object.Tile;
 
 public class TileGrid {
 	

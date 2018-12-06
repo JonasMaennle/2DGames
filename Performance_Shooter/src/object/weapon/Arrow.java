@@ -7,7 +7,7 @@ import org.newdawn.slick.Sound;
 
 import Enity.Entity;
 import data.Handler;
-import data.Tile;
+import object.Tile;
 
 import static helpers.Graphics.*;
 import static helpers.Setup.checkCollision;

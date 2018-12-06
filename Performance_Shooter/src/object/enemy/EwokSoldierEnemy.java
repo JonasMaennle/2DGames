@@ -13,7 +13,7 @@ import org.newdawn.slick.Sound;
 
 import Enity.TileType;
 import data.Handler;
-import data.Tile;
+import object.Tile;
 
 public class EwokSoldierEnemy extends Enemy{
 	

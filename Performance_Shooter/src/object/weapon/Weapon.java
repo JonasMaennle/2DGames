@@ -9,7 +9,7 @@ import Enity.Entity;
 import Enity.TileType;
 import data.Handler;
 import data.ParticleEvent;
-import data.Tile;
+import object.Tile;
 import object.enemy.Enemy;
 import object.entity.Player;
 

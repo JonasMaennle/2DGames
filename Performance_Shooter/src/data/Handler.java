@@ -15,6 +15,7 @@ import Enity.TileType;
 import Gamestate.StateManager;
 import UI.UI;
 import object.Goal;
+import object.Tile;
 import object.enemy.Enemy;
 import object.entity.AT_ST_Walker;
 import object.entity.Player;

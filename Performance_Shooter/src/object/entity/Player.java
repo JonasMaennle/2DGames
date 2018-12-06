@@ -15,7 +15,7 @@ import Gamestate.StateManager.GameState;
 import UI.HeadUpDisplay;
 import data.Camera;
 import data.Handler;
-import data.Tile;
+import object.Tile;
 import object.weapon.MapWeapon;
 import object.weapon.Minigun;
 import object.weapon.Shotgun;
