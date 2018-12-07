@@ -288,4 +288,24 @@ public class Tile implements Entity{
 	{
 		return new Rectangle((int)x, (int)y, width, height);
 	}
+	
+	public Rectangle getTopBounds()
+	{
+		return new Rectangle((int)x + 4, (int)y, width - 8, 4);
+	}
+	
+	public Rectangle getBottomBounds()
+	{
+		return new Rectangle((int)x + 4, (int)y + height-4, width - 8, 4);
+	}
+	
+	public Rectangle getLeftBounds()
+	{
+		return new Rectangle((int)x, (int)y + 4, 4, height - 8);
+	}
+	
+	public Rectangle getRightBounds()
+	{
+		return new Rectangle((int)x + width-4, (int)y + 4, 4, height - 8);
+	}
 }
