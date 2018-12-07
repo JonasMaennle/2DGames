@@ -54,7 +54,7 @@ public class Player implements Entity{
 	public Player(float x, float y, Handler handler)
 	{
 		this.handler = handler;
-		this.speed = 3.0f;
+		this.speed = 5f;
 		this.velX = 0;
 		this.velY = 0;
 		this.x = x; 
@@ -187,7 +187,7 @@ public class Player implements Entity{
 		// switch direction -> mouse movement
 
 		jump();
-		
+
 		x += velX * speed;
 		y += velY * speed;
 		mapCollision();
@@ -256,7 +256,7 @@ public class Player implements Entity{
 		}
 		
 		weapon.draw();
-		//drawBounds();
+		drawBounds();
 	}
 	
 	public void mapCollision()
@@ -281,30 +281,7 @@ public class Player implements Entity{
 					return;
 				}
 			}
-			
-			if(r.intersects(rectTop))
-			{
-				velY = gravity;
-				y = (float) (r.getY() + t.getHeight());
-				jumping = false;
-				return;
-			}
-			if(r.intersects(rectLeft))
-			{
-				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
-				{
-					velX = 0;
-					x = (float) (r.getX() + r.getWidth() - 11);
-				}
-			}
-			if(r.intersects(rectRight))
-			{
-				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
-				{
-					velX = 0;
-					x = (float) (r.getX() - TILE_SIZE) + 11;
-				}
-			}
+			// bottom
 			if(r.intersects(rectBottom))
 			{
 				if(t.getType() == TileType.Ramp_End)
@@ -340,6 +317,41 @@ public class Player implements Entity{
 					velX = t.getVelX();
 					x += velX;
 				}
+				
+				updateBounds();
+			}
+			
+			// top
+			if(r.intersects(rectTop))
+			{
+				velY = gravity;
+				y = (float) (r.getY() + t.getHeight());
+				jumping = false;
+				updateBounds();
+				return;
+			}
+			
+			// left
+			if(r.intersects(rectLeft))
+			{
+				System.out.println("left");
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+				{
+					velX = 0;
+					x = (float) (r.getX() + r.getWidth() - 11);
+				}
+				updateBounds();
+			}
+			
+			// right
+			if(r.intersects(rectRight))
+			{
+				if(t.getType() != TileType.Ramp_Start && t.getType() != TileType.Ramp_End)
+				{
+					velX = 0;
+					x = (float) (r.getX() - TILE_SIZE) + 11;
+				}
+				updateBounds();
 			}
 		}
 		
@@ -416,12 +428,22 @@ public class Player implements Entity{
 	@SuppressWarnings("unused")
 	private void drawBounds()
 	{
-		drawQuad(x + 10, y + 4, 4, (TILE_SIZE * 2) - 16); // left
-		drawQuad(x + TILE_SIZE - 14, y + 4, 4, (TILE_SIZE * 2) - 16); // right
+		drawQuad(x + 10, y + 4, 4, (TILE_SIZE * 2) - 8); // left
+		drawQuad(x + TILE_SIZE - 14, y + 4, 4, (TILE_SIZE * 2) - 8); // right
 		drawQuad(x + 14, y, TILE_SIZE - 28, 4); // top
 		drawQuad(x + 14, y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
 		
 		drawQuad((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
+	}
+	
+	private void updateBounds()
+	{
+		this.rectLeft.setBounds((int)x + 10, (int)y + 4, 4, (TILE_SIZE * 2) - 8); // left
+		this.rectRight.setBounds((int)x + TILE_SIZE - 14,(int) y + 4, 4, (TILE_SIZE * 2) - 8); // right
+		this.rectTop.setBounds((int)x + 14,(int) y, TILE_SIZE - 28, 4); // top
+		this.rectBottom.setBounds((int)x + 14,(int) y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
+		
+		this.rectRampSensor.setBounds((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
 	}
 	
 	private void jump()
@@ -446,16 +468,6 @@ public class Player implements Entity{
 		}else{
 			frameCount = 115;
 		}
-	}
-	
-	private void updateBounds()
-	{
-		this.rectLeft.setBounds((int)x + 10, (int)y + 4, 4, (TILE_SIZE * 2) - 16); // left
-		this.rectRight.setBounds((int)x + TILE_SIZE - 14,(int) y + 4, 4, (TILE_SIZE * 2) - 16); // right
-		this.rectTop.setBounds((int)x + 14,(int) y, TILE_SIZE - 28, 4); // top
-		this.rectBottom.setBounds((int)x + 14,(int) y + (TILE_SIZE * 2)-4, TILE_SIZE - 28, 4); // bottom
-		
-		this.rectRampSensor.setBounds((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
 	}
 
 	public void damage(float amount) 
