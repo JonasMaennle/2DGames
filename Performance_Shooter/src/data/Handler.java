@@ -21,7 +21,7 @@ import object.entity.AT_ST_Walker;
 import object.entity.Player;
 import object.entity.Speeder;
 import object.weapon.Laser;
-import object.weapon.MapWeapon;
+import object.weapon.MapCollectable;
 
 public class Handler {
 	
@@ -29,7 +29,7 @@ public class Handler {
 	public CopyOnWriteArrayList<Tile> obstacleList;
 	private CopyOnWriteArrayList<ParticleEvent> eventList;
 	public CopyOnWriteArrayList<Enemy> enemyList;
-	public CopyOnWriteArrayList<MapWeapon> weaponList;
+	public CopyOnWriteArrayList<MapCollectable> collectableList;
 	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
@@ -48,7 +48,7 @@ public class Handler {
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.eventList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
-		this.weaponList = new CopyOnWriteArrayList<>();
+		this.collectableList = new CopyOnWriteArrayList<>();
 		
 		this.player = null;
 		this.at_st_walker = null;
@@ -216,7 +216,7 @@ public class Handler {
 		}
 		
 		// draw weapons
-		for(MapWeapon w : weaponList)
+		for(MapCollectable w : collectableList)
 		{
 			w.draw();
 		}
@@ -264,7 +264,7 @@ public class Handler {
 		enemyList.clear();
 		obstacleList.clear();
 		eventList.clear();
-		weaponList.clear();
+		collectableList.clear();
 		
 		// clean lights
 		lights.clear();

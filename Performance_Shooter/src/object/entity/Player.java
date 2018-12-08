@@ -15,8 +15,9 @@ import Gamestate.StateManager.GameState;
 import UI.HeadUpDisplay;
 import data.Camera;
 import data.Handler;
+import object.Jetpack;
 import object.Tile;
-import object.weapon.MapWeapon;
+import object.weapon.MapCollectable;
 import object.weapon.Minigun;
 import object.weapon.Shotgun;
 import object.weapon.Weapon;
@@ -28,6 +29,7 @@ import java.awt.Rectangle;
 public class Player implements Entity{
 	
 	private Weapon weapon;
+	private Jetpack jetpack;
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom, rectRampSensor;
 	private Handler handler;
 	
@@ -64,6 +66,7 @@ public class Player implements Entity{
 		this.snowVelX = 1;
 		this.falling = true;
 		this.frameCount = 100;
+		this.jetpack = null;
 
 		this.gravity = 4;
 		this.idleStop = 9;
@@ -102,7 +105,10 @@ public class Player implements Entity{
 			velX = 0;
 		}
 
-		velY = gravity;
+		if(jetpack != null && !jetpack.isFlying())
+			velY = gravity;
+		else if(jetpack == null)
+			velY = gravity;
 		//System.out.println(y + "      " + (HEIGHT - Mouse.getY() - MOVEMENT_Y)); // top 767 - bottom 0
 		weapon.calcAngle(Mouse.getX() - MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y);
 		updateDirection(Mouse.getX() - MOVEMENT_X, Mouse.getY() - MOVEMENT_Y);
@@ -130,10 +136,33 @@ public class Player implements Entity{
 			else
 				currentAnimation = "anim_idleLeft";
 		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_S))
+		{
+			if(jetpack != null)
+				if(jetpack.isFlying())
+					jetpack.fallDown();
+		}	
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_W))
+		{
+			if(jetpack != null && jetpack.getFuel() > 0)
+			{
+				jetpack.fly();
+			}
+		}	
+
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE) && !jumping && falling)
 		{
-			jumping = true;
-			falling = false;
+			if(jetpack != null && !jetpack.isFlying())
+			{
+				jumping = true;
+				falling = false;
+			}else if(jetpack == null)
+			{
+				jumping = true;
+				falling = false;
+			}
 		}
 		if(!Keyboard.isKeyDown(Keyboard.KEY_SPACE))
 		{
@@ -202,6 +231,8 @@ public class Player implements Entity{
 		}
 
 		weapon.update();
+		if(jetpack != null)
+			jetpack.update();
 		//System.out.println("x :  " + x + " y: " + y);
 	}
 	
@@ -265,6 +296,8 @@ public class Player implements Entity{
 		}
 		
 		weapon.draw();
+		if(jetpack != null)
+			jetpack.draw();
 		//drawBounds();
 	}
 	
@@ -292,7 +325,6 @@ public class Player implements Entity{
 			// top
 			if(t.getBottomBounds().intersects(rectTop))
 			{
-				System.out.println("hit");
 				velY = gravity;
 				y = (float) (t.getY() + t.getHeight());
 				jumping = false;
@@ -337,6 +369,12 @@ public class Player implements Entity{
 					x += velX;
 				}
 				
+				if(jetpack != null)
+				{
+					jetpack.setFlying(false);
+					jetpack.setGravity(0);
+				}
+
 				updateBounds();
 			}		
 			// left
@@ -381,8 +419,8 @@ public class Player implements Entity{
 			}
 		}
 		
-		// weapon
-		for(MapWeapon w : handler.weaponList)
+		// collectables
+		for(MapCollectable w : handler.collectableList)
 		{
 			if(w.getBounds().intersects(getBounds()))
 			{
@@ -390,7 +428,7 @@ public class Player implements Entity{
 				if(w.getName().equals("Shotgun"))
 				{
 					setWeapon(new Shotgun(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_shotgun_left"), quickLoaderImage("player/weapon_shotgun_right")));
-					handler.weaponList.remove(w);
+					handler.collectableList.remove(w);
 					HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_shotgun_right");
 					
 					// set max. ammo
@@ -400,11 +438,17 @@ public class Player implements Entity{
 				if(w.getName().equals("Minigun"))
 				{
 					setWeapon(new Minigun(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_minigun_left"), quickLoaderImage("player/weapon_minigun_right")));
-					handler.weaponList.remove(w);
+					handler.collectableList.remove(w);
 					HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_minigun_right");
 					
 					// set max. ammo
 					HeadUpDisplay.shotsLeft = 250;
+				}
+				// Jetpack
+				if(w.getName().equals("Jetpack"))
+				{
+					handler.collectableList.remove(w);
+					jetpack = new Jetpack(x, y, this);
 				}
 			}
 		}
@@ -682,5 +726,12 @@ public class Player implements Entity{
 	public float getVelY() {
 		return velY;
 	}
-
+	public void setVelY(float velY) {
+		this.velY = velY;
+	}
+	
+	public void setGravity(float gravity)
+	{
+		this.gravity = gravity;
+	}
 }

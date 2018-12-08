@@ -1,9 +1,6 @@
 package object.enemy;
 
 import static helpers.Graphics.*;
-import static helpers.Setup.TILE_SIZE;
-
-import java.awt.Rectangle;
 import java.util.Random;
 
 import org.newdawn.slick.Animation;
@@ -27,6 +24,7 @@ public class EwokSoldierEnemy extends Enemy{
 	private boolean jumping, dying;
 	private Sound sound, attack_sound;
 	private Random rand;
+	private long jumpTimer;
 
 	public EwokSoldierEnemy(float x, float y, int width, int height, Handler handler) 
 	{
@@ -43,6 +41,7 @@ public class EwokSoldierEnemy extends Enemy{
 		this.velXSpear = -1;
 		this.velYSpear = -1;	
 		this.health = width -8;
+		this.jumpTimer = System.currentTimeMillis();
 		
 		try {
 			this.sound = new Sound("sound/Ewok/ewok_sound_" + rand.nextInt(4) + ".wav");
@@ -75,12 +74,12 @@ public class EwokSoldierEnemy extends Enemy{
 		velY = gravity;
 
 		jump();
-		if(!dying)moveToEntity();
 		
+		if(!dying)moveToEntity();
+
 		x += velX * speed;
 		y += velY * speed;
 
-		updateBounds();
 		mapCollision();
 	}
 	public void draw()
@@ -115,6 +114,8 @@ public class EwokSoldierEnemy extends Enemy{
 		drawQuadImage(healthBackground, x + 4, y - 5, width - 8, 6);
 		drawQuadImage(healthForeground, x + 4, y - 5, health, 6);
 		drawQuadImage(healthBorder, x + 4, y - 5, width - 8, 6);
+		
+		//drawBounds();
 	}
 	
 	private void moveToEntity()
@@ -225,17 +226,18 @@ public class EwokSoldierEnemy extends Enemy{
 				}
 			}
 		}else{
-			frameCount = 100;
+			frameCount = 110;
 		}
 	}
 	
 	private void mapCollision()
 	{
+
+		updateBounds();
 		for(Tile t : handler.obstacleList)
 		{
-			Rectangle r = new Rectangle((int)t.getX(), (int)t.getY(), TILE_SIZE, TILE_SIZE);
 
-			if(r.intersects(getBounds()))
+			if(t.getBounds().intersects(getBounds()))
 			{
 				if(t.getType() == TileType.Lava_Light || t.getType() == TileType.Lava)
 				{
@@ -245,27 +247,54 @@ public class EwokSoldierEnemy extends Enemy{
 					dying = true;
 					return;
 				}
+
+				updateBounds();
 			}
-			
-			if(r.intersects(rectLeft))
+			// bottom
+			if(t.getTopBounds().intersects(rectBottom))
 			{
-				jumping = true;
-				x = (float) ((float) r.getX() + r.getWidth() + 1);
-				return;
-			}
-			if(r.intersects(rectRight))
-			{
-				jumping = true;
-				x = (float) (r.getX() - width - 1);
-				return;
-			}
-			if(r.intersects(rectBottom))
-			{
-				jumping = false;
+				if(System.currentTimeMillis() - jumpTimer > 10)
+					jumping = false;
 				velY = 0;
-				y = (float) (r.getY() - height);
+				y = (float) (t.getY() - height);
+				updateBounds();
+			}
+			// left
+			if(t.getRightBounds().intersects(rectLeft))
+			{
+				jumping = true;
+				jumpTimer = System.currentTimeMillis();
+				x = (float) ((float) t.getX() + t.getWidth() + 1);
+
+				updateBounds();
+			}
+			// right
+			if(t.getLeftBounds().intersects(rectRight))
+			{
+				jumping = true;
+				jumpTimer = System.currentTimeMillis();
+				x = (float) (t.getX() - width - 1);
+
+				updateBounds();
 			}
 		}
+	}
+	
+	@Override
+	public void updateBounds()
+	{
+		rectLeft.setBounds((int)x, (int)y + 4, 4, (height) - 16);
+		rectRight.setBounds((int)x + width - 4, (int)y + 4, 4, (height) - 16);
+		rectTop.setBounds((int)x + 4, (int)y, width - 8, 4);
+		rectBottom.setBounds((int)x + 4, (int)y + (height) - 16, width - 8, 16);
+	}
+	@Override
+	public void drawBounds()
+	{
+		drawQuad(x, y + 4, 4, (height) - 16); // left
+		drawQuad(x + width - 4, y + 4, 4, (height) - 16); // right
+		drawQuad(x + 4, y, width - 8, 4); // top
+		drawQuad(x + 4, y + (height) - 16, width - 8, 16); // bottom
 	}
 	
 	public void damage(float amount)

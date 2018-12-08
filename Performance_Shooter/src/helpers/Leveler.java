@@ -17,7 +17,7 @@ import object.enemy.GunganEnemy;
 import object.entity.AT_ST_Walker;
 import object.entity.Player;
 import object.entity.Speeder;
-import object.weapon.MapWeapon;
+import object.weapon.MapCollectable;
 
 public class Leveler {
 	
@@ -170,15 +170,21 @@ public class Leveler {
 				{
 					handler.speeder = new Speeder(x * TILE_SIZE, y * TILE_SIZE, handler);
 				}
-		// Weapon
+		// Collectable
 				// Shotgun
 				if(red == 255 && green == 200 && blue == 0)
 				{
-					handler.weaponList.add(new MapWeapon(x * TILE_SIZE, y * TILE_SIZE, 70, 35, "Shotgun",quickLoaderImage("player/weapon_shotgun_left")));
+					handler.collectableList.add(new MapCollectable(x * TILE_SIZE, y * TILE_SIZE, 70, 35, "Shotgun",quickLoaderImage("player/weapon_shotgun_left")));
 				}
+				// Minigun
 				if(red == 255 && green == 160 && blue == 0)
 				{
-					handler.weaponList.add(new MapWeapon(x * TILE_SIZE, y * TILE_SIZE, 70, 35, "Minigun",quickLoaderImage("player/weapon_minigun_left")));
+					handler.collectableList.add(new MapCollectable(x * TILE_SIZE, y * TILE_SIZE, 70, 35, "Minigun",quickLoaderImage("player/weapon_minigun_left")));
+				}
+				// Jetpack
+				if(red == 255 && green == 175 && blue == 0)
+				{
+					handler.collectableList.add(new MapCollectable(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE*2, "Jetpack",quickLoaderImage("player/jetpack_left_full")));
 				}
 		// Enemy Tile
 				// Green -> GunganEnemy

@@ -8,13 +8,13 @@ import org.newdawn.slick.Image;
 import Enity.Entity;
 import static helpers.Graphics.*;
 
-public class MapWeapon implements Entity{
+public class MapCollectable implements Entity{
 
 	private int x, y, width, height;
 	private Image left;
 	private String name;
 	
-	public MapWeapon(int x, int y, int width, int height, String name, Image left)
+	public MapCollectable(int x, int y, int width, int height, String name, Image left)
 	{
 		this.x = x;
 		this.y = y;
