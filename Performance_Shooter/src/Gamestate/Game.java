@@ -28,7 +28,7 @@ public class Game {
 		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity(), handler);
 		this.handler = handler;
 		
-		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 0.4f); // 200, 80, 0, 0.1f);
+		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 0.4f); // 200, 80, 0, 0.4f);
 		
 		
 		setupUI();
@@ -62,7 +62,7 @@ public class Game {
 		backgroundHandler.draw();
 		
 		// render sun, lava
-		renderSingleLightStatic(shadowObstacleList, sun);
+		//renderSingleLightStatic(shadowObstacleList, sun);
 
 		// draw map, game-objects
 		handler.draw();

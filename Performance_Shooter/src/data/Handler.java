@@ -15,6 +15,7 @@ import Enity.TileType;
 import Gamestate.StateManager;
 import UI.UI;
 import object.Goal;
+import object.Lamp;
 import object.Tile;
 import object.enemy.Enemy;
 import object.entity.AT_ST_Walker;
@@ -30,6 +31,7 @@ public class Handler {
 	private CopyOnWriteArrayList<ParticleEvent> eventList;
 	public CopyOnWriteArrayList<Enemy> enemyList;
 	public CopyOnWriteArrayList<MapCollectable> collectableList;
+	public CopyOnWriteArrayList<Lamp> lampList;
 	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
@@ -49,6 +51,7 @@ public class Handler {
 		this.eventList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.collectableList = new CopyOnWriteArrayList<>();
+		this.lampList = new CopyOnWriteArrayList<>();
 		
 		this.player = null;
 		this.at_st_walker = null;
@@ -236,6 +239,15 @@ public class Handler {
 				{
 					event.draw();
 				}
+			}
+		}
+		
+		//draw lamp
+		for(Lamp lamp : lampList)
+		{
+			if(lamp.getX() > getLeftBorder() - WIDTH && lamp.getX() < getRightBorder() + WIDTH && lamp.getY() > getTopBorder() - 512 && lamp.getY() < getBottomBorder() + 512)
+			{
+				lamp.draw();
 			}
 		}
 		

@@ -10,6 +10,7 @@ import Enity.TileType;
 import data.Handler;
 import data.TileGrid;
 import object.Goal;
+import object.Lamp;
 import object.enemy.EwokArcherEnemy;
 import object.enemy.EwokArcherEnemyRed;
 import object.enemy.EwokSoldierEnemy;
@@ -298,10 +299,33 @@ public class Leveler {
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
 		// Lamp
+				// Yellow
+				if(red == 255 && green == 233 && blue == 127)
+				{
+					Lamp tmpLamp = new Lamp(x * TILE_SIZE, y * TILE_SIZE, 10, 10, 0, 1f);
+					handler.lampList.add(tmpLamp);
+					shadowObstacleList.add(tmpLamp);
+				}
+				// Red
 				if(red == 255 && green == 127 && blue == 127)
 				{
-					grid.setTile(x, y, TileType.Lamp_Basic);
-					shadowObstacleList.add(grid.getTile(x, y));
+					Lamp tmpLamp = new Lamp(x * TILE_SIZE, y * TILE_SIZE, 10, 0, 0, 1f);
+					handler.lampList.add(tmpLamp);
+					shadowObstacleList.add(tmpLamp);
+				}
+				// Blue
+				if(red == 127 && green == 146 && blue == 255)
+				{
+					Lamp tmpLamp = new Lamp(x * TILE_SIZE, y * TILE_SIZE, 0, 0, 10, 1f);
+					handler.lampList.add(tmpLamp);
+					shadowObstacleList.add(tmpLamp);
+				}
+				// Green
+				if(red == 165 && green == 255 && blue == 127)
+				{
+					Lamp tmpLamp = new Lamp(x * TILE_SIZE, y * TILE_SIZE, 0, 10, 0, 1f);
+					handler.lampList.add(tmpLamp);
+					shadowObstacleList.add(tmpLamp);
 				}
 			}
 		}

@@ -48,6 +48,7 @@ public class Tile implements Entity{
 		this.minX = x - TILE_SIZE * 2;
 		this.velX = 1;
 		this.index = 0;
+		
 		if(type == TileType.Rock_Half)
 		{
 			this.maxX = x + TILE_SIZE * 3;
@@ -226,7 +227,7 @@ public class Tile implements Entity{
 
 	@Override
 	public Vector2f[] getVertices() 
-	{
+	{	
 		// ramp start
 		if(type == TileType.Ramp_Start)
 		{
