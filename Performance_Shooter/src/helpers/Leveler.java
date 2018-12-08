@@ -297,6 +297,12 @@ public class Leveler {
 					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
+		// Lamp
+				if(red == 255 && green == 127 && blue == 127)
+				{
+					grid.setTile(x, y, TileType.Lamp_Basic);
+					shadowObstacleList.add(grid.getTile(x, y));
+				}
 			}
 		}
 		handler.setCurrentEntity(handler.player);
