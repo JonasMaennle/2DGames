@@ -79,7 +79,7 @@ public class Handler {
 		// update enemies
 		for(Enemy e : enemyList)
 		{
-			if(e.getX() > getLeftBorder() - 256 && e.getX() < getRightBorder() + 256 && e.getY() > getTopBorder() - 100 && e.getY() < getBottomBorder() + 100)
+			if(e.getX() > getLeftBorder() - 256 && e.getX() < getRightBorder() + 256 && e.getY() > getTopBorder() - 512 && e.getY() < getBottomBorder() + 512)
 			{
 				e.update();
 			}
@@ -235,7 +235,7 @@ public class Handler {
 			{
 				eventList.remove(event);
 			}else{
-				if(event.getX() > getLeftBorder() - WIDTH && event.getX() < getRightBorder() + WIDTH && event.getY() > getTopBorder() - 512 && event.getY() < getBottomBorder() + 512)
+				if(event.getX() > getLeftBorder() - WIDTH && event.getX() < getRightBorder() + WIDTH && event.getY() > getTopBorder() - HEIGHT && event.getY() < getBottomBorder() + HEIGHT)
 				{
 					event.draw();
 				}
@@ -277,12 +277,15 @@ public class Handler {
 		obstacleList.clear();
 		eventList.clear();
 		collectableList.clear();
+		lampList.clear();
 		
 		// clean lights
 		lights.clear();
 		
 		// clear old projectiles
 		projectileList.clear();
+		
+		shadowObstacleList.clear();
 	}
 
 	public TileGrid getMap() {

@@ -125,7 +125,7 @@ public class Lamp implements Entity{
 			new Vector2f(x + MOVEMENT_X + width / 2, y + MOVEMENT_Y), // right bottom
 			new Vector2f(x + MOVEMENT_X + width / 2, y + MOVEMENT_Y), // right top
 			
-			new Vector2f(x + MOVEMENT_X + width / 2, y + MOVEMENT_Y - 2), // left top
+			new Vector2f(x + MOVEMENT_X + width / 2, y + MOVEMENT_Y), // left top
 			new Vector2f(x + MOVEMENT_X + width / 2, y + MOVEMENT_Y), // left bottom
 			new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height/2), // right bottom
 			new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y) // right top

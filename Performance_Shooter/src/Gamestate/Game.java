@@ -62,7 +62,7 @@ public class Game {
 		backgroundHandler.draw();
 		
 		// render sun, lava
-		//renderSingleLightStatic(shadowObstacleList, sun);
+		renderSingleLightStatic(shadowObstacleList, sun);
 
 		// draw map, game-objects
 		handler.draw();
