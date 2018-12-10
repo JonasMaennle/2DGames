@@ -28,7 +28,7 @@ public class Game {
 		this.backgroundHandler = new BackgroundHandler(handler.getCurrentEntity(), handler);
 		this.handler = handler;
 		
-		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 0.4f); // 200, 80, 0, 0.4f);
+		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 0.3f); // 200, 80, 0, 0.4f);
 		
 		
 		setupUI();
@@ -38,7 +38,7 @@ public class Game {
 	{
 		camera.update();
 		handler.update();
-		sun.setLocation(new Vector2f(WIDTH + 700, -700));
+		sun.setLocation(new Vector2f(WIDTH*3 + MOVEMENT_X, -HEIGHT*3 + MOVEMENT_Y));
 
 		
 		while(Keyboard.next())
