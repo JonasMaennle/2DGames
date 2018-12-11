@@ -57,6 +57,10 @@ public class HeadUpDisplay {
 	
 	public void draw()
 	{
+		// change weapon image if ammo == 0
+		if(shotsLeft == 0)
+			hud_weapon = quickLoaderImage("player/weapon_right");
+		
 		// draw HUD image
 		drawQuadImageStatic(hud, (WIDTH/2) - 500, 0, hud.getWidth(), hud.getHeight());
 		// draw HUD weapon
