@@ -11,6 +11,7 @@ import data.Handler;
 import data.TileGrid;
 import object.Goal;
 import object.Lamp;
+import object.LaserPortal;
 import object.enemy.EwokArcherEnemy;
 import object.enemy.EwokArcherEnemyRed;
 import object.enemy.EwokSoldierEnemy;
@@ -291,6 +292,13 @@ public class Leveler {
 					grid.setTile(x, y, TileType.Ice_Basic);
 					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
+				}
+		// Laser Portal
+				if(red == 190 && green == 75 && blue == 75)
+				{
+					LaserPortal l = new LaserPortal( x * TILE_SIZE, y * TILE_SIZE);
+					handler.portalList.add(l);
+					shadowObstacleList.add(l);
 				}
 		// Lava 
 				if(red == 200 && green == 70 && blue == 0)

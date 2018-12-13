@@ -16,6 +16,7 @@ import Gamestate.StateManager;
 import UI.UI;
 import object.Goal;
 import object.Lamp;
+import object.LaserPortal;
 import object.Tile;
 import object.enemy.Enemy;
 import object.entity.AT_ST_Walker;
@@ -32,6 +33,7 @@ public class Handler {
 	public CopyOnWriteArrayList<Enemy> enemyList;
 	public CopyOnWriteArrayList<MapCollectable> collectableList;
 	public CopyOnWriteArrayList<Lamp> lampList;
+	public CopyOnWriteArrayList<LaserPortal> portalList;
 	
 	public Player player;
 	public AT_ST_Walker at_st_walker;
@@ -52,6 +54,7 @@ public class Handler {
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.collectableList = new CopyOnWriteArrayList<>();
 		this.lampList = new CopyOnWriteArrayList<>();
+		this.portalList = new CopyOnWriteArrayList<>();
 		
 		this.player = null;
 		this.at_st_walker = null;
@@ -82,6 +85,15 @@ public class Handler {
 			if(e.getX() > getLeftBorder() - 256 && e.getX() < getRightBorder() + 256 && e.getY() > getTopBorder() - 512 && e.getY() < getBottomBorder() + 512)
 			{
 				e.update();
+			}
+		}
+		
+		// update laser portal
+		for(LaserPortal l : portalList)
+		{
+			if(l.getX() > getLeftBorder() - 64 && l.getX() < getRightBorder() + 64 && l.getY() > getTopBorder() - 64 && l.getY() < getBottomBorder() + 64)
+			{
+				l.update();
 			}
 		}
 		
@@ -212,6 +224,15 @@ public class Handler {
 			}
 		}
 		
+		// update laser portal
+		for(LaserPortal l : portalList)
+		{
+			if(l.getX() > getLeftBorder() - 64 && l.getX() < getRightBorder() + 64 && l.getY() > getTopBorder() - 64 && l.getY() < getBottomBorder() + 64)
+			{
+				l.draw();
+			}
+		}
+		
 		// draw "dead" projectiles
 		for(Entity e : projectileList)
 		{
@@ -278,6 +299,7 @@ public class Handler {
 		eventList.clear();
 		collectableList.clear();
 		lampList.clear();
+		portalList.clear();
 		
 		// clean lights
 		lights.clear();
