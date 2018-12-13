@@ -30,7 +30,6 @@ public class Game {
 		
 		this.sun = new Light(new Vector2f(WIDTH, 1), 200, 80, 0, 0.3f); // 200, 80, 0, 0.4f);
 		
-		
 		setupUI();
 	}
 	
@@ -38,7 +37,7 @@ public class Game {
 	{
 		camera.update();
 		handler.update();
-		sun.setLocation(new Vector2f(WIDTH*3 + MOVEMENT_X, -HEIGHT*3 + MOVEMENT_Y));
+		if(sun != null)sun.setLocation(new Vector2f(WIDTH*3 + MOVEMENT_X, -HEIGHT*3 + MOVEMENT_Y));
 
 		
 		while(Keyboard.next())
@@ -62,17 +61,14 @@ public class Game {
 		backgroundHandler.draw();
 		
 		// render sun, lava
-		renderSingleLightStatic(shadowObstacleList, sun);
+		if(sun != null)renderSingleLightStatic(shadowObstacleList, sun);
 
 		// draw map, game-objects
 		handler.draw();
 		renderLightEntity(shadowObstacleList);
 		
-
-
 		// draw ingame UI
-		updateUI();
-		
+		updateUI();	
 	}
 	
 	private void updateUI()

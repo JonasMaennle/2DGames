@@ -250,7 +250,7 @@ public class Tile implements Entity{
 		}
 		
 		// rock (full)
-		if(type == TileType.Rock_Basic || type == TileType.Rock_Decoration || type == TileType.Dirt_Basic)
+		if(type == TileType.Rock_Basic || type == TileType.Rock_Decoration || type == TileType.Dirt_Basic || type == TileType.Metal_Basic)
 		{
 			return new Vector2f[] {
 					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), // left top

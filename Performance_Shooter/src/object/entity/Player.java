@@ -5,6 +5,7 @@ import org.lwjgl.input.Mouse;
 
 import static helpers.Leveler.*;
 import static helpers.Setup.*;
+import static Gamestate.StateManager.*;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
@@ -68,7 +69,8 @@ public class Player implements Entity{
 		this.frameCount = 100;
 		this.jetpack = null;
 
-		this.gravity = 4;
+		if(ENVIRONMENT.equals("SPACE"))this.gravity = 2;
+		if(ENVIRONMENT.equals(""))this.gravity = 4;
 		this.idleStop = 9;
 		this.shooting = false;
 		this.onIce = false;

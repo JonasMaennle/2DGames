@@ -21,9 +21,10 @@ public class StateManager {
 	}
 	
 	// Start parameter
-	private static final int START_LEVEL = 1;
+	private static final int START_LEVEL = 5;
 	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
 	public static String ENVIRONMENT_SETTING = "";
+	public static String ENVIRONMENT = "";
 	
 	public static GameState lastState = GameState.MAINMENU;
 	public static int CURRENT_LEVEL = (START_LEVEL - 1);
@@ -150,8 +151,16 @@ public class StateManager {
 			game.setSun(new Light(new Vector2f(WIDTH + 700, -700), 153, 214, 255, 0.4f));
 			break;
 		case 5:
+			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("intro/Background_Space"), quickLoaderImage("intro/Background_Space"));
+			ENVIRONMENT_SETTING = "";
+			ENVIRONMENT = "SPACE";
+			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
+			game.setSun(null);
+			break;
+		case 6:
 			game.getBackgroundHandler().setCustomBackground(quickLoaderImage("background/background_03"), quickLoaderImage("background/background_00"));
 			ENVIRONMENT_SETTING = "";
+			ENVIRONMENT = "";
 			game.setSun(new Light(new Vector2f(WIDTH + 700, -700), 200, 80, 0, 0.4f));
 			
 			loadingScreen = new LoadingScreen(this);

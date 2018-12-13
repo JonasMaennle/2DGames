@@ -154,7 +154,14 @@ public class Leveler {
 					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
-				
+		// Metal Tile
+				// Grey -> Rock_Basic
+				if(red == 42 && green == 42 && blue == 42)
+				{
+					grid.setTile(x, y, TileType.Metal_Basic);
+					handler.obstacleList.add(grid.getTile(x, y));
+					shadowObstacleList.add(grid.getTile(x, y));
+				}
 		// Player Tile
 				// Red -> Player
 				if(red == 255 && green == 0 && blue == 0)

@@ -34,6 +34,8 @@ public enum TileType {
 	Rock_Basic("Rock_Basic_0", 200, TILE_SIZE, TILE_SIZE, 12895428),
 	Rock_Half("Rock_Half", 200, TILE_SIZE, TILE_SIZE/2, 5263440),
 
+	Metal_Basic("Metal_Basic", 200, TILE_SIZE, TILE_SIZE, 2763306),
+	
 	Platform("platform", 200, 128, 256, 4587775),
 	
 	NULL("Blank", 0, TILE_SIZE, TILE_SIZE, 16777215);
