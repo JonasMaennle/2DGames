@@ -91,10 +91,10 @@ public class Handler {
 		// update laser portal
 		for(LaserPortal l : portalList)
 		{
-			if(l.getX() > getLeftBorder() - 64 && l.getX() < getRightBorder() + 64 && l.getY() > getTopBorder() - 64 && l.getY() < getBottomBorder() + 64)
-			{
+//			if(l.getX() > getLeftBorder() - 64 && l.getX() < getRightBorder() + 64 && l.getY() > getTopBorder() - 64 && l.getY() < getBottomBorder() + 64)
+//			{
 				l.update();
-			}
+//			}
 		}
 		
 		// update goal

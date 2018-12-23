@@ -17,6 +17,7 @@ import UI.HeadUpDisplay;
 import data.Camera;
 import data.Handler;
 import object.Jetpack;
+import object.LaserPortal;
 import object.Tile;
 import object.weapon.MapCollectable;
 import object.weapon.Minigun;
@@ -31,7 +32,7 @@ public class Player implements Entity{
 	
 	private Weapon weapon;
 	private Jetpack jetpack;
-	private Rectangle rectLeft, rectRight, rectTop, rectBottom, rectRampSensor;
+	private Rectangle rectLeft, rectRight, rectTop, rectBottom, rectRampSensor, rectModelBounds;
 	private Handler handler;
 	
 	protected float x, y, velX, velY, snowVelX;
@@ -79,6 +80,7 @@ public class Player implements Entity{
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
 		this.rectRampSensor = new Rectangle(1, 1, 1, 1);
+		this.rectModelBounds = new Rectangle(1, 1, 1, 1);
 		this.weapon = new Weapon(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_left"), quickLoaderImage("player/weapon_right"));
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
@@ -222,7 +224,11 @@ public class Player implements Entity{
 		x += velX * speed;
 		y += velY * speed;
 		
+		// several collision detections
 		mapCollision();
+		otherEntityCollision();
+		collectableCollision();
+		laserPortalCollision();
 
 		if(!jumping && velY != 0)
 		{
@@ -401,7 +407,10 @@ public class Player implements Entity{
 				updateBounds();
 			}
 		}
-		
+	}
+	
+	private void otherEntityCollision()
+	{
 		// AT_ST Walker
 		if(handler.at_st_walker != null && !handler.at_st_walker.isEnabled() && Keyboard.isKeyDown(Keyboard.KEY_C))
 		{
@@ -420,7 +429,10 @@ public class Player implements Entity{
 					enterSpeeder();
 			}
 		}
-		
+	}
+	
+	private void collectableCollision()
+	{
 		// collectables
 		for(MapCollectable w : handler.collectableList)
 		{
@@ -456,6 +468,17 @@ public class Player implements Entity{
 		}
 	}
 	
+	private void laserPortalCollision()
+	{
+		for(LaserPortal l : handler.portalList)
+		{
+			if(rectModelBounds.intersects(l.getLaserBounds()))
+			{
+				damage(5);
+			}
+		}
+	}
+	
 	private void enterATST()
 	{
 		velX = 0;
@@ -487,6 +510,8 @@ public class Player implements Entity{
 		drawQuad((int)x + 14,(int) y + (TILE_SIZE * 2)-16, TILE_SIZE - 28, 16); // bottom
 		
 		drawQuad((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
+		
+		drawQuad((int)x + 10, (int)y, 44, TILE_SIZE*2);
 	}
 	
 	private void updateBounds()
@@ -497,6 +522,8 @@ public class Player implements Entity{
 		this.rectBottom.setBounds((int)x + 14,(int) y + (TILE_SIZE * 2)-16, TILE_SIZE - 28, 16); // bottom
 		
 		this.rectRampSensor.setBounds((int)x+(TILE_SIZE/2)-2, (int)y + (TILE_SIZE*2) - 16, 4, 4);
+		
+		this.rectModelBounds.setBounds((int)x + 10, (int)y, 44, TILE_SIZE*2);
 	}
 	
 	private void jump()
