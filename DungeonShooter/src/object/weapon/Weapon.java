@@ -12,7 +12,6 @@ import object.Tile;
 import object.enemy.Enemy;
 import object.entity.Player;
 
-import static helpers.Graphics.*;
 import static helpers.Leveler.TILES_HEIGHT;
 import static helpers.Setup.*;
 
@@ -53,8 +52,8 @@ public class Weapon implements Entity{
 	// Check Laser - Map collision
 	public void update() 
 	{
-		this.x = player.getX() + 32;
-		this.y = player.getY() + 25;
+		this.x = player.getX() + 28;
+		this.y = player.getY() + 28;
 		
 		for(Laser l : list)
 		{
@@ -95,33 +94,18 @@ public class Weapon implements Entity{
 			l.draw();
 		}
 
-		drawQuadImageRotRight(default_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
+		//drawQuadImageRotRight(default_left, player.getX()-92, player.getY()+6, width, height, angle - 180);
 
 	}
 	
 	public void shoot()
 	{
-		// walk right
-		if(player.getDirection().equals("right") && destX > laserSpawnX)
-		{
-			if(destX < x + (width/2))
-			{
-				destX = getRightBorder() - destX;
-			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
-			laserShotSound.play();
-		}
-		
-		// walk left
-		if(player.getDirection().equals("left") && destX < laserSpawnX)
-		{
-			if(destX > x + (width/2))
-			{
-				destX = getLeftBorder() + destX;
-			}
-			list.add(new Laser(laserSpawnX, laserSpawnY, destX, destY, 24, 4, 30, "red", angle));
-			laserShotSound.play();
-		}
+//		if(destX < x + (width/2))
+//		{
+//			destX = getRightBorder() - destX;
+//		}
+		list.add(new Laser(x, y, destX, destY, 24, 4, 30, "red", angle));
+		laserShotSound.play();	
 	}
 	
 	// Calc Angle in degree between x,y and destX,destY <- nice
@@ -132,34 +116,9 @@ public class Weapon implements Entity{
 	    if(angle < 0){
 	        angle += 360;
 	    }
-	    // block angle 320 - 360 && 0 - 30
-	    if(player.getDirection().equals("right"))
-	    {
-	    	if(angle < 320 && angle > 180)
-	    	{
-	    		angle = 320;
-	    	}else if(angle > 30 && angle < 180)
-	    	{
-	    		angle = 30;
-	    	}else{
-	    		this.destX = destX;
-	    		this.destY = destY;
-	    	}
-	    }
-	    // block angle if 220 - 180 && 180 - 150
-	    if(player.getDirection().equals("left"))
-	    {
-	    	if(angle > 220 && angle < 360)
-	    	{
-	    		angle = 220;
-	    	}else if(angle < 150 && angle > 0)
-	    	{
-	    		angle = 150;
-	    	}else{
-	    		this.destX = destX;
-	    		this.destY = destY;
-	    	}
-	    }
+	    
+		this.destX = destX;
+		this.destY = destY;
 		//System.out.println("Angle: " + angle);
 	}
 	

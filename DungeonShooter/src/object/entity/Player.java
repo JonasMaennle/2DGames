@@ -18,6 +18,7 @@ import object.weapon.MapCollectable;
 import object.weapon.Minigun;
 import object.weapon.Shotgun;
 import object.weapon.Weapon;
+import shader.Light;
 
 import static helpers.Graphics.*;
 
@@ -29,11 +30,11 @@ public class Player implements Entity{
 	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	private Handler handler;
 	private Image imgPlayer;
+	private Light playerLight;
 	
 	protected float x, y, velX, velY, snowVelX;
 	private float speed;
 
-	private String direction;
 	private boolean shooting;
 	
 	public Player(float x, float y, Handler handler)
@@ -44,8 +45,9 @@ public class Player implements Entity{
 		this.velY = 0;
 		this.x = x; 
 		this.y = y;
-		this.direction = "right";
+		
 
+		this.playerLight = new Light(new Vector2f(0, 0), 240, 80, 50, 10);
 		this.shooting = false;
 		
 		this.imgPlayer = quickLoaderImage("player/player_tmp");
@@ -67,12 +69,10 @@ public class Player implements Entity{
 		if(Keyboard.isKeyDown(Keyboard.KEY_D))
 		{
 			velX += 1;
-			direction = "right";
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A))
 		{
 			velX -= 1;
-			direction = "left";
 		}		
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S))
@@ -88,17 +88,16 @@ public class Player implements Entity{
 		// Shoot
 		if(Mouse.isButtonDown(0) && !shooting && Mouse.getY() < HEIGHT - 100)
 		{
-			if(!(weapon instanceof Minigun))shooting = true;
-			//System.out.println(Mouse.getY());
-			if(HeadUpDisplay.shotsLeft > 0 || HeadUpDisplay.shotsLeft == -1)weapon.shoot();
+			shooting = true;
+			weapon.shoot();
 			
-			if(HeadUpDisplay.shotsLeft == 0)
-			{
-				HeadUpDisplay.shotsLeft = -1;
-				weapon.addToProjectileList();
-				setWeapon(new Weapon(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_left"), quickLoaderImage("player/weapon_right")));
-				HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_right");
-			}
+//			if(HeadUpDisplay.shotsLeft == 0)
+//			{
+//				HeadUpDisplay.shotsLeft = -1;
+//				weapon.addToProjectileList();
+//				setWeapon(new Weapon(x, y, 70, 35, this, handler, quickLoaderImage("player/weapon_left"), quickLoaderImage("player/weapon_right")));
+//				HeadUpDisplay.hud_weapon = quickLoaderImage("player/weapon_right");
+//			}
 		}
 			
 		if(!Mouse.isButtonDown(0))
@@ -121,10 +120,17 @@ public class Player implements Entity{
 	
 	public void draw()
 	{	
-		//weapon.draw();
+		weapon.draw();
 
 		//drawBounds();
-		imgPlayer.draw(x + MOVEMENT_X, y + MOVEMENT_Y);
+		
+
+		// move and draw light
+		playerLight.setLocation(new Vector2f(x + MOVEMENT_X + 32, y + MOVEMENT_Y + 32));	
+		renderSingleLightMouse(shadowObstacleList, playerLight);
+		
+		drawQuadImage(imgPlayer, x, y, 64, 64);
+		
 	}
 	
 	public void mapCollision()
@@ -296,14 +302,6 @@ public class Player implements Entity{
 
 	public void setVelX(float velX) {
 		this.velX = velX;
-	}
-
-	public String getDirection() {
-		return direction;
-	}
-
-	public void setDirection(String direction) {
-		this.direction = direction;
 	}
 
 	public Rectangle getRectLeft() {

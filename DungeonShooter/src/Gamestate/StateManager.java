@@ -46,13 +46,13 @@ public class StateManager {
 		this.game = new Game(handler);
 		this.cursor = quickLoaderImage("objects/cursor");
 		
-		this.red_color = 244;
-		this.green_color = 128;
-		this.blue_color = 66;
-		this.lightRadius = 12;
+		this.red_color = 102;
+		this.green_color = 255;
+		this.blue_color = 51;
+		this.lightRadius = 30;
 		
 		this.mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
-		Mouse.setGrabbed(true);
+		Mouse.setGrabbed(false);
 	}
 	
 	public void update()
@@ -100,7 +100,7 @@ public class StateManager {
 //		if(mouseLight.getRadius() != 0)
 //			mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
 		
-		drawQuadImageStatic(cursor, Mouse.getX() - 16, HEIGHT - Mouse.getY() - 16, 32, 32);
+		//drawQuadImageStatic(cursor, Mouse.getX() - 16, HEIGHT - Mouse.getY() - 16, 32, 32);
 	}
 	
 	public void loadLevel()

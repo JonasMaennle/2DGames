@@ -19,39 +19,6 @@ public class Laser implements Entity{
 	private Light light;
 	private long timeAlive;
 	
-	public Laser(float x, float y, float width, float height, String direction, int speed, String color, float angle)
-	{
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.angle = angle;
-		this.speed = speed;
-		this.timeAlive = System.currentTimeMillis();
-		
-		if(color.equals("red"))
-		{
-			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 5, 0, 0, 1f);
-			this.image = quickLoaderImage("player/laser_small_red");
-		}else if(color.equals("green"))
-		{
-			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 5, 0, 1f);
-			this.image = quickLoaderImage("player/laser_small_green");
-		}else if(color.equals("blue"))
-		{
-			this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 0, 0, 5, 2f);
-			this.image = quickLoaderImage("enemy/laser_blue");
-		}
-
-		
-		if(direction.equals("right"))
-			velX = 1;
-		else
-			velX = -1;
-		
-		lights.add(light);
-	}
-	
 	public Laser(float x, float y, float destX, float destY, float width, float height, int speed, String color, float angle)
 	{
 		this.x = x;
