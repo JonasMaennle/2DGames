@@ -5,7 +5,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import UI.HeadUpDisplay;
 import data.Handler;
 import data.ParticleEvent;
 import object.Tile;

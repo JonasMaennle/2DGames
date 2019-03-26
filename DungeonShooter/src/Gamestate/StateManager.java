@@ -100,7 +100,7 @@ public class StateManager {
 //		if(mouseLight.getRadius() != 0)
 //			mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
 		
-		//drawQuadImageStatic(cursor, Mouse.getX() - 16, HEIGHT - Mouse.getY() - 16, 32, 32);
+		drawQuadImageStatic(cursor, Mouse.getX() - 16, HEIGHT - Mouse.getY() - 16, 32, 32);
 	}
 	
 	public void loadLevel()
