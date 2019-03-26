@@ -19,7 +19,7 @@ import static Gamestate.StateManager.*;
 
 public class Tile implements Entity{
 	
-	private float x, y, maxX, minX, velX;
+	private float x, y;
 	private int width, height, hp;
 	private TileType type;
 	private Image image;
@@ -44,16 +44,8 @@ public class Tile implements Entity{
 		this.image = quickLoaderImage("tiles/" + type.textureName + "" + ENVIRONMENT_SETTING);
 		tileCounter++;
 		this.aImage = new Image[2];
-		this.maxX = x + TILE_SIZE * 2;
-		this.minX = x - TILE_SIZE * 2;
-		this.velX = 1;
 		this.index = 0;
-		
-		if(type == TileType.Rock_Half)
-		{
-			this.maxX = x + TILE_SIZE * 3;
-			this.minX = x - TILE_SIZE * 3;
-		}
+
 		if(type == TileType.Lava)
 		{
 			this.anim = new Animation(loadSpriteSheet("tiles/Lava_Sheet", 64, 64), 1000);
@@ -90,11 +82,7 @@ public class Tile implements Entity{
 
 	public void draw()
 	{
-		
-		if(type == TileType.Rock_Basic)
-		{
-			drawQuadImage(aImage[index], x, y, TILE_SIZE, TILE_SIZE);
-		}else if(type == TileType.Lava)
+		if(type == TileType.Lava)
 		{
 			drawAnimation(anim, x, y, width, height);
 		}else if(type == TileType.Lava_Light)
@@ -191,14 +179,6 @@ public class Tile implements Entity{
 		this.image = image;
 	}
 
-	public float getVelX() {
-		return velX;
-	}
-
-	public void setVelX(float velX) {
-		this.velX = velX;
-	}
-
 	@Override
 	public float getVelY() {
 		// TODO Auto-generated method stub
@@ -214,37 +194,6 @@ public class Tile implements Entity{
 	@Override
 	public Vector2f[] getVertices() 
 	{	
-		// ramp start
-		if(type == TileType.Ramp_Start)
-		{
-			return new Vector2f[] {
-					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left top
-					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
-					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
-					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height/2) // right top
-			};
-		}
-		// ramp end
-		if(type == TileType.Ramp_End)
-		{
-			return new Vector2f[] {
-					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height/2), // left top
-					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
-					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
-					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height) // right top
-			};
-		}
-		
-		// rock (full)
-		if(type == TileType.Rock_Basic || type == TileType.Rock_Decoration || type == TileType.Dirt_Basic || type == TileType.Metal_Basic)
-		{
-			return new Vector2f[] {
-					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), // left top
-					new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
-					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
-					new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y) // right top
-			};
-		}
 		
 		// non
 		if(type == TileType.Lava_Light || type == TileType.Lava)
@@ -259,10 +208,10 @@ public class Tile implements Entity{
 		
 		// lower top
 		return new Vector2f[] {
-				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 10), // left top
+				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), // left top
 				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
 				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
-				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + 10) // right top
+				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y) // right top
 		};
 	}
 
@@ -294,5 +243,11 @@ public class Tile implements Entity{
 	public Rectangle getRightBounds()
 	{
 		return new Rectangle((int)x + width-4, (int)y + 4, 4, height - 8);
+	}
+
+	@Override
+	public float getVelX() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

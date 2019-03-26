@@ -6,7 +6,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import Enity.Entity;
-import Enity.TileType;
 import data.Handler;
 import data.ParticleEvent;
 import object.Tile;
@@ -67,8 +66,7 @@ public class Weapon implements Entity{
 				{
 					l.removeLight();
 					list.remove(l);
-					if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, 0, "gray", "normal"));
-					if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, 0, "brown", "normal"));
+					handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, 0, "gray", "normal"));
 				}
 				if(l.isOutOfMap())
 				{

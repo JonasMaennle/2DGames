@@ -5,7 +5,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
-import Enity.TileType;
 import UI.HeadUpDisplay;
 import data.Handler;
 import data.ParticleEvent;
@@ -23,7 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Minigun extends Weapon{
 	
 	private float angle, destX, destY;
-	private Image default_right, default_left;
+	private Image default_left;
 	private CopyOnWriteArrayList<Laser> list;
 	private Sound laserShotSound;
 	private float laserSpawnX, laserSpawnY;
@@ -62,8 +61,7 @@ public class Minigun extends Weapon{
 				{
 					l.removeLight();
 					list.remove(l);
-					if(tile.getType() == TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, 0, "gray", "normal"));
-					if(tile.getType() != TileType.Rock_Basic)handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, 0, "brown", "normal"));
+					handler.addParticleEvent(new ParticleEvent((int)tile.getX() + TILE_SIZE / 2, (int)tile.getY() + TILE_SIZE / 2, 10, 0, "gray", "normal"));
 				}
 				if(l.isOutOfMap())
 				{

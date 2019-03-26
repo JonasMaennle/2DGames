@@ -39,122 +39,15 @@ public class Leveler {
 				int green = c.getGreen();
 				int blue = c.getBlue();
 				
-		// Grass Tiles
+		// Default Wall
 				// Black -> Grass_Flat
 				if(red == 0 && green == 0 && blue == 0)
 				{
-					grid.setTile(x, y, TileType.Grass_Flat);
+					grid.setTile(x, y, TileType.Default);
 					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
-				// Grey -> Grass_Left
-				if(red == 64 && green == 64 && blue == 64)
-				{
-					grid.setTile(x, y, TileType.Grass_Left);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Grey -> Grass_Right
-				if(red == 48 && green == 48 && blue == 48)
-				{
-					grid.setTile(x, y, TileType.Grass_Right);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Grey -> Grass_Round
-				if(red == 128 && green == 128 && blue == 128)
-				{
-					grid.setTile(x, y, TileType.Grass_Round);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Brown -> Grass_Round_Half -> velX = 1
-				if(red == 100 && green == 50 && blue == 50)
-				{
-					grid.setTile(x, y, TileType.Grass_Round_Half);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Brown -> Grass_Round_Half -> velX = -1
-				if(red == 100 && green == 50 && blue == 100)
-				{
-					grid.setTile(x, y, TileType.Grass_Round_Half);
-					grid.getTile(x, y).setVelX(-1);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Brown -> Grass_Left_Half
-				if(red == 150 && green == 50 && blue == 50)
-				{
-					grid.setTile(x, y, TileType.Grass_Left_Half);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Brown -> Grass_Right_Half
-				if(red == 150 && green == 50 && blue == 70)
-				{
-					grid.setTile(x, y, TileType.Grass_Right_Half);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Brown -> Grass_Flat_Half
-				if(red == 150 && green == 70 && blue == 70)
-				{
-					grid.setTile(x, y, TileType.Grass_Flat_Half);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-		// Dirt Tile
-				// brown -> Dirt_Basic
-				if(red == 127 && green == 50 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.Dirt_Basic);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Ramp Start
-				if(red == 80 && green == 50 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.Ramp_Start);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Ramp End
-				if(red == 70 && green == 50 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.Ramp_End);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-		// Rock Tile
-				// Grey -> Rock_Basic
-				if(red == 196 && green == 196 && blue == 196)
-				{
-					grid.setTile(x, y, TileType.Rock_Basic);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Grey -> Rock_Basic
-				if(red == 225 && green == 225 && blue == 225)
-				{
-					grid.setTile(x, y, TileType.Rock_Decoration);
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-				// Movable half block
-				if(red == 80 && green == 80 && blue == 80)
-				{
-					grid.setTile(x, y, TileType.Rock_Half);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
-		// Metal Tile
-				// Grey -> Rock_Basic
-				if(red == 42 && green == 42 && blue == 42)
-				{
-					grid.setTile(x, y, TileType.Metal_Basic);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
-				}
+
 		// Player Tile
 				// Red -> Player
 				if(red == 255 && green == 0 && blue == 0)
@@ -176,67 +69,6 @@ public class Leveler {
 				if(red == 255 && green == 175 && blue == 0)
 				{
 					handler.collectableList.add(new MapCollectable(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE*2, "Jetpack",quickLoaderImage("player/jetpack_left_full")));
-				}
-		// Tree stump
-				if(red == 80 && green == 0 && blue == 127) // Stump Left
-				{
-					grid.setTile(x, y, TileType.TreeStump_Left);
-					handler.obstacleList.add(grid.getTile(x, y));
-				}
-				if(red == 85 && green == 0 && blue == 127) // Stump Center
-				{
-					grid.setTile(x, y, TileType.TreeStump_Center);
-					handler.obstacleList.add(grid.getTile(x, y));
-				}
-				if(red == 90 && green == 0 && blue == 127) // Stump Right
-				{
-					grid.setTile(x, y, TileType.TreeStump_Right);
-					handler.obstacleList.add(grid.getTile(x, y));
-				}
-		// Decoration Tile -> Tree
-				// Redwood
-				if(red == 180 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_01);
-				}
-				if(red == 170 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_02);
-				}
-				if(red == 160 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_03);
-				}
-				if(red == 150 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_04);
-				}
-				if(red == 140 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_05);
-				}
-				if(red == 130 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_06);
-				}
-				if(red == 120 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_07);
-				}
-				if(red == 110 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_08);
-				}
-				if(red == 100 && green == 55 && blue == 0)
-				{
-					grid.setTile(x, y, TileType.RedWood_09);
-				}
-		// Ice
-				if(red == 0 && green == 148 && blue == 255)
-				{
-					grid.setTile(x, y, TileType.Ice_Basic);
-					handler.obstacleList.add(grid.getTile(x, y));
-					shadowObstacleList.add(grid.getTile(x, y));
 				}
 		// Lava 
 				if(red == 200 && green == 70 && blue == 0)

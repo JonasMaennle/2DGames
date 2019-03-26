@@ -46,10 +46,10 @@ public class StateManager {
 		this.game = new Game(handler);
 		this.cursor = quickLoaderImage("objects/cursor");
 		
-		this.red_color = 5;
-		this.green_color = 0;
-		this.blue_color = 0;
-		this.lightRadius = 4;
+		this.red_color = 244;
+		this.green_color = 128;
+		this.blue_color = 66;
+		this.lightRadius = 12;
 		
 		this.mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
 		Mouse.setGrabbed(true);
@@ -91,14 +91,14 @@ public class StateManager {
 		// draw cursor
 		mouseLight.setLocation(new Vector2f(Mouse.getX(), HEIGHT - Mouse.getY()));	
 		
-		mouseLight.setRadius(1);
+		//mouseLight.setRadius(300);
 		renderSingleLightMouse(shadowObstacleList, mouseLight);
 		
 		// Mouse update -> depends on rendering
-		if(mouseLight.getRadius() == 0)
-			mouseLight = new Light(new Vector2f(0, 0), 0, 0, 0, 0f);
-		if(mouseLight.getRadius() != 0)
-			mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
+//		if(mouseLight.getRadius() == 0)
+//			mouseLight = new Light(new Vector2f(0, 0), 0, 0, 0, 0f);
+//		if(mouseLight.getRadius() != 0)
+//			mouseLight = new Light(new Vector2f(0, 0), red_color, green_color, blue_color, lightRadius);
 		
 		drawQuadImageStatic(cursor, Mouse.getX() - 16, HEIGHT - Mouse.getY() - 16, 32, 32);
 	}
@@ -108,11 +108,6 @@ public class StateManager {
 		CURRENT_LEVEL++;
 		handler.wipe();
 		shadowObstacleList.clear();
-		
-		red_color = 5;
-		green_color = 0;
-		blue_color = 0;
-		lightRadius = 4;
 
 		switch (CURRENT_LEVEL) 
 		{

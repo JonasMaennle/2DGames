@@ -22,13 +22,7 @@ public class TileGrid {
 	
 	public void setTile(int xCoord, int yCoord, TileType type)
 	{
-		if(type == TileType.Grass_Round_Half || type == TileType.Grass_Left_Half || type == TileType.Grass_Right_Half || type == TileType.Grass_Flat_Half)
-		{
-			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type, handler);
-		}
-		else{
-			map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type, handler);
-		}
+		map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type, handler);	
 	}
 	
 	public Tile getTile(int xPlace, int yPlace)

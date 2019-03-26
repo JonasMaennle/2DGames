@@ -82,8 +82,6 @@ public class Handler {
 					t.update();
 				}
 			}
-			if(t.getType() == TileType.Grass_Round_Half || t.getType() == TileType.Rock_Half)
-				t.update();
 		}
 
 		// update particle if tile is dead
