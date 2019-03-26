@@ -5,6 +5,7 @@ import static helpers.Leveler.TILES_HEIGHT;
 import static helpers.Setup.TILE_SIZE;
 
 import java.awt.Rectangle;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,6 +18,7 @@ import Enity.Entity;
 import data.TileGrid;
 import object.weapon.Laser;
 import object.weapon.TestShot;
+import path.Node;
 import shader.Light;
 
 
@@ -37,7 +39,17 @@ public abstract class Enemy implements Entity{
 	protected long lastShot;
 	protected Image healthBackground, healthBorder, healthForeground;
 	protected Sound sound;
+	protected LinkedList<Node> path;
+	protected LinkedList<Node> visited;
 	
+	public LinkedList<Node> getPath() {
+		return path;
+	}
+
+	public void setPath(LinkedList<Node> path) {
+		this.path = path;
+	}
+
 	protected String direction;
 	
 	protected Image idleLeft, idleRight;

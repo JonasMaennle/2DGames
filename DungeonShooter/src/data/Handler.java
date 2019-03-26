@@ -1,7 +1,7 @@
 package data;
 
 import static Gamestate.StateManager.*;
-import static helpers.Graphics.drawQuadImageStatic;
+import static helpers.Graphics.*;
 import static helpers.Graphics.quickLoaderImage;
 import static helpers.Setup.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -35,7 +35,7 @@ public class Handler {
 	private long timer1, timer2;
 	private TileGrid map;
 	private UI gameUI;
-	private Image filter;
+	private Image filter, path;
 	
 	public Handler(StateManager statemanager)
 	{
@@ -45,6 +45,7 @@ public class Handler {
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.collectableList = new CopyOnWriteArrayList<>();
 		this.lampList = new CopyOnWriteArrayList<>();
+		this.path = quickLoaderImage("tiles/path");
 		
 		this.player = null;
 		this.filter = quickLoaderImage("background/filter");
@@ -151,6 +152,9 @@ public class Handler {
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
 		
+		// draw path
+		drawPath();
+		
 		// draw player
 		if(gameState != GameState.DEAD && player != null)
 			player.draw();
@@ -231,6 +235,17 @@ public class Handler {
 		projectileList.clear();
 		
 		shadowObstacleList.clear();
+	}
+	
+	private void drawPath()
+	{
+		for(Enemy e : enemyList)
+		{
+			for(int i = 0; i < e.getPath().size(); i++)
+			{
+				drawQuadImage(path, e.getPath().get(i).getX() * 64, e.getPath().get(i).getY() * 64, 64, 64);
+			}
+		}
 	}
 
 	public TileGrid getMap() {

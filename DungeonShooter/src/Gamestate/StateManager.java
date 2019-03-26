@@ -1,6 +1,8 @@
 package Gamestate;
 
 import data.Handler;
+import path.Graph;
+import path.PathfindingThread;
 import shader.Light;
 
 import static helpers.Graphics.*;
@@ -39,9 +41,12 @@ public class StateManager {
 	private Light mouseLight;
 	private int red_color, green_color, blue_color;
 	private float lightRadius;
+	private Graph graph;
+	private PathfindingThread pathThread;
 	
 	public StateManager()
 	{
+		this.graph = new Graph();
 		this.handler = new Handler(this);
 		this.game = new Game(handler);
 		this.cursor = quickLoaderImage("objects/cursor");
@@ -113,10 +118,10 @@ public class StateManager {
 		{
 		// Szenario maps
 		case 1:
-			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
+			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL, graph));
 			break;
 		case 2:
-			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL));
+			handler.setMap(loadMap(handler, "maps/map_" + CURRENT_LEVEL, graph));
 			break;
 		default:
 			break;
@@ -125,6 +130,9 @@ public class StateManager {
 //			handler.player.setWeapon(new Shotgun(handler.player.getX(), handler.player.getY(), 70, 35, handler.player, handler, quickLoaderImage("player/weapon_shotgun_left"), quickLoaderImage("player/weapon_shotgun_right")));
 		HeadUpDisplay.shotsLeft = -1;
 		game.getCamera().setPlayer(handler.player);
+		
+		pathThread = new PathfindingThread(handler.enemyList, graph, handler);
+		pathThread.start();
 	}
 	
 	public void resetCurrentLevel()

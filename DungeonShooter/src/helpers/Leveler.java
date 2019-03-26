@@ -10,14 +10,17 @@ import Enity.TileType;
 import data.Handler;
 import data.TileGrid;
 import object.Lamp;
+import object.enemy.EnemyBasic;
 import object.entity.Player;
 import object.weapon.MapCollectable;
+import path.Graph;
+import path.Node;
 
 public class Leveler {
 	
 	public static int TILES_WIDTH, TILES_HEIGHT;
 	
-	public static TileGrid loadMap(Handler handler, String path)
+	public static TileGrid loadMap(Handler handler, String path, Graph graph)
 	{
 		Image image = quickLoaderImage(path);
 		//System.out.println(image.getResourceReference());
@@ -53,6 +56,14 @@ public class Leveler {
 				if(red == 255 && green == 0 && blue == 0)
 				{
 					handler.player = new Player(x * TILE_SIZE, y * TILE_SIZE, handler);
+					graph.addNode(new Node(x, y));
+				}
+		// Enemy Tile
+				// Yellow -> Player
+				if(red == 255 && green == 201 && blue == 0)
+				{
+					handler.enemyList.add(new EnemyBasic(x * TILE_SIZE, y * TILE_SIZE, 64, 64));
+					graph.addNode(new Node(x, y));
 				}
 		// Collectable
 				// Shotgun
@@ -112,8 +123,15 @@ public class Leveler {
 					handler.lampList.add(tmpLamp);
 					shadowObstacleList.add(tmpLamp);
 				}
+				// EMPTY -> add Node
+				if(red == 255 && green == 255 && blue == 255)
+				{
+					graph.addNode(new Node(x, y));
+				}
 			}
 		}
+		System.out.println(graph.countNodes());
+		graph.createMatrix();
 		return grid;
 	}
 }
