@@ -15,8 +15,6 @@ import static helpers.Setup.*;
 
 import java.awt.Rectangle;
 
-import static Gamestate.StateManager.*;
-
 public class Tile implements Entity{
 	
 	private float x, y;
@@ -41,7 +39,7 @@ public class Tile implements Entity{
 		this.hp = type.hp;
 		this.handler = handler;
 		this.timer = System.currentTimeMillis();
-		this.image = quickLoaderImage("tiles/" + type.textureName + "" + ENVIRONMENT_SETTING);
+		this.image = quickLoaderImage("tiles/" + type.textureName);
 		tileCounter++;
 		this.aImage = new Image[2];
 		this.index = 0;

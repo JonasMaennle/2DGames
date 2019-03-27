@@ -25,10 +25,7 @@ public class StateManager {
 	// Start parameter
 	private static final int START_LEVEL = 1;
 	public static GameState gameState = GameState.LOADING; // initial state -> gameState = GameState.MAINMENU;
-	public static String ENVIRONMENT_SETTING = "";
-	public static String ENVIRONMENT = "";
 	
-	public static GameState lastState = GameState.MAINMENU;
 	public static int CURRENT_LEVEL = (START_LEVEL - 1);
 
 	public static long nextSecond = System.currentTimeMillis() + 1000;
@@ -137,7 +134,7 @@ public class StateManager {
 	
 	public void resetCurrentLevel()
 	{
-		if(lastState != GameState.EDITOR)CURRENT_LEVEL--;
+		CURRENT_LEVEL--;
 		loadLevel();
 		HeadUpDisplay.playerHealth = 100;
 		gameState = GameState.GAME;
