@@ -2,7 +2,6 @@ package data;
 
 import static Gamestate.StateManager.*;
 import static helpers.Graphics.*;
-import static helpers.Graphics.quickLoaderImage;
 import static helpers.Setup.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 

@@ -1,18 +1,34 @@
 package core;
 
 import Entity.GameEntity;
+import object.Enemy_Basic;
 import object.Player;
+import object.Tile;
+
 import static core.Constants.*;
+import static helper.Graphics.*;
+
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Image;
 
 public class Handler {
+	
+	public CopyOnWriteArrayList<GameEntity> obstacleList;
+	public CopyOnWriteArrayList<Enemy_Basic> enemyList;
 	
 	private TileGrid map;
 	private GameEntity currentEntity;
 	private Player player;
+	private Image filter;
 	
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
+		this.obstacleList = new CopyOnWriteArrayList<>();
+		this.enemyList = new CopyOnWriteArrayList<>();
+		this.filter = quickLoaderImage("background/Filter");
 	}
 	
 	public void update(){
@@ -22,7 +38,10 @@ public class Handler {
 			currentEntity.update();
 		}
 		
-		
+		// update enemy
+		for(Enemy_Basic e : enemyList){
+			e.update();
+		}
 	}
 	
 	public void draw(){
@@ -35,6 +54,16 @@ public class Handler {
 		// draw player
 		if(StateManager.gameState != StateManager.GameState.DEATHSCREEN && player != null && currentEntity.equals(player))
 			player.draw();
+		
+		// draw enemy
+		for(Enemy_Basic e : enemyList){
+			e.draw();
+		}
+		
+		// Draw alpha FILTER
+//		GL11.glColor4f(0, 0, 0, 1f);
+//		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
+//		GL11.glColor4f(1, 1, 1, 1);
 	}
 	
 	public void wipe()
@@ -42,6 +71,8 @@ public class Handler {
 		player = null;
 		currentEntity = null;
 		map = null;
+		obstacleList.clear();
+		enemyList.clear();
 	}
 
 	public GameEntity getCurrentEntity() {

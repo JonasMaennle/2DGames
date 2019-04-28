@@ -47,7 +47,7 @@ public class Player implements Entity{
 		this.y = y;
 		
 
-		this.playerLight = new Light(new Vector2f(0, 0), 240, 80, 50, 10);
+		this.playerLight = new Light(new Vector2f(0, 0), 50, 200, 250, 5);
 		this.shooting = false;
 		
 		this.imgPlayer = quickLoaderImage("player/player_tmp");

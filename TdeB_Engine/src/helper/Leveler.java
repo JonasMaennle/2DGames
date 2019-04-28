@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import Entity.TileType;
 import core.Handler;
 import core.TileGrid;
+import object.Enemy_Basic;
 import object.Player;
 
 public class Leveler {
@@ -35,11 +36,12 @@ public class Leveler {
 				int green = c.getGreen();
 				int blue = c.getBlue();
 				
-		// Grass Tiles
+		// Test Tiles
 				// Black -> Default Tile
 				if(red == 0 && green == 0 && blue == 0)
 				{
 					grid.setTile(x, y, TileType.Default);
+					handler.obstacleList.add(grid.getTile(x, y));
 					shadowObstacleList.add(grid.getTile(x, y));
 				}
 		// Player Tile
@@ -48,8 +50,18 @@ public class Leveler {
 				{
 					handler.setPlayer(new Player(x * TILE_SIZE, y * TILE_SIZE, handler));
 				}
+		// Enemy	
+				// Blue -> Enemy
+				if(red == 0 && green == 0 && blue == 255)
+				{
+					Enemy_Basic tmp = new Enemy_Basic(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+					handler.enemyList.add(tmp);
+					//handler.obstacleList.add(tmp);
+					shadowObstacleList.add(tmp);
+				}
 			}
 		}
+		
 		handler.setCurrentEntity(handler.getPlayer());
 		return grid;
 	}

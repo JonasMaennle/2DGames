@@ -27,8 +27,10 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUniform3f;
 
+import java.awt.Robot;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.vector.Vector2f;
@@ -38,6 +40,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import Entity.GameEntity;
+import object.Enemy_Basic;
+import object.Tile;
 import shader.Light;
 
 public class Graphics {
@@ -210,7 +214,6 @@ public class Graphics {
 	// render all lights from light list
 	public static void renderLightEntity(CopyOnWriteArrayList<GameEntity> entityList){
 		//System.out.println(lights.size());
-
 		for (Light light : lights) 
 		{
 			glColorMask(false, false, false, false);
@@ -220,7 +223,7 @@ public class Graphics {
 			for (GameEntity e : entityList) 
 			{
 				// check if e is in range
-				if(e.getX() > getLeftBorder() - 64 && e.getX() < getRightBorder() + 64)
+				if(e.getX() > getLeftBorder() - 0 && e.getX() < getRightBorder() + 0)
 				{
 					Vector2f[] vertices = e.getVertices();
 					for (int i = 0; i < vertices.length; i++) 
@@ -232,7 +235,7 @@ public class Graphics {
 						Vector2f lightToCurrent = Vector2f.sub(currentVertex,
 								light.location, null);
 						if (Vector2f.dot(normal, lightToCurrent) > 0) 
-						{
+						{			
 							Vector2f point1 = Vector2f.add(
 									currentVertex,
 									(Vector2f) Vector2f.sub(currentVertex, light.location, null).
@@ -245,6 +248,7 @@ public class Graphics {
 									scale(800), 
 									null
 									);
+
 							glBegin(GL_QUADS);
 							{
 								glVertex2f(currentVertex.getX(), currentVertex.getY());
@@ -252,7 +256,7 @@ public class Graphics {
 								glVertex2f(point2.getX(), point2.getY());
 								glVertex2f(nextVertex.getX(), nextVertex.getY());
 							}
-							glEnd();
+							glEnd();	
 						}
 					}
 				}
