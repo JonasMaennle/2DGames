@@ -59,13 +59,13 @@ public class Game {
 		renderLightEntity(shadowObstacleList);
 
 		// draw filter
-		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
-			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){
-				GL11.glColor4f(0, 0, 0, alphaFilter[y][x]);
-				drawQuadImageStatic(filter, (x*32), (y*32), 32, 32);
-				GL11.glColor4f(1, 1, 1, 1);
-			}
-		}
+//		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
+//			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){
+//				GL11.glColor4f(0, 0, 0, alphaFilter[y][x]);
+//				drawQuadImageStatic(filter, (x*32), (y*32), 32, 32);
+//				GL11.glColor4f(1, 1, 1, 1);
+//			}
+//		}
 	}
 	
 	private void initFilter(){
