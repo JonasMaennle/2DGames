@@ -39,7 +39,7 @@ public class Player implements GameEntity{
 		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
 		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
 		
-		this.playerLight = new Light(new Vector2f(0, 0), 50, 250, 200, 10);
+		this.playerLight = new Light(new Vector2f(0, 0), 104, 224, 255, 10);
 		
 		lights.add(playerLight);
 	}

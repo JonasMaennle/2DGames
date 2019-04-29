@@ -23,7 +23,7 @@ public class Boot {
 	
 	public Boot()
 	{
-		Mouse.setGrabbed(true);
+		//Mouse.setGrabbed(true);
 		beginSession();
 		StateManager statemanager = new StateManager();
 		
