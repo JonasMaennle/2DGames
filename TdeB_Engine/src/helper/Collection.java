@@ -11,7 +11,6 @@ public class Collection {
 	
 	public static ArrayList<Light> lights = new ArrayList<Light>();
 	public static CopyOnWriteArrayList<GameEntity> shadowObstacleList = new CopyOnWriteArrayList<>();
-	public static CopyOnWriteArrayList<GameEntity> topFilterObstacle = new CopyOnWriteArrayList<>();
 	
 	public static float getLeftBorder(){
 		return MOVEMENT_X * -1;

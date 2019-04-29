@@ -2,6 +2,7 @@ package gamestate;
 
 import org.lwjgl.input.Keyboard;
 import static helper.Graphics.*;
+import static core.Constants.*;
 
 import java.awt.AWTException;
 import java.awt.Color;
@@ -28,6 +29,9 @@ public class Game {
 	private Camera camera;
 	private BackgroundHandler backgroundHandler;
 	private Image filter;
+	private float scale = 1.7f;
+	private float filterValue = 0.01f;
+	private float[][] filt;
 	
 	public Game(Handler handler)
 	{
@@ -35,6 +39,8 @@ public class Game {
 		this.camera = new Camera(handler.getCurrentEntity());
 		this.backgroundHandler = new BackgroundHandler();
 		this.filter = quickLoaderImage("background/Filter");
+		
+		init();
 	}
 	
 	public void update(){
@@ -60,14 +66,58 @@ public class Game {
 		
 		renderLightEntity(shadowObstacleList);
 		
-		// render filter for topFilterObstacle (objects in the fog of war)
-		for(GameEntity g : topFilterObstacle)
+		
+
+		
+		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++)
 		{
-			GL11.glColor4f(0, 0, 0, 1f);
-			drawQuadImageStatic(filter, g.getX() + MOVEMENT_X, g.getY() + MOVEMENT_Y, 32, 32);
-			GL11.glColor4f(1, 1, 1, 1);
+			for(int x = 0; x < WIDTH/TILE_SIZE; x++)
+			{
+				GL11.glColor4f(0, 0, 0, filt[y][x]);
+				drawQuadImageStatic(filter, (x*32), (y*32), 32, 32);
+				GL11.glColor4f(1, 1, 1, 1);
+			}
 		}
-		topFilterObstacle.clear();
+
+	}
+	
+	void init()
+	{
+		filt = new float[HEIGHT/TILE_SIZE + 1][WIDTH/TILE_SIZE]; 
+		
+		
+		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++)
+		{
+			for(int x = 0; x < WIDTH/TILE_SIZE; x++)
+			{
+				filt[y][x] = 1;
+			}
+		}
+		
+		// render filter for topFilterObstacle (objects in the fog of war)
+		for(int i = 0; i < HEIGHT/2/TILE_SIZE; i++)
+		{
+			filt = drawCircle(WIDTH/2/TILE_SIZE, HEIGHT/2/TILE_SIZE, i, filt);
+			filterValue *= scale;
+		}
+	}
+	
+	float[][] drawCircle(int x, int y, int r, float[][] array) {
+	    double PI = 3.1415926535;
+	    double i, angle, x1, y1;
+
+	    for (i = 0; i < 360; i += 1) {
+	        angle = i;
+	        x1 = r * Math.cos(angle * PI / 180);
+	        y1 = r * Math.sin(angle * PI / 180);
+
+	        int ElX = (int) Math.round(x + x1);
+	        int ElY = (int) Math.round(y + y1);
+	        
+	        array[ElY][ElX] = filterValue;
+	    }
+	    
+	    return array;
 	}
 
 	public Camera getCamera() {
