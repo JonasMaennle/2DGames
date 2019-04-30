@@ -41,6 +41,7 @@ public class Boot {
 	public static void main(String[] args) 
 	{
 		new Boot();
+		System.out.println("cahngew");
 	}
 	
 	private void beginSession()
