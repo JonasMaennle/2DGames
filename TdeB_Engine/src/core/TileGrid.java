@@ -2,6 +2,8 @@ package core;
 
 import static core.Constants.*;
 
+import org.newdawn.slick.Image;
+
 import Entity.TileType;
 import object.Tile;
 
@@ -18,15 +20,15 @@ public class TileGrid {
 		this.handler = handler;
 	}
 	
-	public void setTile(int xCoord, int yCoord, TileType type){
-		map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, type, handler);	
+	public void setTile(int xCoord, int yCoord, Image image){
+		map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, image, handler);	
 	}
 	
 	public Tile getTile(int xPlace, int yPlace){
 		if(xPlace < tilesWide && yPlace < tilesHigh && xPlace >= 0 && yPlace >= 0)
 		{
 			if(map[xPlace][yPlace] == null)
-				return new Tile(0, 0, TileType.NULL, handler);
+				return new Tile(0, 0, null, handler);
 			else
 				return map[xPlace][yPlace];
 		}

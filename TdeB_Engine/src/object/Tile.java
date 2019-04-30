@@ -19,15 +19,14 @@ public class Tile implements GameEntity{
 	private TileType type;
 	private Image image;
 	
-	public Tile(float x, float y, TileType type, Handler handler)
+	public Tile(float x, float y, Image image, Handler handler)
 	{
 		this.x = x;
 		this.y = y;
-		this.width = type.width;
-		this.height = type.height;
-		this.type = type;
+		this.width = TILE_SIZE;
+		this.height = TILE_SIZE;
 		
-		this.image = quickLoaderImage("tiles/" + type.textureName);
+		this.image = image;
 	}
 	
 	public void update(){}

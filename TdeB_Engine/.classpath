@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="library/jar/slick.jar"/>
 	<classpathentry kind="lib" path="library/jar/substance-7.2.1.jar"/>
 	<classpathentry kind="lib" path="library/jar/trident-7.2.1.jar"/>
+	<classpathentry kind="lib" path="library/jar/libtiled-1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

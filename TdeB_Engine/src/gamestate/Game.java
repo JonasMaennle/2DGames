@@ -8,7 +8,12 @@ import static helper.Collection.*;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.tiled.TileSet;
+import org.newdawn.slick.tiled.TiledMap;
 
 import core.BackgroundHandler;
 import core.Camera;
@@ -58,6 +63,39 @@ public class Game {
 		
 		renderLightEntity(shadowObstacleList);
 
+		
+		TiledMap t_map = null;
+		try {
+			t_map = new TiledMap("res/level/map_01_new.tmx", true);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
+		TileSet set = t_map.getTileSet(0);
+
+		int sheetX = set.getTileX(73);
+		int sheetY = set.getTileY(73);
+
+		// public Image getTileImage(int tileID) { return this.tileSet.get(tileID); }
+		Image tmpImg;// = set.tiles.getSprite(sheetX, sheetY);
+		//tmpImg = set.tiles.getSubImage(sheetX * 32, sheetY * 32, 32, 32);
+		
+		SpriteSheet ss = set.tiles; // 23 * 24 images
+		
+		
+		tmpImg = ss.getSprite(4, 4);
+		tmpImg = tmpImg.getScaledCopy(set.tiles.getWidth(), set.tiles.getHeight());
+		//System.out.println(tmpImg.getWidth() + "   " + tmpImg.getHeight());
+		SpriteSheet ss2 = new SpriteSheet(tmpImg, 32, 32);
+
+		Image img2 = ss2.getSprite(15, 15);
+		System.out.println(img2.getWidth());
+		drawQuadImage(img2, 100, 100, 32, 32);
+		
+		
+		
+		
+		
 		// draw filter
 //		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
 //			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){
