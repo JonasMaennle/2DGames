@@ -25,10 +25,12 @@ import core.Handler;
 import core.TileGrid;
 import object.Enemy_Spider;
 import object.Player;
+import path.Graph;
+import path.Node;
 
 public class Leveler {
 	
-	public static TileGrid loadMap(Handler handler, String path)
+	public static TileGrid loadMap(Handler handler, String path, Graph graph)
 	{
 		prepareMap(path);
 		
@@ -61,6 +63,8 @@ public class Leveler {
 						// floor layer
 						if(layer == 0){
 							grid.setTile(x, y, list.getImage(tileIndex-1));	
+							// add node to graph
+							graph.addNode(new Node(x, y));
 						}
 						// wall layer
 						if(layer == 1){
@@ -97,7 +101,7 @@ public class Leveler {
 				handler.setPlayer(new Player(x, y, handler));
 			}	
 			if(objName.equals("EnemySpider")){
-				Enemy_Spider tmp = new Enemy_Spider(x, y, TILE_SIZE, TILE_SIZE);
+				Enemy_Spider tmp = new Enemy_Spider(x, y, TILE_SIZE, TILE_SIZE, handler);
 				handler.enemyList.add(tmp);
 				shadowObstacleList.add(tmp);
 				handler.obstacleList.add(tmp);
@@ -105,6 +109,10 @@ public class Leveler {
 		}
 		
 		handler.setCurrentEntity(handler.getPlayer());
+		
+		System.out.println("Nodes: " + graph.countNodes());
+		graph.createMatrix();
+		
 		return grid;
 	}
 	
@@ -120,7 +128,6 @@ public class Leveler {
 			try {
 				while((tmpStr = reader.readLine()) != null){
 					if(tmpStr.contains("Objects")){
-						System.out.println(tmpStr);
 						tmpStr =  "<objectgroup name=\"Objects\" width=\"32\" height=\"32\">";
 						buffer.append(tmpStr + "\n");
 					}else{

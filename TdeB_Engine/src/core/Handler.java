@@ -23,7 +23,7 @@ public class Handler {
 	private Player player;
 	
 	private float brightness;
-	private Image filter;
+	private Image filter, path;
 	
 	public Handler(){
 		this.currentEntity = null;
@@ -31,7 +31,9 @@ public class Handler {
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.brightness = 0.5f;
+		
 		this.filter = quickLoaderImage("background/Filter");
+		this.path = quickLoaderImage("tiles/path");
 	}
 	
 	public void update(){
@@ -62,6 +64,8 @@ public class Handler {
 		for(Enemy_Basic e : enemyList){
 			e.draw();
 		}
+		// draw enemy path to player
+		//drawPath();
 		
 		// draw filter to darken the map
 		GL11.glColor4f(0, 0, 0, brightness);
@@ -69,13 +73,21 @@ public class Handler {
 		GL11.glColor4f(1, 1, 1, 1);
 	}
 	
-	public void wipe()
-	{
+	public void wipe(){
 		player = null;
 		currentEntity = null;
 		map = null;
 		obstacleList.clear();
 		enemyList.clear();
+	}
+	
+	@SuppressWarnings("unused")
+	private void drawPath(){
+		for(Enemy_Basic e : enemyList){
+			for(int i = 0; i < e.getPath().size(); i++){
+				drawQuadImage(path, e.getPath().get(i).getX() * TILE_SIZE, e.getPath().get(i).getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			}
+		}
 	}
 
 	public GameEntity getCurrentEntity() {

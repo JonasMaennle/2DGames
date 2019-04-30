@@ -3,7 +3,7 @@
  <tileset firstgid="1" source="tileset_00.tsx"/>
  <layer name="Background" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UzUoCURQH8Bnfok+foBfISn2CniDIJyi1VkJ+9QJ9WCvJ/AiKWpRBuk5TKNxEEbmuiIgWEQUl9B86l7mcdOaGJS3mwI87evX+z3FUTXOq27pyadqCZopCDOKQgCQsKpwzA7MQhBCEYQ7mIdKBUS1d03JYM5q5Zuk6DwXYUshfgmVYgVVIwRqskwH9uwjlyXKkCidQg7pCfhEOjXkkJShDmvLTrJ+NNtkZmrsirRWF/Au4ZPnX0KQejLwyXXfKr7N8Ia+Q/wpvUvY7fNC1PH9a6seuVOYW1Yfz+um+DsIQDINbN/O538z34LwxGIcJ8IIPpvWvzzugm/defA52NaLQo1UZ2QHJT2uyy/w45Yo+YornifsThBCEFd63iddkmRybfxt2YBf2LM7k342UQv4xXlOBKptZrH44hTO6brQ5cx/PHUCR7R3hccn4/Vr0cYO9W7ijzAKb3S9pdOjh3GbOpsW+8ft7YDPXaH2iPHltkGfJi01+y2Lfw+YVvdyzHh5Zvlx2/wlul/V+t2XkjyLDw3K8eOwD/x/ni5piOYEe5YqKIi8GcUhAssf5TjnllFNO/e/6BML+7DkAEAAA
+   H4sIAAAAAAAAC+3UzUoCURgG4DPeRb9eQTeQlXoFXUGgV1BqrYT86wb6sVaS+RMUtSiDdJ2mULiJInJdEREtIgpK6B36Bg9fOnPEkhbzwsMZOzbv+ZxMCDu95tohxKJoiUAUYhCHBCwp3GcW5iAAQQjBPCxAuAM9TU2ILNa0aK0Zus5BHrYV+pdhBVZhDZKwDhtkSPspTH2yLKnAKVShptBfgCN9HkkRSpCi/hQ7z2ab7jTNXZbWskL/JVyx/hto0Bn0vhJdd+qvsX5DTqH/Dd6l7g/4pGt5/pR0HquozG1kAPcbpOc6DCMwCk6t1c/9Zr8L95uASZgCN3jAp31/3n6t9eyNz8EqYwpnNIve7Zd0m+ke+2PU6+uy33g+AQhCSOF3t/CeDJNl8+/ALuzBvsk9+d9GUqH/BO8pQ4XNbKxeOINzuq63uecBfnYIBbZ3jNdF/ftrco5b7N3BPXXm2exeSb3DGS4s5myY7Ovfv0c2c5XWZ+qT1zp5kbxa9DdN9l1sXuMsD+wMT6xfjtX/BKfDfL/X6P3j6HCxHjdee8D7x/1GZliPv0+9RiLoi0IM4pDoc78dO3bs2Pnf+QLDRtqGABAAAA==
   </data>
  </layer>
  <layer name="Wall" width="32" height="32">

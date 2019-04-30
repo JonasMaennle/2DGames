@@ -1,6 +1,9 @@
 package core;
 
 import gamestate.Game;
+import path.Graph;
+import path.PathfindingThread;
+
 import static helper.Leveler.*;
 import static helper.Collection.*;
 
@@ -18,8 +21,12 @@ public class StateManager {
 	private Handler handler;
 	private Game game;
 	
+	private Graph graph;
+	private PathfindingThread pathThread;
+	
 	public StateManager()
 	{
+		this.graph = new Graph();
 		this.handler = new Handler();
 		this.game = new Game(handler);
 	}
@@ -54,7 +61,7 @@ public class StateManager {
 		{
 		// Szenario maps
 		case 1:
-			handler.setMap(loadMap(handler, "level/map_0" + CURRENT_LEVEL));
+			handler.setMap(loadMap(handler, "level/map_0" + CURRENT_LEVEL, graph));
 			break;
 
 		default:
@@ -62,5 +69,8 @@ public class StateManager {
 		}
 		
 		game.getCamera().setEntity(handler.getCurrentEntity());
+		
+		pathThread = new PathfindingThread(handler.enemyList, graph, handler);
+		pathThread.start();
 	}
 }

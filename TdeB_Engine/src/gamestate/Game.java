@@ -80,7 +80,7 @@ public class Game {
 		// render filter for topFilterObstacle (objects in the fog of war)
 		for(int i = 0; i < WIDTH/TILE_SIZE; i++){
 			alphaFilter = drawCircle(WIDTH/2/TILE_SIZE, HEIGHT/2/TILE_SIZE, i, alphaFilter);
-			if(i > 1)filterValue += filterScale;
+			if(i > 2)filterValue += filterScale;
 		}
 	}
 	
