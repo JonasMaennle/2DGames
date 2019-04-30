@@ -1,4 +1,4 @@
-package Entity;
+package entity;
 
 import java.awt.Rectangle;
 
@@ -8,6 +8,7 @@ public interface GameEntity {
 	
 	public void update();
 	public void draw();
+	
 	public float getX();
 	public float getY();
 	public int getWidth();
@@ -16,6 +17,12 @@ public interface GameEntity {
 	public void setHeight(int height);
 	public void setX(float x);
 	public void setY(float y);
-	public Rectangle getBounds();
+	
 	public Vector2f[] getVertices();
+	
+	public Rectangle getBounds();
+	public Rectangle getTopBounds();
+	public Rectangle getBottomBounds();
+	public Rectangle getLeftBounds();
+	public Rectangle getRightBounds();
 }

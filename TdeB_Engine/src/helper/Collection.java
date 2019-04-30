@@ -4,7 +4,7 @@ import static core.Constants.*;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import Entity.GameEntity;
+import entity.GameEntity;
 import shader.Light;
 
 public class Collection {

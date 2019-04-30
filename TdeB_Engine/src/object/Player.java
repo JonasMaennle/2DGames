@@ -9,15 +9,14 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
-import Entity.GameEntity;
 import core.Handler;
+import entity.GameEntity;
 import shader.Light;
 
 public class Player implements GameEntity{
 	
 	private int width, height;
 	private float x, y, velX, velY, speed;
-	private Rectangle rectLeft, rectRight, rectTop, rectBottom;
 	private Image placeholder;
 	private Handler handler;
 	private Light playerLight;
@@ -33,14 +32,7 @@ public class Player implements GameEntity{
 		this.speed = 4f;
 		
 		this.placeholder = quickLoaderImage("player/Player_tmp");
-		
-		this.rectLeft = new Rectangle((int)x, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
-		this.rectRight = new Rectangle((int)x + TILE_SIZE - 4, (int)y + 4, 4, (TILE_SIZE * 2) - 16);
-		this.rectTop = new Rectangle((int)x + 4, (int)y, TILE_SIZE - 8, 4);
-		this.rectBottom = new Rectangle((int)x + 4, (int)y + (TILE_SIZE * 2) - 4, TILE_SIZE - 8, 4);
-		
-		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 20);
-		
+		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 15);
 		lights.add(playerLight);
 	}
 
@@ -74,40 +66,32 @@ public class Player implements GameEntity{
 	}
 
 	private void mapCollision() {
-		for(GameEntity t : handler.obstacleList)
+		for(GameEntity ge : handler.obstacleList)
 		{
-			updateBounds();
-			if(t instanceof Tile)
+			// top
+			if(ge.getBottomBounds().intersects(getTopBounds()))
 			{
-				// top
-				if(((Tile) t).getBottomBounds().intersects(rectTop))
-				{
-					velY = 0;
-					y = (float) (t.getY() + t.getHeight());
-					updateBounds();
-				}
-				// bottom
-				if(((Tile) t).getTopBounds().intersects(rectBottom))
-				{	
-					velY = 0;
-					y = (float) (t.getY() - TILE_SIZE);
-					updateBounds();
-				}		
-				// left
-				if(((Tile) t).getRightBounds().intersects(rectLeft))
-				{
-					velX = 0;
-					x = (float) (t.getX() + t.getWidth());
-					updateBounds();
-				}
-				// right
-				if(((Tile) t).getLeftBounds().intersects(rectRight))
-				{
-					velX = 0;
-					x = (float) (t.getX() - TILE_SIZE);
-					updateBounds();
-				}
+				velY = 0;
+				y = (float) (ge.getY() + ge.getHeight());
 			}
+			// bottom
+			if(ge.getTopBounds().intersects(getBottomBounds()))
+			{	
+				velY = 0;
+				y = (float) (ge.getY() - TILE_SIZE);
+			}		
+			// left
+			if(ge.getRightBounds().intersects(getLeftBounds()))
+			{
+				velX = 0;
+				x = (float) (ge.getX() + ge.getWidth());
+			}
+			// right
+			if(ge.getLeftBounds().intersects(getRightBounds()))
+			{
+				velX = 0;
+				x = (float) (ge.getX() - TILE_SIZE);
+			}	
 		}
 	}
 
@@ -123,14 +107,6 @@ public class Player implements GameEntity{
 		
 		drawQuad((int)x,(int) y, TILE_SIZE, 16); // top
 		drawQuad((int)x,(int) y + TILE_SIZE - 16, TILE_SIZE, 16); // bottom
-	}
-	
-	private void updateBounds(){
-		this.rectLeft.setBounds((int)x, (int)y + 8, 16, TILE_SIZE - 8); // left
-		this.rectRight.setBounds((int)x + TILE_SIZE - 16,(int) y + 8, 16, TILE_SIZE - 8); // right
-		
-		this.rectTop.setBounds((int)x + 8,(int) y, TILE_SIZE - 8, 16); // top
-		this.rectBottom.setBounds((int)x + 8,(int) y + TILE_SIZE - 16, TILE_SIZE - 8, 16); // bottom
 	}
 
 	@Override
@@ -174,12 +150,32 @@ public class Player implements GameEntity{
 	}
 
 	@Override
+	public Vector2f[] getVertices() {
+		return null;
+	}
+	
+	@Override
 	public Rectangle getBounds() {
 		return new Rectangle((int)x, (int)y, width, height);
 	}
 
 	@Override
-	public Vector2f[] getVertices() {
-		return null;
+	public Rectangle getTopBounds() {
+		return new Rectangle((int)x + 8,(int) y, TILE_SIZE - 8, 16);
+	}
+
+	@Override
+	public Rectangle getBottomBounds() {
+		return new Rectangle((int)x + 8,(int) y + TILE_SIZE - 16, TILE_SIZE - 8, 16);
+	}
+
+	@Override
+	public Rectangle getLeftBounds() {
+		return new Rectangle((int)x, (int)y + 8, 16, TILE_SIZE - 8);
+	}
+
+	@Override
+	public Rectangle getRightBounds() {
+		return new Rectangle((int)x + TILE_SIZE - 16,(int) y + 8, 16, TILE_SIZE - 8);
 	}
 }

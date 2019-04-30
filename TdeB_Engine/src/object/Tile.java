@@ -8,8 +8,8 @@ import java.awt.Rectangle;
 
 import static core.Constants.*;
 
-import Entity.GameEntity;
 import core.Handler;
+import entity.GameEntity;
 
 public class Tile implements GameEntity{
 	

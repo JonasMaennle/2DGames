@@ -4,6 +4,18 @@ import static core.Constants.*;
 
 import static helper.Collection.*;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.tiled.TileSet;
@@ -11,13 +23,15 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import core.Handler;
 import core.TileGrid;
-import object.Enemy_Basic;
+import object.Enemy_Spider;
 import object.Player;
 
 public class Leveler {
 	
 	public static TileGrid loadMap(Handler handler, String path)
 	{
+		prepareMap(path);
+		
 		TileImageStorage list;	
 		TiledMap t_map = null;
 		
@@ -60,6 +74,11 @@ public class Leveler {
 							handler.obstacleList.add(grid.getTile(x, y));
 							shadowObstacleList.add(grid.getTile(x, y));
 						}
+						// border layer
+						if(layer == 3){
+							grid.setTile(x, y, list.getImage(tileIndex-1));
+							handler.obstacleList.add(grid.getTile(x, y));
+						}
 					}
 				}
 			}
@@ -77,14 +96,62 @@ public class Leveler {
 			if(objName.equals("player")){
 				handler.setPlayer(new Player(x, y, handler));
 			}	
-			if(objName.equals("EnemyBasic")){
-				Enemy_Basic tmp = new Enemy_Basic(x, y, TILE_SIZE, TILE_SIZE);
+			if(objName.equals("EnemySpider")){
+				Enemy_Spider tmp = new Enemy_Spider(x, y, TILE_SIZE, TILE_SIZE);
 				handler.enemyList.add(tmp);
 				shadowObstacleList.add(tmp);
+				handler.obstacleList.add(tmp);
 			}
 		}
 		
 		handler.setCurrentEntity(handler.getPlayer());
 		return grid;
+	}
+	
+	private static void prepareMap(String path){
+		// parse .tmx file -> Object issue
+		StringBuffer buffer = null;
+		try {
+			File f = new File("res/" + path + ".tmx");
+			InputStream is = new FileInputStream(f);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			buffer = new StringBuffer();
+			String tmpStr;
+			try {
+				while((tmpStr = reader.readLine()) != null){
+					if(tmpStr.contains("Objects")){
+						System.out.println(tmpStr);
+						tmpStr =  "<objectgroup name=\"Objects\" width=\"32\" height=\"32\">";
+						buffer.append(tmpStr + "\n");
+					}else{
+						buffer.append(tmpStr + "\n");
+					}
+					tmpStr = null;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		// Write File
+		try {
+			File f = new File("res/" + path + ".tmx");
+			OutputStream os = new FileOutputStream(f);
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+			
+			try {
+				writer.write(buffer.toString());
+				writer.flush();
+				
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

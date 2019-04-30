@@ -49,8 +49,9 @@ public class Boot {
 			HEIGHT = 1080;
 			SET_FULL_SCREEN = false;
 		}
-			
+		System.setProperty( "org.lwjgl.opengl.Window.undecorated" , "true" ) ;
 		Display.setTitle("");
+		
 		//Display.setLocation((Display.getDisplayMode().getWidth()-WIDTH) / 2, 0);
 		try {
 			@SuppressWarnings("unused")

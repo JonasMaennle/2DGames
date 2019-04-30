@@ -1,8 +1,11 @@
 package core;
 
+import java.awt.Toolkit;
+
+@SuppressWarnings("unused")
 public class Constants {
 	
-	public static int WIDTH = 1050;//(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static int WIDTH = 960;//(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static int HEIGHT = 640;//(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	
 	public static final int TILE_SIZE = 32;

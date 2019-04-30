@@ -3,7 +3,7 @@ package core;
 import static core.Constants.*;
 import static helper.Collection.*;
 
-import Entity.GameEntity;
+import entity.GameEntity;
 
 public class Camera {
 	

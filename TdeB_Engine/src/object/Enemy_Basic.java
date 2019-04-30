@@ -5,17 +5,17 @@ import java.awt.Rectangle;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
-import Entity.GameEntity;
+import entity.GameEntity;
 
 import static core.Constants.MOVEMENT_X;
 import static core.Constants.MOVEMENT_Y;
 import static helper.Graphics.*;
 
-public class Enemy_Basic implements GameEntity{
+public abstract class Enemy_Basic implements GameEntity{
 
-	private float x, y;
-	private int width, height;
-	private Image image;
+	protected float x, y;
+	protected int width, height;
+	protected Image image;
 	
 	public Enemy_Basic(float x, float y, int width, int height)
 	{
@@ -27,7 +27,7 @@ public class Enemy_Basic implements GameEntity{
 	}
 	
 	public void update() {
-		//System.out.println("enemy x: " + x + " enemy y: " + y);
+		
 	}
 
 	public void draw() {
@@ -36,56 +36,47 @@ public class Enemy_Basic implements GameEntity{
 
 	@Override
 	public float getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return x;
 	}
 
 	@Override
 	public float getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return y;
 	}
 
 	@Override
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return height;
 	}
 
 	@Override
 	public void setWidth(int width) {
-		// TODO Auto-generated method stub
-		
+		this.width = width;
 	}
 
 	@Override
 	public void setHeight(int height) {
-		// TODO Auto-generated method stub
-		
+		this.height = height;
 	}
 
 	@Override
 	public void setX(float x) {
-		// TODO Auto-generated method stub
-		
+		this.x = x;
 	}
 
 	@Override
 	public void setY(float y) {
-		// TODO Auto-generated method stub
-		
+		this.y = y;
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Rectangle((int)x, (int)y, width, height);
 	}
 
 	@Override
@@ -96,5 +87,21 @@ public class Enemy_Basic implements GameEntity{
 				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
 				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y) // right top
 		};
+	}
+	
+	public Rectangle getTopBounds(){
+		return new Rectangle((int)x + 4, (int)y, width - 8, 4);
+	}
+	
+	public Rectangle getBottomBounds(){
+		return new Rectangle((int)x + 4, (int)y + height-4, width - 8, 4);
+	}
+	
+	public Rectangle getLeftBounds(){
+		return new Rectangle((int)x, (int)y + 4, 4, height - 8);
+	}
+	
+	public Rectangle getRightBounds(){
+		return new Rectangle((int)x + width-4, (int)y + 4, 4, height - 8);
 	}
 }

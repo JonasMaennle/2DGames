@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="3">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="7">
  <tileset firstgid="1" source="tileset_00.tsx"/>
  <layer name="Background" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3Vtw0CMRiG4d9sQVyEgwVIqxAHYAViDTQMQLqaHUg9O5AK3gILH6Lk7AJ/0iOXr3TS2aGIhOJuocF1v44GmmihbZydlzj7PfQxwBAjjD/EMd1fYIkV1thYaOsllciOc48DjjhZ7OfpXzivuOGOh6W27qeQRgZZ5JSdtu4HX7joF1C03Den/wdX/a56921tQmuKOWbK/p28VdHvHii7/bOK3sUu36R/WykhUkYFVdQMfn5+fn5+fr/fEyWWPucAEAAA
+   H4sIAAAAAAAAC+3UzUoCURQH8Bnfok+foBfISn2CniDIJyi1VkJ+9QJ9WCvJ/AiKWpRBuk5TKNxEEbmuiIgWEQUl9B86l7mcdOaGJS3mwI87evX+z3FUTXOq27pyadqCZopCDOKQgCQsKpwzA7MQhBCEYQ7mIdKBUS1d03JYM5q5Zuk6DwXYUshfgmVYgVVIwRqskwH9uwjlyXKkCidQg7pCfhEOjXkkJShDmvLTrJ+NNtkZmrsirRWF/Au4ZPnX0KQejLwyXXfKr7N8Ia+Q/wpvUvY7fNC1PH9a6seuVOYW1Yfz+um+DsIQDINbN/O538z34LwxGIcJ8IIPpvWvzzugm/defA52NaLQo1UZ2QHJT2uyy/w45Yo+YornifsThBCEFd63iddkmRybfxt2YBf2LM7k342UQv4xXlOBKptZrH44hTO6brQ5cx/PHUCR7R3hccn4/Vr0cYO9W7ijzAKb3S9pdOjh3GbOpsW+8ft7YDPXaH2iPHltkGfJi01+y2Lfw+YVvdyzHh5Zvlx2/wlul/V+t2XkjyLDw3K8eOwD/x/ni5piOYEe5YqKIi8GcUhAssf5TjnllFNO/e/6BML+7DkAEAAA
   </data>
  </layer>
  <layer name="Wall" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3OyQ2AMBTE0EmqYS+FHdqBE3XjJqKPxDzJd0vfMdJEMy200kY7HXTGrZmZFXMl6aYnRZ/Y31RZqqmhljrqacjRZ2ZmZlbCC4i05JIAEAAA
+   H4sIAAAAAAAAC+3USwqCUBTGca/QkxZQg5r2pNbRSyt7TtSatoga9Bi1hpbQGtpZf9MGQRaRGsL94Id69J4DV1FR4h8TFmwssfKpOVkL/z59aFhggCFGMLza43yMuVf7Nqc382XCz7v3H0X+/f7DmJ+gZxIppJFBVrh1JznhsoIffU9ZuCqoooY6Gt78pnC1Qtr7dkB9dezoNeG44bh90dep7XHA0bsf92/6/OP6y4/rr/KfHGjyqqIU1OdakeuS+vr5hE89qpRDmm/S14L9oX+b+x100UMfGnQMMMQIBsaYYIoZ5n/eOxkZGRmZeOYGsy4JIgAQAAA=
   </data>
  </layer>
  <layer name="Shadow" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3NsQmAMABE0YuNwyiocR3dzaEcyBOEpEkXEov/4HPlScnk5m/fFre6zUW3C6jv5p//jo4gnVmtXR0++f/P/ziUAwAAqO0B4d0l+AAQAAA=
+   H4sIAAAAAAAAC+3UO04CURTG8ZmJYQ1GXQDvp5iIgNq7BG1EGwuWQEdnYcA92FkYdQ/2+Cwt1GiPz8K/CSYTMhznHkewuF/yq86d8w1kZhznd7nFok8FS6iihjqWsYJVYU8SKaSRQRY55FFAww12ZHCvUv+awR5/oupvKvsP3fBnG8JsT9lvkrYwM/kftTkQZr0x9J8Js75y59f7dz/Cw+DMI+7wJOyZNniO/JlSXjecinLPTkT96+zZCDCczcF3ZwvbbnT9rQn/fm3/rnBdh1kX+yF2a/ul798xsxOc/mF/UHrsOscFLnGFa9wIHVH299n1jBe84g3v+BhT/3dmPMeZxZz389mYpzcqVWY11EP0xzmTQBIppJFBFjnkUUARJcyjjIUQu21sbGxsbP5bPgGJmnlVABAAAA==
   </data>
  </layer>
- <objectgroup name="Objects" width="32" height="32">
-  <object id="1" name="player" type="player" x="138" y="269" width="14" height="13"/>
-  <object id="2" name="EnemyBasic" type="EnemyBasic" x="100" y="423" width="24" height="21"/>
+ <layer name="Border" width="32" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMglFALcCIhLHx6WE/KeLUtBefP2kdDsSaS237SfUXvdIBvewXZWJgEIPigbDfHGqvBZH2KxCpjlQQBTQ3GohjcJifBBRPBmInGtkPA7jCt4XG9sLAAqA9C4F4ERAvBuIlQLyUiX72j4JRMApGwSggDAD9rYpBABAAAA==
+  </data>
+ </layer>
+<objectgroup name="Objects" width="32" height="32">
+  <object id="1" name="player" type="player" x="291" y="130" width="24" height="28"/>
+  <object id="4" name="EnemySpider" type="EnemySpider" x="228" y="257" width="24" height="28"/>
  </objectgroup>
 </map>

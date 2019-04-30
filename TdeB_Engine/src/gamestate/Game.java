@@ -21,8 +21,8 @@ public class Game {
 	private BackgroundHandler backgroundHandler;
 	
 	private Image filter;
-	private float filterScale = 1.4f; // between 1.2f and 1.7f
-	private float filterValue = 0.01f;
+	private float filterScale = 0.05f;
+	private float filterValue = 0.0f;
 	private float[][] alphaFilter;
 	
 	public Game(Handler handler)
@@ -80,7 +80,7 @@ public class Game {
 		// render filter for topFilterObstacle (objects in the fog of war)
 		for(int i = 0; i < WIDTH/TILE_SIZE; i++){
 			alphaFilter = drawCircle(WIDTH/2/TILE_SIZE, HEIGHT/2/TILE_SIZE, i, alphaFilter);
-			filterValue *= filterScale;
+			if(i > 1)filterValue += filterScale;
 		}
 	}
 	
