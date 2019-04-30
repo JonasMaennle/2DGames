@@ -27,10 +27,8 @@ import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform2f;
 import static org.lwjgl.opengl.GL20.glUniform3f;
 
-import java.awt.Robot;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.vector.Vector2f;
@@ -40,8 +38,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import Entity.GameEntity;
-import object.Enemy_Basic;
-import object.Tile;
 import shader.Light;
 
 public class Graphics {

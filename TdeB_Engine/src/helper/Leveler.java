@@ -1,25 +1,14 @@
 package helper;
 
 import static core.Constants.*;
-import static helper.Graphics.*;
-
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Map;
 
 import static helper.Collection.*;
 
-import org.mapeditor.core.MapObject;
-import org.mapeditor.io.TMXMapReader;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.TileSet;
 import org.newdawn.slick.tiled.TiledMap;
 
-import Entity.TileType;
 import core.Handler;
 import core.TileGrid;
 import object.Enemy_Basic;
@@ -29,121 +18,71 @@ public class Leveler {
 	
 	public static TileGrid loadMap(Handler handler, String path)
 	{
+		TileImageStorage list;	
 		TiledMap t_map = null;
+		
 		try {
-			t_map = new TiledMap("res/level/map_01_new.tmx", true);
+			t_map = new TiledMap(path + ".tmx");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 		
-		Image image = quickLoaderImage(path);
-		//System.out.println(image.getResourceReference());
-		int w = image.getWidth();
-		int h = image.getHeight();
-		
-		
 		TILES_WIDTH = t_map.getWidth();
 		TILES_HEIGHT = t_map.getHeight();
-		
 		TileGrid grid = new TileGrid(handler);
-		//System.out.println(t_map.getTileImage(0, 0, 0));
+		
+		//t_map.getTileImage(0, 0, 0).
 		//System.out.println(t_map.getTileId(0, 0, t_map.getLayerIndex("Background")));
-		
 		TileSet set = t_map.getTileSet(0);
+		SpriteSheet ss = set.tiles;
+		list = new TileImageStorage(32, 32, ss.getWidth(), ss.getHeight(), "res/tiles/tileset_00.png"); // "res/tiles/Itch release tileset.png"
 
-		int sheetX = set.getTileX(73);
-		int sheetY = set.getTileY(73);
-
-		// public Image getTileImage(int tileID) { return this.tileSet.get(tileID); }
-		Image tmpImg;// = set.tiles.getSprite(sheetX, sheetY);
-		tmpImg = set.tiles.getSubImage(sheetX * 32, sheetY * 32, 32, 32);
-		
-		SpriteSheet ss = set.tiles; // 23 * 24 images
-		tmpImg = ss.getSubImage(4, 4);
-		
-		
-		for(int x = 0; x < TILES_WIDTH; x++)
-		{
-			for(int y = 0; y < TILES_HEIGHT; y++)
-			{	
-				//System.out.println(set.getTileX(73));
-				switch (t_map.getTileId(x, y, t_map.getLayerIndex("Background"))) {
-				case 73:
-					grid.setTile(x, y, tmpImg);
-					break;
-
-				default:
-					break;
+		// Add Tiles
+		for(int x = 0; x < TILES_WIDTH; x++){
+			for(int y = 0; y < TILES_HEIGHT; y++){	
+				for(int layer = 0; layer < t_map.getLayerCount(); layer++){
+					
+					int tileIndex = t_map.getTileId(x, y, layer);
+					if(tileIndex > 0){
+						// floor layer
+						if(layer == 0){
+							grid.setTile(x, y, list.getImage(tileIndex-1));	
+						}
+						// wall layer
+						if(layer == 1){
+							grid.setTile(x, y, list.getImage(tileIndex-1));
+							handler.obstacleList.add(grid.getTile(x, y));
+							shadowObstacleList.add(grid.getTile(x, y));
+						}
+						// shadow layer
+						if(layer == 2){
+							grid.setTile(x, y, list.getImage(tileIndex-1));
+							handler.obstacleList.add(grid.getTile(x, y));
+							shadowObstacleList.add(grid.getTile(x, y));
+						}
+					}
 				}
 			}
 		}
-		handler.setPlayer(new Player(0, 0, handler));
-
-		//System.out.println("w: " + w + " h: " + h);
-//		for(int x = 0; x < w; x++)
-//		{
-//			for(int y = 0; y < h; y++)
-//			{
-//				Color c = image.getColor(x, y);
-//				int red = c.getRed();
-//				int green = c.getGreen();
-//				int blue = c.getBlue();
-//				
-//		// Test Tiles
-//				// Black -> Default Tile
-//				if(red == 0 && green == 0 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.Default);
-//					handler.obstacleList.add(grid.getTile(x, y));
-//					shadowObstacleList.add(grid.getTile(x, y));
-//				}
-//		// Player Tile
-//				// Red -> Player
-//				if(red == 255 && green == 0 && blue == 0)
-//				{
-//					handler.setPlayer(new Player(x * TILE_SIZE, y * TILE_SIZE, handler));
-//				}
-//		// Enemy	
-//				// Blue -> Enemy
-//				if(red == 0 && green == 0 && blue == 255)
-//				{
-//					Enemy_Basic tmp = new Enemy_Basic(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-//					handler.enemyList.add(tmp);
-//					//handler.obstacleList.add(tmp);
-//					shadowObstacleList.add(tmp);
-//				}
-//		// Walls
-//				// Bottom
-//				if(red == 127 && green == 50 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.WallBottom_01);
-//					handler.obstacleList.add(grid.getTile(x, y));
-//					//shadowObstacleList.add(grid.getTile(x, y));
-//				}
-//				// Bottom inside
-//				if(red == 127 && green == 90 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.WallBottom_02);
-//					//handler.obstacleList.add(grid.getTile(x, y));
-//					//shadowObstacleList.add(grid.getTile(x, y));
-//				}
-//				// Top
-//				if(red == 64 && green == 64 && blue == 64)
-//				{
-//					grid.setTile(x, y, TileType.WallTop_01);
-//					handler.obstacleList.add(grid.getTile(x, y));
-//					shadowObstacleList.add(grid.getTile(x, y));
-//				}
-//		// Floor
-//				// Default
-//				if(red == 200 && green == 50 && blue == 0)
-//				{
-//					grid.setTile(x, y, TileType.Floor_01);
-//					//handler.obstacleList.add(grid.getTile(x, y));
-//					//shadowObstacleList.add(grid.getTile(x, y));
-//				}
-//			}
-//		}
+		
+		// Add Objects
+		int objectGroup = 0;
+		// t_map.getObjectCount(0) -> 0 == Objectgroup
+		for(int objectCount = 0; objectCount < t_map.getObjectCount(objectGroup); objectCount++){
+			
+			int x = t_map.getObjectX(objectGroup, objectCount);
+			int y = t_map.getObjectY(objectGroup, objectCount);
+			String objName = t_map.getObjectName(objectGroup, objectCount);
+			//System.out.println(x + "  " + y + " " + objName);			
+			if(objName.equals("player")){
+				handler.setPlayer(new Player(x, y, handler));
+			}	
+			if(objName.equals("EnemyBasic")){
+				Enemy_Basic tmp = new Enemy_Basic(x, y, TILE_SIZE, TILE_SIZE);
+				handler.enemyList.add(tmp);
+				shadowObstacleList.add(tmp);
+			}
+		}
 		
 		handler.setCurrentEntity(handler.getPlayer());
 		return grid;

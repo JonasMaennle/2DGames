@@ -13,7 +13,6 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
@@ -41,7 +40,6 @@ public class Boot {
 	public static void main(String[] args) 
 	{
 		new Boot();
-		System.out.println("cahngew");
 	}
 	
 	private void beginSession()

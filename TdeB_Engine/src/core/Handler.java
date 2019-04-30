@@ -3,15 +3,10 @@ package core;
 import Entity.GameEntity;
 import object.Enemy_Basic;
 import object.Player;
-import object.Tile;
 
 import static core.Constants.*;
-import static helper.Graphics.*;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Image;
 
 public class Handler {
 	
@@ -21,14 +16,12 @@ public class Handler {
 	private TileGrid map;
 	private GameEntity currentEntity;
 	private Player player;
-	private Image filter;
 	
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
-		this.filter = quickLoaderImage("background/Filter");
 	}
 	
 	public void update(){
@@ -59,11 +52,6 @@ public class Handler {
 		for(Enemy_Basic e : enemyList){
 			e.draw();
 		}
-		
-		// Draw alpha FILTER
-//		GL11.glColor4f(0, 0, 0, 1f);
-//		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
-//		GL11.glColor4f(1, 1, 1, 1);
 	}
 	
 	public void wipe()

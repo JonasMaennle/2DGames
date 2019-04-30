@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="3">
+ <tileset firstgid="1" source="tileset_00.tsx"/>
+ <layer name="Background" width="32" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3Vtw0CMRiG4d9sQVyEgwVIqxAHYAViDTQMQLqaHUg9O5AK3gILH6Lk7AJ/0iOXr3TS2aGIhOJuocF1v44GmmihbZydlzj7PfQxwBAjjD/EMd1fYIkV1thYaOsllciOc48DjjhZ7OfpXzivuOGOh6W27qeQRgZZ5JSdtu4HX7joF1C03Den/wdX/a56921tQmuKOWbK/p28VdHvHii7/bOK3sUu36R/WykhUkYFVdQMfn5+fn5+fr/fEyWWPucAEAAA
+  </data>
+ </layer>
+ <layer name="Wall" width="32" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OyQ2AMBTE0EmqYS+FHdqBE3XjJqKPxDzJd0vfMdJEMy200kY7HXTGrZmZFXMl6aYnRZ/Y31RZqqmhljrqacjRZ2ZmZlbCC4i05JIAEAAA
+  </data>
+ </layer>
+ <layer name="Shadow" width="32" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3NsQmAMABE0YuNwyiocR3dzaEcyBOEpEkXEov/4HPlScnk5m/fFre6zUW3C6jv5p//jo4gnVmtXR0++f/P/ziUAwAAqO0B4d0l+AAQAAA=
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="32" height="32">
+  <object id="1" name="player" type="player" x="138" y="269" width="14" height="13"/>
+  <object id="2" name="EnemyBasic" type="EnemyBasic" x="100" y="423" width="24" height="21"/>
+ </objectgroup>
+</map>

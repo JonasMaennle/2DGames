@@ -1,7 +1,5 @@
 package core;
 
-import java.awt.Toolkit;
-
 public class Constants {
 	
 	public static int WIDTH = 1050;//(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();

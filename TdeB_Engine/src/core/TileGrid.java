@@ -4,7 +4,6 @@ import static core.Constants.*;
 
 import org.newdawn.slick.Image;
 
-import Entity.TileType;
 import object.Tile;
 
 public class TileGrid {

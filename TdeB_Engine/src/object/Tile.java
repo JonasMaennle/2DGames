@@ -25,8 +25,9 @@ public class Tile implements GameEntity{
 		this.y = y;
 		this.width = TILE_SIZE;
 		this.height = TILE_SIZE;
+		//this.type = type;
 		
-		this.image = image;
+		this.image = image;//quickLoaderImage("tiles/" + type.textureName);
 	}
 	
 	public void update(){}

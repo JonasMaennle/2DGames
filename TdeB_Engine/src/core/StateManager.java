@@ -54,7 +54,7 @@ public class StateManager {
 		{
 		// Szenario maps
 		case 1:
-			handler.setMap(loadMap(handler, "level/map_" + CURRENT_LEVEL));
+			handler.setMap(loadMap(handler, "level/map_0" + CURRENT_LEVEL));
 			break;
 
 		default:
