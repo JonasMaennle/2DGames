@@ -9,14 +9,12 @@ import java.awt.Rectangle;
 import static core.Constants.*;
 
 import Entity.GameEntity;
-import Entity.TileType;
 import core.Handler;
 
 public class Tile implements GameEntity{
 	
 	private float x, y;
 	private int width, height;
-	private TileType type;
 	private Image image;
 	
 	public Tile(float x, float y, Image image, Handler handler)
@@ -77,14 +75,6 @@ public class Tile implements GameEntity{
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	public TileType getType() {
-		return type;
-	}
-
-	public void setType(TileType type) {
-		this.type = type;
 	}
 
 	public Image getImage() {
