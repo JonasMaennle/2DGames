@@ -1,7 +1,7 @@
 package core;
 
-import object.Enemy_Basic;
 import object.Player;
+import object.enemy.Enemy_Basic;
 
 import static core.Constants.*;
 import static helper.Graphics.*;

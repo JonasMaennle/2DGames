@@ -23,8 +23,8 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import core.Handler;
 import core.TileGrid;
-import object.Enemy_Spider;
 import object.Player;
+import object.enemy.Enemy_Spider;
 import path.Graph;
 import path.Node;
 

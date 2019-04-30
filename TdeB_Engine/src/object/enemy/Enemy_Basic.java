@@ -1,4 +1,4 @@
-package object;
+package object.enemy;
 
 import java.awt.Rectangle;
 import java.util.LinkedList;
@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 
 import core.Handler;
 import entity.GameEntity;
+import object.Player;
 import path.Node;
 
 import static core.Constants.*;

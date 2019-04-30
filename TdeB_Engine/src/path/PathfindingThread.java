@@ -7,7 +7,7 @@ import static core.Constants.*;
 import core.Handler;
 import core.StateManager;
 import core.StateManager.GameState;
-import object.Enemy_Basic;
+import object.enemy.Enemy_Basic;
 
 public class PathfindingThread extends Thread{
 

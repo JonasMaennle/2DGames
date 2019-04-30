@@ -1,4 +1,4 @@
-package object;
+package object.enemy;
 
 import java.awt.Rectangle;
 
