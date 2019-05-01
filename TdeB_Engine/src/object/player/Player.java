@@ -1,10 +1,11 @@
-package object;
+package object.player;
 
 import java.awt.Rectangle;
 import static helper.Graphics.*;
 import static helper.Collection.*;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
@@ -16,9 +17,13 @@ public class Player implements GameEntity{
 	
 	private int width, height;
 	private float x, y, velX, velY, speed;
+	private String direction;
 	private Image placeholder;
 	private Handler handler;
 	private Light playerLight;
+	
+	private Weapon_Basic weapon;
+	private boolean isShooting;
 	
 	public Player(int x, int y, Handler handler)
 	{
@@ -29,9 +34,13 @@ public class Player implements GameEntity{
 		this.width = 32;
 		this.height = 32;
 		this.speed = 4f;
+		this.direction = "right";
+		this.isShooting = false;
 		
 		this.placeholder = quickLoaderImage("player/Player_tmp");
-		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 15);
+		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 35);
+		
+		this.weapon = new Weapon_Pistol(16, 8, this, handler);
 		lights.add(playerLight);
 	}
 
@@ -57,11 +66,25 @@ public class Player implements GameEntity{
 		{
 			velY = -1;
 		}
+
+		// Shoot
+		if(Mouse.isButtonDown(0) && !isShooting){
+			if(weapon instanceof Weapon_Pistol){
+				isShooting = true;
+				weapon.shoot();
+			}
+		}	
+		if(!Mouse.isButtonDown(0)){
+			isShooting = false;
+		}
 		
 		x += velX * speed;
 		y += velY * speed;
 		
 		mapCollision();
+		
+		updateDirection();
+		weapon.update();
 	}
 
 	private void mapCollision() {
@@ -97,6 +120,8 @@ public class Player implements GameEntity{
 	public void draw() {
 		playerLight.setLocation(new Vector2f(x + MOVEMENT_X + 16, y + MOVEMENT_Y + 16));
 		drawQuadImage(placeholder, x, y, width, height);
+		
+		weapon.draw();
 	}
 	
 	@SuppressWarnings("unused")
@@ -106,6 +131,16 @@ public class Player implements GameEntity{
 		
 		drawQuad((int)x,(int) y, TILE_SIZE, 16); // top
 		drawQuad((int)x,(int) y + TILE_SIZE - 16, TILE_SIZE, 16); // bottom
+	}
+	
+	private void updateDirection()
+	{
+		float mouseX = Mouse.getX() - MOVEMENT_X;
+		
+		if(mouseX > x)
+			direction = "right";
+		if(mouseX < x)
+			direction = "left";
 	}
 
 	@Override
@@ -176,5 +211,21 @@ public class Player implements GameEntity{
 	@Override
 	public Rectangle getRightBounds() {
 		return new Rectangle((int)x + TILE_SIZE - 16,(int) y + 8, 16, TILE_SIZE - 8);
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+	
+	public Weapon_Basic getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(Weapon_Basic weapon) {
+		this.weapon = weapon;
 	}
 }

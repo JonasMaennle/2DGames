@@ -23,8 +23,8 @@ import org.newdawn.slick.tiled.TiledMap;
 import core.Handler;
 import core.TileGrid;
 import object.LightSpot;
-import object.Player;
 import object.enemy.Enemy_Spider;
+import object.player.Player;
 import path.Graph;
 import path.Node;
 import shader.Light;
@@ -105,7 +105,7 @@ public class Leveler {
 				Enemy_Spider tmp = new Enemy_Spider(x, y, TILE_SIZE, TILE_SIZE, handler);
 				handler.enemyList.add(tmp);
 				shadowObstacleList.add(tmp);
-				handler.obstacleList.add(tmp);
+				//handler.obstacleList.add(tmp);
 			}
 			if(objName.equals("LightBlue")){
 				handler.lightSpotList.add(new LightSpot(x, y, new Light(new Vector2f(0, 0), 15, 25, 25, 10)));

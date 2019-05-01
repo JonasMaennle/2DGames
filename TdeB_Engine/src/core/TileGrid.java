@@ -11,16 +11,19 @@ public class TileGrid {
 	public Tile[][] map;
 	private int tilesWide, tilesHigh;
 	private Handler handler;
+	private int setTileCounter;
 	
 	public TileGrid(Handler handler){
 		this.tilesWide = TILES_WIDTH;//WIDTH / TILE_SIZE;
 		this.tilesHigh = TILES_HEIGHT;//HEIGHT / TILE_SIZE; 
 		map = new Tile[tilesWide][tilesHigh];
 		this.handler = handler;
+		this.setTileCounter = 0;
 	}
 	
 	public void setTile(int xCoord, int yCoord, Image image){
 		map[xCoord][yCoord] = new Tile(xCoord * TILE_SIZE, yCoord * TILE_SIZE, image, handler);	
+		setTileCounter++;
 	}
 	
 	public Tile getTile(int xPlace, int yPlace){
@@ -62,5 +65,13 @@ public class TileGrid {
 
 	public void setTilesHigh(int tilesHigh) {
 		this.tilesHigh = tilesHigh;
+	}
+
+	public int getSetTileCounter() {
+		return setTileCounter;
+	}
+
+	public void setSetTileCounter(int setTileCounter) {
+		this.setTileCounter = setTileCounter;
 	}
 }

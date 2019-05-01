@@ -8,8 +8,8 @@ import org.newdawn.slick.Image;
 
 import core.Handler;
 import entity.GameEntity;
-import object.Player;
 import object.Tile;
+import object.player.Player;
 import path.Node;
 
 import static helper.Collection.*;
@@ -20,6 +20,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected float x, y, speed, velX, velY;
 	protected int width, height;
 	protected Image image;
+	protected int hp;
 	
 	protected LinkedList<Node> path;
 	protected LinkedList<Node> visited;
@@ -38,6 +39,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.speed = 2;
 		this.velX = 0;
 		this.velY = 0;
+		this.hp = 32;
 		
 		this.path = new LinkedList<>();
 		this.visited = new LinkedList<>();
@@ -99,6 +101,35 @@ public abstract class Enemy_Basic implements GameEntity{
 				x = (float) (ge.getX() - TILE_SIZE - boxingOffet);
 			}	
 		}
+		
+		for(Enemy_Basic ge : handler.enemyList){
+			int boxingOffet = 2;
+			// top
+			if(ge.getBottomBounds().intersects(getTopBounds()))
+			{
+				velY = 0;
+				y = (float) (ge.getY() + ge.getHeight() + boxingOffet);
+			}
+			// bottom
+			if(ge.getTopBounds().intersects(getBottomBounds()))
+			{	
+				velY = 0;
+				y = (float) (ge.getY() - TILE_SIZE - boxingOffet);
+			}		
+			// left
+			if(ge.getRightBounds().intersects(getLeftBounds()))
+			{
+				velX = 0;
+				x = (float) (ge.getX() + ge.getWidth() + boxingOffet);
+			}
+			// right
+			if(ge.getLeftBounds().intersects(getRightBounds()))
+			{
+				velX = 0;
+				x = (float) (ge.getX() - TILE_SIZE - boxingOffet);
+			}	
+		}
+		
 		
 		Player player = handler.getPlayer();
 		// top
@@ -228,5 +259,13 @@ public abstract class Enemy_Basic implements GameEntity{
 	
 	public Rectangle getRightBounds(){
 		return new Rectangle((int)x + width-4, (int)y + 4, 4, height - 8);
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
 	}
 }

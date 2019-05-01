@@ -17,6 +17,7 @@ import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glStencilFunc;
 import static org.lwjgl.opengl.GL11.glStencilOp;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
@@ -126,6 +127,78 @@ public class Graphics {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // WICHTIG! -> wenn Texture/Image mit transarentem Hintergrund gemalt werden soll
 		anim.draw(x + MOVEMENT_X, y + MOVEMENT_Y, width, height);
+		glDisable(GL_BLEND);
+	}
+	
+	// Rotate center
+	public static void drawQuadImageRotCenter(Image image, float x, float y, float width, float height, float angle){	
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		image.bind();
+		glTranslatef(x + (width / 2) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
+		glRotatef(angle, 0, 0, 1);
+		glTranslatef(- width / 2, - height / 2, 0);
+				
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1, 0);
+		glVertex2f(width, 0);
+		glTexCoord2f(1, 1);
+		glVertex2f(width, height);
+		glTexCoord2f(0, 1);
+		glVertex2f(0, height);
+		glEnd();
+		
+		glLoadIdentity();
+		glDisable(GL_BLEND);
+	}
+	
+	// Rotate right
+	public static void drawQuadImageRotRight(Image image, float x, float y, float width, float height, float angle){	
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		image.bind();
+		glTranslatef(x + ((width / 3) * 2) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
+		glRotatef(angle, 0, 0, 1);
+		glTranslatef(- width / 5f, - height / 2, 0);
+			
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1, 0);
+		glVertex2f(width, 0);
+		glTexCoord2f(1, 1);
+		glVertex2f(width, height);
+		glTexCoord2f(0, 1);
+		glVertex2f(0, height);
+		glEnd();
+		
+		glLoadIdentity();
+		glDisable(GL_BLEND);
+	}
+	
+	// Rotate left
+	public static void drawQuadImageRotLeft(Image image, float x, float y, float width, float height, float angle){	
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		image.bind();
+		glTranslatef(x + (width /3) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
+		glRotatef(angle, 0, 0, 1);
+		glTranslatef(- width / 5, - height / 2, 0);
+				
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1, 0);
+		glVertex2f(width, 0);
+		glTexCoord2f(1, 1);
+		glVertex2f(width, height);
+		glTexCoord2f(0, 1);
+		glVertex2f(0, height);
+		glEnd();
+		
+		glLoadIdentity();
 		glDisable(GL_BLEND);
 	}
 	

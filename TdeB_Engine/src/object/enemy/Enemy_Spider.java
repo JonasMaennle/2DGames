@@ -18,7 +18,8 @@ public class Enemy_Spider extends Enemy_Basic{
 		{
 			absx = path.get(path.size() - 1).getX() * 32;
 			absy = path.get(path.size() - 1).getY() * 32;
-
+			// System.out.println(path.size());
+			// System.out.println(absx + "   " + absy);
 			if(absx > x)
 				velX = 1; 
 			if(absx < x)
@@ -36,7 +37,7 @@ public class Enemy_Spider extends Enemy_Basic{
 			velX = 0;
 			velY = 0;
 		}
-
+		System.out.println(velX + "  " + velY);
 		x += (velX * speed);
 		y += (velY * speed);
 		mapCollision();
@@ -44,7 +45,7 @@ public class Enemy_Spider extends Enemy_Basic{
 		// remove visited nodes
 		if(path.size() > 0){
 			// create rect for current node
-			Rectangle node = new Rectangle(path.get(path.size() - 1).getX() * 32 + 16, path.get(path.size() - 1).getY() * 32 + 16, 16, 16);
+			Rectangle node = new Rectangle(path.get(path.size() - 1).getX() * 32, path.get(path.size() - 1).getY() * 32, 32, 32);
 			
 			if(getBounds().intersects(node) && path.size() > 0 && !pathLock){
 				visited.add(path.get(path.size()-1));

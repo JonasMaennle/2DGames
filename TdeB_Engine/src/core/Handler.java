@@ -1,8 +1,8 @@
 package core;
 
 import object.LightSpot;
-import object.Player;
 import object.enemy.Enemy_Basic;
+import object.player.Player;
 
 import static helper.Graphics.*;
 import static helper.Collection.*;
@@ -56,9 +56,13 @@ public class Handler {
 		// update enemy
 		for(Enemy_Basic e : enemyList){
 			e.update();
+			if(e.getHp() <= 0){
+				enemyList.remove(e);
+				shadowObstacleList.remove(e);
+			}
 		}
 		
-		objectInfo();
+		//objectInfo();
 	}
 	
 	public void draw(){
@@ -77,7 +81,7 @@ public class Handler {
 			e.draw();
 		}
 		// draw enemy path to player
-		//drawPath();
+		drawPath();
 		
 		// draw filter to darken the map
 		GL11.glColor4f(0, 0, 0, brightness);
@@ -95,14 +99,13 @@ public class Handler {
 	}
 	
 	//@SuppressWarnings("unused")
-	private void objectInfo()
-	{
+	private void objectInfo(){
 		time1 = System.currentTimeMillis();
 		if(time1 - time2 > 2000)
 		{
 			time2 = time1;
 			// Data output
-			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tMovementX: " + MOVEMENT_X);
+			System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tMovementX: " + MOVEMENT_X);
 		}
 	}
 	
