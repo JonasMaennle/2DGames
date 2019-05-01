@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="7">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="15">
  <tileset firstgid="1" source="tileset_00.tsx"/>
  <layer name="Background" width="32" height="32">
   <data encoding="base64" compression="gzip">
@@ -8,7 +8,7 @@
  </layer>
  <layer name="Wall" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UyQ2CQBTGcYbENRagB73iFq3DXcHtJOrVIvTgcrIGS7AGO/OPgwcT0BgBQzJf8gvwYN5LBoKmxT8L2FhihbVPzclG+PfpoY8JhhjBhOXWnudjzN3atzm/ma8Sft69/yjy7/cfxvwEPZNIIY0MskLWneSEZAc/+hFDSGVUUEUNdXd+Q0jNkPa+FVDfAfZC/le2HHcefZ3aAUec3Ptx/6YvP66//rj+pv7JgSava1pBf60VuS7p3s8nfOpRxQhp/oK+NpYf+re430YHXfTQxwBDjGDCwhgTTDHD/M97p6KioqISz9wBcpDhegAQAAA=
+   H4sIAAAAAAAAC+3UyQ2CQBiGYYYEt1iAVoBbtA7ccEM9AXq1CD24nKzBEqzBznwRDh40agAJYb7kySSz/D8ZCIqS/thw4GKF9Zs5Lxvx/+d7zjnh/llP1t9/HP01auaQRwFFlIQ/76UsfE70rR/Rha+GOhpoohX0bwtfJ6a7NyKqa2JPLYtxy7h7UdebO+CIU7Ce9m/6EvL8NeT5m/wnR5qKqihV9fv92g9744geU3+bug7cD/UN1rvooY8BhjAxwhgTTDGDhTkWWCZ8dzIyMjIy6cwddgDhLgAQAAA=
   </data>
  </layer>
  <layer name="Shadow" width="32" height="32">
@@ -18,11 +18,19 @@
  </layer>
  <layer name="Border" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYBSMglFALcCIhLHx6WE/KeLUtBefP2kdDsSaS237SfUXvdIBvewXZWJgEIPigbDfHGqvBZH2KxCpjlQQBTQ3GohjcJifBBRPBmInGtkPA7jCt4XG9sLAAqA9C4F4ERAvBuIlQLyUiX72j4JRMApGwSggDAD9rYpBABAAAA==
+   H4sIAAAAAAAAC+2STQrCMBQGY+6gO4u30LV7xfoDoq70Kh5EbXtPZ5FAFqY20GT1DQy0r+UNKTVGeDa4xRPusMY9HtzMXx/x7GZCCBEyCfx1X6KfMh+z23fO3N9h6N6x+6nnKvUflOpPrTEzZ4w5zyqbp790e1c9/ZDFwPdSubD3irfI/jvzB64z9T2x7/vM3PW86Lzxgw222NlyfSGEEP/5Avk9ihUAEAAA
   </data>
  </layer>
 <objectgroup name="Objects" width="32" height="32">
   <object id="1" name="player" type="player" x="291" y="130" width="24" height="28"/>
   <object id="4" name="EnemySpider" type="EnemySpider" x="228" y="257" width="24" height="28"/>
+  <object id="7" name="LightBlue" type="LightBlue" x="175" y="70" width="7" height="6"/>
+  <object id="8" name="LightBlue" type="LightBlue" x="335" y="70" width="7" height="6"/>
+  <object id="9" name="LightBlue" type="LightBlue" x="495" y="70" width="7" height="6"/>
+  <object id="10" name="LightBlue" type="LightBlue" x="879" y="517" width="7" height="6"/>
+  <object id="11" name="EnemySpider" type="EnemySpider" x="260" y="451" width="24" height="28"/>
+  <object id="12" name="EnemySpider" type="EnemySpider" x="390" y="484" width="24" height="28"/>
+  <object id="13" name="EnemySpider" type="EnemySpider" x="452" y="402" width="24" height="28"/>
+  <object id="14" name="EnemySpider" type="EnemySpider" x="631" y="113" width="24" height="28"/>
  </objectgroup>
 </map>

@@ -16,7 +16,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
-import static core.Constants.*;
+import static helper.Collection.*;
 
 public class Boot {
 	

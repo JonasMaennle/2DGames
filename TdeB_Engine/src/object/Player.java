@@ -2,7 +2,6 @@ package object;
 
 import java.awt.Rectangle;
 import static helper.Graphics.*;
-import static core.Constants.*;
 import static helper.Collection.*;
 
 import org.lwjgl.input.Keyboard;

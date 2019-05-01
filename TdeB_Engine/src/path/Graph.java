@@ -1,7 +1,7 @@
 package path;
 
 import java.util.LinkedList;
-import static core.Constants.*;
+import static helper.Collection.*;
 
 public class Graph {
 	
@@ -101,7 +101,7 @@ public class Graph {
 		return id;
 	}
 	
-	public LinkedList<Node> astar(int startnode, int endnode)
+	public synchronized LinkedList<Node> astar(int startnode, int endnode)
 	{
 		int id, newDis;
 		int maxValue = Integer.MAX_VALUE - (int)Math.sqrt(WIDTH * WIDTH + HEIGHT * HEIGHT);

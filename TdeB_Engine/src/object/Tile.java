@@ -6,7 +6,7 @@ import static helper.Graphics.*;
 
 import java.awt.Rectangle;
 
-import static core.Constants.*;
+import static helper.Collection.*;
 
 import core.Handler;
 import entity.GameEntity;

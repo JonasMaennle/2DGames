@@ -1,6 +1,5 @@
 package helper;
 
-import static core.Constants.*;
 import static helper.Collection.*;
 import static org.lwjgl.opengl.GL11.GL_ALWAYS;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -219,7 +218,7 @@ public class Graphics {
 			for (GameEntity e : entityList) 
 			{
 				// check if e is in range
-				if(e.getX() > getLeftBorder() - 0 && e.getX() < getRightBorder() + 0)
+				if(e.getX() > getLeftBorder() - WIDTH/2 && e.getX() < getRightBorder() + WIDTH/2)
 				{
 					Vector2f[] vertices = e.getVertices();
 					for (int i = 0; i < vertices.length; i++) 

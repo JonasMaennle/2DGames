@@ -2,9 +2,8 @@ package gamestate;
 
 import org.lwjgl.input.Keyboard;
 import static helper.Graphics.*;
-import static core.Constants.*;
-
 import static helper.Collection.*;
+
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -21,7 +20,7 @@ public class Game {
 	private BackgroundHandler backgroundHandler;
 	
 	private Image filter;
-	private float filterScale = 0.05f;
+	private float filterScale = 0.125f;
 	private float filterValue = 0.0f;
 	private float[][] alphaFilter;
 	
@@ -80,7 +79,7 @@ public class Game {
 		// render filter for topFilterObstacle (objects in the fog of war)
 		for(int i = 0; i < WIDTH/TILE_SIZE; i++){
 			alphaFilter = drawCircle(WIDTH/2/TILE_SIZE, HEIGHT/2/TILE_SIZE, i, alphaFilter);
-			if(i > 2)filterValue += filterScale;
+			if(i > 8)filterValue += filterScale;
 		}
 	}
 	

@@ -9,9 +9,10 @@ import org.newdawn.slick.Image;
 import core.Handler;
 import entity.GameEntity;
 import object.Player;
+import object.Tile;
 import path.Node;
 
-import static core.Constants.*;
+import static helper.Collection.*;
 import static helper.Graphics.*;
 
 public abstract class Enemy_Basic implements GameEntity{
@@ -25,6 +26,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected int nextX, nextY;
 	protected float absx, absy;
 	protected Handler handler;
+	protected boolean pathLock;
 	
 	public Enemy_Basic(float x, float y, int width, int height, Handler handler)
 	{
@@ -47,8 +49,17 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.absy = y;
 		
 		this.handler = handler;
+		this.pathLock = false;
 	}
 	
+	public boolean isPathLock() {
+		return pathLock;
+	}
+
+	public void setPathLock(boolean pathLock) {
+		this.pathLock = pathLock;
+	}
+
 	public void update() {
 		
 	}
@@ -59,29 +70,33 @@ public abstract class Enemy_Basic implements GameEntity{
 	
 	protected void mapCollision() {
 		for(GameEntity ge : handler.obstacleList){
+			int boxingOffet = 2;
+			if(ge instanceof Tile){
+				boxingOffet = 0;
+			}
 			// top
 			if(ge.getBottomBounds().intersects(getTopBounds()))
 			{
 				velY = 0;
-				y = (float) (ge.getY() + ge.getHeight());
+				y = (float) (ge.getY() + ge.getHeight() + boxingOffet);
 			}
 			// bottom
 			if(ge.getTopBounds().intersects(getBottomBounds()))
 			{	
 				velY = 0;
-				y = (float) (ge.getY() - TILE_SIZE);
+				y = (float) (ge.getY() - TILE_SIZE - boxingOffet);
 			}		
 			// left
 			if(ge.getRightBounds().intersects(getLeftBounds()))
 			{
 				velX = 0;
-				x = (float) (ge.getX() + ge.getWidth());
+				x = (float) (ge.getX() + ge.getWidth() + boxingOffet);
 			}
 			// right
 			if(ge.getLeftBounds().intersects(getRightBounds()))
 			{
 				velX = 0;
-				x = (float) (ge.getX() - TILE_SIZE);
+				x = (float) (ge.getX() - TILE_SIZE - boxingOffet);
 			}	
 		}
 		

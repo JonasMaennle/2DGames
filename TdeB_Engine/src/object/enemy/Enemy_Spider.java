@@ -46,7 +46,7 @@ public class Enemy_Spider extends Enemy_Basic{
 			// create rect for current node
 			Rectangle node = new Rectangle(path.get(path.size() - 1).getX() * 32 + 16, path.get(path.size() - 1).getY() * 32 + 16, 16, 16);
 			
-			if(getBounds().intersects(node) && path.size() > 0){
+			if(getBounds().intersects(node) && path.size() > 0 && !pathLock){
 				visited.add(path.get(path.size()-1));
 				path.remove(path.size() - 1);		
 			}

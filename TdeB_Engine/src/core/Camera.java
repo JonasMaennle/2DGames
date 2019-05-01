@@ -1,6 +1,5 @@
 package core;
 
-import static core.Constants.*;
 import static helper.Collection.*;
 
 import entity.GameEntity;

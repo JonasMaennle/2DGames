@@ -1,7 +1,5 @@
 package helper;
 
-import static core.Constants.*;
-
 import static helper.Collection.*;
 
 import java.io.BufferedReader;
@@ -16,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.tiled.TileSet;
@@ -23,10 +22,12 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import core.Handler;
 import core.TileGrid;
+import object.LightSpot;
 import object.Player;
 import object.enemy.Enemy_Spider;
 import path.Graph;
 import path.Node;
+import shader.Light;
 
 public class Leveler {
 	
@@ -106,13 +107,15 @@ public class Leveler {
 				shadowObstacleList.add(tmp);
 				handler.obstacleList.add(tmp);
 			}
+			if(objName.equals("LightBlue")){
+				handler.lightSpotList.add(new LightSpot(x, y, new Light(new Vector2f(0, 0), 15, 25, 25, 10)));
+			}
 		}
 		
 		handler.setCurrentEntity(handler.getPlayer());
 		
 		System.out.println("Nodes: " + graph.countNodes());
 		graph.createMatrix();
-		
 		return grid;
 	}
 	

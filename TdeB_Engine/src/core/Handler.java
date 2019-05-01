@@ -1,11 +1,11 @@
 package core;
 
+import object.LightSpot;
 import object.Player;
 import object.enemy.Enemy_Basic;
 
-import static core.Constants.*;
 import static helper.Graphics.*;
-
+import static helper.Collection.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -17,6 +17,7 @@ public class Handler {
 	
 	public CopyOnWriteArrayList<GameEntity> obstacleList;
 	public CopyOnWriteArrayList<Enemy_Basic> enemyList;
+	public CopyOnWriteArrayList<LightSpot> lightSpotList;
 	
 	private TileGrid map;
 	private GameEntity currentEntity;
@@ -24,29 +25,40 @@ public class Handler {
 	
 	private float brightness;
 	private Image filter, path;
+	private long time1, time2;
 	
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
+		this.brightness = 0.5f;
+		
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
-		this.brightness = 0.5f;
+		this.lightSpotList = new CopyOnWriteArrayList<>();
 		
 		this.filter = quickLoaderImage("background/Filter");
 		this.path = quickLoaderImage("tiles/path");
+		this.time1 = System.currentTimeMillis();
+		this.time2 = time1;
 	}
 	
 	public void update(){
 		// update current entity 
-		if(currentEntity != null)
-		{
+		if(currentEntity != null){
 			currentEntity.update();
+		}
+		
+		// update SpotLights
+		for(LightSpot spot : lightSpotList){
+			spot.update();
 		}
 		
 		// update enemy
 		for(Enemy_Basic e : enemyList){
 			e.update();
 		}
+		
+		objectInfo();
 	}
 	
 	public void draw(){
@@ -79,6 +91,19 @@ public class Handler {
 		map = null;
 		obstacleList.clear();
 		enemyList.clear();
+		lightSpotList.clear();
+	}
+	
+	//@SuppressWarnings("unused")
+	private void objectInfo()
+	{
+		time1 = System.currentTimeMillis();
+		if(time1 - time2 > 2000)
+		{
+			time2 = time1;
+			// Data output
+			System.out.println("Anzahl Tiles: " + obstacleList.size() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tMovementX: " + MOVEMENT_X);
+		}
 	}
 	
 	@SuppressWarnings("unused")

@@ -24,6 +24,10 @@ public class StateManager {
 	private Graph graph;
 	private PathfindingThread pathThread;
 	
+	private long nextSecond = System.currentTimeMillis() + 1000;
+	public static int framesInLastSecond = 0;
+	private int framesInCurrentSecond = 0;
+	
 	public StateManager()
 	{
 		this.graph = new Graph();
@@ -49,6 +53,17 @@ public class StateManager {
 			System.out.println("No valid gamestate found");
 			break;
 		}
+		
+		// Calculate FPS
+		long currentTime = System.currentTimeMillis();
+		if(currentTime > nextSecond)
+		{
+			//System.out.println("FPS: " + framesInLastSecond);
+			nextSecond += 1000;
+			framesInLastSecond = framesInCurrentSecond;
+			framesInCurrentSecond = 0;
+		}
+		framesInCurrentSecond++;
 	}
 	
 	public void loadLevel()
