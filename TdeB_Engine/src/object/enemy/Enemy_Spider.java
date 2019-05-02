@@ -25,9 +25,9 @@ public class Enemy_Spider extends Enemy_Basic{
 		this.vertRight_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_0");
 		this.vertLeft_1 = quickLoaderImage("enemy/Enemy_Spider_Basic_Left_1");
 		this.vertRight_1 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_1");
+		
 		eyeLight = new Light(new Vector2f(0, 0), 10, 0, 0, 25);
 		lights.add(eyeLight);
-	
 	}
 	
 	public void update(){

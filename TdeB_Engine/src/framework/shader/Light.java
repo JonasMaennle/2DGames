@@ -45,9 +45,9 @@ public class Light {
 		return radius;
 	}
 	
-	public void setRadius(float radius)
-	{
+	public void setRadius(float radius){
 		this.radius = radius;
+		initNewShader(radius);
 	}
 
 	public Shader getShader() {

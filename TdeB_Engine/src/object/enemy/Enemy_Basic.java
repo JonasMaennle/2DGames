@@ -42,7 +42,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.width = width;
 		this.height = height;
 		this.image = quickLoaderImage("enemy/Enemy_tmp");
-		this.speed = 2;
+		this.speed = 0;
 		this.velX = 0;
 		this.velY = 0;
 		this.hp = 32;
@@ -106,6 +106,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		x += (velX * speed);
 		y += (velY * speed);
 		mapCollision();
+		isPlayerInRange();
 		
 		// remove visited nodes
 		if(path.size() > 0){
@@ -121,6 +122,12 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	public void draw() {
 		drawQuadImage(image, x, y, width, height);
+	}
+	
+	public void isPlayerInRange(){
+		if(x > handler.getPlayer().getX() - 200 && x < handler.getPlayer().getX() + 200){
+			speed = 2;
+		}
 	}
 	
 	protected void mapCollision() {

@@ -21,7 +21,7 @@ public class Collectable_Helmet extends Collectable_Basic{
 		super(x, y, width, height);
 		this.imgRight = quickLoaderImage("player/player_lamp_right");
 		this.imgLeft = quickLoaderImage("player/player_lamp_left");
-		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 50, 25, 5, 12);
+		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 50, 25, 5, 15);
 		lights.add(light);
 	}
 	
@@ -29,10 +29,10 @@ public class Collectable_Helmet extends Collectable_Basic{
 		
 		if(found){
 			x = (int) player.getX();
-			y = (int) player.getY() - height + 4;	
+			y = (int) player.getY() - height + 4;
 		}else{
 			light.setLocation(new Vector2f(x + MOVEMENT_X + width - 10, y + MOVEMENT_Y));
-		}
+		}		
 	}
 	
 	public void draw(){
@@ -54,6 +54,7 @@ public class Collectable_Helmet extends Collectable_Basic{
 
 	public void setPlayer(Player player) {
 		this.player = player;
+		light.setRadius(6);
 	}
 	
 	public void removeLight(){

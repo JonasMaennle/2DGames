@@ -30,6 +30,10 @@ public class Handler {
 	private Image filter, path;
 	private long time1, time2;
 	
+	private float filterScale = 0.125f;
+	private float filterValue = 0.0f;
+	private float[][] alphaFilter;
+	
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
@@ -44,6 +48,8 @@ public class Handler {
 		this.path = quickLoaderImage("tiles/path");
 		this.time1 = System.currentTimeMillis();
 		this.time2 = time1;
+		
+		initFilter(3);
 	}
 	
 	public void update(){
@@ -102,6 +108,18 @@ public class Handler {
 		GL11.glColor4f(0, 0, 0, brightness);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
+		
+		// render light list
+		renderLightEntity(shadowObstacleList);
+		
+		// draw fog of war
+		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
+			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){
+				GL11.glColor4f(0, 0, 0, alphaFilter[y][x]);
+				drawQuadImageStatic(filter, (x*32), (y*32), 32, 32);
+				GL11.glColor4f(1, 1, 1, 1);
+			}
+		}
 	}
 	
 	public void wipe(){
@@ -134,6 +152,42 @@ public class Handler {
 			}
 		}
 	}
+	
+	public void initFilter(int filterPlayerOffset){
+		filterValue = 0;
+		alphaFilter = new float[HEIGHT/TILE_SIZE + 1][(WIDTH/TILE_SIZE) + 1]; 		
+		// fill array with value = 1
+		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
+			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){
+				alphaFilter[y][x] = 1;
+			}
+		}
+		
+		// render filter for topFilterObstacle (objects in the fog of war)
+		for(int i = 0; i < WIDTH/TILE_SIZE; i++){
+			alphaFilter = drawCircle(WIDTH/2/TILE_SIZE, HEIGHT/2/TILE_SIZE, i, alphaFilter);
+			if(i > filterPlayerOffset)filterValue += filterScale;
+		}
+	}
+	
+	private float[][] drawCircle(int x, int y, int r, float[][] array) {
+	    double angle, x1, y1;
+
+	    int arrayWidth = array[0].length;
+	    int arrayHeight = array.length;
+	    
+	    for (int i = 0; i < 360; i++) {
+	        angle = i;
+	        x1 = r * Math.cos(angle * Math.PI / 180);
+	        y1 = r * Math.sin(angle * Math.PI / 180);
+
+	        int ElX = (int) Math.round(x + x1);
+	        int ElY = (int) Math.round(y + y1);
+	        if(ElX < arrayWidth && ElX >= 0 && ElY < arrayHeight && ElY >= 0)
+	        	array[ElY][ElX] = filterValue;
+	    }  
+	    return array;
+	}
 
 	public GameEntity getCurrentEntity() {
 		return currentEntity;
@@ -158,4 +212,6 @@ public class Handler {
 	public void setMap(TileGrid map) {
 		this.map = map;
 	}
+	
+	
 }
