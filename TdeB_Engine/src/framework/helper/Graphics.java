@@ -281,6 +281,7 @@ public class Graphics {
 	
 	// render all lights from light list
 	public static void renderLightEntity(CopyOnWriteArrayList<GameEntity> entityList){
+		timerStart();
 		//System.out.println(lights.size());
 		for (Light light : lights) 
 		{
@@ -358,5 +359,6 @@ public class Graphics {
 			light.getShader().unUse();
 			glClear(GL_STENCIL_BUFFER_BIT);
 		}
+		timerEnd();
 	}
 }

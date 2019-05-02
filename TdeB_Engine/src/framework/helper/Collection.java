@@ -26,6 +26,8 @@ public class Collection {
 	public static int TILES_WIDTH;
 	public static int TILES_HEIGHT;
 	
+	private static long time1, time2;
+	
 	public static float getLeftBorder(){
 		return MOVEMENT_X * -1;
 	}
@@ -42,8 +44,17 @@ public class Collection {
 		return (MOVEMENT_Y * -1) + HEIGHT;
 	}
 	
+	public static void timerStart(){
+		time1 = System.currentTimeMillis();
+	}
+	
+	public static void timerEnd(){
+		time2 = System.currentTimeMillis();
+		System.out.println("Time difference: " + (time2 - time1) + "");
+	}
+	
 	public static Vector2f[] getImageVertices(int x, int y, Image image){
-		
+
 		int w = image.getWidth();
 		int h = image.getHeight();
 		//
