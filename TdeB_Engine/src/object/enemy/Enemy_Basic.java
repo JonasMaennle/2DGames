@@ -321,4 +321,8 @@ public abstract class Enemy_Basic implements GameEntity{
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
+	
+	
+	public void die(){
+	}
 }

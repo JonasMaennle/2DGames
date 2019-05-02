@@ -58,12 +58,13 @@ public class Handler {
 		for(Enemy_Basic e : enemyList){
 			e.update();
 			if(e.getHp() <= 0){
+				e.die();
 				enemyList.remove(e);
 				shadowObstacleList.remove(e);
 			}
 		}
 		
-		//objectInfo();
+		objectInfo();
 	}
 	
 	public void draw(){
@@ -99,7 +100,7 @@ public class Handler {
 		lightSpotList.clear();
 	}
 	
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	private void objectInfo(){
 		time1 = System.currentTimeMillis();
 		if(time1 - time2 > 2000)
