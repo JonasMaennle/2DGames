@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import org.lwjgl.util.vector.Vector2f;
 
 import framework.entity.GameEntity;
-import shader.Light;
+import framework.shader.Light;
 
 public class LightSpot implements GameEntity{
 

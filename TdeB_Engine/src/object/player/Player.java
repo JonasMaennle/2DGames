@@ -12,7 +12,7 @@ import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
-import shader.Light;
+import framework.shader.Light;
 
 public class Player implements GameEntity{
 	

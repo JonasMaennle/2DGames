@@ -1,4 +1,4 @@
-package shader;
+package framework.shader;
 
 import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
 import static org.lwjgl.opengl.GL11.glClearColor;

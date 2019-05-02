@@ -4,8 +4,8 @@ import static framework.helper.Collection.*;
 import static framework.helper.Leveler.*;
 
 import framework.gamestate.Game;
-import path2.Graph;
-import path2.PathfindingThread;
+import framework.path.Graph;
+import framework.path.PathfindingThread;
 
 public class StateManager {
 	

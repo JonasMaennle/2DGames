@@ -38,7 +38,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 import framework.entity.GameEntity;
-import shader.Light;
+import framework.shader.Light;
 
 public class Graphics {
 	

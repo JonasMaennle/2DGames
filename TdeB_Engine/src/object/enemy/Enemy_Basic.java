@@ -11,9 +11,9 @@ import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
+import framework.path.Node;
 import object.Tile;
 import object.player.Player;
-import path2.Node;
 
 public abstract class Enemy_Basic implements GameEntity{
 

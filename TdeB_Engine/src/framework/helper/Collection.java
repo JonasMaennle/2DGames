@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import framework.entity.GameEntity;
-import shader.Light;
+import framework.shader.Light;
 
 public class Collection {
 	

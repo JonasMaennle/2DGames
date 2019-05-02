@@ -1,4 +1,4 @@
-package path2;
+package framework.path;
 
 public class Node {
 	

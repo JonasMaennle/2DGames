@@ -22,12 +22,12 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import framework.core.Handler;
 import framework.core.TileGrid;
+import framework.path.Graph;
+import framework.path.Node;
+import framework.shader.Light;
 import object.LightSpot;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
-import path2.Graph;
-import path2.Node;
-import shader.Light;
 
 public class Leveler {
 	
