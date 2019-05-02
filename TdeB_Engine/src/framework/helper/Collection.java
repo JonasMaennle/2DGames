@@ -7,6 +7,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
+import framework.core.StateManager;
 import framework.entity.GameEntity;
 import framework.shader.Light;
 
@@ -50,7 +51,7 @@ public class Collection {
 	
 	public static void timerEnd(){
 		time2 = System.currentTimeMillis();
-		System.out.println("Time difference: " + (time2 - time1) + "");
+		System.out.println("Time difference: " + ((time2 - time1)*StateManager.framesInLastSecond) + "\tms/s");
 	}
 	
 	public static Vector2f[] getImageVertices(int x, int y, Image image){
@@ -64,9 +65,12 @@ public class Collection {
 		for(int xx = 0; xx < w; xx++){
 			for(int yy = 0; yy < h; yy++){
 				Color c = image.getColor(xx, yy);
-				if(c.getAlpha() != 0){
-					alpha[xx][yy] = 1;
-					alphaCounter++;
+				if(c.getAlpha() > 1){
+					// add only if 1 neighbour got alpha = 0
+					if(checkNeighbourPixel(xx, yy, image)){
+						alpha[xx][yy] = 1;
+						alphaCounter++;
+					}
 				}
 			}
 		}
@@ -81,7 +85,32 @@ public class Collection {
 				}
 			}
 		}
-		// System.out.println(vertices.length);
+		//System.out.println(vertices.length);
 		return vertices;
+	}
+	
+	private static boolean checkNeighbourPixel(int targetX, int targetY, Image image){
+
+		try {
+			// top
+			if(image.getColor(targetX, targetY + 1).getAlpha() < 2){
+				return true;
+			}
+			// bottom
+			if(image.getColor(targetX, targetY - 1).getAlpha() < 2){
+				return true;
+			}
+			// left
+			if(image.getColor(targetX - 1, targetY).getAlpha() < 2){
+				return true;
+			}
+			// right
+			if(image.getColor(targetX + 1, targetY).getAlpha() < 2){
+				return true;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return false;
+		}
+		return false;
 	}
 }

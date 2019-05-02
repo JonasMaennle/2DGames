@@ -39,15 +39,19 @@ public class Enemy_Spider extends Enemy_Basic{
 	@Override
 	public Vector2f[] getVertices() {
 		if(direction.equals("right")){
-			if(moveRight.getFrame() == 0)
+			if(moveRight.getFrame() == 0){
 				return getImageVertices((int)x, (int)y, vertRight_0);
-			else
+			}
+			else{
 				return getImageVertices((int)x, (int)y, vertRight_1);
+			}
 		}else{
-			if(moveLeft.getFrame() == 0)
+			if(moveLeft.getFrame() == 0){
 				return getImageVertices((int)x, (int)y, vertLeft_1);
-			else
+			}		
+			else{
 				return getImageVertices((int)x, (int)y, vertLeft_0);
+			}			
 		}
 	}
 }
