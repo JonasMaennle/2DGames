@@ -26,6 +26,7 @@ import framework.path.Graph;
 import framework.path.Node;
 import framework.shader.Light;
 import object.LightSpot;
+import object.collectable.Collectable_Helmet;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
 
@@ -110,6 +111,10 @@ public class Leveler {
 			}
 			if(objName.equals("LightBlue")){
 				handler.lightSpotList.add(new LightSpot(x, y, new Light(new Vector2f(0, 0), 15, 25, 25, 10)));
+			}
+			if(objName.equals("Helmet")){
+				Collectable_Helmet helmet = new Collectable_Helmet(x, y, 32, 16);
+				handler.collectableList.add(helmet);
 			}
 		}
 		

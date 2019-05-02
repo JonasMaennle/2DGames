@@ -14,6 +14,8 @@ import org.newdawn.slick.Image;
 import framework.core.Handler;
 import framework.entity.GameEntity;
 import framework.shader.Light;
+import object.collectable.Collectable_Basic;
+import object.collectable.Collectable_Helmet;
 
 public class Player implements GameEntity{
 	
@@ -79,6 +81,7 @@ public class Player implements GameEntity{
 		y += velY * speed;
 		
 		mapCollision();
+		collectableCollision();
 		
 		updateDirection();
 		weapon.update();
@@ -129,6 +132,19 @@ public class Player implements GameEntity{
 				velX = 0;
 				x = (float) (ge.getX() - TILE_SIZE);
 			}	
+		}
+	}
+	
+	private void collectableCollision(){
+		for(Collectable_Basic c : handler.collectableList){
+			if(c.getBounds().intersects(getBounds())){
+				// Helmet
+				if(c instanceof Collectable_Helmet && !c.isFound()){
+					((Collectable_Helmet) c).setPlayer(this);
+					c.setFound(true);
+				}
+				// other
+			}
 		}
 	}
 	
@@ -234,5 +250,13 @@ public class Player implements GameEntity{
 
 	public void setWeapon(Weapon_Basic weapon) {
 		this.weapon = weapon;
+	}
+
+	public Animation getWalkRight() {
+		return walkRight;
+	}
+
+	public Animation getWalkLeft() {
+		return walkLeft;
 	}
 }

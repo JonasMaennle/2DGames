@@ -1,6 +1,7 @@
 package framework.core;
 
 import object.LightSpot;
+import object.collectable.Collectable_Basic;
 import object.enemy.Enemy_Basic;
 import object.player.Player;
 
@@ -19,6 +20,7 @@ public class Handler {
 	public CopyOnWriteArrayList<GameEntity> obstacleList;
 	public CopyOnWriteArrayList<Enemy_Basic> enemyList;
 	public CopyOnWriteArrayList<LightSpot> lightSpotList;
+	public CopyOnWriteArrayList<Collectable_Basic> collectableList;
 	
 	private TileGrid map;
 	private GameEntity currentEntity;
@@ -36,6 +38,7 @@ public class Handler {
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.lightSpotList = new CopyOnWriteArrayList<>();
+		this.collectableList = new CopyOnWriteArrayList<>();
 		
 		this.filter = quickLoaderImage("background/Filter");
 		this.path = quickLoaderImage("tiles/path");
@@ -52,6 +55,11 @@ public class Handler {
 		// update SpotLights
 		for(LightSpot spot : lightSpotList){
 			spot.update();
+		}
+		
+		// update collectables
+		for(Collectable_Basic c : collectableList){
+			c.update();
 		}
 		
 		// update enemy
@@ -78,6 +86,11 @@ public class Handler {
 		if(StateManager.gameState != StateManager.GameState.DEATHSCREEN && player != null && currentEntity.equals(player))
 			player.draw();
 		
+		// draw collectables
+		for(Collectable_Basic c : collectableList){
+			c.draw();
+		}
+		
 		// draw enemy
 		for(Enemy_Basic e : enemyList){
 			e.draw();
@@ -95,9 +108,11 @@ public class Handler {
 		player = null;
 		currentEntity = null;
 		map = null;
+		
 		obstacleList.clear();
 		enemyList.clear();
 		lightSpotList.clear();
+		collectableList.clear();
 	}
 	
 	//@SuppressWarnings("unused")

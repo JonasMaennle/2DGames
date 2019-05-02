@@ -52,7 +52,7 @@ public class Weapon_Basic implements GameEntity{
 			x = player.getX() + 22;
 			y = player.getY() + 7;
 		}else{
-			x = player.getX() - 6;
+			x = player.getX() - 4;
 			y = player.getY() + 7;
 		}
 		calcAngle(Mouse.getX() - MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y);
@@ -98,7 +98,7 @@ public class Weapon_Basic implements GameEntity{
 			if(destX < x + (width/2)){
 				destX = getRightBorder() - destX;
 			}
-			bulletList.add(new Bullet_Basic(x, y + (height/2), 8, 8, destX, destY, "right", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(x + 2, y + (height/2) - 4, 6, 6, destX, destY, "right", bulletSpeed, angle));
 		}
 		
 		// walk left
@@ -106,7 +106,7 @@ public class Weapon_Basic implements GameEntity{
 			if(destX > x + (width/2)){
 				destX = getLeftBorder() + destX;
 			}
-			bulletList.add(new Bullet_Basic(x + width, y + (height/2), 8, 8, destX, destY, "left", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(x + width - 6, y + (height/2) - 4, 6, 6, destX, destY, "left", bulletSpeed, angle));
 		}
 	}
 	

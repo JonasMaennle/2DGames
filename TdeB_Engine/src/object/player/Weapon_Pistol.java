@@ -20,15 +20,15 @@ public class Weapon_Pistol extends Weapon_Basic{
 	}
 	
 	public void draw(){
-		for(Bullet_Basic bullet : bulletList){
-			bullet.draw();
-		}
-		
-		//drawQuadImage(default_weapon, x, y, width, height);
+
 		if(player.getDirection().equals("right")){
 			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		}else{
-			drawQuadImageRotRight(weaponRight, x, y, width, height, angle);
+			drawQuadImageRotRight(weaponLeft, x, y, width, height, angle - 180);
+		}
+		
+		for(Bullet_Basic bullet : bulletList){
+			bullet.draw();
 		}
 	}
 	

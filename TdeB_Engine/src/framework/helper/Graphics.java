@@ -161,17 +161,23 @@ public class Graphics {
 		image.bind();
 		glTranslatef(x + ((width / 3) * 2) + MOVEMENT_X, y + height + MOVEMENT_Y, 0);
 		glRotatef(angle, 0, 0, 1);
-		glTranslatef(- width / 5f, - height / 2, 0);
+		glTranslatef(- width / 1.1f, - height / 2, 0);
 			
 		glBegin(GL_QUADS);
+		
+		// left top
 		glTexCoord2f(0, 0);
 		glVertex2f(0, 0);
+		//right top
 		glTexCoord2f(1, 0);
 		glVertex2f(width, 0);
+		// right bottom
 		glTexCoord2f(1, 1);
 		glVertex2f(width, height);
+		// left bottom
 		glTexCoord2f(0, 1);
 		glVertex2f(0, height);
+		
 		glEnd();
 		
 		glLoadIdentity();
