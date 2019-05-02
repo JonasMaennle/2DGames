@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
@@ -16,18 +17,19 @@ import framework.shader.Light;
 
 public class Player implements GameEntity{
 	
-	private int width, height;
-	private float x, y, velX, velY, speed;
+	private int width, height, velX, velY;
+	private float x, y, speed;
 	private String direction;
-	private Image placeholder;
+	private Image idle_left, idle_right;
 	private Handler handler;
 	private Light playerLight;
 	
 	private Weapon_Basic weapon;
 	private boolean isShooting;
 	
-	public Player(int x, int y, Handler handler)
-	{
+	private Animation walkRight, walkLeft;
+	
+	public Player(int x, int y, Handler handler){
 		this.handler = handler;
 		
 		this.x = x;
@@ -38,11 +40,15 @@ public class Player implements GameEntity{
 		this.direction = "right";
 		this.isShooting = false;
 		
-		this.placeholder = quickLoaderImage("player/Player_tmp");
-		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 15);
-		
+		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 15);	
 		this.weapon = new Weapon_Pistol(16, 8, this, handler);
-		lights.add(playerLight);
+		
+		this.idle_left = quickLoaderImage("player/player_idle_left");
+		this.idle_right = quickLoaderImage("player/player_idle_right");
+		this.walkLeft = new Animation(loadSpriteSheet("player/player_walk_left", TILE_SIZE, TILE_SIZE), 200);
+		this.walkRight = new Animation(loadSpriteSheet("player/player_walk_right", TILE_SIZE, TILE_SIZE), 200);		
+		
+		//lights.add(playerLight);
 	}
 
 	public void update() {
@@ -50,23 +56,13 @@ public class Player implements GameEntity{
 		velY = 0;
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_D))
-		{
 			velX += 1;
-		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_A))
-		{
 			velX -= 1;
-		}		
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S))
-		{
 			velY = 1;
-		}	
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W))
-		{
 			velY = -1;
-		}
 
 		// Shoot
 		if(Mouse.isButtonDown(0) && !isShooting){
@@ -86,43 +82,54 @@ public class Player implements GameEntity{
 		
 		updateDirection();
 		weapon.update();
+		playerLight.setLocation(new Vector2f(x + MOVEMENT_X + 16, y + MOVEMENT_Y + 16));
 	}
 
+	public void draw() {
+
+		switch (direction) {
+		case "right":
+			if(velX == 0 && velY == 0)
+				drawQuadImage(idle_right, x, y, width, height);
+			else
+				drawAnimation(walkRight, x, y, width, height);
+			break;
+		case "left":
+			if(velX == 0 && velY == 0)
+				drawQuadImage(idle_left, x, y, width, height);
+			else
+				drawAnimation(walkLeft, x, y, width, height);
+			break;
+		default:
+			System.out.println("Player velocityX out of range!");
+			break;
+		}
+		weapon.draw();
+	}
+	
 	private void mapCollision() {
-		for(GameEntity ge : handler.obstacleList)
-		{
+		for(GameEntity ge : handler.obstacleList){
 			// top
-			if(ge.getBottomBounds().intersects(getTopBounds()))
-			{
+			if(ge.getBottomBounds().intersects(getTopBounds())){
 				velY = 0;
 				y = (float) (ge.getY() + ge.getHeight());
 			}
 			// bottom
-			if(ge.getTopBounds().intersects(getBottomBounds()))
-			{	
+			if(ge.getTopBounds().intersects(getBottomBounds())){	
 				velY = 0;
 				y = (float) (ge.getY() - TILE_SIZE);
 			}		
 			// left
-			if(ge.getRightBounds().intersects(getLeftBounds()))
-			{
+			if(ge.getRightBounds().intersects(getLeftBounds())){
 				velX = 0;
 				x = (float) (ge.getX() + ge.getWidth());
 			}
 			// right
-			if(ge.getLeftBounds().intersects(getRightBounds()))
-			{
+			if(ge.getLeftBounds().intersects(getRightBounds())){
 				velX = 0;
 				x = (float) (ge.getX() - TILE_SIZE);
 			}	
 		}
-	}
-
-	public void draw() {
-		playerLight.setLocation(new Vector2f(x + MOVEMENT_X + 16, y + MOVEMENT_Y + 16));
-		drawQuadImage(placeholder, x, y, width, height);
-		
-		weapon.draw();
 	}
 	
 	@SuppressWarnings("unused")
@@ -134,8 +141,7 @@ public class Player implements GameEntity{
 		drawQuad((int)x,(int) y + TILE_SIZE - 16, TILE_SIZE, 16); // bottom
 	}
 	
-	private void updateDirection()
-	{
+	private void updateDirection(){
 		float mouseX = Mouse.getX() - MOVEMENT_X;
 		
 		if(mouseX > x)

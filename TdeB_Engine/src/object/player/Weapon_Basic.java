@@ -50,10 +50,10 @@ public class Weapon_Basic implements GameEntity{
 			
 		if(player.getDirection().equals("right")){
 			x = player.getX() + 22;
-			y = player.getY() + 5;
+			y = player.getY() + 7;
 		}else{
 			x = player.getX() - 6;
-			y = player.getY() + 5;
+			y = player.getY() + 7;
 		}
 		calcAngle(Mouse.getX() - MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y);
 		
