@@ -1,55 +1,54 @@
 package object.enemy;
 
-import java.awt.Rectangle;
+import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 
 import framework.core.Handler;
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
 
 public class Enemy_Spider extends Enemy_Basic{
+	
+	private Image vertLeft_0, vertLeft_1, vertRight_0, vertRight_1;
 
 	public Enemy_Spider(float x, float y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);
+		moveLeft = new Animation(loadSpriteSheet("enemy/Enemy_Spider_left", TILE_SIZE, TILE_SIZE), 200);
+		moveRight = new Animation(loadSpriteSheet("enemy/Enemy_Spider_right", TILE_SIZE, TILE_SIZE), 200);
+		
+		this.vertLeft_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Left_0");
+		this.vertRight_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_0");
+		this.vertLeft_1 = quickLoaderImage("enemy/Enemy_Spider_Basic_Left_1");
+		this.vertRight_1 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_1");
+	
 	}
 	
 	public void update(){
-		velX = 0;
-		velY = 0;
-		//System.out.println(path.size());
-		if(path.size() > 0)
-		{
-			absx = path.get(path.size() - 1).getX() * 32;
-			absy = path.get(path.size() - 1).getY() * 32;
-			// System.out.println(path.size());
-			// System.out.println(absx + "   " + absy);
-			if(absx > x)
-				velX = 1; 
-			if(absx < x)
-				velX = -1;
-			if(absx == x)
-				velX = 0;
-			
-			if(absy > y)
-				velY = 1;
-			if(absy < y)
-				velY = -1;
-			if(absy == y)
-				velY = 0;				
+		super.update();
+	}
+	
+	public void draw(){	
+		if(direction.equals("right")){
+			drawAnimation(moveRight, x, y, width, height);
 		}else{
-			velX = 0;
-			velY = 0;
+			drawAnimation(moveLeft, x, y, width, height);
 		}
-		x += (velX * speed);
-		y += (velY * speed);
-		mapCollision();
+	}
+	
+	@Override
+	public Vector2f[] getVertices() {
 		
-		// remove visited nodes
-		if(path.size() > 0){
-			// create rect for current node
-			Rectangle node = new Rectangle(path.get(path.size() - 1).getX() * 32, path.get(path.size() - 1).getY() * 32, 32, 32);
-			
-			if(getBounds().intersects(node) && path.size() > 0 && !pathLock){
-				visited.add(path.get(path.size()-1));
-				path.remove(path.size() - 1);		
-			}
+		if(direction.equals("right")){
+			if(moveRight.getFrame() == 0)
+				return getImageVertices((int)x, (int)y, vertRight_0);
+			else
+				return getImageVertices((int)x, (int)y, vertRight_1);
+		}else{
+			if(moveLeft.getFrame() == 0)
+				return getImageVertices((int)x, (int)y, vertLeft_1);
+			else
+				return getImageVertices((int)x, (int)y, vertLeft_0);
 		}
 	}
 }

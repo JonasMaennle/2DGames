@@ -28,8 +28,7 @@ public class StateManager {
 	public static int framesInLastSecond = 0;
 	private int framesInCurrentSecond = 0;
 	
-	public StateManager()
-	{
+	public StateManager(){
 		this.graph = new Graph();
 		this.handler = new Handler();
 		this.game = new Game(handler);
@@ -56,8 +55,7 @@ public class StateManager {
 		
 		// Calculate FPS
 		long currentTime = System.currentTimeMillis();
-		if(currentTime > nextSecond)
-		{
+		if(currentTime > nextSecond){
 			//System.out.println("FPS: " + framesInLastSecond);
 			nextSecond += 1000;
 			framesInLastSecond = framesInCurrentSecond;
@@ -66,14 +64,12 @@ public class StateManager {
 		framesInCurrentSecond++;
 	}
 	
-	public void loadLevel()
-	{
+	public void loadLevel(){
 		CURRENT_LEVEL++;
 		handler.wipe();
 		shadowObstacleList.clear();
 
-		switch (CURRENT_LEVEL) 
-		{
+		switch (CURRENT_LEVEL) {
 		// Szenario maps
 		case 1:
 			handler.setMap(loadMap(handler, "level/map_0" + CURRENT_LEVEL, graph));

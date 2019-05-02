@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.util.LinkedList;
 
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
@@ -19,16 +20,21 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	protected float x, y, speed, velX, velY;
 	protected int width, height;
-	protected Image image;
 	protected int hp;
+	protected boolean pathLock;
+	protected String direction;
 	
 	protected LinkedList<Node> path;
 	protected LinkedList<Node> visited;
 	protected int nextX, nextY;
 	protected float absx, absy;
-	protected Handler handler;
-	protected boolean pathLock;
 	
+	protected Handler handler;
+	protected Image image;
+	
+	protected Animation moveLeft;
+	protected Animation moveRight;
+
 	public Enemy_Basic(float x, float y, int width, int height, Handler handler)
 	{
 		this.x = x;
@@ -52,6 +58,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		
 		this.handler = handler;
 		this.pathLock = false;
+		this.direction = "right";
 	}
 	
 	public boolean isPathLock() {
@@ -63,7 +70,53 @@ public abstract class Enemy_Basic implements GameEntity{
 	}
 
 	public void update() {
+		velX = 0;
+		velY = 0;
+		//System.out.println(path.size());
+		if(path.size() > 0)
+		{
+			absx = path.get(path.size() - 1).getX() * 32;
+			absy = path.get(path.size() - 1).getY() * 32;
+			// System.out.println(path.size());
+			// System.out.println(absx + "   " + absy);
+			if(absx > x)
+				velX = 1; 
+			if(absx < x)
+				velX = -1;
+			if(absx == x)
+				velX = 0;
+			
+			if(absy > y)
+				velY = 1;
+			if(absy < y)
+				velY = -1;
+			if(absy == y)
+				velY = 0;				
+		}else{
+			velX = 0;
+			velY = 0;
+		}
 		
+		// set direction
+		if(velX == -1)
+			direction = "left";
+		if(velX == 1)
+			direction = "right";
+		
+		x += (velX * speed);
+		y += (velY * speed);
+		mapCollision();
+		
+		// remove visited nodes
+		if(path.size() > 0){
+			// create rect for current node
+			Rectangle node = new Rectangle(path.get(path.size() - 1).getX() * 32, path.get(path.size() - 1).getY() * 32, 32, 32);
+			
+			if(getBounds().intersects(node) && path.size() > 0 && !pathLock){
+				visited.add(path.get(path.size()-1));
+				path.remove(path.size() - 1);		
+			}
+		}
 	}
 
 	public void draw() {
