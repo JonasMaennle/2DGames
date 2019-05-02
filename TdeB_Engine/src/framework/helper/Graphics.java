@@ -1,6 +1,6 @@
-package helper;
+package framework.helper;
 
-import static helper.Collection.*;
+import static framework.helper.Collection.*;
 import static org.lwjgl.opengl.GL11.GL_ALWAYS;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_EQUAL;
@@ -37,7 +37,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import entity.GameEntity;
+import framework.entity.GameEntity;
 import shader.Light;
 
 public class Graphics {

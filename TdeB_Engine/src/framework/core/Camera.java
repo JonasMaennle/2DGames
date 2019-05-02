@@ -1,8 +1,8 @@
-package core;
+package framework.core;
 
-import static helper.Collection.*;
+import static framework.helper.Collection.*;
 
-import entity.GameEntity;
+import framework.entity.GameEntity;
 
 public class Camera {
 	

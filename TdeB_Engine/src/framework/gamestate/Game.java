@@ -1,17 +1,17 @@
-package gamestate;
+package framework.gamestate;
+
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
 
 import org.lwjgl.input.Keyboard;
-import static helper.Graphics.*;
-import static helper.Collection.*;
-
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
-import core.BackgroundHandler;
-import core.Camera;
-import core.Handler;
+import framework.core.BackgroundHandler;
+import framework.core.Camera;
+import framework.core.Handler;
 
 public class Game {
 	

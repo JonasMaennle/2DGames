@@ -1,7 +1,6 @@
-package helper;
+package framework.helper;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -40,10 +39,9 @@ public class TileImageStorage {
 	}
 	
 	private void fillList(int maxWidth, int maxHeight, int width, int height, String path) {
-		
 		BufferedImage buf = null;
         try {
-            buf = ImageIO.read(new File(path));
+            buf = ImageIO.read(TileImageStorage.class.getClass().getResourceAsStream(path));
         } catch (IOException e) {
             e.printStackTrace();
         }

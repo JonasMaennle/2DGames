@@ -2,14 +2,14 @@ package object;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
-import static helper.Graphics.*;
+
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
 
 import java.awt.Rectangle;
 
-import static helper.Collection.*;
-
-import core.Handler;
-import entity.GameEntity;
+import framework.core.Handler;
+import framework.entity.GameEntity;
 
 public class Tile implements GameEntity{
 	

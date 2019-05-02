@@ -1,5 +1,8 @@
 package object.player;
 
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
+
 import java.awt.Rectangle;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -7,12 +10,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
-import core.Handler;
-
-import static helper.Graphics.*;
-import static helper.Collection.*;
-
-import entity.GameEntity;
+import framework.core.Handler;
+import framework.entity.GameEntity;
 import object.enemy.Enemy_Basic;
 
 public class Weapon_Basic implements GameEntity{

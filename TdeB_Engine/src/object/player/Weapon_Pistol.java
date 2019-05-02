@@ -1,6 +1,6 @@
 package object.player;
 
-import core.Handler;
+import framework.core.Handler;
 
 public class Weapon_Pistol extends Weapon_Basic{
 
@@ -18,6 +18,7 @@ public class Weapon_Pistol extends Weapon_Basic{
 	}
 	
 	public void shoot(){
+		bulletDamage = 8;
 		bulletSpeed = 12;
 		super.shoot();
 	}

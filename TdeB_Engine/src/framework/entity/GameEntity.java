@@ -1,4 +1,4 @@
-package entity;
+package framework.entity;
 
 import java.awt.Rectangle;
 

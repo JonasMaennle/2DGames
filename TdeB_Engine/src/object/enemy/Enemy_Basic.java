@@ -1,19 +1,19 @@
 package object.enemy;
 
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
+
 import java.awt.Rectangle;
 import java.util.LinkedList;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
-import core.Handler;
-import entity.GameEntity;
+import framework.core.Handler;
+import framework.entity.GameEntity;
 import object.Tile;
 import object.player.Player;
-import path.Node;
-
-import static helper.Collection.*;
-import static helper.Graphics.*;
+import path2.Node;
 
 public abstract class Enemy_Basic implements GameEntity{
 
@@ -35,7 +35,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.image = quickLoaderImage("Enemy/Enemy_tmp");
+		this.image = quickLoaderImage("enemy/Enemy_tmp");
 		this.speed = 2;
 		this.velX = 0;
 		this.velY = 0;

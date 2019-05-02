@@ -1,13 +1,14 @@
 package object.player;
 
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
+
 import java.awt.Rectangle;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
-import static helper.Graphics.*;
-import static helper.Collection.*;
 
-import entity.GameEntity;
+import framework.entity.GameEntity;
 
 public class Bullet_Basic implements GameEntity{
 

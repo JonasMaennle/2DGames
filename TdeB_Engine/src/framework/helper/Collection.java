@@ -1,9 +1,9 @@
-package helper;
+package framework.helper;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import entity.GameEntity;
+import framework.entity.GameEntity;
 import shader.Light;
 
 public class Collection {

@@ -1,6 +1,6 @@
-package helper;
+package framework.helper;
 
-import static helper.Collection.*;
+import static framework.helper.Collection.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,13 +20,13 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.tiled.TileSet;
 import org.newdawn.slick.tiled.TiledMap;
 
-import core.Handler;
-import core.TileGrid;
+import framework.core.Handler;
+import framework.core.TileGrid;
 import object.LightSpot;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
-import path.Graph;
-import path.Node;
+import path2.Graph;
+import path2.Node;
 import shader.Light;
 
 public class Leveler {
@@ -37,13 +37,14 @@ public class Leveler {
 		
 		TileImageStorage list;	
 		TiledMap t_map = null;
-		
+			
 		try {
-			t_map = new TiledMap(path + ".tmx");
+			InputStream in = Leveler.class.getClassLoader().getResourceAsStream(path + ".tmx");
+			//t_map = new TiledMap(in);
+			t_map = new TiledMap(in, "level");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		
 		TILES_WIDTH = t_map.getWidth();
 		TILES_HEIGHT = t_map.getHeight();
 		TileGrid grid = new TileGrid(handler);
@@ -52,7 +53,7 @@ public class Leveler {
 		//System.out.println(t_map.getTileId(0, 0, t_map.getLayerIndex("Background")));
 		TileSet set = t_map.getTileSet(0);
 		SpriteSheet ss = set.tiles;
-		list = new TileImageStorage(32, 32, ss.getWidth(), ss.getHeight(), "res/tiles/tileset_00.png"); // "res/tiles/Itch release tileset.png"
+		list = new TileImageStorage(32, 32, ss.getWidth(), ss.getHeight(), "/level/tileset_00.png"); // "res/tiles/Itch release tileset.png"
 
 		// Add Tiles
 		for(int x = 0; x < TILES_WIDTH; x++){

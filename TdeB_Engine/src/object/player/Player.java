@@ -1,16 +1,17 @@
 package object.player;
 
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
+
 import java.awt.Rectangle;
-import static helper.Graphics.*;
-import static helper.Collection.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
-import core.Handler;
-import entity.GameEntity;
+import framework.core.Handler;
+import framework.entity.GameEntity;
 import shader.Light;
 
 public class Player implements GameEntity{
@@ -38,7 +39,7 @@ public class Player implements GameEntity{
 		this.isShooting = false;
 		
 		this.placeholder = quickLoaderImage("player/Player_tmp");
-		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 35);
+		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 15);
 		
 		this.weapon = new Weapon_Pistol(16, 8, this, handler);
 		lights.add(playerLight);

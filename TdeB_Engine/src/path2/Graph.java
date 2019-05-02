@@ -1,7 +1,8 @@
-package path;
+package path2;
+
+import static framework.helper.Collection.*;
 
 import java.util.LinkedList;
-import static helper.Collection.*;
 
 public class Graph {
 	

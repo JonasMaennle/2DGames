@@ -1,7 +1,8 @@
-package core;
+package framework.core;
+
+import static framework.helper.Graphics.*;
 
 import org.newdawn.slick.Image;
-import static helper.Graphics.*;
 
 public class BackgroundHandler {
 	

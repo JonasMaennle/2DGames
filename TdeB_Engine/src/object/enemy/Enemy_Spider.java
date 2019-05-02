@@ -2,7 +2,7 @@ package object.enemy;
 
 import java.awt.Rectangle;
 
-import core.Handler;
+import framework.core.Handler;
 
 public class Enemy_Spider extends Enemy_Basic{
 
@@ -37,7 +37,6 @@ public class Enemy_Spider extends Enemy_Basic{
 			velX = 0;
 			velY = 0;
 		}
-		System.out.println(velX + "  " + velY);
 		x += (velX * speed);
 		y += (velY * speed);
 		mapCollision();

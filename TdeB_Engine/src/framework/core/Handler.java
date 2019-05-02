@@ -1,17 +1,18 @@
-package core;
+package framework.core;
 
 import object.LightSpot;
 import object.enemy.Enemy_Basic;
 import object.player.Player;
 
-import static helper.Graphics.*;
-import static helper.Collection.*;
+import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
-import entity.GameEntity;
+import framework.entity.GameEntity;
 
 public class Handler {
 	
@@ -30,7 +31,7 @@ public class Handler {
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
-		this.brightness = 0.5f;
+		this.brightness = 0.8f;
 		
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
@@ -81,7 +82,7 @@ public class Handler {
 			e.draw();
 		}
 		// draw enemy path to player
-		drawPath();
+		//drawPath();
 		
 		// draw filter to darken the map
 		GL11.glColor4f(0, 0, 0, brightness);
@@ -98,7 +99,7 @@ public class Handler {
 		lightSpotList.clear();
 	}
 	
-	//@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private void objectInfo(){
 		time1 = System.currentTimeMillis();
 		if(time1 - time2 > 2000)

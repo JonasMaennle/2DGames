@@ -1,12 +1,13 @@
-package path;
+package path2;
+
+import static framework.helper.Collection.*;
 
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
-import static helper.Collection.*;
 
-import core.Handler;
-import core.StateManager;
-import core.StateManager.GameState;
+import framework.core.Handler;
+import framework.core.StateManager;
+import framework.core.StateManager.GameState;
 import object.enemy.Enemy_Basic;
 
 public class PathfindingThread extends Thread{
@@ -43,7 +44,7 @@ public class PathfindingThread extends Thread{
 				if(graph.getNodeID(enemyX, enemyY) != -1 && graph.getNodeID((int)handler.getCurrentEntity().getX()/TILE_SIZE, (int)handler.getCurrentEntity().getY()/TILE_SIZE) != -1)
 				{
 					t1 = System.currentTimeMillis();
-					if(t1 - t2 > 10)
+					if(t1 - t2 > 50)
 					{
 						e.setPathLock(true);
 						if(e != null){

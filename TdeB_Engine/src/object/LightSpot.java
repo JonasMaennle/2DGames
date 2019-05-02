@@ -1,10 +1,12 @@
 package object;
 
+import static framework.helper.Collection.*;
+
 import java.awt.Rectangle;
-import static helper.Collection.*;
+
 import org.lwjgl.util.vector.Vector2f;
 
-import entity.GameEntity;
+import framework.entity.GameEntity;
 import shader.Light;
 
 public class LightSpot implements GameEntity{

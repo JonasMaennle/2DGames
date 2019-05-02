@@ -1,11 +1,11 @@
-package core;
+package framework.core;
 
-import gamestate.Game;
-import path.Graph;
-import path.PathfindingThread;
+import static framework.helper.Collection.*;
+import static framework.helper.Leveler.*;
 
-import static helper.Leveler.*;
-import static helper.Collection.*;
+import framework.gamestate.Game;
+import path2.Graph;
+import path2.PathfindingThread;
 
 public class StateManager {
 	
