@@ -75,8 +75,8 @@ public abstract class Enemy_Basic implements GameEntity{
 		//System.out.println(path.size());
 		if(path.size() > 0)
 		{
-			absx = path.get(path.size() - 1).getX() * 32;
-			absy = path.get(path.size() - 1).getY() * 32;
+			absx = (path.get(path.size() - 1).getX() * 32);
+			absy = (path.get(path.size() - 1).getY() * 32);
 			// System.out.println(path.size());
 			// System.out.println(absx + "   " + absy);
 			if(absx > x)
@@ -129,7 +129,8 @@ public abstract class Enemy_Basic implements GameEntity{
 			if(y > handler.getPlayer().getY() - 200 && y < handler.getPlayer().getY() + 200){
 				speed = 2;
 			}
-		}
+		}else
+			return;
 	}
 	
 	protected void mapCollision() {

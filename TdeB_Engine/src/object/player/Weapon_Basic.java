@@ -88,7 +88,7 @@ public class Weapon_Basic implements GameEntity{
 		if(player.getDirection().equals("right")){
 			drawQuadImageRotLeft(default_weapon, x, y, width, height, angle);
 		}else{
-			drawQuadImageRotRight(default_weapon, x, y, width, height, angle);
+			drawQuadImageRotRight(default_weapon, x, y, width, height, angle - 180);
 		}
 	}
 	

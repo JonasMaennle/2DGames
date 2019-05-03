@@ -7,17 +7,20 @@ import org.lwjgl.opengl.Display;
 import framework.core.BackgroundHandler;
 import framework.core.Camera;
 import framework.core.Handler;
+import framework.ui.HeadUpDisplay;
 
 public class Game {
 	
 	private Handler handler;
 	private Camera camera;
-	private BackgroundHandler backgroundHandler;	
+	private BackgroundHandler backgroundHandler;
+	private HeadUpDisplay hud;
 	
 	public Game(Handler handler){
 		this.handler = handler;
 		this.camera = new Camera(handler.getCurrentEntity());
 		this.backgroundHandler = new BackgroundHandler();	
+		this.hud = new HeadUpDisplay(handler);
 	}
 	
 	public void update(){
@@ -38,6 +41,7 @@ public class Game {
 	public void render(){
 		backgroundHandler.draw();
 		handler.draw();
+		hud.draw();
 	}
 
 	public Camera getCamera() {

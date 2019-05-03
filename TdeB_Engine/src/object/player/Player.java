@@ -15,6 +15,7 @@ import framework.core.Handler;
 import framework.entity.GameEntity;
 import framework.shader.Light;
 import object.collectable.Collectable_Basic;
+import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Helmet;
 
 public class Player implements GameEntity{
@@ -70,6 +71,9 @@ public class Player implements GameEntity{
 		if(Mouse.isButtonDown(0) && !isShooting){
 			if(weapon instanceof Weapon_Pistol){
 				isShooting = true;
+				weapon.shoot();
+			}
+			if(weapon instanceof Weapon_Flamethrower){
 				weapon.shoot();
 			}
 		}	
@@ -144,7 +148,11 @@ public class Player implements GameEntity{
 					c.setFound(true);
 					handler.initFilter(8);
 				}
-				// other
+				// Flamethrower
+				if(c instanceof Collectable_Flamethrower && !c.isFound()){
+					this.weapon = new Weapon_Flamethrower(16, 8, this, handler);
+					handler.collectableList.remove(c);
+				}
 			}
 		}
 	}
@@ -259,5 +267,13 @@ public class Player implements GameEntity{
 
 	public Animation getWalkLeft() {
 		return walkLeft;
+	}
+
+	public int getVelX() {
+		return velX;
+	}
+
+	public void setVelX(int velX) {
+		this.velX = velX;
 	}
 }

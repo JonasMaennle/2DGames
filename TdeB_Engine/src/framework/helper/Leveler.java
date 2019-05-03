@@ -26,6 +26,7 @@ import framework.path.Graph;
 import framework.path.Node;
 import framework.shader.Light;
 import object.LightSpot;
+import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Helmet;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
@@ -115,6 +116,10 @@ public class Leveler {
 			if(objName.equals("Helmet")){
 				Collectable_Helmet helmet = new Collectable_Helmet(x, y, 32, 16);
 				handler.collectableList.add(helmet);
+			}
+			if(objName.equals("Flamethrower")){
+				Collectable_Flamethrower flamethrower = new Collectable_Flamethrower(x, y, 32, 16);
+				handler.collectableList.add(flamethrower);
 			}
 		}
 		

@@ -44,11 +44,11 @@ public class PathfindingThread extends Thread{
 				if(graph.getNodeID(enemyX, enemyY) != -1 && graph.getNodeID((int)handler.getCurrentEntity().getX()/TILE_SIZE, (int)handler.getCurrentEntity().getY()/TILE_SIZE) != -1)
 				{
 					t1 = System.currentTimeMillis();
-					if(t1 - t2 > 50)
+					if(t1 - t2 > 25)
 					{
 						e.setPathLock(true);
 						if(e != null){
-							LinkedList<Node> tmp = graph.astar(graph.getNodeID(enemyX, enemyY), graph.getNodeID((int)handler.getCurrentEntity().getX()/TILE_SIZE , (int)handler.getCurrentEntity().getY()/TILE_SIZE));
+							LinkedList<Node> tmp = graph.astar(graph.getNodeID(enemyX, enemyY), graph.getNodeID((int)(handler.getCurrentEntity().getX())/TILE_SIZE, (int)(handler.getCurrentEntity().getY())/TILE_SIZE));
 							t3 = System.currentTimeMillis();
 							if(tmp.size() < e.getEnemyNodesLeft() || t3 - t4 > 10)
 							{
