@@ -21,7 +21,7 @@ public class Collectable_Helmet extends Collectable_Basic{
 		super(x, y, width, height);
 		this.imgRight = quickLoaderImage("player/player_lamp_right");
 		this.imgLeft = quickLoaderImage("player/player_lamp_left");
-		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 50, 25, 5, 15);
+		this.light = new Light(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), 50, 25, 5, 25);
 		lights.add(light);
 	}
 	
@@ -54,7 +54,7 @@ public class Collectable_Helmet extends Collectable_Basic{
 
 	public void setPlayer(Player player) {
 		this.player = player;
-		light.setRadius(6);
+		light.setRadius(12);
 	}
 	
 	public void removeLight(){

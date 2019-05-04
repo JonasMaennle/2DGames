@@ -28,7 +28,9 @@ import framework.shader.Light;
 import object.LightSpot;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Helmet;
+import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
+import object.enemy.Enemy_Ghost;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
 
@@ -109,7 +111,11 @@ public class Leveler {
 				Enemy_Spider tmp = new Enemy_Spider(x, y, TILE_SIZE, TILE_SIZE, handler);
 				handler.enemyList.add(tmp);
 				shadowObstacleList.add(tmp);
-				//handler.obstacleList.add(tmp);
+			}
+			if(objName.equals("EnemyGhost")){
+				Enemy_Ghost tmp = new Enemy_Ghost(x, y, TILE_SIZE, TILE_SIZE, handler);
+				handler.enemyList.add(tmp);
+				shadowObstacleList.add(tmp);
 			}
 			if(objName.equals("LightBlue")){
 				handler.lightSpotList.add(new LightSpot(x, y, new Light(new Vector2f(0, 0), 15, 25, 25, 10)));
@@ -125,6 +131,10 @@ public class Leveler {
 			if(objName.equals("LMG")){
 				Collectable_LMG lmg = new Collectable_LMG(x, y, 32, 16);
 				handler.collectableList.add(lmg);
+			}
+			if(objName.equals("EnergyStone")){
+				Collectable_HelmetBattery bat = new Collectable_HelmetBattery(x, y, 32, 32);
+				handler.collectableList.add(bat);
 			}
 		}
 		

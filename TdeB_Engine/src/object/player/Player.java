@@ -13,10 +13,10 @@ import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
-import framework.shader.Light;
 import object.collectable.Collectable_Basic;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Helmet;
+import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
 
 public class Player implements GameEntity{
@@ -26,7 +26,6 @@ public class Player implements GameEntity{
 	private String direction;
 	private Image idle_left, idle_right;
 	private Handler handler;
-	private Light playerLight;
 	
 	private Weapon_Basic weapon;
 	private boolean isShooting;
@@ -43,8 +42,7 @@ public class Player implements GameEntity{
 		this.speed = 4f;
 		this.direction = "right";
 		this.isShooting = false;
-		
-		this.playerLight = new Light(new Vector2f(0, 0), 255, 128, 0, 15);	
+
 		this.weapon = new Weapon_Pistol(16, 8, this, handler);
 		
 		this.idle_left = quickLoaderImage("player/player_idle_left");
@@ -73,17 +71,13 @@ public class Player implements GameEntity{
 			if(weapon instanceof Weapon_Pistol){
 				isShooting = true;
 				weapon.shoot();
-			}
-
-			
+			}	
 			if(weapon instanceof Weapon_Flamethrower)
 				weapon.shoot();
 			
 			if(weapon instanceof Weapon_LMG){
 				weapon.shoot();
 			}
-
-			
 		}	
 		if(!Mouse.isButtonDown(0)){
 			isShooting = false;
@@ -97,7 +91,6 @@ public class Player implements GameEntity{
 		
 		updateDirection();
 		weapon.update();
-		playerLight.setLocation(new Vector2f(x + MOVEMENT_X + 16, y + MOVEMENT_Y + 16));
 	}
 
 	public void draw() {
@@ -155,6 +148,11 @@ public class Player implements GameEntity{
 					((Collectable_Helmet) c).setPlayer(this);
 					c.setFound(true);
 					handler.initFilter(8);
+				}
+				// Helmet Battery
+				if(c instanceof Collectable_HelmetBattery && !c.isFound()){
+					BATTERY_CHARGE += 50;
+					handler.collectableList.remove(c);
 				}
 				// Flamethrower
 				if(c instanceof Collectable_Flamethrower && !c.isFound()){

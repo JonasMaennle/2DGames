@@ -15,12 +15,15 @@ public class Enemy_Spider extends Enemy_Basic{
 	private Image vertLeft_0, vertLeft_1, vertRight_0, vertRight_1;
 	private Light eyeLight;
 	private int eyeX, eyeY;
+	private int hpFactor;
 
 	public Enemy_Spider(float x, float y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);
 		moveLeft = new Animation(loadSpriteSheet("enemy/Enemy_Spider_left", TILE_SIZE, TILE_SIZE), 200);
 		moveRight = new Animation(loadSpriteSheet("enemy/Enemy_Spider_right", TILE_SIZE, TILE_SIZE), 200);
-		this.hp = 128;
+		
+		this.hpFactor = 4;
+		this.hp *= hpFactor;
 		
 		this.vertLeft_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Left_0");
 		this.vertRight_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_0");
@@ -61,6 +64,8 @@ public class Enemy_Spider extends Enemy_Basic{
 		}else{
 			drawAnimation(moveLeft, x, y, width, height);
 		}
+		// hp bar
+		drawQuadImage(hpBar, x, y - 6, hp / hpFactor, 4);
 	}
 	
 	@Override

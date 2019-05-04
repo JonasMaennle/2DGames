@@ -49,7 +49,7 @@ public class Handler {
 		this.time1 = System.currentTimeMillis();
 		this.time2 = time1;
 		
-		initFilter(3);
+		initFilter(0);
 	}
 	
 	public void update(){
@@ -96,7 +96,7 @@ public class Handler {
 		for(Collectable_Basic c : collectableList){
 			c.draw();
 		}
-		
+
 		// draw enemy
 		for(Enemy_Basic e : enemyList){
 			e.draw();
@@ -108,10 +108,10 @@ public class Handler {
 		GL11.glColor4f(0, 0, 0, brightness);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
-		
+			
 		// render light list
 		renderLightEntity(shadowObstacleList);
-		
+
 		// draw fog of war
 		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
 			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){

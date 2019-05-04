@@ -31,6 +31,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	
 	protected Handler handler;
 	protected Image image;
+	protected Image hpBar;
 	
 	protected Animation moveLeft;
 	protected Animation moveRight;
@@ -42,6 +43,8 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.width = width;
 		this.height = height;
 		this.image = quickLoaderImage("enemy/Enemy_tmp");
+		this.hpBar = quickLoaderImage("enemy/healthForeground");
+		
 		this.speed = 0;
 		this.velX = 0;
 		this.velY = 0;

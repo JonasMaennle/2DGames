@@ -23,9 +23,10 @@ public class Collection {
 	public static CopyOnWriteArrayList<GameEntity> shadowObstacleList = new CopyOnWriteArrayList<>();
 	public static float MOVEMENT_X, MOVEMENT_Y;
 
-	
 	public static int TILES_WIDTH;
 	public static int TILES_HEIGHT;
+	
+	public static float BATTERY_CHARGE = 100;
 	
 	private static long time1, time2;
 	
