@@ -17,6 +17,7 @@ import framework.shader.Light;
 import object.collectable.Collectable_Basic;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Helmet;
+import object.collectable.Collectable_LMG;
 
 public class Player implements GameEntity{
 	
@@ -73,9 +74,16 @@ public class Player implements GameEntity{
 				isShooting = true;
 				weapon.shoot();
 			}
-			if(weapon instanceof Weapon_Flamethrower){
+
+			
+			if(weapon instanceof Weapon_Flamethrower)
+				weapon.shoot();
+			
+			if(weapon instanceof Weapon_LMG){
 				weapon.shoot();
 			}
+
+			
 		}	
 		if(!Mouse.isButtonDown(0)){
 			isShooting = false;
@@ -150,7 +158,14 @@ public class Player implements GameEntity{
 				}
 				// Flamethrower
 				if(c instanceof Collectable_Flamethrower && !c.isFound()){
-					this.weapon = new Weapon_Flamethrower(16, 8, this, handler);
+					this.weapon.wipe();
+					this.weapon = new Weapon_Flamethrower(32, 16, this, handler);
+					handler.collectableList.remove(c);
+				}
+				// LMG
+				if(c instanceof Collectable_LMG && !c.isFound()){
+					this.weapon.wipe();
+					this.weapon = new Weapon_LMG(32, 16, this, handler);
 					handler.collectableList.remove(c);
 				}
 			}
@@ -275,5 +290,13 @@ public class Player implements GameEntity{
 
 	public void setVelX(int velX) {
 		this.velX = velX;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
 	}
 }

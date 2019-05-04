@@ -1,9 +1,13 @@
 package object.player;
 
 import java.util.Random;
+import static framework.helper.Graphics.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.newdawn.slick.Image;
+
 import framework.core.Handler;
+import framework.entity.GameEntity;
 import object.Particle;
 import object.enemy.Enemy_Basic;
 
@@ -12,6 +16,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 	private CopyOnWriteArrayList<Particle> fireList;
 	private Random rand;
 	private int flamethrowerRange;
+	private Image weaponRight, weaponLeft;
 
 	public Weapon_Flamethrower(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
@@ -19,6 +24,9 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		this.fireList = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
 		this.flamethrowerRange = 150;
+		
+		this.weaponRight = quickLoaderImage("player/weapon_flamethrower_right");
+		this.weaponLeft = quickLoaderImage("player/weapon_flamethrower_left");
 	}
 	
 	public void update(){
@@ -45,6 +53,18 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 				p.die();
 				fireList.remove(p);
 			}
+			
+			if(p.getVelX() == 0 && p.getVelY() == 0){
+				p.die();
+				fireList.remove(p);
+			}
+			
+			for(GameEntity ge : handler.obstacleList){
+				if(ge.getBounds().intersects(p.getBounds())){
+					p.die();
+					fireList.remove(p);
+				}
+			}
 		}
 	}
 	
@@ -53,9 +73,13 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		// draw fire
 		for(Particle p : fireList){
 			p.draw();
+		}		
+
+		if(player.getDirection().equals("right")){
+			drawQuadImageRotLeft(weaponRight, x - 12, y - 2, width, height, angle);
+		}else{
+			drawQuadImageRotRight(weaponLeft, x, y - 2, width, height, angle - 180);
 		}
-		
-		super.draw();
 	}
 	
 	public void shoot(){
@@ -82,7 +106,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 			angleOffset /= 20;
 			velX = rand.nextFloat() * 4 + 1;
 			velY = rand.nextFloat() * 1.0f - 0.5f - angleOffset;
-			fireList.add(new Particle((int)x + 2, (int)y + height/2, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(3)+4, "orange", rand.nextInt(100)));
+			fireList.add(new Particle((int)x + 12, (int)y + 12 + (int)angleOffset*-10, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(3)+4, "orange", rand.nextInt(100)));
 		}else{
 			angleOffset = 0;
 			if(angle <= 230 && angle >= 180){
@@ -93,7 +117,8 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 			angleOffset /= 20;
 			velX = -(rand.nextFloat() * 4 + 1);
 			velY = rand.nextFloat() * 1.0f - 0.5f - angleOffset;
-			fireList.add(new Particle((int)x + width - 6, (int)y + height/2, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX, velY, rand.nextInt(3)+4, "orange", rand.nextInt( 100)));
+			
+			fireList.add(new Particle((int)x , (int)y + 12 + (int)angleOffset*-10, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(3)+4, "orange", rand.nextInt( 100)));
 		}
 		//                Particle( x,  y, width, height, velX, velY, speed, String color, angle){
 	}
@@ -108,13 +133,20 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 	
 	private boolean isBehindPlayer(Particle p){
 		if(player.getDirection().equals("right")){
-			if(x > p.getX())
+			if(x-player.getWidth() > p.getX())
 				return true;
 		}
 		if(player.getDirection().equals("left")){
-			if(x < p.getX())
+			if(x+player.getWidth() < p.getX())
 				return true;
 		}
 		return false;
+	}
+	
+	public void wipe(){
+		for(Particle p : fireList){
+			p.die();
+			fireList.remove(p);
+		}
 	}
 }

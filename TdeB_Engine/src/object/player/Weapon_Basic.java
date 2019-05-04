@@ -141,6 +141,10 @@ public class Weapon_Basic implements GameEntity{
 	    }
 		//System.out.println("Angle: " + angle);
 	}
+	
+	public void wipe(){
+		bulletList.clear();
+	}
 
 	@Override
 	public float getX() {
