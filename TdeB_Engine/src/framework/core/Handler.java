@@ -37,7 +37,7 @@ public class Handler {
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
-		this.brightness = 0.6f;
+		this.brightness = 0.5f;
 		
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
@@ -102,7 +102,7 @@ public class Handler {
 			e.draw();
 		}
 		// draw enemy path to player
-		//drawPath();
+		//drawPath();	
 		
 		// draw filter to darken the map
 		GL11.glColor4f(0, 0, 0, brightness);

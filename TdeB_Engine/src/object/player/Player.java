@@ -147,7 +147,7 @@ public class Player implements GameEntity{
 				if(c instanceof Collectable_Helmet && !c.isFound()){
 					((Collectable_Helmet) c).setPlayer(this);
 					c.setFound(true);
-					handler.initFilter(8);
+					handler.initFilter(6);
 				}
 				// Helmet Battery
 				if(c instanceof Collectable_HelmetBattery && !c.isFound()){

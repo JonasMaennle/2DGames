@@ -1,6 +1,7 @@
 package framework.ui;
 
 import org.lwjgl.opengl.GL11;
+import static framework.helper.Collection.*;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 
@@ -19,6 +20,7 @@ public class HeadUpDisplay {
 	private TrueTypeFont font;
 	private Font awtFont;
 	private Image[] font_sw;
+	private Image hud_background;
 	
 	public HeadUpDisplay(Handler handler){
 		this.awtFont = new Font("Arial", Font.BOLD, 20);
@@ -28,7 +30,7 @@ public class HeadUpDisplay {
 //		{
 //			font_sw[i] = quickLoaderImage("font/font_" + i);
 //		}
-
+		this.hud_background = quickLoaderImage("hud/hud");
 		// Player HP bar
 	}
 	
@@ -41,8 +43,9 @@ public class HeadUpDisplay {
 	}
 	
 	public void draw(){
+		drawQuadImageStatic(hud_background, 0, 0, 960, 32);
 		// FPS
-		drawString(10, 10, "" + StateManager.framesInLastSecond);
+		//drawString(10, 10, "" + StateManager.framesInLastSecond);
 	}
 	
 	public void drawCustomNumber(int number, int x, int y, int width, int height){
