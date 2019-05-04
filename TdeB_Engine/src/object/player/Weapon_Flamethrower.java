@@ -18,7 +18,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		
 		this.fireList = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
-		this.flamethrowerRange = 200;
+		this.flamethrowerRange = 150;
 	}
 	
 	public void update(){
@@ -32,7 +32,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 				if(e.getBounds().intersects(p.getBounds())){
 					p.die();
 					fireList.remove(p);
-					e.setHp(e.getHp()-1);
+					e.setHp(e.getHp()-2);
 				}
 			}
 			
@@ -41,7 +41,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 				fireList.remove(p);
 			}
 
-			if(calculateDirection(p.getX(), p.getY(),this.x, this.y) > flamethrowerRange){
+			if(calcDistance(p.getX(), p.getY(),this.x, this.y) > rand.nextInt(50)+flamethrowerRange){
 				p.die();
 				fireList.remove(p);
 			}
@@ -82,7 +82,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 			angleOffset /= 20;
 			velX = rand.nextFloat() * 4 + 1;
 			velY = rand.nextFloat() * 1.0f - 0.5f - angleOffset;
-			fireList.add(new Particle((int)x + 2, (int)y + height/2, rand.nextInt(4) + 3, rand.nextInt(4) + 3, velX + player.getVelX(), velY, rand.nextInt(3)+4, "orange", rand.nextInt(100)));
+			fireList.add(new Particle((int)x + 2, (int)y + height/2, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(3)+4, "orange", rand.nextInt(100)));
 		}else{
 			angleOffset = 0;
 			if(angle <= 230 && angle >= 180){
@@ -93,12 +93,12 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 			angleOffset /= 20;
 			velX = -(rand.nextFloat() * 4 + 1);
 			velY = rand.nextFloat() * 1.0f - 0.5f - angleOffset;
-			fireList.add(new Particle((int)x + width - 6, (int)y + height/2, rand.nextInt(4) + 3, rand.nextInt(4) + 3, velX, velY, rand.nextInt(3)+4, "orange", rand.nextInt( 100)));
+			fireList.add(new Particle((int)x + width - 6, (int)y + height/2, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX, velY, rand.nextInt(3)+4, "orange", rand.nextInt( 100)));
 		}
 		//                Particle( x,  y, width, height, velX, velY, speed, String color, angle){
 	}
 	
-	private float calculateDirection(float x, float y, float destX, float destY){
+	private float calcDistance(float x, float y, float destX, float destY){
 		float xDistanceFromTarget = Math.abs(destX - x);
 		float yDistanceFromTarget = Math.abs(destY - y);
 		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;

@@ -30,7 +30,7 @@ public class Particle {
 		this.height = height;
 		this.speed = speed;
 		this.angle = 0;
-		if(lightProbability > 90){
+		if(lightProbability > 70){
 			light = new Light(new Vector2f(0, 0), 10, 3, 0, 15);
 			lights.add(light);
 		}

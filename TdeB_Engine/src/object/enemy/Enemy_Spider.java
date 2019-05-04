@@ -20,6 +20,7 @@ public class Enemy_Spider extends Enemy_Basic{
 		super(x, y, width, height, handler);
 		moveLeft = new Animation(loadSpriteSheet("enemy/Enemy_Spider_left", TILE_SIZE, TILE_SIZE), 200);
 		moveRight = new Animation(loadSpriteSheet("enemy/Enemy_Spider_right", TILE_SIZE, TILE_SIZE), 200);
+		this.hp = 128;
 		
 		this.vertLeft_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Left_0");
 		this.vertRight_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_0");
