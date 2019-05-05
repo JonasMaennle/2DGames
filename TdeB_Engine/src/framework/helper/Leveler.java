@@ -38,7 +38,7 @@ public class Leveler {
 	
 	public static TileGrid loadMap(Handler handler, String path, Graph graph)
 	{
-		prepareMap(path);
+		//prepareMap(path);
 		
 		TileImageStorage list;	
 		TiledMap t_map = null;
@@ -58,7 +58,7 @@ public class Leveler {
 		//System.out.println(t_map.getTileId(0, 0, t_map.getLayerIndex("Background")));
 		TileSet set = t_map.getTileSet(0);
 		SpriteSheet ss = set.tiles;
-		list = new TileImageStorage(32, 32, ss.getWidth(), ss.getHeight(), "/level/tileset_00.png"); // "res/tiles/Itch release tileset.png"
+		list = new TileImageStorage(32, 32, ss.getWidth(), ss.getHeight(), "level/tileset_00.png"); // "res/tiles/Itch release tileset.png"
 
 		// Add Tiles
 		for(int x = 0; x < TILES_WIDTH; x++){

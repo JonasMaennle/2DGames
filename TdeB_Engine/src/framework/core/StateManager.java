@@ -76,7 +76,8 @@ public class StateManager {
 		CURRENT_LEVEL++;
 		handler.wipe();
 		shadowObstacleList.clear();
-
+		graph = new Graph();
+		
 		switch (CURRENT_LEVEL) {
 		// Szenario maps
 		case 1:

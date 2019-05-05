@@ -41,7 +41,8 @@ public class TileImageStorage {
 	private void fillList(int maxWidth, int maxHeight, int width, int height, String path) {
 		BufferedImage buf = null;
         try {
-            buf = ImageIO.read(TileImageStorage.class.getClass().getResourceAsStream(path));
+        	
+            buf = ImageIO.read(TileImageStorage.class.getClassLoader().getResourceAsStream(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
