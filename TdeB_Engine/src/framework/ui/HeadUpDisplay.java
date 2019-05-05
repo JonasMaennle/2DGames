@@ -20,7 +20,7 @@ public class HeadUpDisplay {
 	private TrueTypeFont font;
 	private Font awtFont;
 	private Image[] font_sw;
-	private Image hud_background;
+	private Image hud_background, battery_symbol;
 	
 	public HeadUpDisplay(Handler handler){
 		this.awtFont = new Font("Arial", Font.BOLD, 20);
@@ -31,6 +31,7 @@ public class HeadUpDisplay {
 //			font_sw[i] = quickLoaderImage("font/font_" + i);
 //		}
 		this.hud_background = quickLoaderImage("hud/hud");
+		this.battery_symbol = quickLoaderImage("hud/energy_symbol");
 		// Player HP bar
 	}
 	
@@ -46,6 +47,7 @@ public class HeadUpDisplay {
 		drawQuadImageStatic(hud_background, 0, 0, 960, 32);
 		// FPS
 		//drawString(10, 10, "" + StateManager.framesInLastSecond);
+		drawQuadImageStatic(battery_symbol, 200, 5, 32, 32);
 	}
 	
 	public void drawCustomNumber(int number, int x, int y, int width, int height){
