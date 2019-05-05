@@ -2,15 +2,19 @@ package framework.ui;
 
 import org.lwjgl.opengl.GL11;
 import static framework.helper.Collection.*;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.TrueTypeFont;
 
 import framework.core.Handler;
+import framework.core.StateManager;
 
 import static framework.helper.Graphics.*;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
+
 
 import java.awt.Font;
 
@@ -19,17 +23,19 @@ public class HeadUpDisplay {
 	private TrueTypeFont font;
 	private Font awtFont;
 	private Image[] font_sw;
-	private Image hud_background, hp_bar, hp_border, energy_bar, text_hp, player_image;
+	private Image hud_background, hp_bar, hp_border, energy_bar, player_image;
+	private Image text_fps , text_hp;
 	private int hp_Offset;
 	
 	public HeadUpDisplay(Handler handler){
-		this.awtFont = new Font("Arial", Font.BOLD, 13);
+		this.awtFont = new Font("Arial", Font.BOLD, 22);
 		this.font = new TrueTypeFont(awtFont, false);
-//		font_sw = new Image[10];
-//		for(int i = 0; i < 10; i++)
-//		{
-//			font_sw[i] = quickLoaderImage("font/font_" + i);
-//		}
+		
+		font_sw = new Image[10];
+		for(int i = 0; i < 10; i++)
+		{
+			font_sw[i] = quickLoaderImage("font/font_" + i);
+		}
 		this.hud_background = quickLoaderImage("hud/hud");
 		
 		// status bar
@@ -42,22 +48,14 @@ public class HeadUpDisplay {
 		
 		// text
 		this.text_hp = quickLoaderImage("hud/text_hp");
+		this.text_fps = quickLoaderImage("hud/text_fps");
 		
 		this.hp_Offset = 230;
 	}
 	
-	public void drawString(int x, int y, String text){
-		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-	
-		font.drawString(x, y, text);	
-		GL11.glDisable(GL_BLEND);
-	}
-	
 	public void draw(){
 		drawQuadImageStatic(hud_background, 0, 0, 960, 32);
-		// FPS
-		//drawString(10, 10, "" + StateManager.framesInLastSecond);
+		
 		//drawQuadImageStatic(battery_symbol, 200, 5, 32, 32);
 		//drawQuadImageStatic(hp_bar, 200, 2, 96, 16);
 		
@@ -72,6 +70,21 @@ public class HeadUpDisplay {
 		
 		// Text
 		drawQuadImageStatic(text_hp, 164, 0, 64, 32);
+		drawQuadImageStatic(text_fps, 690, 0, 64, 32);
+		
+		// FPS
+		drawCustomNumber(StateManager.framesInLastSecond, 750, 8, 18, 18);
+	}
+	
+	public void drawString(int x, int y, String text, Color color){
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		font.drawString(x, y, text, color);
+		color = new Color(255, 255, 255, 255);
+		font.drawString(x, y, "", color);
+
+		GL11.glDisable(GL_BLEND);	
 	}
 	
 	public void drawCustomNumber(int number, int x, int y, int width, int height){

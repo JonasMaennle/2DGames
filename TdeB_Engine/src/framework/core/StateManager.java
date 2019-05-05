@@ -89,6 +89,7 @@ public class StateManager {
 		
 		game.getCamera().setEntity(handler.getCurrentEntity());
 		
+		PathfindingThread.running = true;
 		pathThread = new PathfindingThread(handler.enemyList, graph, handler);
 		pathThread.start();
 	}

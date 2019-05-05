@@ -139,7 +139,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	}
 	
 	protected void damagePlayer(){
-		Rectangle rangePlayer = new Rectangle((int)handler.getCurrentEntity().getX() - 4, (int)handler.getCurrentEntity().getY() - 4, (int)handler.getCurrentEntity().getWidth() + 8, (int)handler.getCurrentEntity().getHeight() + 8);
+		Rectangle rangePlayer = new Rectangle((int)handler.getCurrentEntity().getX() - 8, (int)handler.getCurrentEntity().getY() - 8, (int)handler.getCurrentEntity().getWidth() + 16, (int)handler.getCurrentEntity().getHeight() + 16);
 		if(rangePlayer.intersects(getBounds())){
 			PLAYER_HP -= 1;
 		}

@@ -66,7 +66,6 @@ public class Game {
 			BATTERY_CHARGE -= 1;
 			if(BATTERY_CHARGE <= 0)
 				BATTERY_CHARGE = 0;
-			
 			// set fog of war
 			if(BATTERY_CHARGE > 0)
 				handler.setFogFilter((int)(BATTERY_CHARGE / 12) + 1);

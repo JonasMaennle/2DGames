@@ -36,7 +36,6 @@ public class PathfindingThread extends Thread{
 			for(int i = 0; i < object.size(); i++)
 			{
 				Enemy_Basic tempObject = object.get(i);
-
 				Enemy_Basic e = (Enemy_Basic) tempObject;	
 				int enemyX = e.getNextX();
 				int enemyY = e.getNextY();

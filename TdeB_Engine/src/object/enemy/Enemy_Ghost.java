@@ -26,7 +26,7 @@ public class Enemy_Ghost extends Enemy_Basic{
 		moveLeft = new Animation(loadSpriteSheet("enemy/Enemy_Ghost_left", TILE_SIZE, TILE_SIZE), 200);
 		moveRight = new Animation(loadSpriteSheet("enemy/Enemy_Ghost_right", TILE_SIZE, TILE_SIZE), 200);
 		
-		this.hpFactor = 16;
+		this.hpFactor = 8;
 		this.hp *= hpFactor;	
 		
 		eyeLightLeft = new Light(new Vector2f(0, 0), 0, 2, 20, 15);

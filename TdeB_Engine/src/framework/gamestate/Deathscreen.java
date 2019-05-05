@@ -9,6 +9,7 @@ import framework.core.BackgroundHandler;
 import framework.core.Handler;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
+import framework.path.PathfindingThread;
 
 import static framework.helper.Graphics.*;
 import static framework.helper.Collection.*;
@@ -42,6 +43,8 @@ public class Deathscreen {
 	}
 	
 	private void resetGame(){
+		handler.setFogFilter(0);
+		PathfindingThread.running = false;
 		PLAYER_HP = 96;
 		BATTERY_CHARGE = 96;
 		
