@@ -18,6 +18,7 @@ import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
+import object.collectable.Collectable_Railgun;
 
 public class Player implements GameEntity{
 	
@@ -80,6 +81,10 @@ public class Player implements GameEntity{
 				weapon.shoot();
 			
 			if(weapon instanceof Weapon_LMG){
+				weapon.shoot();
+			}
+			
+			if(weapon instanceof Weapon_Railgun){
 				weapon.shoot();
 			}
 		}	
@@ -171,6 +176,12 @@ public class Player implements GameEntity{
 				if(c instanceof Collectable_LMG && !c.isFound()){
 					this.weapon.wipe();
 					this.weapon = new Weapon_LMG(32, 16, this, handler);
+					handler.collectableList.remove(c);
+				}
+				// Railgun
+				if(c instanceof Collectable_Railgun && !c.isFound()){
+					this.weapon.wipe();
+					this.weapon = new Weapon_Railgun(32, 16, this, handler);
 					handler.collectableList.remove(c);
 				}
 			}

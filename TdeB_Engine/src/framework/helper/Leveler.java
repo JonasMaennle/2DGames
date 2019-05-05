@@ -30,6 +30,7 @@ import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
+import object.collectable.Collectable_Railgun;
 import object.enemy.Enemy_Ghost;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
@@ -38,7 +39,7 @@ public class Leveler {
 	
 	public static TileGrid loadMap(Handler handler, String path, Graph graph)
 	{
-		//prepareMap(path);
+		prepareMap(path);
 		
 		TileImageStorage list;	
 		TiledMap t_map = null;
@@ -127,6 +128,10 @@ public class Leveler {
 			if(objName.equals("Flamethrower")){
 				Collectable_Flamethrower flamethrower = new Collectable_Flamethrower(x, y, 32, 16);
 				handler.collectableList.add(flamethrower);
+			}
+			if(objName.equals("Railgun")){
+				Collectable_Railgun gun = new Collectable_Railgun(x, y, 32, 16);
+				handler.collectableList.add(gun);
 			}
 			if(objName.equals("LMG")){
 				Collectable_LMG lmg = new Collectable_LMG(x, y, 32, 16);
