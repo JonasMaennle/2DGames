@@ -49,7 +49,7 @@ public class Handler {
 		this.time1 = System.currentTimeMillis();
 		this.time2 = time1;
 		
-		initFilter(0);
+		setFogFilter(0);
 	}
 	
 	public void update(){
@@ -89,7 +89,7 @@ public class Handler {
 		map.draw();
 		
 		// draw player
-		if(StateManager.gameState != StateManager.GameState.DEATHSCREEN && player != null && currentEntity.equals(player))
+		if(player != null && currentEntity.equals(player))
 			player.draw();
 		
 		// draw collectables
@@ -153,7 +153,7 @@ public class Handler {
 		}
 	}
 	
-	public void initFilter(int filterPlayerOffset){
+	public void setFogFilter(int filterPlayerOffset){
 		filterValue = 0;
 		alphaFilter = new float[HEIGHT/TILE_SIZE + 1][(WIDTH/TILE_SIZE) + 1]; 		
 		// fill array with value = 1

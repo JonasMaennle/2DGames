@@ -28,10 +28,11 @@ public class Collectable_Helmet extends Collectable_Basic{
 	public void update(){
 		
 		if(found){
+			light.setRadius(player.getHelmetBightness());
 			x = (int) player.getX();
 			y = (int) player.getY() - height + 4;
 		}else{
-			light.setLocation(new Vector2f(x + MOVEMENT_X + width - 10, y + MOVEMENT_Y));
+			light.setLocation(new Vector2f(x + MOVEMENT_X + width - 12, y + MOVEMENT_Y - 3));
 		}		
 	}
 	
@@ -40,11 +41,11 @@ public class Collectable_Helmet extends Collectable_Basic{
 		if(found){
 			if(player.getDirection().equals("right")){
 				offset = player.getWalkRight().getFrame() * 4;
-				light.setLocation(new Vector2f(x + width + MOVEMENT_X + offset - 10, y + height/2 + MOVEMENT_Y));
+				light.setLocation(new Vector2f(x + width + MOVEMENT_X + offset - 12, y + height/2 + MOVEMENT_Y + 1));
 				drawQuadImage(imgRight, x + offset, y, width, height);
 			}else{
 				offset = player.getWalkLeft().getFrame() * 4;
-				light.setLocation(new Vector2f(x + MOVEMENT_X + offset + 10, y + height/2 + MOVEMENT_Y));
+				light.setLocation(new Vector2f(x + MOVEMENT_X + offset + 12, y + height/2 + MOVEMENT_Y + 1));
 				drawQuadImage(imgLeft, x + offset, y, width, height);
 			}
 		}else{

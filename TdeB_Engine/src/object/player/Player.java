@@ -26,9 +26,10 @@ public class Player implements GameEntity{
 	private String direction;
 	private Image idle_left, idle_right;
 	private Handler handler;
+	private int helmetBightness;
 	
 	private Weapon_Basic weapon;
-	private boolean isShooting;
+	private boolean isShooting, hasHelmet;
 	
 	private Animation walkRight, walkLeft;
 	
@@ -42,6 +43,9 @@ public class Player implements GameEntity{
 		this.speed = 4f;
 		this.direction = "right";
 		this.isShooting = false;
+		this.hasHelmet = false;
+		
+		this.helmetBightness = 25;
 
 		this.weapon = new Weapon_Pistol(16, 8, this, handler);
 		
@@ -147,11 +151,14 @@ public class Player implements GameEntity{
 				if(c instanceof Collectable_Helmet && !c.isFound()){
 					((Collectable_Helmet) c).setPlayer(this);
 					c.setFound(true);
-					handler.initFilter(6);
+					hasHelmet = true;
+					handler.setFogFilter(8);
 				}
 				// Helmet Battery
 				if(c instanceof Collectable_HelmetBattery && !c.isFound()){
 					BATTERY_CHARGE += 50;
+					if(BATTERY_CHARGE >= 96)
+						BATTERY_CHARGE = 96;
 					handler.collectableList.remove(c);
 				}
 				// Flamethrower
@@ -296,5 +303,21 @@ public class Player implements GameEntity{
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+
+	public boolean isHasHelmet() {
+		return hasHelmet;
+	}
+
+	public void setHasHelmet(boolean hasHelmet) {
+		this.hasHelmet = hasHelmet;
+	}
+
+	public int getHelmetBightness() {
+		return helmetBightness;
+	}
+
+	public void setHelmetBightness(int helmetBightness) {
+		this.helmetBightness = helmetBightness;
 	}
 }

@@ -3,6 +3,7 @@ package framework.core;
 import static framework.helper.Collection.*;
 import static framework.helper.Leveler.*;
 
+import framework.gamestate.Deathscreen;
 import framework.gamestate.Game;
 import framework.path.Graph;
 import framework.path.PathfindingThread;
@@ -20,6 +21,7 @@ public class StateManager {
 	
 	private Handler handler;
 	private Game game;
+	private Deathscreen deathscreen;
 	
 	private Graph graph;
 	private PathfindingThread pathThread;
@@ -32,6 +34,7 @@ public class StateManager {
 		this.graph = new Graph();
 		this.handler = new Handler();
 		this.game = new Game(handler);
+		this.deathscreen = new Deathscreen(handler);
 	}
 	
 	public void update()
@@ -46,6 +49,11 @@ public class StateManager {
 			
 			game.update();
 			game.render();
+			break;
+			
+		case DEATHSCREEN:
+			deathscreen.update();
+			deathscreen.render();
 			break;
 
 		default:

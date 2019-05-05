@@ -26,10 +26,13 @@ public class Collection {
 	public static int TILES_WIDTH;
 	public static int TILES_HEIGHT;
 	
-	public static float BATTERY_CHARGE = 100;
+	// PLAYER STATS
+	public static int PLAYER_HP = 96;
+	public static float BATTERY_CHARGE = 96;
 	
 	private static long time1, time2;
 	
+	// Static Methods
 	public static float getLeftBorder(){
 		return MOVEMENT_X * -1;
 	}

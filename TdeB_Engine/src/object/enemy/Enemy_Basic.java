@@ -108,6 +108,8 @@ public abstract class Enemy_Basic implements GameEntity{
 		
 		x += (velX * speed);
 		y += (velY * speed);
+		
+		damagePlayer();
 		mapCollision();
 		isPlayerInRange();
 		
@@ -134,6 +136,13 @@ public abstract class Enemy_Basic implements GameEntity{
 			}
 		}else
 			return;
+	}
+	
+	protected void damagePlayer(){
+		Rectangle rangePlayer = new Rectangle((int)handler.getCurrentEntity().getX() - 4, (int)handler.getCurrentEntity().getY() - 4, (int)handler.getCurrentEntity().getWidth() + 8, (int)handler.getCurrentEntity().getHeight() + 8);
+		if(rangePlayer.intersects(getBounds())){
+			PLAYER_HP -= 1;
+		}
 	}
 	
 	protected void mapCollision() {
