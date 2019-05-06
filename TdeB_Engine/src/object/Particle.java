@@ -30,8 +30,8 @@ public class Particle {
 		this.height = height;
 		this.speed = speed;
 		this.angle = 0;
-		if(lightProbability > 90){ // 90 for laptop to run smooth
-			light = new Light(new Vector2f(0, 0), 10, 3, 0, 15);
+		if(lightProbability > 85){ // 90 for laptop to run smooth
+			light = new Light(new Vector2f(0, 0), 20, 6, 0, 4);
 			lights.add(light);
 		}
 		if(color.equals("orange"))particles = quickLoaderImage("tiles/Lava_" + rand.nextInt(5));
@@ -40,9 +40,9 @@ public class Particle {
 	public void update(){
 		x += velX * speed;
 		y += velY * speed;
-		
+
 		if(light != null)
-			light.setLocation(new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y));
+			light.setLocation(new Vector2f(x + MOVEMENT_X + width/2, y + MOVEMENT_Y + height/2));
 	}
 	
 	public void mapCollision(Handler handler){

@@ -39,13 +39,10 @@ public class TileGrid {
 	}
 	
 	public void draw(){
-		for(int i = 0; i < map.length; i++)
-		{
-			for(int j = 0; j < map[i].length; j++)
-			{	
-				if(!(map[i][j] == null))
-				{
-					map[i][j].draw();;			
+		for(int i = 0; i < map.length; i++){
+			for(int j = 0; j < map[i].length; j++){	
+				if(!(map[i][j] == null)){
+					map[i][j].draw();			
 				}
 			}
 		}

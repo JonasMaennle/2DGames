@@ -129,8 +129,8 @@ public abstract class Enemy_Basic implements GameEntity{
 	}
 	
 	public void isPlayerInRange(){
-		if(x > handler.getPlayer().getX() - 200 && x < handler.getPlayer().getX() + 200){
-			if(y > handler.getPlayer().getY() - 200 && y < handler.getPlayer().getY() + 200){
+		if(x > handler.getPlayer().getX() - 250 && x < handler.getPlayer().getX() + 250){
+			if(y > handler.getPlayer().getY() - 250 && y < handler.getPlayer().getY() + 250){
 				speed = 2;
 			}
 		}else

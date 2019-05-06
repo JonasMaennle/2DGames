@@ -2,7 +2,6 @@ package object.enemy;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.shader.Light;
@@ -12,7 +11,6 @@ import static framework.helper.Graphics.*;
 
 public class Enemy_Spider extends Enemy_Basic{
 	
-	private Image vertLeft_0, vertLeft_1, vertRight_0, vertRight_1;
 	private Light eyeLight;
 	private int eyeX, eyeY;
 	private int hpFactor;
@@ -25,12 +23,7 @@ public class Enemy_Spider extends Enemy_Basic{
 		this.hpFactor = 4;
 		this.hp *= hpFactor;
 		
-		this.vertLeft_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Left_0");
-		this.vertRight_0 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_0");
-		this.vertLeft_1 = quickLoaderImage("enemy/Enemy_Spider_Basic_Left_1");
-		this.vertRight_1 = quickLoaderImage("enemy/Enemy_Spider_Basic_Right_1");
-		
-		eyeLight = new Light(new Vector2f(0, 0), 10, 0, 0, 25);
+		eyeLight = new Light(new Vector2f(0, 0), 20, 0, 0, 12);
 		lights.add(eyeLight);
 	}
 	
@@ -40,19 +33,19 @@ public class Enemy_Spider extends Enemy_Basic{
 		// calc eyelight position
 		if(direction.equals("left")){
 			if(moveLeft.getFrame() == 0){
-				eyeX = (int) (x + MOVEMENT_X + 13);
-				eyeY = (int) (y + MOVEMENT_Y + 5);
+				eyeX = (int) (x + MOVEMENT_X + 14);
+				eyeY = (int) (y + MOVEMENT_Y + 6);
 			}else{
-				eyeX = (int) (x + MOVEMENT_X + 13);
-				eyeY = (int) (y + MOVEMENT_Y + 9);
+				eyeX = (int) (x + MOVEMENT_X + 14);
+				eyeY = (int) (y + MOVEMENT_Y + 10);
 			}
 		}else{
 			if(moveRight.getFrame() == 0){
-				eyeX = (int) (x + MOVEMENT_X + 17);
-				eyeY = (int) (y + MOVEMENT_Y + 9);
+				eyeX = (int) (x + MOVEMENT_X + 18);
+				eyeY = (int) (y + MOVEMENT_Y + 10);
 			}else{
-				eyeX = (int) (x + MOVEMENT_X + 17);
-				eyeY = (int) (y + MOVEMENT_Y + 5);
+				eyeX = (int) (x + MOVEMENT_X + 18);
+				eyeY = (int) (y + MOVEMENT_Y + 6);
 			}
 		}
 		eyeLight.setLocation(new Vector2f(eyeX, eyeY));
@@ -70,25 +63,39 @@ public class Enemy_Spider extends Enemy_Basic{
 	
 	@Override
 	public Vector2f[] getVertices() {
+		
 		if(direction.equals("right")){
-			if(moveRight.getFrame() == 0){
-				return getImageVertices((int)x, (int)y, vertRight_0);
-			}
-			else{
-				return getImageVertices((int)x, (int)y, vertRight_1);
-			}
+			return new Vector2f[] {
+					new Vector2f(x + MOVEMENT_X + 5, y + MOVEMENT_Y + 9), // left top
+					new Vector2f(x + MOVEMENT_X + 5, y + MOVEMENT_Y + 32 ), // left bottom
+					new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 32), // right bottom
+					new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 5), // right top
+					new Vector2f(x + MOVEMENT_X + 13, y + MOVEMENT_Y + 5) // right top
+			};
 		}else{
-			if(moveLeft.getFrame() == 0){
-				return getImageVertices((int)x, (int)y, vertLeft_1);
-			}		
-			else{
-				return getImageVertices((int)x, (int)y, vertLeft_0);
-			}			
+			return new Vector2f[] {
+					new Vector2f(x + MOVEMENT_X + 9, y + MOVEMENT_Y + 5), // left top
+					new Vector2f(x + MOVEMENT_X + 9, y + MOVEMENT_Y + 32), // left bottom
+					new Vector2f(x + MOVEMENT_X + 28, y + MOVEMENT_Y + 32), // right bottom
+					new Vector2f(x + MOVEMENT_X + 28, y + MOVEMENT_Y + 9), // right top
+					
+					new Vector2f(x + MOVEMENT_X + 20, y + MOVEMENT_Y + 5) // right top
+			};
 		}
 	}
 	
 	@Override
 	public void die(){
 		lights.remove(eyeLight);
+	}
+	
+	@Override
+	public void isPlayerInRange(){
+		if(x > handler.getPlayer().getX() - 350 && x < handler.getPlayer().getX() + 350){
+			if(y > handler.getPlayer().getY() - 350 && y < handler.getPlayer().getY() + 350){
+				speed = 2;
+			}
+		}else
+			return;
 	}
 }

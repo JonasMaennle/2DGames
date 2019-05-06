@@ -54,7 +54,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 				fireList.remove(p);
 			}
 			
-			if(p.getVelX() == 0 && p.getVelY() == 0){
+			if(p.getVelX() * p.getSpeed() < 1 && p.getVelX() * p.getSpeed() > -1){
 				p.die();
 				fireList.remove(p);
 			}

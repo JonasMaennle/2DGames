@@ -37,7 +37,7 @@ public class StateManager {
 		this.handler = new Handler();
 		this.game = new Game(handler);
 		this.deathscreen = new Deathscreen(handler);
-		this.loadingscreen = new Loadingscreen(this);
+		this.loadingscreen = new Loadingscreen(this, handler);
 	}
 	
 	public void update(){

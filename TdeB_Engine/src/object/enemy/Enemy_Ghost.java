@@ -29,8 +29,8 @@ public class Enemy_Ghost extends Enemy_Basic{
 		this.hpFactor = 8;
 		this.hp *= hpFactor;	
 		
-		eyeLightLeft = new Light(new Vector2f(0, 0), 0, 2, 20, 15);
-		eyeLightRight = new Light(new Vector2f(0, 0), 0, 2, 20, 15);
+		eyeLightLeft = new Light(new Vector2f(0, 0), 0, 2, 20, 10);
+		eyeLightRight = new Light(new Vector2f(0, 0), 0, 2, 20, 10);
 		lights.add(eyeLightLeft);
 		lights.add(eyeLightRight);
 	}

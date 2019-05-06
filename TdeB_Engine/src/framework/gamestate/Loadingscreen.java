@@ -2,6 +2,7 @@ package framework.gamestate;
 
 import static framework.helper.Collection.lights;
 
+import framework.core.Handler;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.path.PathfindingThread;
@@ -9,9 +10,11 @@ import framework.path.PathfindingThread;
 public class Loadingscreen {
 	
 	private StateManager manager;
+	private Handler handler;
 	
-	public Loadingscreen(StateManager manager){
+	public Loadingscreen(StateManager manager, Handler handler){
 		this.manager = manager;
+		this.handler = handler;
 	}
 	
 	public void update(){
@@ -22,7 +25,7 @@ public class Loadingscreen {
 			e.printStackTrace();
 		}
 		manager.loadLevel();
-		
+		handler.setFogFilter(0);
 		StateManager.gameState = GameState.GAME;
 	}
 	

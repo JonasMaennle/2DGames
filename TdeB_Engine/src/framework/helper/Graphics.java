@@ -287,10 +287,9 @@ public class Graphics {
 	
 	// render all lights from light list
 	public static void renderLightEntity(CopyOnWriteArrayList<GameEntity> entityList){
-		//timerStart();
-		//System.out.println(lights.size());
-		for (Light light : lights) 
-		{
+		
+		for (Light light : lights){
+			
 			// test if light is on screen
 			if(light.getLocation().getX()-MOVEMENT_X < getRightBorder() && light.getLocation().getX()-MOVEMENT_X > getLeftBorder() && light.getLocation().getY()-MOVEMENT_Y > getTopBorder() && light.getLocation().getY()-MOVEMENT_Y < getBottomBorder()){
 				
@@ -298,22 +297,18 @@ public class Graphics {
 				glStencilFunc(GL_ALWAYS, 1, 1);
 				glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
-				for (GameEntity e : entityList) 
-				{
+				for (GameEntity e : entityList) {
 					// check if e is in range
-					if(e.getX() > getLeftBorder() - WIDTH/2 && e.getX() < getRightBorder() + WIDTH/2)
-					{
+					if(e.getX() > getLeftBorder() - WIDTH/2 && e.getX() < getRightBorder() + WIDTH/2){
 						Vector2f[] vertices = e.getVertices();
-						for (int i = 0; i < vertices.length; i++) 
-						{
+						for (int i = 0; i < vertices.length; i++) {
 							Vector2f currentVertex = vertices[i];
 							Vector2f nextVertex = vertices[(i + 1) % vertices.length];
 							Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
 							Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
 							Vector2f lightToCurrent = Vector2f.sub(currentVertex,
 									light.location, null);
-							if (Vector2f.dot(normal, lightToCurrent) > 0) 
-							{			
+							if (Vector2f.dot(normal, lightToCurrent) > 0) {			
 								Vector2f point1 = Vector2f.add(
 										currentVertex,
 										(Vector2f) Vector2f.sub(currentVertex, light.location, null).
@@ -366,9 +361,8 @@ public class Graphics {
 
 				glDisable(GL_BLEND);
 				light.getShader().unUse();
-				glClear(GL_STENCIL_BUFFER_BIT);
+				glClear(GL_STENCIL_BUFFER_BIT);	
 			}
 		}
-		//timerEnd();
 	}
 }

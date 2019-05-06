@@ -65,17 +65,22 @@ public class Handler {
 		
 		// update collectables
 		for(Collectable_Basic c : collectableList){
-			c.update();
+			if(c.getX() > getLeftBorder() && c.getX() < getRightBorder() && c.getY() > getTopBorder() && c.getY() < getBottomBorder()){
+				c.update();
+			}	
 		}
 		
 		// update enemy
 		for(Enemy_Basic e : enemyList){
-			e.update();
-			if(e.getHp() <= 0){
-				e.die();
-				enemyList.remove(e);
-				shadowObstacleList.remove(e);
+			if(e.getX() > getLeftBorder() && e.getX() < getRightBorder() && e.getY() > getTopBorder() && e.getY() < getBottomBorder()){
+				e.update();
+				if(e.getHp() <= 0){
+					e.die();
+					enemyList.remove(e);
+					shadowObstacleList.remove(e);
+				}
 			}
+
 		}
 		
 		objectInfo();
@@ -94,12 +99,16 @@ public class Handler {
 		
 		// draw collectables
 		for(Collectable_Basic c : collectableList){
-			c.draw();
+			if(c.getX() > getLeftBorder() && c.getX() < getRightBorder() && c.getY() > getTopBorder() && c.getY() < getBottomBorder()){
+				c.draw();
+			}	
 		}
 
 		// draw enemy
 		for(Enemy_Basic e : enemyList){
-			e.draw();
+			if(e.getX() > getLeftBorder() && e.getX() < getRightBorder() && e.getY() > getTopBorder() && e.getY() < getBottomBorder()){
+				e.draw();
+			}
 		}
 		// draw enemy path to player
 		//drawPath();	
