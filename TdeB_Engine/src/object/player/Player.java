@@ -12,9 +12,12 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
+import framework.core.StateManager;
+import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
 import object.collectable.Collectable_Basic;
 import object.collectable.Collectable_Flamethrower;
+import object.collectable.Collectable_Goal;
 import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
@@ -164,6 +167,11 @@ public class Player implements GameEntity{
 					BATTERY_CHARGE += 50;
 					if(BATTERY_CHARGE >= 96)
 						BATTERY_CHARGE = 96;
+					handler.collectableList.remove(c);
+				}
+				// Goal
+				if(c instanceof Collectable_Goal && !c.isFound()){
+					StateManager.gameState = GameState.LOADING;
 					handler.collectableList.remove(c);
 				}
 				// Flamethrower

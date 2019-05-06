@@ -36,8 +36,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected Animation moveLeft;
 	protected Animation moveRight;
 
-	public Enemy_Basic(float x, float y, int width, int height, Handler handler)
-	{
+	public Enemy_Basic(float x, float y, int width, int height, Handler handler){
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -344,7 +343,10 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.hp = hp;
 	}
 	
-	
 	public void die(){
+	}
+
+	public float getSpeed() {
+		return speed;
 	}
 }

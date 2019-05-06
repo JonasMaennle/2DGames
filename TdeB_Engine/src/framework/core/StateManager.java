@@ -5,6 +5,7 @@ import static framework.helper.Leveler.*;
 
 import framework.gamestate.Deathscreen;
 import framework.gamestate.Game;
+import framework.gamestate.Loadingscreen;
 import framework.path.Graph;
 import framework.path.PathfindingThread;
 
@@ -22,6 +23,7 @@ public class StateManager {
 	private Handler handler;
 	private Game game;
 	private Deathscreen deathscreen;
+	private Loadingscreen loadingscreen;
 	
 	private Graph graph;
 	private PathfindingThread pathThread;
@@ -35,14 +37,15 @@ public class StateManager {
 		this.handler = new Handler();
 		this.game = new Game(handler);
 		this.deathscreen = new Deathscreen(handler);
+		this.loadingscreen = new Loadingscreen(this);
 	}
 	
 	public void update(){
 		
 		switch (gameState) {
 		case MAINMENU:
-			
 			break;
+			
 		case GAME:
 			if(CURRENT_LEVEL == 0)
 				loadLevel();
@@ -54,6 +57,11 @@ public class StateManager {
 		case DEATHSCREEN:
 			deathscreen.update();
 			deathscreen.render();
+			break;
+			
+		case LOADING:
+			loadingscreen.update();
+			loadingscreen.render();
 			break;
 
 		default:
@@ -82,6 +90,11 @@ public class StateManager {
 		// Szenario maps
 		case 1:
 			handler.setMap(loadMap(handler, "level/map_0" + CURRENT_LEVEL, graph));
+			System.out.println("Level 1");
+			break;
+		case 2:
+			handler.setMap(loadMap(handler, "level/map_0" + CURRENT_LEVEL, graph));
+			System.out.println("Level 2");
 			break;
 
 		default:

@@ -43,7 +43,7 @@ public class PathfindingThread extends Thread{
 				if(graph.getNodeID(enemyX, enemyY) != -1 && graph.getNodeID((int)handler.getCurrentEntity().getX()/TILE_SIZE, (int)handler.getCurrentEntity().getY()/TILE_SIZE) != -1)
 				{
 					t1 = System.currentTimeMillis();
-					if(t1 - t2 > 25)
+					if(t1 - t2 > 25 && e.getSpeed() != 0)
 					{
 						e.setPathLock(true);
 						if(e != null){

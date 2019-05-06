@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="25">
+ <tileset firstgid="1" source="tileset_00.tsx"/>
+ <layer name="Background" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2XzW7TQBDHd/0WpYUXsaAc+h7AE6BQvo/mCZAoSEWgFYRKIHGBS0IFlwoC4eMSqAQIxLEoSDkiFSqY0c7K48Xr2nEih2Z+0l+z3sTO/mdndx2lBKFZToPOgFqgVdBZ0Lkaz7mjrbD9gKKvWWIFxngIdE2leqWrPyeGe76DXoPaoFvQ94LitrIRlYzx7Gmy4nlHDccY4xZ5vQ3aoVw4z6hPUdqeRZz3cYnZvP/xPsNrN/ez6h/r4EaN+7fIP8677/+ZKlf/bg/h+9B50AXQRdAl0OUaYyyirv+YrXnf/zeVXQshroL2lF0/eyqsabAwIf9D519baVAEuh6l+0CIx8r6exPwv6yn5z+egP/E2/NQLynepfixwP8H0FF4xjFtz6A+6LPKCnOA5+p9HV4fbv0cj+znV6gvUeF7duG7XfY5/56/Hldz+najrO82yFB7LbLtTlRc/z9BJ8DXSW3raBG0BDoMOkK5wP5l0pC0zfIzYDlrU95RGxSxv1tRTwrU16m4/5FO593lwcUQC1TfuI/eA3WYL2w7z66Pt3kOuFeXhza1vxbUXwjfcxE8HyOK6BvPhc3Ivh+FiOn9CffQXo7/LrV7OesiT+gV41OKXyhWBcdV1n+sszlAzxh79Pv9ffzvkHesg7z6L6ObUbYWMG6yvqos6azK+F8nr84zV9G9WNM/yL/vy50DZfPA597Vw/oY9V8Ff/7zVHRv0bk/qHn+4W+/Az2c4n+QSft/5PWNaoz9FNXie4p4LrUgdrFN6mh7TnX0vzIq1X7+F3OUVPTvvA9oX8T3orc15w69Yw38ohy0yDder+V4Luv/N2hD2/cA55/POb/+nzEq7D/Prx9n7f9/VYyq5n9e5t/B/frC/ucH3D/f/xMWkznxf9AxSvybhsfQJEaJf9PwGJrEKPFvGh5Dkxgl/k3DY2gSo+bLvwloXjABCYIgCIIgCIIgCIIgCIIgCIIgCIIgCCl/AcMQsS0AQAAA
+  </data>
+ </layer>
+ <layer name="Wall" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3Y7U2DUBTGcXoTZ3CE0hbfXaJq1Ra1Rt3ANdzDWdzACXQKv/sQuCkiIOANIP5/yZPQ0/TlFs4p4Hnd+ejws/tge+T2/RZKmOTQbLbDnHofVNn/c8e/UZ9U2f+PA14/ftb28R/NkJtUrpU75V5ZKivP3fyI+n+qeTQz35+z9SEf/1H/+8okZ41F9Trekrz/7m2QI+qTqCcevLhP1l7cK3b7tmQ73Ueue6qp5wH3WRUv/3z9aF80P9aZ2FqYeZyVd27f9Qypy/7H+RVS9tpJyf9oVW3Pv9eezRvmX317Oj/dVw5MfF19pByb4nreea5rTy3ux3Gq76bKTAlGxfWLFtbf1FaD7zakexNjrd83m+uuQNlRdguO52Bg12ZzredEOVXOlIVybuJj9lJZKqukZusA+qXs/ret9ekeuGt2ToXKlfn6OPscAAAAAAAAAAAAAAAAAODv+gROcfchAEAAAA==
+  </data>
+ </layer>
+ <layer name="Shadow" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3XO07DQBQF0LGFAuFPaFhBCv6fBBAdHQVLoAIJOpZAR0dBDQ0roKCGhjWwAmAN1FxLibCsZ/OexwmecI90pSiexL6KZzxx7m8tI6vIGrKObCCbyBZyaPieduTch9PnKKqogKexgut4MnyPtU9d+r+VPJYVav+vkseyQu2/VHAdRceyquifrEUrLn892kZ2kI6zrU1FJmLnmshJ6nqS1/33taQ+d73cK8cf60/nzgxjNdJzvWhNzCP1ee7lRTn+0nC+a8NYjfRcb1fU3zr+1vD5TirS/Ogiu8gesq8c0yfNvfPo91j49g+d1N+y3wid1N+y3wid1N+y3/D1jpxG+mTlPZe197DU37Lf8HUzoHNp+0vPmIMh9n+sYf+rmuyJffj0fzD0T+bvDPans8gcMo8sxPJ7LWTRuJ8ty6f/q6F/mT1qnUj9Pw2dyuxR60S6/gbuz/H457/XJDKFTAv3dWMI9/Ighf77+RrV/j7r3yj47/0vIn2IiIiIiIiIiIiIiIiIiIiIiIiIKEzfffMlHQBAAAA=
+  </data>
+ </layer>
+ <layer name="Border" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3WwQnCMBiG4Rh38OAkXcGDF0Fr0QXEu1u4gxs4k4MIRmhJRAJNjPxt//eBj4Ye2nxtGmoMpDUuuza1y749B+B/zjPpGQByWP/DtDb+f6BLExmHQRrt6/+qvL92rH/Z+19svyznxmzsZ55Wdu4l9O0fi3aP4Bmc2gzdouB7C/tXGdeV2P9ubp4Hl2PisRtvg56/9pfe/3JUBfvfJ9a/VrAnxvrnGOP/T8n+U/r+c0zp+39bJT4P7et/jOjvx/SXm4cU+vuxxv4AAAAAAAAAAAAAAODbCzjskoIAQAAA
+  </data>
+ </layer>
+<objectgroup name="Objects" width="32" height="32">
+  <object id="3" name="player" type="player" x="307" y="400" width="24" height="28"/>
+  <object id="4" name="LightBlue" type="LightBlue" x="1230" y="37" width="7" height="6"/>
+  <object id="5" name="LightBlue" type="LightBlue" x="1070" y="37" width="7" height="6"/>
+  <object id="6" name="LightBlue" type="LightBlue" x="271" y="198" width="7" height="6"/>
+  <object id="7" name="LightBlue" type="LightBlue" x="622" y="293" width="7" height="6"/>
+  <object id="8" name="LightBlue" type="LightBlue" x="1455" y="293" width="7" height="6"/>
+  <object id="9" name="LightBlue" type="LightBlue" x="1359" y="294" width="7" height="6"/>
+  <object id="11" name="EnemySpider" type="EnemySpider" x="1106" y="116" width="24" height="28"/>
+  <object id="12" name="EnemySpider" type="EnemySpider" x="1169" y="118" width="24" height="28"/>
+  <object id="13" name="EnemySpider" type="EnemySpider" x="1000" y="347" width="24" height="28"/>
+  <object id="14" name="EnemySpider" type="EnemySpider" x="1366" y="427" width="24" height="28"/>
+  <object id="15" name="EnemySpider" type="EnemySpider" x="1433" y="428" width="24" height="28"/>
+  <object id="16" name="EnemySpider" type="EnemySpider" x="1691" y="111" width="24" height="28"/>
+  <object id="17" name="EnemySpider" type="EnemySpider" x="1815" y="92" width="24" height="28"/>
+  <object id="18" name="EnemySpider" type="EnemySpider" x="1919" y="113" width="24" height="28"/>
+  <object id="19" name="EnemySpider" type="EnemySpider" x="1659" y="615" width="24" height="28"/>
+  <object id="20" name="EnemySpider" type="EnemySpider" x="1943" y="693" width="24" height="28"/>
+  <object id="21" name="EnemyGhost" type="EnemyGhost" x="1893" y="546" width="24" height="28"/>
+  <object id="22" name="EnemyGhost" type="EnemyGhost" x="1766" y="547" width="24" height="28"/>
+  <object id="23" name="Flamethrower" type="Flamethrower" x="1139" y="108" width="23" height="9"/>
+  <object id="24" name="Helmet" type="Helmet" x="1829" y="612" width="23" height="21"/>
+ </objectgroup>
+</map>

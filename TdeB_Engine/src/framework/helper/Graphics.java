@@ -291,79 +291,83 @@ public class Graphics {
 		//System.out.println(lights.size());
 		for (Light light : lights) 
 		{
-			glColorMask(false, false, false, false);
-			glStencilFunc(GL_ALWAYS, 1, 1);
-			glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+			// test if light is on screen
+			if(light.getLocation().getX()-MOVEMENT_X < getRightBorder() && light.getLocation().getX()-MOVEMENT_X > getLeftBorder() && light.getLocation().getY()-MOVEMENT_Y > getTopBorder() && light.getLocation().getY()-MOVEMENT_Y < getBottomBorder()){
+				
+				glColorMask(false, false, false, false);
+				glStencilFunc(GL_ALWAYS, 1, 1);
+				glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
-			for (GameEntity e : entityList) 
-			{
-				// check if e is in range
-				if(e.getX() > getLeftBorder() - WIDTH/2 && e.getX() < getRightBorder() + WIDTH/2)
+				for (GameEntity e : entityList) 
 				{
-					Vector2f[] vertices = e.getVertices();
-					for (int i = 0; i < vertices.length; i++) 
+					// check if e is in range
+					if(e.getX() > getLeftBorder() - WIDTH/2 && e.getX() < getRightBorder() + WIDTH/2)
 					{
-						Vector2f currentVertex = vertices[i];
-						Vector2f nextVertex = vertices[(i + 1) % vertices.length];
-						Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
-						Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
-						Vector2f lightToCurrent = Vector2f.sub(currentVertex,
-								light.location, null);
-						if (Vector2f.dot(normal, lightToCurrent) > 0) 
-						{			
-							Vector2f point1 = Vector2f.add(
-									currentVertex,
-									(Vector2f) Vector2f.sub(currentVertex, light.location, null).
-									scale(800), 
-									null
-									);
-							Vector2f point2 = Vector2f.add(
-									nextVertex,
-									(Vector2f) Vector2f.sub(nextVertex, light.location, null).
-									scale(800), 
-									null
-									);
+						Vector2f[] vertices = e.getVertices();
+						for (int i = 0; i < vertices.length; i++) 
+						{
+							Vector2f currentVertex = vertices[i];
+							Vector2f nextVertex = vertices[(i + 1) % vertices.length];
+							Vector2f edge = Vector2f.sub(nextVertex, currentVertex, null);
+							Vector2f normal = new Vector2f(edge.getY(), -edge.getX());
+							Vector2f lightToCurrent = Vector2f.sub(currentVertex,
+									light.location, null);
+							if (Vector2f.dot(normal, lightToCurrent) > 0) 
+							{			
+								Vector2f point1 = Vector2f.add(
+										currentVertex,
+										(Vector2f) Vector2f.sub(currentVertex, light.location, null).
+										scale(800), 
+										null
+										);
+								Vector2f point2 = Vector2f.add(
+										nextVertex,
+										(Vector2f) Vector2f.sub(nextVertex, light.location, null).
+										scale(800), 
+										null
+										);
 
-							glBegin(GL_QUADS);
-							{
-								glVertex2f(currentVertex.getX(), currentVertex.getY());
-								glVertex2f(point1.getX(), point1.getY());
-								glVertex2f(point2.getX(), point2.getY());
-								glVertex2f(nextVertex.getX(), nextVertex.getY());
+								glBegin(GL_QUADS);
+								{
+									glVertex2f(currentVertex.getX(), currentVertex.getY());
+									glVertex2f(point1.getX(), point1.getY());
+									glVertex2f(point2.getX(), point2.getY());
+									glVertex2f(nextVertex.getX(), nextVertex.getY());
+								}
+								glEnd();	
 							}
-							glEnd();	
 						}
 					}
 				}
+				
+				glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+				glStencilFunc(GL_EQUAL, 0, 1);
+				glColorMask(true, true, true, true);
+
+				light.getShader().useProgram();
+				glUniform2f(
+						glGetUniformLocation(light.getShader().getProgram(), "lightLocation"),
+						light.location.getX(), HEIGHT - light.location.getY());
+				glUniform3f(
+						glGetUniformLocation(light.getShader().getProgram(), "lightColor"),
+						light.red, light.green, light.blue);
+
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_ONE, GL_ONE);
+				
+				glBegin(GL_QUADS);
+				{
+					glVertex2f(0, 0);
+					glVertex2f(0, HEIGHT);
+					glVertex2f(WIDTH, HEIGHT);
+					glVertex2f(WIDTH, 0);
+				}
+				glEnd();
+
+				glDisable(GL_BLEND);
+				light.getShader().unUse();
+				glClear(GL_STENCIL_BUFFER_BIT);
 			}
-			
-			glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-			glStencilFunc(GL_EQUAL, 0, 1);
-			glColorMask(true, true, true, true);
-
-			light.getShader().useProgram();
-			glUniform2f(
-					glGetUniformLocation(light.getShader().getProgram(), "lightLocation"),
-					light.location.getX(), HEIGHT - light.location.getY());
-			glUniform3f(
-					glGetUniformLocation(light.getShader().getProgram(), "lightColor"),
-					light.red, light.green, light.blue);
-
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_ONE, GL_ONE);
-			
-			glBegin(GL_QUADS);
-			{
-				glVertex2f(0, 0);
-				glVertex2f(0, HEIGHT);
-				glVertex2f(WIDTH, HEIGHT);
-				glVertex2f(WIDTH, 0);
-			}
-			glEnd();
-
-			glDisable(GL_BLEND);
-			light.getShader().unUse();
-			glClear(GL_STENCIL_BUFFER_BIT);
 		}
 		//timerEnd();
 	}
