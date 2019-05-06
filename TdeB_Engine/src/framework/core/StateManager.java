@@ -37,8 +37,8 @@ public class StateManager {
 		this.deathscreen = new Deathscreen(handler);
 	}
 	
-	public void update()
-	{
+	public void update(){
+		
 		switch (gameState) {
 		case MAINMENU:
 			

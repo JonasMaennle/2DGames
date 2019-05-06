@@ -23,7 +23,7 @@ public class HeadUpDisplay {
 	private TrueTypeFont font;
 	private Font awtFont;
 	private Image[] font_sw;
-	private Image hud_background, hp_bar, hp_border, energy_bar, player_image;
+	private Image hud_background, hp_bar, hp_border, energy_bar;
 	private Image text_fps , text_hp;
 	private int hp_Offset;
 	
@@ -42,9 +42,6 @@ public class HeadUpDisplay {
 		this.hp_bar = quickLoaderImage("hud/hp_bar");
 		this.hp_border = quickLoaderImage("hud/hp_border");
 		this.energy_bar = quickLoaderImage("hud/energy_bar");
-		
-		// player
-		this.player_image = quickLoaderImage("player/player_idle_right");
 		
 		// text
 		this.text_hp = quickLoaderImage("hud/text_hp");
@@ -66,7 +63,7 @@ public class HeadUpDisplay {
 		drawQuadImageStatic(hp_border, hp_Offset, 2, 96, 13);
 		drawQuadImageStatic(hp_border, hp_Offset, 17, 96, 13);
 		
-		drawQuadImageStatic(player_image, WIDTH/2 - TILE_SIZE/2, 0, TILE_SIZE, TILE_SIZE);
+		//drawQuadImageStatic(player_image, WIDTH/2 - TILE_SIZE/2, 0, TILE_SIZE, TILE_SIZE);
 		
 		// Text
 		drawQuadImageStatic(text_hp, 164, 0, 64, 32);
