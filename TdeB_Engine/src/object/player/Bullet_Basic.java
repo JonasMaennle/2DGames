@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
 import framework.entity.GameEntity;
+import framework.shader.Light;
 
 public class Bullet_Basic implements GameEntity{
 
@@ -16,6 +17,7 @@ public class Bullet_Basic implements GameEntity{
 	protected float x, y, angle, destX, destY, speed;
 	protected float velX, velY;
 	protected int width, height;
+	protected Light light;
 	
 	public Bullet_Basic(float x, float y, int width, int height, float destX, float destY, String direction, int speed, float angle){
 		this.x = x;
@@ -71,6 +73,11 @@ public class Bullet_Basic implements GameEntity{
 			return true;
 		}
 		return false;
+	}
+	
+	public void die(){
+		if(light != null)
+			lights.remove(light);
 	}
 
 	@Override

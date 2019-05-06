@@ -40,11 +40,11 @@ public class Weapon_Railgun extends Weapon_Basic{
 	
 	public void shoot(){
 		
-		bulletDamage = 12;
-		bulletSpeed = 20;
+		bulletDamage = 20;
+		bulletSpeed = 18;
 		
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 70){
+		if(timer1 - timer2 > 150){
 			
 			float angleOffset = 0;
 			// walk right
@@ -61,7 +61,7 @@ public class Weapon_Railgun extends Weapon_Basic{
 				}
 				angleOffset /= 20;
 				
-				bulletList.add(new Bullet_Laser(x + 2, y + (height/2) + angleOffset* -5, 12, 6, destX, destY, "right", bulletSpeed, angle));
+				bulletList.add(new Bullet_Laser(x + 2, y + (height/2) + angleOffset* -5, 20, 6, destX, destY, "right", bulletSpeed, angle));
 			}
 			
 			// walk left
@@ -78,7 +78,7 @@ public class Weapon_Railgun extends Weapon_Basic{
 				}	
 				angleOffset /= 20;
 				
-				bulletList.add(new Bullet_Laser(x, y + (height/2) + angleOffset* -8, 12, 6, destX, destY, "left", bulletSpeed, angle));
+				bulletList.add(new Bullet_Laser(x, y + (height/2) + angleOffset* -8, 20, 6, destX, destY, "left", bulletSpeed, angle));
 			}
 			
 			timer2 = timer1;

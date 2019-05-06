@@ -60,17 +60,22 @@ public class Weapon_Basic implements GameEntity{
 		for(Bullet_Basic bullet : bulletList){
 			bullet.update();
 			
-			if(bullet.isOutOfMap())
+			if(bullet.isOutOfMap()){
+				bullet.die();
 				bulletList.remove(bullet);
+			}
+				
 			
 			for(GameEntity ge : handler.obstacleList){
 				if(ge.getBounds().intersects(bullet.getBounds())){
+					bullet.die();
 					bulletList.remove(bullet);
 				}
 			}
 			for(Enemy_Basic e : handler.enemyList){
 				if(e.getBounds().intersects(bullet.getBounds())){
 					e.setHp(e.getHp() - bulletDamage);
+					bullet.die();
 					bulletList.remove(bullet);
 				}
 			}
