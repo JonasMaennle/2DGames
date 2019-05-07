@@ -160,7 +160,10 @@ public class Player implements GameEntity{
 					((Collectable_Helmet) c).setPlayer(this);
 					c.setFound(true);
 					hasHelmet = true;
+					BATTERY_CHARGE = 96;
 					handler.setFogFilter(8);
+					
+					handler.popUpMessage(c.getX(), c.getY() - 64, "Helmet found!", new org.newdawn.slick.Color(244,211,65), 20, 2000);
 				}
 				// Helmet Battery
 				if(c instanceof Collectable_HelmetBattery && !c.isFound()){

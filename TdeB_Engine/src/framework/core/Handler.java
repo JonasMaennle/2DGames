@@ -11,9 +11,10 @@ import static framework.helper.Graphics.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
-
 import framework.entity.GameEntity;
+import framework.ui.IngameMessage;
 
 public class Handler {
 	
@@ -21,6 +22,7 @@ public class Handler {
 	public CopyOnWriteArrayList<Enemy_Basic> enemyList;
 	public CopyOnWriteArrayList<LightSpot> lightSpotList;
 	public CopyOnWriteArrayList<Collectable_Basic> collectableList;
+	private CopyOnWriteArrayList<IngameMessage> message;
 	
 	private TileGrid map;
 	private GameEntity currentEntity;
@@ -43,6 +45,7 @@ public class Handler {
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.lightSpotList = new CopyOnWriteArrayList<>();
 		this.collectableList = new CopyOnWriteArrayList<>();
+		this.message = new CopyOnWriteArrayList<>();
 		
 		this.filter = quickLoaderImage("background/Filter");
 		this.path = quickLoaderImage("tiles/path");
@@ -72,7 +75,14 @@ public class Handler {
 		
 		// update enemy
 		for(Enemy_Basic e : enemyList){
-			if(e.getX() > getLeftBorder() && e.getX() < getRightBorder() && e.getY() > getTopBorder() && e.getY() < getBottomBorder()){
+			if((e.getX() > getLeftBorder() && e.getX() < getRightBorder() && e.getY() > getTopBorder() && e.getY() < getBottomBorder())){
+				e.update();
+				if(e.getHp() <= 0){
+					e.die();
+					enemyList.remove(e);
+					shadowObstacleList.remove(e);
+				}
+			}else if(e.getSpeed() != 0){
 				e.update();
 				if(e.getHp() <= 0){
 					e.die();
@@ -89,10 +99,10 @@ public class Handler {
 	public void draw(){
 		MOVEMENT_X = (int)MOVEMENT_X;
 		MOVEMENT_Y = (int)MOVEMENT_Y;
-		
+
 		// draw tile map
 		map.draw();
-		
+
 		// draw player
 		if(player != null && currentEntity.equals(player))
 			player.draw();
@@ -118,6 +128,9 @@ public class Handler {
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
 			
+		// draw messages
+		messageFadeOut();
+		
 		// render light list
 		renderLightEntity(shadowObstacleList);
 
@@ -131,6 +144,25 @@ public class Handler {
 		}
 	}
 	
+	public void popUpMessage(float x, float y, String text, Color color, int textSize, int ms){
+		message.add(new IngameMessage(x, y, text, color, textSize, ms));
+	}
+	
+	private void messageFadeOut(){
+		for(IngameMessage m : message){
+			// set initial timestamp
+			if(m.getStartTime() == 0){
+				m.setStartTime(System.currentTimeMillis());
+			}
+			// draw string during time, remove after
+			if(System.currentTimeMillis() - m.getStartTime() < m.getTime()){
+				m.draw();	
+			}else{
+				message.remove(m);
+			}	
+		}
+	}
+	
 	public void wipe(){
 		player = null;
 		currentEntity = null;
@@ -140,6 +172,7 @@ public class Handler {
 		enemyList.clear();
 		lightSpotList.clear();
 		collectableList.clear();
+		message.clear();
 	}
 	
 	//@SuppressWarnings("unused")

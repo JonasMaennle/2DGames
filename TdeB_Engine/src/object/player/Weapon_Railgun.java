@@ -84,4 +84,12 @@ public class Weapon_Railgun extends Weapon_Basic{
 			timer2 = timer1;
 		}
 	}
+	
+	@Override
+	public void wipe(){
+		for(Bullet_Basic b : bulletList){
+			b.die();
+		}
+		bulletList.clear();
+	}
 }
