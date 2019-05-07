@@ -63,6 +63,7 @@ public class Enemy_Ghost extends Enemy_Basic{
 	}
 	
 	public void draw(){
+
 		if(direction.equals("right")){
 			drawAnimation(moveRight, x, y, width, height);
 		}else{

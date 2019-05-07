@@ -104,7 +104,7 @@ public abstract class Enemy_Basic implements GameEntity{
 			direction = "left";
 		if(velX == 1)
 			direction = "right";
-		
+
 		x += (velX * speed);
 		y += (velY * speed);
 		
