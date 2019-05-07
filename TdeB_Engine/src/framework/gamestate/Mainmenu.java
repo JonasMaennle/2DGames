@@ -18,10 +18,12 @@ public class Mainmenu {
 	private UI ui;
 	private int buttonWidth, buttonHeight, buttonY, buttonYOffset;
 	private Credits credits;
+	private StateManager manager;
 	
-	public Mainmenu() {
+	public Mainmenu(StateManager manager) {
 		this.ui = new UI();
 		this.background = quickLoaderImage("hud/menu_screenshot");
+		this.manager = manager;
 		
 		this.buttonWidth = 256;
 		this.buttonHeight = 64;
@@ -57,7 +59,7 @@ public class Mainmenu {
 				}
 				// Credits
 				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Credits")) {
-					credits = new Credits();
+					credits = new Credits(manager);
 				}
 				// Exit
 				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Exit")) {

@@ -40,7 +40,7 @@ public class StateManager {
 		this.game = new Game(handler);
 		this.deathscreen = new Deathscreen(handler, this);
 		this.loadingscreen = new Loadingscreen(this, handler);
-		this.menu = new Mainmenu();
+		this.menu = new Mainmenu(this);
 	}
 	
 	public void update(){
@@ -119,5 +119,21 @@ public class StateManager {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+	public Mainmenu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Mainmenu menu) {
+		this.menu = menu;
+	}
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
 	}
 }
