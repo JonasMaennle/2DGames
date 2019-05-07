@@ -48,27 +48,36 @@ public class Mainmenu {
 			}
 		}
 
-		// check if button is clicked
-		for(Button b : ui.getButtonList()) {
-			// Start
-			if(ui.isButtonClicked(b.getName()) && b.getName().equals("Start")) {
-				StateManager.gameState = GameState.LOADING;
+		if(credits == null) {
+			// check if button is clicked
+			for(Button b : ui.getButtonList()) {
+				// Start
+				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Start")) {
+					StateManager.gameState = GameState.LOADING;
+				}
+				// Credits
+				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Credits")) {
+					credits = new Credits();
+				}
+				// Exit
+				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Exit")) {
+					AL.destroy();
+					Display.destroy();
+					System.exit(0);
+				}
 			}
-			// Credits
-			if(ui.isButtonClicked(b.getName()) && b.getName().equals("Credits")) {
-
-			}
-			// Exit
-			if(ui.isButtonClicked(b.getName()) && b.getName().equals("Exit")) {
-				AL.destroy();
-				Display.destroy();
-				System.exit(0);
-			}
+		}else {
+			credits.update();
 		}
+
 	}
 	
 	public void render() {
-		drawQuadImageStatic(background, 0, 0, 1024, 1024);
-		ui.draw();
+		if(credits == null) {
+			drawQuadImageStatic(background, 0, 0, 1024, 1024);
+			ui.draw();
+		}else {
+			credits.draw();
+		}
 	}
 }

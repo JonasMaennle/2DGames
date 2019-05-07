@@ -16,6 +16,8 @@ public class Credits {
 		this.ui = new UI();
 		this.background = quickLoaderImage("hud/menu_screenshot");
 		
+		this.ui.addButton("Menu", "enemy/Enemy_tmp", 32, 32, 256, 64);
+		
 	}
 	
 	public void update() {
