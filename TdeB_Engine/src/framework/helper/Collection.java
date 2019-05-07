@@ -1,12 +1,13 @@
 package framework.helper;
 
+import java.awt.Font;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
-
 import framework.core.StateManager;
 import framework.entity.GameEntity;
 import framework.shader.Light;
@@ -25,6 +26,7 @@ public class Collection {
 
 	public static int TILES_WIDTH;
 	public static int TILES_HEIGHT;
+	
 	
 	// PLAYER STATS
 	public static int PLAYER_HP = 96;
@@ -56,6 +58,22 @@ public class Collection {
 	public static void timerEnd(){
 		time2 = System.currentTimeMillis();
 		System.out.println("Time difference: " + ((time2 - time1)*StateManager.framesInLastSecond) + "\tms/s");
+	}
+	
+	public static Font loadCustomFont(String path, float size){
+		// read(TileImageStorage.class.getClassLoader().getResourceAsStream(path));
+		Font awtFont = null;
+		
+		try {
+	        InputStream inputStream = Collection.class.getClassLoader().getResourceAsStream(path);
+
+	        awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);		
+	        awtFont = awtFont.deriveFont(size); // set font size
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } 
+		return awtFont;
 	}
 	
 	public static Vector2f[] getImageVertices(int x, int y, Image image){

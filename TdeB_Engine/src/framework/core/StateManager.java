@@ -18,7 +18,7 @@ public class StateManager {
 	
 	// Start parameter
 	public static int CURRENT_LEVEL = 0;
-	public static GameState gameState = GameState.GAME; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.LOADING; // initial state -> gameState = GameState.MAINMENU;
 	
 	private Handler handler;
 	private Game game;
@@ -106,5 +106,13 @@ public class StateManager {
 		PathfindingThread.running = true;
 		pathThread = new PathfindingThread(handler.enemyList, graph, handler);
 		pathThread.start();
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 }

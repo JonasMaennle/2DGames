@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
+
 public class IngameMessage {
 	
 	private float x, y;
@@ -36,7 +37,8 @@ public class IngameMessage {
 		this.g = color.getGreen();
 		this.b = color.getBlue();
 		
-		awtFont = new Font("Arial", Font.BOLD, textSize);
+		//awtFont = new Font("Arial", Font.BOLD, textSize);
+		awtFont = loadCustomFont("font/Pixel-Miners.ttf", textSize);
 		font = new TrueTypeFont(awtFont, false);
 	}
 	
