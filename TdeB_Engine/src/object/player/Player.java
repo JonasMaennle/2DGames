@@ -15,6 +15,7 @@ import framework.core.Handler;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
+import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Basic;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Goal;
@@ -38,6 +39,7 @@ public class Player implements GameEntity{
 	private Animation walkRight, walkLeft;
 	
 	public Player(int x, int y, Handler handler){
+		
 		this.handler = handler;
 		
 		this.x = x;
@@ -74,6 +76,13 @@ public class Player implements GameEntity{
 		if(Keyboard.isKeyDown(Keyboard.KEY_W))
 			velY = -1;
 
+		// check AMMO amount
+		if(AMMO_LEFT <= 0) {
+			AMMO_LEFT = 999;
+			weapon.wipe();
+			weapon = new Weapon_Pistol(16, 8, this, handler);
+		}
+		
 		// Shoot
 		if(Mouse.isButtonDown(0) && !isShooting){
 			if(weapon instanceof Weapon_Pistol){
@@ -162,15 +171,14 @@ public class Player implements GameEntity{
 					hasHelmet = true;
 					BATTERY_CHARGE = 96;
 					handler.setFogFilter(8);
-
-					handler.popUpMessage(c.getX(), c.getY() - 64, "Helmet  found", new org.newdawn.slick.Color(244,211,65), 18, 2000);
+					handler.popUpMessage(x - 64, y - 64, "Helmet  found", new org.newdawn.slick.Color(244,211,65), 18, 2000);
 				}
 				// Helmet Battery
 				if(c instanceof Collectable_HelmetBattery && !c.isFound()){
 					BATTERY_CHARGE += 50;
 					if(BATTERY_CHARGE >= 96)
 						BATTERY_CHARGE = 96;
-					handler.popUpMessage(c.getX() - 64, c.getY(), "Energy  Stone  found", new org.newdawn.slick.Color(50,255,28), 18, 2000);
+					handler.popUpMessage(x - 100, y - 64, "Energy  Stone  found   +50", new org.newdawn.slick.Color(50,255,28), 18, 2000);
 					handler.collectableList.remove(c);
 				}
 				// Goal
@@ -178,26 +186,37 @@ public class Player implements GameEntity{
 					StateManager.gameState = GameState.LOADING;
 					handler.collectableList.remove(c);
 				}
+				
+				
 				// Flamethrower
 				if(c instanceof Collectable_Flamethrower && !c.isFound()){
 					this.weapon.wipe();
 					this.weapon = new Weapon_Flamethrower(32, 16, this, handler);
-					handler.popUpMessage(c.getX() - 64, c.getY() - 32, "Flamethrower  found", new org.newdawn.slick.Color(255, 28, 28), 18, 2000);
+					handler.popUpMessage(x - 100, y - 64, "Flamethrower  found", new org.newdawn.slick.Color(255, 28, 28), 18, 2000);
 					handler.collectableList.remove(c);
+					AMMO_LEFT = weapon.getMax_ammo();
 				}
 				// LMG
 				if(c instanceof Collectable_LMG && !c.isFound()){
 					this.weapon.wipe();
 					this.weapon = new Weapon_LMG(32, 16, this, handler);
-					handler.popUpMessage(c.getX() - 64, c.getY() - 32, "Machine  Gun  found", new org.newdawn.slick.Color(255, 28, 28), 18, 2000);
+					handler.popUpMessage(x - 96, y - 64, "Machine  Gun  found", new org.newdawn.slick.Color(255, 28, 28), 18, 2000);
 					handler.collectableList.remove(c);
+					AMMO_LEFT = weapon.getMax_ammo();
 				}
 				// Railgun
 				if(c instanceof Collectable_Railgun && !c.isFound()){
 					this.weapon.wipe();
 					this.weapon = new Weapon_Railgun(32, 16, this, handler);
-					handler.popUpMessage(c.getX() - 64, c.getY() - 32, "Laser  Gun  found", new org.newdawn.slick.Color(255, 28, 28), 18, 2000);
+					handler.popUpMessage(x - 96, y - 64, "Laser  Gun  found", new org.newdawn.slick.Color(255, 28, 28), 18, 2000);
 					handler.collectableList.remove(c);
+					AMMO_LEFT = weapon.getMax_ammo();
+				}
+				// AMMO
+				if(c instanceof Collectable_Ammo && !c.isFound()){
+					handler.popUpMessage(x - 96, y - 64, "+ " + (weapon.getMax_ammo() - AMMO_LEFT) + "  Ammo  found", new org.newdawn.slick.Color(255, 28, 28), 18, 2000);
+					handler.collectableList.remove(c);
+					AMMO_LEFT = weapon.getMax_ammo();
 				}
 			}
 		}

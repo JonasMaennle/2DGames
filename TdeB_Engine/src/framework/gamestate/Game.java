@@ -26,7 +26,7 @@ public class Game {
 		this.handler = handler;
 		this.camera = new Camera(handler.getCurrentEntity());
 		this.backgroundHandler = new BackgroundHandler();	
-		this.hud = new HeadUpDisplay(handler);
+		this.hud = new HeadUpDisplay(handler, 16);
 		
 		this.timer1 = System.currentTimeMillis();
 		this.lightReductionTime = 500; // time in ms
@@ -56,7 +56,7 @@ public class Game {
 		
 		// add message to screen
 		if(showLevelMessage){
-			handler.popUpMessage(WIDTH/2 - MOVEMENT_X - 64, HEIGHT/2 - 64 - MOVEMENT_Y, "Level " + StateManager.CURRENT_LEVEL, new org.newdawn.slick.Color(255,255,255), 32, 3000);
+			handler.popUpMessage(WIDTH/2 - MOVEMENT_X - 64, HEIGHT/2 - 96 - MOVEMENT_Y, "Level " + StateManager.CURRENT_LEVEL, new org.newdawn.slick.Color(255,255,255), 32, 3000);
 			showLevelMessage = false;
 		}
 	}

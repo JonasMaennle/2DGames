@@ -289,9 +289,9 @@ public class Graphics {
 	public static void renderLightEntity(CopyOnWriteArrayList<GameEntity> entityList){
 		
 		for (Light light : lights){
-			
+			int outOfScreenBorder = 64;
 			// test if light is on screen
-			if(light.getLocation().getX()-MOVEMENT_X < getRightBorder() && light.getLocation().getX()-MOVEMENT_X > getLeftBorder() && light.getLocation().getY()-MOVEMENT_Y > getTopBorder() && light.getLocation().getY()-MOVEMENT_Y < getBottomBorder()){
+			if(light.getLocation().getX()-MOVEMENT_X < getRightBorder() + outOfScreenBorder && light.getLocation().getX()-MOVEMENT_X > getLeftBorder() - outOfScreenBorder && light.getLocation().getY()-MOVEMENT_Y > getTopBorder() - outOfScreenBorder && light.getLocation().getY()-MOVEMENT_Y < getBottomBorder() + outOfScreenBorder){
 				
 				glColorMask(false, false, false, false);
 				glStencilFunc(GL_ALWAYS, 1, 1);
@@ -334,6 +334,50 @@ public class Graphics {
 						}
 					}
 				}
+				
+				glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+				glStencilFunc(GL_EQUAL, 0, 1);
+				glColorMask(true, true, true, true);
+
+				light.getShader().useProgram();
+				glUniform2f(
+						glGetUniformLocation(light.getShader().getProgram(), "lightLocation"),
+						light.location.getX(), HEIGHT - light.location.getY());
+				glUniform3f(
+						glGetUniformLocation(light.getShader().getProgram(), "lightColor"),
+						light.red, light.green, light.blue);
+
+				glEnable(GL_BLEND);
+				glBlendFunc(GL_ONE, GL_ONE);
+				
+				glBegin(GL_QUADS);
+				{
+					glVertex2f(0, 0);
+					glVertex2f(0, HEIGHT);
+					glVertex2f(WIDTH, HEIGHT);
+					glVertex2f(WIDTH, 0);
+				}
+				glEnd();
+
+				glDisable(GL_BLEND);
+				light.getShader().unUse();
+				glClear(GL_STENCIL_BUFFER_BIT);	
+			}
+		}
+	}
+	
+	// render all lights from light list
+	public static void renderLightList(CopyOnWriteArrayList<Light> lights){
+		
+		for (Light light : lights){
+			
+			// test if light is on screen
+			if(light.getLocation().getX()-MOVEMENT_X < getRightBorder() && light.getLocation().getX()-MOVEMENT_X > getLeftBorder() && light.getLocation().getY()-MOVEMENT_Y > getTopBorder() && light.getLocation().getY()-MOVEMENT_Y < getBottomBorder()){
+				
+				glColorMask(false, false, false, false);
+				glStencilFunc(GL_ALWAYS, 1, 1);
+				glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+
 				
 				glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 				glStencilFunc(GL_EQUAL, 0, 1);

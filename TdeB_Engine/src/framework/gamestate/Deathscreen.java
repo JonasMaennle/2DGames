@@ -18,10 +18,12 @@ public class Deathscreen {
 	
 	private Handler handler;
 	private BackgroundHandler backgroundHandler;
+	private StateManager manager;
 	private Image image;
 	
-	public Deathscreen(Handler handler){
+	public Deathscreen(Handler handler, StateManager manager){
 		this.handler = handler;
+		this.manager = manager;
 		this.backgroundHandler = new BackgroundHandler();	
 		this.image = quickLoaderImage("hud/text_died");
 	}
@@ -47,9 +49,10 @@ public class Deathscreen {
 		PathfindingThread.running = false;
 		PLAYER_HP = 96;
 		BATTERY_CHARGE = 96;
+		AMMO_LEFT = 999;
 		
 		lights.clear();
-		
+		manager.getGame().setShowLevelMessage(true);
 		StateManager.CURRENT_LEVEL = 0;
 		StateManager.gameState = GameState.GAME;
 	}

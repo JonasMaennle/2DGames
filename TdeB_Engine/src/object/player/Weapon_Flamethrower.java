@@ -1,6 +1,8 @@
 package object.player;
 
 import java.util.Random;
+
+import static framework.helper.Collection.AMMO_LEFT;
 import static framework.helper.Graphics.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -27,6 +29,8 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		
 		this.weaponRight = quickLoaderImage("player/weapon_flamethrower_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_flamethrower_left");
+		
+		this.max_ammo = 800;
 	}
 	
 	public void update(){
@@ -41,6 +45,10 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 					p.die();
 					fireList.remove(p);
 					e.setHp(e.getHp()-1);
+					
+					// trigger enemy if enemy is out of range
+					if(e.getSpeed() == 0)
+						e.setSpeed(2);
 				}
 			}
 			
@@ -89,6 +97,8 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		addFireParticle();
 		addFireParticle();
 		addFireParticle();
+		
+		AMMO_LEFT--;
 	}
 	
 	private void addFireParticle(){

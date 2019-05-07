@@ -1,6 +1,7 @@
 package object.player;
 
 import framework.core.Handler;
+import static framework.helper.Collection.*;
 
 import static framework.helper.Collection.getLeftBorder;
 import static framework.helper.Collection.getRightBorder;
@@ -26,6 +27,8 @@ public class Weapon_LMG extends Weapon_Basic{
 		this.bulletDamage = 12;
 		this.bulletSpeed = 18;
 		this.rand = new Random();
+		
+		this.max_ammo = 300;
 	}
 	
 	public void update(){
@@ -47,7 +50,7 @@ public class Weapon_LMG extends Weapon_Basic{
 	public void shoot(){
 		timer1 = System.currentTimeMillis();
 		if(timer1 - timer2 > 70){
-			
+			AMMO_LEFT--;
 			float destYOffeset = rand.nextFloat() * 32 - 16;
 			float angleOffset = 0;
 			

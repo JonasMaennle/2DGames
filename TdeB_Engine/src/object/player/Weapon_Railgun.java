@@ -1,5 +1,6 @@
 package object.player;
 
+import static framework.helper.Collection.AMMO_LEFT;
 import static framework.helper.Collection.getLeftBorder;
 import static framework.helper.Collection.getRightBorder;
 import static framework.helper.Graphics.drawQuadImageRotLeft;
@@ -20,6 +21,8 @@ public class Weapon_Railgun extends Weapon_Basic{
 		
 		this.weaponRight = quickLoaderImage("player/weapon_railgun_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_railgun_left");
+		
+		this.max_ammo = 50;
 	}
 
 	public void update(){
@@ -45,7 +48,7 @@ public class Weapon_Railgun extends Weapon_Basic{
 		
 		timer1 = System.currentTimeMillis();
 		if(timer1 - timer2 > 150){
-			
+			AMMO_LEFT--;
 			float angleOffset = 0;
 			// walk right
 			if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){

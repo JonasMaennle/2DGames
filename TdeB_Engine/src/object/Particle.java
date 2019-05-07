@@ -30,7 +30,7 @@ public class Particle {
 		this.height = height;
 		this.speed = speed;
 		this.angle = 0;
-		if(lightProbability > 85){ // 90 for laptop to run smooth
+		if(lightProbability > 80){ // 85 for laptop to run smooth
 			light = new Light(new Vector2f(0, 0), 20, 6, 0, 4);
 			lights.add(light);
 		}

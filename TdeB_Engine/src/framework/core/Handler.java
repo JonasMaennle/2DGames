@@ -36,6 +36,8 @@ public class Handler {
 	private float filterValue = 0.0f;
 	private float[][] alphaFilter;
 	
+	private int outOfScreenBorder;
+	
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
@@ -51,6 +53,7 @@ public class Handler {
 		this.path = quickLoaderImage("tiles/path");
 		this.time1 = System.currentTimeMillis();
 		this.time2 = time1;
+		this.outOfScreenBorder = 64;
 		
 		setFogFilter(0);
 	}
@@ -68,14 +71,14 @@ public class Handler {
 		
 		// update collectables
 		for(Collectable_Basic c : collectableList){
-			if(c.getX() > getLeftBorder() && c.getX() < getRightBorder() && c.getY() > getTopBorder() && c.getY() < getBottomBorder()){
+			if(c.getX() > getLeftBorder() - outOfScreenBorder && c.getX() < getRightBorder() + outOfScreenBorder && c.getY() > getTopBorder() - outOfScreenBorder && c.getY() < getBottomBorder() + outOfScreenBorder){
 				c.update();
 			}	
 		}
 		
 		// update enemy
 		for(Enemy_Basic e : enemyList){
-			if((e.getX() > getLeftBorder() && e.getX() < getRightBorder() && e.getY() > getTopBorder() && e.getY() < getBottomBorder())){
+			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
 				e.update();
 				if(e.getHp() <= 0){
 					e.die();
@@ -90,9 +93,7 @@ public class Handler {
 					shadowObstacleList.remove(e);
 				}
 			}
-
 		}
-		
 		objectInfo();
 	}
 	
@@ -109,14 +110,14 @@ public class Handler {
 		
 		// draw collectables
 		for(Collectable_Basic c : collectableList){
-			if(c.getX() > getLeftBorder() && c.getX() < getRightBorder() && c.getY() > getTopBorder() && c.getY() < getBottomBorder()){
+			if(c.getX() > getLeftBorder() - outOfScreenBorder && c.getX() < getRightBorder() + outOfScreenBorder && c.getY() > getTopBorder() - outOfScreenBorder && c.getY() < getBottomBorder() + outOfScreenBorder){
 				c.draw();
 			}	
 		}
 
 		// draw enemy
 		for(Enemy_Basic e : enemyList){
-			if(e.getX() > getLeftBorder() && e.getX() < getRightBorder() && e.getY() > getTopBorder() && e.getY() < getBottomBorder()){
+			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
 				e.draw();
 			}
 		}

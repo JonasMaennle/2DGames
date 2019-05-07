@@ -6,6 +6,7 @@ import static framework.helper.Leveler.*;
 import framework.gamestate.Deathscreen;
 import framework.gamestate.Game;
 import framework.gamestate.Loadingscreen;
+import framework.gamestate.Mainmenu;
 import framework.path.Graph;
 import framework.path.PathfindingThread;
 
@@ -18,12 +19,13 @@ public class StateManager {
 	
 	// Start parameter
 	public static int CURRENT_LEVEL = 0;
-	public static GameState gameState = GameState.LOADING; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
 	
 	private Handler handler;
 	private Game game;
 	private Deathscreen deathscreen;
 	private Loadingscreen loadingscreen;
+	private Mainmenu menu;
 	
 	private Graph graph;
 	private PathfindingThread pathThread;
@@ -36,14 +38,17 @@ public class StateManager {
 		this.graph = new Graph();
 		this.handler = new Handler();
 		this.game = new Game(handler);
-		this.deathscreen = new Deathscreen(handler);
+		this.deathscreen = new Deathscreen(handler, this);
 		this.loadingscreen = new Loadingscreen(this, handler);
+		this.menu = new Mainmenu();
 	}
 	
 	public void update(){
 		
 		switch (gameState) {
 		case MAINMENU:
+			menu.update();
+			menu.render();
 			break;
 			
 		case GAME:

@@ -349,4 +349,8 @@ public abstract class Enemy_Basic implements GameEntity{
 	public float getSpeed() {
 		return speed;
 	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
 }

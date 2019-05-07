@@ -24,6 +24,8 @@ public class Weapon_Basic implements GameEntity{
 	protected int bulletSpeed;
 	protected int bulletDamage;
 	
+	protected int max_ammo;
+	
 	protected CopyOnWriteArrayList<Bullet_Basic> bulletList;
 	
 	public Weapon_Basic(int width, int height, Player player, Handler handler) {
@@ -37,6 +39,7 @@ public class Weapon_Basic implements GameEntity{
 		this.destX = 0;
 		this.destY = 0;
 		
+		this.max_ammo = 999;
 		this.bulletSpeed = 5;
 		this.bulletDamage = 16;
 		
@@ -77,6 +80,10 @@ public class Weapon_Basic implements GameEntity{
 					e.setHp(e.getHp() - bulletDamage);
 					bullet.die();
 					bulletList.remove(bullet);
+					
+					// trigger enemy if enemy is out of range
+					if(e.getSpeed() == 0)
+						e.setSpeed(2);
 				}
 			}
 		}
@@ -219,5 +226,13 @@ public class Weapon_Basic implements GameEntity{
 	@Override
 	public Rectangle getRightBounds() {
 		return null;
+	}
+
+	public int getMax_ammo() {
+		return max_ammo;
+	}
+
+	public void setMax_ammo(int max_ammo) {
+		this.max_ammo = max_ammo;
 	}
 }

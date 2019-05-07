@@ -33,7 +33,7 @@ public class Weapon_Pistol extends Weapon_Basic{
 	}
 	
 	public void shoot(){
-		bulletDamage = 8;
+		bulletDamage = 10;
 		bulletSpeed = 12;
 		super.shoot();
 	}

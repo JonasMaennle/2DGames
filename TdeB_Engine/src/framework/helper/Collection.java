@@ -31,6 +31,7 @@ public class Collection {
 	// PLAYER STATS
 	public static int PLAYER_HP = 96;
 	public static float BATTERY_CHARGE = 96;
+	public static int AMMO_LEFT = 999;
 	
 	private static long time1, time2;
 	
