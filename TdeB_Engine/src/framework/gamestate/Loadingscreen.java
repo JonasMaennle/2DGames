@@ -31,8 +31,8 @@ public class Loadingscreen {
 		this.timer1 = System.currentTimeMillis();
 		this.timer2 = timer1;
 		this.setup = false;
-		this.hud = new HeadUpDisplay(handler, 24);
-		this.loandingTime = 2000; // loading screen time
+		this.hud = new HeadUpDisplay(handler, 24, manager);
+		this.loandingTime = 500; // loading screen time
 		this.image = quickLoaderImage("background/Filter");
 	}
 	

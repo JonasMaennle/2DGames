@@ -7,12 +7,16 @@ import object.player.Player;
 
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+
 import framework.entity.GameEntity;
 import framework.ui.IngameMessage;
 
@@ -103,6 +107,10 @@ public class Handler {
 
 		// draw tile map
 		map.draw();
+		
+		// reset color values
+		if(PLAYER_HP < 26)
+			colorReset();
 
 		// draw player
 		if(player != null && currentEntity.equals(player))
@@ -183,7 +191,7 @@ public class Handler {
 		{
 			time2 = time1;
 			// Data output
-			System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tMovementX: " + MOVEMENT_X);
+			System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tPlayer HP: " + PLAYER_HP);
 		}
 	}
 	
@@ -230,6 +238,15 @@ public class Handler {
 	        	array[ElY][ElX] = filterValue;
 	    }  
 	    return array;
+	}
+	
+	private void colorReset(){
+		
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(255, 255, 255, 255);
+		GL11.glDisable(GL_BLEND);	
 	}
 
 	public GameEntity getCurrentEntity() {

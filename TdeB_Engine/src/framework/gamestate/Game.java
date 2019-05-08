@@ -22,11 +22,11 @@ public class Game {
 	private int lightReductionTime;
 	private boolean showLevelMessage;
 	
-	public Game(Handler handler){
+	public Game(Handler handler, StateManager manager){
 		this.handler = handler;
 		this.camera = new Camera(handler.getCurrentEntity());
 		this.backgroundHandler = new BackgroundHandler();	
-		this.hud = new HeadUpDisplay(handler, 16);
+		this.hud = new HeadUpDisplay(handler, 16, manager);
 		
 		this.timer1 = System.currentTimeMillis();
 		this.lightReductionTime = 500; // time in ms
@@ -37,6 +37,7 @@ public class Game {
 		
 		camera.update();
 		handler.update();
+		hud.update();
 		
 		while(Keyboard.next()){
 			// Exit game
@@ -99,5 +100,13 @@ public class Game {
 
 	public void setShowLevelMessage(boolean showLevelMessage) {
 		this.showLevelMessage = showLevelMessage;
+	}
+
+	public HeadUpDisplay getHud() {
+		return hud;
+	}
+
+	public void setHud(HeadUpDisplay hud) {
+		this.hud = hud;
 	}
 }

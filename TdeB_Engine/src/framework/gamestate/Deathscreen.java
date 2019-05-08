@@ -44,7 +44,7 @@ public class Deathscreen {
 		}
 	}
 	
-	private void resetGame(){
+	public void resetGame(){
 		handler.setFogFilter(0);
 		PathfindingThread.running = false;
 		PLAYER_HP = 96;
@@ -53,6 +53,7 @@ public class Deathscreen {
 		
 		lights.clear();
 		manager.getGame().setShowLevelMessage(true);
+		manager.getGame().getHud().resetColors();
 		StateManager.CURRENT_LEVEL = 0;
 		StateManager.gameState = GameState.GAME;
 	}

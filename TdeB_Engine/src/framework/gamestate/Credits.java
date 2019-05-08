@@ -20,7 +20,7 @@ public class Credits {
 	
 	public Credits(StateManager manager) {
 		this.ui = new UI();
-		this.hud = new HeadUpDisplay(manager.getHandler(), 16);
+		this.hud = new HeadUpDisplay(manager.getHandler(), 16, manager);
 		this.background = quickLoaderImage("hud/menu_screenshot");
 		this.manager = manager;
 		this.ui.addButton("Menu", "hud/button_menu", 64, 64, 256, 64);
@@ -40,13 +40,13 @@ public class Credits {
 		
 		// write credits
 		hud.drawString(64, messageY, "Created  and  Directed  by: ", new Color(243, 243, 243));
-		hud.drawString(400, messageY, "Jonas  Männle", new Color(243, 243, 243));
+		hud.drawString(400, messageY, "Jonas  Mï¿½nnle", new Color(243, 243, 243));
 		
 		hud.drawString(64, messageY + 64, "Executive  Producer: ", new Color(243, 243, 243));
-		hud.drawString(400, messageY + 64, "Jonas  Männle", new Color(243, 243, 243));
+		hud.drawString(400, messageY + 64, "Jonas  Mï¿½nnle", new Color(243, 243, 243));
 		
 		hud.drawString(64, messageY + 128, "Lead  Gameplay  Designer: ", new Color(243, 243, 243));
-		hud.drawString(400, messageY + 128, "Jonas  Männle", new Color(243, 243, 243));
+		hud.drawString(400, messageY + 128, "Jonas  Mï¿½nnle", new Color(243, 243, 243));
 		
 		hud.drawString(64, messageY + 196, "Unnecessary  Sidekick: ", new Color(243, 243, 243));
 		hud.drawString(400, messageY + 196, "Jana  Wiegert", new Color(243, 243, 243));

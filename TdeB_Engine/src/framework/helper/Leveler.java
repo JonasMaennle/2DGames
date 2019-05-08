@@ -29,6 +29,7 @@ import object.LightSpot;
 import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Goal;
+import object.collectable.Collectable_Health;
 import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
@@ -142,6 +143,10 @@ public class Leveler {
 			if(objName.equals("EnergyStone")){
 				Collectable_HelmetBattery bat = new Collectable_HelmetBattery(x, y, 32, 32);
 				handler.collectableList.add(bat);
+			}
+			if(objName.equals("HPStone")){
+				Collectable_Health hp = new Collectable_Health(x, y, 32, 32);
+				handler.collectableList.add(hp);
 			}
 			if(objName.equals("Goal")){
 				Collectable_Goal goal = new Collectable_Goal(x, y, 32, 32);

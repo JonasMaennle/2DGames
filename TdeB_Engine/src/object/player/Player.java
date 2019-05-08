@@ -19,6 +19,7 @@ import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Basic;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Goal;
+import object.collectable.Collectable_Health;
 import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
@@ -179,6 +180,14 @@ public class Player implements GameEntity{
 					if(BATTERY_CHARGE >= 96)
 						BATTERY_CHARGE = 96;
 					handler.popUpMessage(x - 100, y - 64, "Energy  Stone  found   + 50", new org.newdawn.slick.Color(50,255,28), 18, 2000);
+					handler.collectableList.remove(c);
+				}
+				// HP Stone
+				if(c instanceof Collectable_Health && !c.isFound()){
+					PLAYER_HP += 50;
+					if(PLAYER_HP >= 96)
+						PLAYER_HP = 96;
+					handler.popUpMessage(x - 100, y - 64, "HP  Stone  found   + 50", new org.newdawn.slick.Color(183,3,3), 18, 2000);
 					handler.collectableList.remove(c);
 				}
 				// Goal

@@ -37,7 +37,7 @@ public class StateManager {
 	public StateManager(){
 		this.graph = new Graph();
 		this.handler = new Handler();
-		this.game = new Game(handler);
+		this.game = new Game(handler, this);
 		this.deathscreen = new Deathscreen(handler, this);
 		this.loadingscreen = new Loadingscreen(this, handler);
 		this.menu = new Mainmenu(this);
