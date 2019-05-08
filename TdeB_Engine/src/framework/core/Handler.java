@@ -45,7 +45,7 @@ public class Handler {
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
-		this.brightness = 0.5f;
+		this.brightness = 0.4f;
 		
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();

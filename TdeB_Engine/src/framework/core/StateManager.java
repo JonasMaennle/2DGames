@@ -1,7 +1,12 @@
 package framework.core;
 
 import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
 import static framework.helper.Leveler.*;
+
+
+import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Image;
 
 import framework.gamestate.Deathscreen;
 import framework.gamestate.Game;
@@ -29,6 +34,7 @@ public class StateManager {
 	
 	private Graph graph;
 	private PathfindingThread pathThread;
+	private Image cursor;
 	
 	private long nextSecond = System.currentTimeMillis() + 1000;
 	public static int framesInLastSecond = 0;
@@ -41,6 +47,8 @@ public class StateManager {
 		this.deathscreen = new Deathscreen(handler, this);
 		this.loadingscreen = new Loadingscreen(this, handler);
 		this.menu = new Mainmenu(this);
+		
+		this.cursor = quickLoaderImage("hud/cursor");
 	}
 	
 	public void update(){
@@ -83,6 +91,8 @@ public class StateManager {
 			framesInCurrentSecond = 0;
 		}
 		framesInCurrentSecond++;
+		
+		drawQuadImageStatic(cursor, Mouse.getX() - 12, HEIGHT - Mouse.getY() - 12, 32, 32);
 	}
 	
 	public void loadLevel(){

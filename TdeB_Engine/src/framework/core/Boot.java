@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
@@ -25,7 +26,7 @@ public class Boot {
 		//Mouse.setGrabbed(true);
 		beginSession();
 		StateManager statemanager = new StateManager();
-		
+		Mouse.setGrabbed(true);
 		// Game loop
 		while(!Display.isCloseRequested())
 		{
