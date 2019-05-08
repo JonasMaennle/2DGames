@@ -2,6 +2,7 @@ package object.enemy;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.shader.Light;
@@ -9,11 +10,15 @@ import framework.shader.Light;
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
+import java.util.ArrayList;
+
 public class Enemy_Spider extends Enemy_Basic{
 	
 	private Light eyeLight;
 	private int eyeX, eyeY;
 	private int hpFactor;
+	private ArrayList<Image> verticesImagesScaled;
+	Image img;
 
 	public Enemy_Spider(float x, float y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);
@@ -22,6 +27,11 @@ public class Enemy_Spider extends Enemy_Basic{
 		
 		this.hpFactor = 4;
 		this.hp *= hpFactor;
+		this.verticesImagesScaled = new ArrayList<>();
+		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Left_1"), 4));
+		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Left_0"), 4));
+		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Right_0"), 4));
+		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Right_1"), 4));
 		
 		eyeLight = new Light(new Vector2f(0, 0), 20, 0, 0, 12);
 		lights.add(eyeLight);
@@ -29,7 +39,6 @@ public class Enemy_Spider extends Enemy_Basic{
 	
 	public void update(){
 		super.update();
-		
 		// calc eyelight position
 		if(direction.equals("left")){
 			if(moveLeft.getFrame() == 0){
@@ -64,23 +73,21 @@ public class Enemy_Spider extends Enemy_Basic{
 	@Override
 	public Vector2f[] getVertices() {
 		
-		if(direction.equals("right")){
-			return new Vector2f[] {
-					new Vector2f(x + MOVEMENT_X + 5, y + MOVEMENT_Y + 9), // left top
-					new Vector2f(x + MOVEMENT_X + 5, y + MOVEMENT_Y + 32 ), // left bottom
-					new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 32), // right bottom
-					new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 5), // right top
-					new Vector2f(x + MOVEMENT_X + 13, y + MOVEMENT_Y + 5) // right top
-			};
+		if(direction.equals("left")){
+			
+			if(moveLeft.getFrame() == 0) {
+				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(0), 4);
+			}else {
+				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(1), 4);
+			}
+			
 		}else{
-			return new Vector2f[] {
-					new Vector2f(x + MOVEMENT_X + 9, y + MOVEMENT_Y + 5), // left top
-					new Vector2f(x + MOVEMENT_X + 9, y + MOVEMENT_Y + 32), // left bottom
-					new Vector2f(x + MOVEMENT_X + 28, y + MOVEMENT_Y + 32), // right bottom
-					new Vector2f(x + MOVEMENT_X + 28, y + MOVEMENT_Y + 9), // right top
-					
-					new Vector2f(x + MOVEMENT_X + 20, y + MOVEMENT_Y + 5) // right top
-			};
+			
+			if(moveRight.getFrame() == 0) {
+				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(2), 4);
+			}else {
+				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(3), 4);
+			}
 		}
 	}
 	

@@ -19,7 +19,7 @@ public class StateManager {
 	
 	// Start parameter
 	public static int CURRENT_LEVEL = 0;
-	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
+	public static GameState gameState = GameState.LOADING; // initial state -> gameState = GameState.MAINMENU;
 	
 	private Handler handler;
 	private Game game;

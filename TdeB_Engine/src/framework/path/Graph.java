@@ -62,6 +62,7 @@ public class Graph {
 				addBorder(i, getNodeID(nodes.get(i).getX(), nodes.get(i).getY()-1));
 			}
 
+			// Improve pathfinding
 //			for(int j = 0; j < nodes.size(); j++)
 //			{
 //				int absx = nodes.get(i).getX() - nodes.get(j).getX();
@@ -75,7 +76,7 @@ public class Graph {
 //			}
 		}
 		t2 = System.currentTimeMillis();
-		System.out.printf("Matrix loading time: %dms\n",(t2 - t1));
+		System.out.printf("Nodes: " + nodes.size() + "\tMatrix loading time: %dms\n",(t2 - t1));
 	}
 	
 	private int getNextNode(){

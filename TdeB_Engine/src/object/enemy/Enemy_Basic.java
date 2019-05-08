@@ -80,12 +80,12 @@ public abstract class Enemy_Basic implements GameEntity{
 			absx = (path.get(path.size() - 1).getX() * 32);
 			absy = (path.get(path.size() - 1).getY() * 32);
 			// System.out.println(path.size());
-			// System.out.println(absx + "   " + absy);
+			//System.out.println(absx + "   " + x);
 			if(absx > x)
 				velX = 1; 
 			if(absx < x)
 				velX = -1;
-			if(absx == x)
+			if(absx == x || x >= absx - 4 && x <= absx + 4) // removes epileptic effect
 				velX = 0;
 			
 			if(absy > y)

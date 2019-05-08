@@ -1,6 +1,8 @@
 package framework.helper;
 
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -8,6 +10,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.util.BufferedImageUtil;
+
 import framework.core.StateManager;
 import framework.entity.GameEntity;
 import framework.shader.Light;
@@ -77,8 +82,8 @@ public class Collection {
 		return awtFont;
 	}
 	
-	public static Vector2f[] getImageVertices(int x, int y, Image image){
-
+	public static Vector2f[] getImageVertices(int x, int y, Image image, int scale){
+		
 		int w = image.getWidth();
 		int h = image.getHeight();
 		//
@@ -97,13 +102,15 @@ public class Collection {
 				}
 			}
 		}
+
+		//System.out.println(alphaCounter);
 		Vector2f[] vertices = new Vector2f[alphaCounter];
 		int count = 0;
 		// fill vertices array
 		for(int xx = 0; xx < w; xx++){
 			for(int yy = 0; yy < h; yy++){
 				if(alpha[xx][yy] == 1 && count < alphaCounter){
-					vertices[count] = new Vector2f(x + MOVEMENT_X + xx, y + MOVEMENT_Y + yy);
+					vertices[count] = new Vector2f(x + MOVEMENT_X + xx*scale, y + MOVEMENT_Y + yy*scale);
 					count++;
 				}
 			}
@@ -132,8 +139,47 @@ public class Collection {
 				return true;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return false;
+			return true;
 		}
 		return false;
+	}
+	
+	// scale 4 -> 32x32 -> 8x8
+	public static Image scaleImage(Image input, int scale){ 
+
+		int w = input.getWidth() / scale;
+		int h = input.getHeight() / scale;
+		
+		// create empty image 
+		BufferedImage bufImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		
+		for(int x = 0; x < w; x++) {
+			for(int y = 0; y < h; y++) {
+				Color c = input.getColor(x * scale, y * scale);
+				java.awt.Color color = new java.awt.Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha());
+				bufImage.setRGB(x, y, color.getRGB());
+			}
+		}
+		
+		// create Slick Image from BufferedImage
+		Texture tex = null;
+		try {
+			tex = BufferedImageUtil.getTexture("scaledImage", bufImage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Image img = new Image(tex);
+		//System.out.println(img.getWidth());	
+		
+		// TEST OUTPUT
+		
+//		for(int x = 0; x < w; x++) {
+//			for(int y = 0; y < h; y++) {
+//				System.out.print(img.getColor(x, y).getRed() + " ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
+		return img;
 	}
 }

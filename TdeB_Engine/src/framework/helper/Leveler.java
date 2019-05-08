@@ -155,7 +155,6 @@ public class Leveler {
 		
 		handler.setCurrentEntity(handler.getPlayer());
 		
-		System.out.println("Nodes: " + graph.countNodes());
 		graph.createMatrix();
 		return grid;
 	}

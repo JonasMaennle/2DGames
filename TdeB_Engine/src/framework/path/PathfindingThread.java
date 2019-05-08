@@ -35,30 +35,34 @@ public class PathfindingThread extends Thread{
 			object = handler.enemyList;
 			for(int i = 0; i < object.size(); i++)
 			{
-				Enemy_Basic tempObject = object.get(i);
-				Enemy_Basic e = (Enemy_Basic) tempObject;	
-				int enemyX = e.getNextX();
-				int enemyY = e.getNextY();
+				try {
+					Enemy_Basic tempObject = object.get(i);
+					Enemy_Basic e = (Enemy_Basic) tempObject;	
+					int enemyX = e.getNextX();
+					int enemyY = e.getNextY();
 
-				if(graph.getNodeID(enemyX, enemyY) != -1 && graph.getNodeID((int)handler.getCurrentEntity().getX()/TILE_SIZE, (int)handler.getCurrentEntity().getY()/TILE_SIZE) != -1)
-				{
-					t1 = System.currentTimeMillis();
-					if(t1 - t2 > 25 && e.getSpeed() != 0)
+					if(graph.getNodeID(enemyX, enemyY) != -1 && graph.getNodeID((int)handler.getCurrentEntity().getX()/TILE_SIZE, (int)handler.getCurrentEntity().getY()/TILE_SIZE) != -1)
 					{
-						e.setPathLock(true);
-						if(e != null){
-							LinkedList<Node> tmp = graph.astar(graph.getNodeID(enemyX, enemyY), graph.getNodeID((int)(handler.getCurrentEntity().getX())/TILE_SIZE, (int)(handler.getCurrentEntity().getY())/TILE_SIZE));
-							t3 = System.currentTimeMillis();
-							if(tmp.size() < e.getEnemyNodesLeft() || t3 - t4 > 10)
-							{
-								e.setPath(tmp);
-								t4 = t3;
-							}							
-						}
-						e.setPathLock(false);
-						t2 = t1;
-					}		
-				}		
+						t1 = System.currentTimeMillis();
+						if(t1 - t2 > 25 && e.getSpeed() != 0)
+						{
+							e.setPathLock(true);
+							if(e != null){
+								LinkedList<Node> tmp = graph.astar(graph.getNodeID(enemyX, enemyY), graph.getNodeID((int)(handler.getCurrentEntity().getX())/TILE_SIZE, (int)(handler.getCurrentEntity().getY())/TILE_SIZE));
+								t3 = System.currentTimeMillis();
+								if(tmp.size() < e.getEnemyNodesLeft() || t3 - t4 > 10)
+								{
+									e.setPath(tmp);
+									t4 = t3;
+								}							
+							}
+							e.setPathLock(false);
+							t2 = t1;
+						}		
+					}
+				} catch (Exception e) {
+					System.out.println("Pathfinding Error");
+				}
 			}
 		}
 		try {
