@@ -10,14 +10,11 @@ import framework.shader.Light;
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
-import java.util.ArrayList;
-
 public class Enemy_Spider extends Enemy_Basic{
 	
 	private Light eyeLight;
 	private int eyeX, eyeY;
 	private int hpFactor;
-	private ArrayList<Image> verticesImagesScaled;
 	Image img;
 
 	public Enemy_Spider(float x, float y, int width, int height, Handler handler) {
@@ -27,13 +24,8 @@ public class Enemy_Spider extends Enemy_Basic{
 		
 		this.hpFactor = 4;
 		this.hp *= hpFactor;
-		this.verticesImagesScaled = new ArrayList<>();
-		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Left_1"), 4));
-		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Left_0"), 4));
-		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Right_0"), 4));
-		verticesImagesScaled.add(scaleImage(quickLoaderImage("enemy/Enemy_Spider_Basic_Right_1"), 4));
 		
-		eyeLight = new Light(new Vector2f(0, 0), 20, 0, 0, 12);
+		eyeLight = new Light(new Vector2f(0, 0), 20, 0, 0, 20);
 		lights.add(eyeLight);
 	}
 	
@@ -76,17 +68,80 @@ public class Enemy_Spider extends Enemy_Basic{
 		if(direction.equals("left")){
 			
 			if(moveLeft.getFrame() == 0) {
-				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(0), 4);
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 18),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 11),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 0)
+				};
 			}else {
-				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(1), 4);
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 12),
+						new Vector2f(x + MOVEMENT_X + 0, y + MOVEMENT_Y + 12),
+						new Vector2f(x + MOVEMENT_X + 0, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 4)
+				};
 			}
-			
 		}else{
-			
 			if(moveRight.getFrame() == 0) {
-				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(2), 4);
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 12),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 12),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 4)
+				};
 			}else {
-				return getImageVertices((int)x, (int)y, verticesImagesScaled.get(3), 4);
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 0),
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 11),
+						new Vector2f(x + MOVEMENT_X + 12, y + MOVEMENT_Y + 17),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 19, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 0)
+				};
 			}
 		}
 	}

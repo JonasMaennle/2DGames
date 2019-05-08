@@ -92,7 +92,7 @@ public abstract class Enemy_Basic implements GameEntity{
 				velY = 1;
 			if(absy < y)
 				velY = -1;
-			if(absy == y)
+			if(absy == y || y >= absy - 4 && y <= absy + 4) // removes epileptic effect
 				velY = 0;				
 		}else{
 			velX = 0;
@@ -140,7 +140,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected void damagePlayer(){
 		Rectangle rangePlayer = new Rectangle((int)handler.getCurrentEntity().getX() - 8, (int)handler.getCurrentEntity().getY() - 8, (int)handler.getCurrentEntity().getWidth() + 16, (int)handler.getCurrentEntity().getHeight() + 16);
 		if(rangePlayer.intersects(getBounds())){
-			PLAYER_HP -= 1;
+			//PLAYER_HP -= 1;
 		}
 	}
 	

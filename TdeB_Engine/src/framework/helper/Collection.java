@@ -96,13 +96,13 @@ public class Collection {
 				if(c.getAlpha() > 1){
 					// add only if 1 neighbour got alpha = 0
 					if(checkNeighbourPixel(xx, yy, image)){
-						alpha[xx][yy] = 1;
+						alpha[yy][xx] = 1;
 						alphaCounter++;
 					}
 				}
 			}
 		}
-
+		
 		//System.out.println(alphaCounter);
 		Vector2f[] vertices = new Vector2f[alphaCounter];
 		int count = 0;
@@ -169,17 +169,6 @@ public class Collection {
 			e.printStackTrace();
 		}
 		Image img = new Image(tex);
-		//System.out.println(img.getWidth());	
-		
-		// TEST OUTPUT
-		
-//		for(int x = 0; x < w; x++) {
-//			for(int y = 0; y < h; y++) {
-//				System.out.print(img.getColor(x, y).getRed() + " ");
-//			}
-//			System.out.println();
-//		}
-//		System.out.println();
 		return img;
 	}
 }

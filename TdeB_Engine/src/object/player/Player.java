@@ -178,7 +178,7 @@ public class Player implements GameEntity{
 					BATTERY_CHARGE += 50;
 					if(BATTERY_CHARGE >= 96)
 						BATTERY_CHARGE = 96;
-					handler.popUpMessage(x - 100, y - 64, "Energy  Stone  found   +50", new org.newdawn.slick.Color(50,255,28), 18, 2000);
+					handler.popUpMessage(x - 100, y - 64, "Energy  Stone  found   + 50", new org.newdawn.slick.Color(50,255,28), 18, 2000);
 					handler.collectableList.remove(c);
 				}
 				// Goal
