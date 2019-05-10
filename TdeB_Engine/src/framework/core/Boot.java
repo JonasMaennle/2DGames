@@ -21,30 +21,25 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class Boot {
 	
-	public Boot()
-	{
+	public Boot(){
 		//Mouse.setGrabbed(true);
 		beginSession();
 		StateManager statemanager = new StateManager();
 		Mouse.setGrabbed(true);
 		// Game loop
-		while(!Display.isCloseRequested())
-		{
+		while(!Display.isCloseRequested()){
 			statemanager.update();
-			
 			Display.update();
 			Display.sync(60);
 		}	
 		Display.destroy();
 	}
 
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args) {
 		new Boot();
 	}
 	
-	private void beginSession()
-	{	
+	private void beginSession(){	
 		if(WIDTH > 1920){
 			WIDTH = 1920;
 			HEIGHT = 1080;
