@@ -40,15 +40,15 @@ public class Credits {
 		
 		// write credits
 		hud.drawString(64, messageY, "Created  and  Directed  by: ", new Color(243, 243, 243));
-		hud.drawString(400, messageY, "Jonas  M�nnle", new Color(243, 243, 243));
+		hud.drawString(400, messageY, "Jonas  Maennle", new Color(243, 243, 243));
 		
 		hud.drawString(64, messageY + 64, "Executive  Producer: ", new Color(243, 243, 243));
-		hud.drawString(400, messageY + 64, "Jonas  M�nnle", new Color(243, 243, 243));
+		hud.drawString(400, messageY + 64, "Jonas  Maennle", new Color(243, 243, 243));
 		
 		hud.drawString(64, messageY + 128, "Lead  Gameplay  Designer: ", new Color(243, 243, 243));
-		hud.drawString(400, messageY + 128, "Jonas  M�nnle", new Color(243, 243, 243));
+		hud.drawString(400, messageY + 128, "Jonas  Maennle", new Color(243, 243, 243));
 		
-		hud.drawString(64, messageY + 196, "Unnecessary  Sidekick: ", new Color(243, 243, 243));
+		hud.drawString(64, messageY + 196, "very  necessary  Mainkick: ", new Color(243, 243, 243));
 		hud.drawString(400, messageY + 196, "Jana  Wiegert", new Color(243, 243, 243));
 		
 		hud.drawString(64, messageY + 256, "Special  THANKS  to  all  Testplayers!", new Color(243, 243, 243));
