@@ -27,7 +27,7 @@
   <object id="8" name="LightBlue" type="LightBlue" x="335" y="70" width="7" height="6"/>
   <object id="9" name="LightBlue" type="LightBlue" x="495" y="70" width="7" height="6"/>
   <object id="10" name="LightBlue" type="LightBlue" x="879" y="517" width="7" height="6"/>
-  <object id="12" name="EnemySpider" type="EnemySpider" x="390" y="484" width="24" height="28"/>
+  <object id="12" name="EnemyDigger" type="EnemyDigger" x="258" y="258" width="24" height="28"/>
   <object id="14" name="EnemyGhost" type="EnemyGhost" x="631" y="113" width="24" height="28"/>
   <object id="15" name="Helmet" type="Helmet" x="131" y="489" width="23" height="21"/>
   <object id="18" name="EnemySpider" type="EnemySpider" x="836" y="355" width="24" height="28"/>

@@ -19,6 +19,7 @@ public class Particle {
 	private int x, y, width, height;
 	private float velX, velY, speed, angle;
 	private Light light;
+	private long timeCreated;
 	
 	public Particle(int x, int y, int width, int height, float velX, float velY, float speed, String color, int lightProbability){
 		this.x = x;
@@ -35,6 +36,20 @@ public class Particle {
 			lights.add(light);
 		}
 		if(color.equals("orange"))particles = quickLoaderImage("tiles/Lava_" + rand.nextInt(5));
+	}
+	
+	public Particle(int x, int y, int width, int height, float velX, float velY, float speed, String color){
+		this.x = x;
+		this.y = y;
+		this.rand = new Random();
+		this.velX = velX;
+		this.velY = velY;
+		this.width = width;
+		this.height = height;
+		this.speed = speed;
+		this.timeCreated = System.currentTimeMillis();
+		
+		if(color.equals("ground"))particles = quickLoaderImage("tiles/Ground_" + rand.nextInt(5));
 	}
 	
 	public void update(){
@@ -123,5 +138,13 @@ public class Particle {
 
 	public void setVelY(float velY) {
 		this.velY = velY;
+	}
+
+	public long getTimeCreated() {
+		return timeCreated;
+	}
+
+	public void setTimeCreated(long timeCreated) {
+		this.timeCreated = timeCreated;
 	}
 }

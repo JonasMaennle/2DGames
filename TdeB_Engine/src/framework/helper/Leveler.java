@@ -34,6 +34,7 @@ import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
 import object.collectable.Collectable_Railgun;
+import object.enemy.Enemy_Digger;
 import object.enemy.Enemy_Ghost;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
@@ -120,6 +121,11 @@ public class Leveler {
 				Enemy_Ghost tmp = new Enemy_Ghost(x, y, TILE_SIZE, TILE_SIZE, handler);
 				handler.enemyList.add(tmp);
 				shadowObstacleList.add(tmp);
+			}
+			if(objName.equals("EnemyDigger")){
+				Enemy_Digger tmp = new Enemy_Digger(x, y, TILE_SIZE, TILE_SIZE, handler);
+				handler.enemyList.add(tmp);
+				//shadowObstacleList.add(tmp);
 			}
 			if(objName.equals("LightBlue")){
 				handler.lightSpotList.add(new LightSpot(x, y, new Light(new Vector2f(0, 0), 15, 25, 25, 10)));

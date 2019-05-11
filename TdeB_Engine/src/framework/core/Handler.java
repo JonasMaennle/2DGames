@@ -111,6 +111,13 @@ public class Handler {
 		// reset color values
 		if(PLAYER_HP < 26)
 			colorReset();
+		
+		// draw enemy
+		for(Enemy_Basic e : enemyList){
+			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
+				e.draw();
+			}
+		}
 
 		// draw player
 		if(player != null && currentEntity.equals(player))
@@ -123,12 +130,6 @@ public class Handler {
 			}	
 		}
 
-		// draw enemy
-		for(Enemy_Basic e : enemyList){
-			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
-				e.draw();
-			}
-		}
 		// draw enemy path to player
 		//drawPath();	
 		
