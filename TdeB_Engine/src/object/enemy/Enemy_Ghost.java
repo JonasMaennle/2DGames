@@ -17,7 +17,6 @@ import framework.shader.Light;
 public class Enemy_Ghost extends Enemy_Basic{
 	
 	private int eyeX, eyeY;
-	private int hpFactor;
 	private Light eyeLightLeft, eyeLightRight;
 
 	public Enemy_Ghost(float x, float y, int width, int height, Handler handler) {

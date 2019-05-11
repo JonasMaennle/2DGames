@@ -28,6 +28,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected LinkedList<Node> visited;
 	protected int nextX, nextY;
 	protected float absx, absy;
+	protected int hpFactor;
 	
 	protected Handler handler;
 	protected Image image;
@@ -177,31 +178,33 @@ public abstract class Enemy_Basic implements GameEntity{
 		}
 		
 		for(Enemy_Basic ge : handler.enemyList){
-			int boxingOffet = 2;
-			// top
-			if(ge.getBottomBounds().intersects(getTopBounds()))
-			{
-				velY = 0;
-				y = (float) (ge.getY() + ge.getHeight() + boxingOffet);
+			if(ge.getSpeed() != 0){
+				int boxingOffet = 2;
+				// top
+				if(ge.getBottomBounds().intersects(getTopBounds()))
+				{
+					velY = 0;
+					y = (float) (ge.getY() + ge.getHeight() + boxingOffet);
+				}
+				// bottom
+				if(ge.getTopBounds().intersects(getBottomBounds()))
+				{	
+					velY = 0;
+					y = (float) (ge.getY() - TILE_SIZE - boxingOffet);
+				}		
+				// left
+				if(ge.getRightBounds().intersects(getLeftBounds()))
+				{
+					velX = 0;
+					x = (float) (ge.getX() + ge.getWidth() + boxingOffet);
+				}
+				// right
+				if(ge.getLeftBounds().intersects(getRightBounds()))
+				{
+					velX = 0;
+					x = (float) (ge.getX() - TILE_SIZE - boxingOffet);
+				}	
 			}
-			// bottom
-			if(ge.getTopBounds().intersects(getBottomBounds()))
-			{	
-				velY = 0;
-				y = (float) (ge.getY() - TILE_SIZE - boxingOffet);
-			}		
-			// left
-			if(ge.getRightBounds().intersects(getLeftBounds()))
-			{
-				velX = 0;
-				x = (float) (ge.getX() + ge.getWidth() + boxingOffet);
-			}
-			// right
-			if(ge.getLeftBounds().intersects(getRightBounds()))
-			{
-				velX = 0;
-				x = (float) (ge.getX() - TILE_SIZE - boxingOffet);
-			}	
 		}
 		
 		
