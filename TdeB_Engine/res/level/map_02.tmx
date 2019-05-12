@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="25">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="27">
  <tileset firstgid="1" source="tileset_00.tsx"/>
  <layer name="Background" width="64" height="64">
   <data encoding="base64" compression="gzip">
@@ -31,9 +31,7 @@
   <object id="9" name="LightBlue" type="LightBlue" x="1359" y="294" width="7" height="6"/>
   <object id="11" name="EnemySpider" type="EnemySpider" x="1106" y="116" width="24" height="28"/>
   <object id="12" name="EnemySpider" type="EnemySpider" x="1169" y="118" width="24" height="28"/>
-  <object id="13" name="EnemySpider" type="EnemySpider" x="1000" y="347" width="24" height="28"/>
-  <object id="14" name="EnemySpider" type="EnemySpider" x="1366" y="427" width="24" height="28"/>
-  <object id="15" name="EnemySpider" type="EnemySpider" x="1433" y="428" width="24" height="28"/>
+  <object id="13" name="EnemyDigger" type="EnemyDigger" x="1412" y="387" width="24" height="28"/>
   <object id="16" name="EnemySpider" type="EnemySpider" x="1691" y="111" width="24" height="28"/>
   <object id="17" name="EnemySpider" type="EnemySpider" x="1815" y="92" width="24" height="28"/>
   <object id="18" name="EnemySpider" type="EnemySpider" x="1919" y="113" width="24" height="28"/>
@@ -43,5 +41,7 @@
   <object id="22" name="EnemyGhost" type="EnemyGhost" x="1766" y="547" width="24" height="28"/>
   <object id="23" name="Flamethrower" type="Flamethrower" x="1139" y="108" width="23" height="9"/>
   <object id="24" name="Helmet" type="Helmet" x="1829" y="612" width="23" height="21"/>
+  <object id="25" name="EnemyDigger" type="EnemyDigger" x="1413" y="356" width="24" height="28"/>
+  <object id="26" name="EnemyDigger" type="EnemyDigger" x="1795" y="610" width="24" height="28"/>
  </objectgroup>
 </map>
