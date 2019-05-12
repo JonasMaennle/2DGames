@@ -85,7 +85,7 @@ public class Enemy_Digger extends Enemy_Basic{
 			
 			if(digged){
 				if(timer1 - timer2 > 25) {
-					particleList.add(new Particle((int)(x + width/2), (int)(y + tmpHeight), 8, 8, (rand.nextFloat() - 0.5f) * 2,  -rand.nextInt(2) - 1, 3, "ground"));
+					particleList.add(new Particle((int)(x + width/2), (int)(y + tmpHeight) - 8, 8, 8, (rand.nextFloat() - 0.5f) * 2,  -rand.nextInt(2) - 1, 3, "ground"));
 					timer2 = timer1;
 				}
 				
