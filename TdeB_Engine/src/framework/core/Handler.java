@@ -137,9 +137,7 @@ public class Handler {
 		GL11.glColor4f(0, 0, 0, brightness);
 		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 		GL11.glColor4f(1, 1, 1, 1);
-			
-		// draw messages
-		messageFadeOut();
+
 		
 		// render light list
 		renderLightEntity(shadowObstacleList);
@@ -152,6 +150,9 @@ public class Handler {
 				GL11.glColor4f(1, 1, 1, 1);
 			}
 		}
+			
+		// draw messages
+		messageFadeOut();
 	}
 	
 	public void popUpMessage(float x, float y, String text, Color color, int textSize, int ms){

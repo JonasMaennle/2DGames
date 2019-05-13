@@ -39,8 +39,9 @@ public class Enemy_Digger extends Enemy_Basic{
 		this.tmpHeight = 0;
 		this.hpFactor = 14;
 		
-		eyeLightLeft = new Light(new Vector2f(-100, -100), 156, 198, 217, 200);
-		eyeLightRight = new Light(new Vector2f(-100, -100), 156, 198, 217, 200);
+		eyeLightLeft = new Light(new Vector2f(x,y), 156, 198, 217, 200);
+		eyeLightRight = new Light(new Vector2f(x,y), 156, 198, 217, 200);
+
 		lights.add(eyeLightLeft);
 		lights.add(eyeLightRight);
 	}

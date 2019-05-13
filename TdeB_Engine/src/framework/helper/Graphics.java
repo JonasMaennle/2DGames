@@ -299,7 +299,7 @@ public class Graphics {
 
 				for (GameEntity e : entityList) {
 					// check if e is in range
-					if(e.getX() > getLeftBorder() - WIDTH/2 && e.getX() < getRightBorder() + WIDTH/2){
+					if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
 						Vector2f[] vertices = e.getVertices();
 						for (int i = 0; i < vertices.length; i++) {
 							Vector2f currentVertex = vertices[i];

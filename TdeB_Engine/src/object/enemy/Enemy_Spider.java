@@ -25,7 +25,7 @@ public class Enemy_Spider extends Enemy_Basic{
 		this.hpFactor = 4;
 		this.hp *= hpFactor;
 		
-		eyeLight = new Light(new Vector2f(0, 0), 20, 0, 0, 20);
+		eyeLight = new Light(new Vector2f(x, y), 20, 0, 0, 20);
 		lights.add(eyeLight);
 	}
 	

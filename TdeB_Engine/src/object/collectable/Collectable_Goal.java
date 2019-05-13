@@ -14,7 +14,7 @@ public class Collectable_Goal extends Collectable_Basic{
 		super(x, y, width, height);
 		
 		image = quickLoaderImage("tiles/goal");
-		light = new Light(new Vector2f(0, 0), 50, 30, 2, 8);
+		light = new Light(new Vector2f(x, y), 50, 30, 2, 8);
 		lights.add(light);
 	}
 
