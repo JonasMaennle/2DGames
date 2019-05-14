@@ -42,8 +42,7 @@ public class Enemy_Digger extends Enemy_Basic{
 		eyeLightLeft = new Light(new Vector2f(x,y), 156, 198, 217, 200);
 		eyeLightRight = new Light(new Vector2f(x,y), 156, 198, 217, 200);
 
-		lights.add(eyeLightLeft);
-		lights.add(eyeLightRight);
+
 	}
 	
 	public void update() {
@@ -115,6 +114,9 @@ public class Enemy_Digger extends Enemy_Basic{
 					initHP = false;
 					this.hp = 32;
 					this.hp *= hpFactor;
+					
+					lights.add(eyeLightLeft);
+					lights.add(eyeLightRight);
 					shadowObstacleList.add(this);
 				}
 			}				

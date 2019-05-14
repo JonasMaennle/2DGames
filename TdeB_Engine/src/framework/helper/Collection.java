@@ -41,6 +41,12 @@ public class Collection {
 	private static long time1, time2;
 	
 	// Static Methods
+	public static void resetPlayerStats(){
+		PLAYER_HP = 96;
+		BATTERY_CHARGE = 96;
+		AMMO_LEFT = 999;
+	}
+	
 	public static float getLeftBorder(){
 		return MOVEMENT_X * -1;
 	}

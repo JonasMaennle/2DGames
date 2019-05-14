@@ -184,6 +184,7 @@ public class Handler {
 		lightSpotList.clear();
 		collectableList.clear();
 		message.clear();
+		lights.clear();
 	}
 	
 	//@SuppressWarnings("unused")

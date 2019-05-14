@@ -8,6 +8,7 @@ import static framework.helper.Graphics.*;
 import static framework.helper.Collection.*;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
+import framework.helper.Collection;
 import framework.ui.Button;
 import framework.ui.UI;
 
@@ -19,11 +20,13 @@ public class Mainmenu {
 	private int buttonWidth, buttonHeight, buttonY, buttonYOffset;
 	private Credits credits;
 	private StateManager manager;
+	private boolean resetLoading;
 	
 	public Mainmenu(StateManager manager) {
 		this.ui = new UI();
 		this.background = quickLoaderImage("hud/menu_screenshot");
 		this.manager = manager;
+		this.resetLoading = true;
 		
 		this.buttonWidth = 256;
 		this.buttonHeight = 64;
@@ -39,7 +42,11 @@ public class Mainmenu {
 	}
 	
 	public void update() {
-		
+		if(resetLoading){
+			manager.setLoadingscreen(new Loadingscreen(manager, manager.getHandler()));
+			resetLoading = false;
+		}
+
 		// Keyboard input
 		while(Keyboard.next()){
 			// Exit game
@@ -55,6 +62,9 @@ public class Mainmenu {
 			for(Button b : ui.getButtonList()) {
 				// Start
 				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Start")) {
+					resetLoading = true;
+					Collection.resetPlayerStats();
+					StateManager.CURRENT_LEVEL = 0;
 					StateManager.gameState = GameState.LOADING;
 				}
 				// Credits

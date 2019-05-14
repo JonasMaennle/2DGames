@@ -23,8 +23,9 @@ public class StateManager {
 	}
 	
 	// Start parameter
-	public static int CURRENT_LEVEL = 1;
-	public static GameState gameState = GameState.LOADING; // initial state -> gameState = GameState.MAINMENU;
+	public static int CURRENT_LEVEL = 0;
+	public int MAX_LEVEL = 2;
+	public static GameState gameState = GameState.MAINMENU; // initial state -> gameState = GameState.MAINMENU;
 	
 	private Handler handler;
 	private Game game;
@@ -96,7 +97,14 @@ public class StateManager {
 	}
 	
 	public void loadLevel(){
+
 		CURRENT_LEVEL++;
+		
+		if(MAX_LEVEL + 1 == StateManager.CURRENT_LEVEL){
+			StateManager.gameState = GameState.MAINMENU;
+			return;
+		}
+		
 		handler.wipe();
 		shadowObstacleList.clear();
 		graph = new Graph();
@@ -145,5 +153,13 @@ public class StateManager {
 
 	public void setHandler(Handler handler) {
 		this.handler = handler;
+	}
+
+	public Loadingscreen getLoadingscreen() {
+		return loadingscreen;
+	}
+
+	public void setLoadingscreen(Loadingscreen loadingscreen) {
+		this.loadingscreen = loadingscreen;
 	}
 }
