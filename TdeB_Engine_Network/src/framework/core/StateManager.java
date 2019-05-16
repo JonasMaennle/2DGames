@@ -86,7 +86,7 @@ public class StateManager {
 			if(!connected) {
 				Thread t = new Thread(client);
 				t.start();
-				client.setHandler(handler);
+				client.setHandler(this.handler);
 				connected = true;
 			}
 			break;

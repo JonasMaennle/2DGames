@@ -11,7 +11,6 @@ import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 
-import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -84,6 +83,13 @@ public class Handler{
 			}	
 		}
 		
+		// update other players
+		if(client.getState() != null){
+			for(Player p : client.getState().list){
+				//p.update();
+			}
+		}
+
 		// update enemy
 		for(Enemy_Basic e : enemyList){
 			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
@@ -120,6 +126,14 @@ public class Handler{
 		for(Enemy_Basic e : enemyList){
 			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
 				e.draw();
+			}
+		}
+		
+		// draw other players
+		if(client.getState() != null){
+			for(Player p : client.getState().list){
+				p.update();
+				p.draw();
 			}
 		}
 

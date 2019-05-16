@@ -3,8 +3,10 @@ package network;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import framework.core.Handler;
+import object.player.Player;
 
 
 public class GameClient implements Runnable{
@@ -16,11 +18,13 @@ public class GameClient implements Runnable{
 	private ObjectOutputStream os_stream;
 	private ObjectInputStream in_stream;
 	private Handler handler;
+	private GameState state;
 	
 	private boolean running = true;
 	private long t1,t2;
 	
 	public GameClient(){
+		state = new GameState();
 	}
 	
 	public void run(){
@@ -56,6 +60,7 @@ public class GameClient implements Runnable{
 	private void sendData(){
 		try {
 			if(handler != null) {
+				//System.out.println(handler.getPlayer().getX());
 				os_stream.writeObject(handler.getPlayer());
 				os_stream.flush();
 				os_stream.reset();
@@ -71,8 +76,24 @@ public class GameClient implements Runnable{
 		public void run() {
 			try {
 				while(running) {
-					GameState test = (GameState)in_stream.readObject();
-				
+					GameState tmp = (GameState)in_stream.readObject();
+					//System.out.println(test.list.size());
+					// remove own player
+					tmp.list.remove(tmp.sessionID);
+					ArrayList<Player> tmpList = state.list;
+
+					if(tmp.list.size() != state.list.size()+1){
+						for(Player p : tmp.list){
+							Player tmpPlayer = new Player((int)p.getX(), (int)p.getY(), handler);
+							state.list.add(tmpPlayer);
+						}
+					}else{
+						state.list = tmpList;
+					}
+
+					
+					// test
+					state.list.add(new Player(200, 400, handler));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -86,5 +107,13 @@ public class GameClient implements Runnable{
 
 	public void setHandler(Handler handler) {
 		this.handler = handler;
+	}
+
+	public GameState getState() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
 	}
 }

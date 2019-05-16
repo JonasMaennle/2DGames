@@ -30,7 +30,7 @@ public class Player implements GameEntity{
 	private static final long serialVersionUID = 6760259338720320641L;
 	private int width, height, velX, velY;
 	private float x, y, speed;
-	private transient String direction;
+	private  String direction;
 	private transient Image idle_left, idle_right;
 	private transient Handler handler;
 	private transient int helmetBightness;
