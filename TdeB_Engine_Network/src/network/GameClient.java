@@ -3,7 +3,6 @@ package network;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import framework.core.Handler;
 import object.player.Player;
@@ -80,17 +79,13 @@ public class GameClient implements Runnable{
 					//System.out.println(test.list.size());
 					// remove own player
 					tmp.list.remove(tmp.sessionID);
-					ArrayList<Player> tmpList = state.list;
-
-					if(tmp.list.size() != state.list.size()+1){
-						for(Player p : tmp.list){
-							Player tmpPlayer = new Player((int)p.getX(), (int)p.getY(), handler);
-							state.list.add(tmpPlayer);
-						}
-					}else{
-						state.list = tmpList;
+					
+					state = tmp;
+					state.list.clear();
+					for(Player p : tmp.list){
+						Player tmpPlayer = new Player((int)p.getX(), (int)p.getY(), handler);
+						state.list.add(tmpPlayer);
 					}
-
 					
 					// test
 					state.list.add(new Player(200, 400, handler));
