@@ -11,7 +11,7 @@ import framework.core.Handler;
 public class GameClient implements Runnable{
 	
 	private final static int PORT = 55123;
-	private static String TARGET_IP = "raspberry_jonas.selfhost.eu";
+	private static String TARGET_IP = "192.168.2.104"; //raspberry_jonas.selfhost.eu
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
