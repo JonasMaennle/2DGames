@@ -90,10 +90,10 @@ public class GameServer implements Serializable {
 					
 					t1 = System.currentTimeMillis();
 
-					if(t1 - t2 > 2) {
+//					if(t1 - t2 > 1) {
 						sendMessageBack();
-						t2 = t1;
-					}
+//						t2 = t1;
+//					}
 					
 				}
 			} catch (Exception e) {
