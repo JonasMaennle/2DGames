@@ -19,9 +19,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 
-public class Shader {
+public class Shader implements Serializable{
 	
+	private static final long serialVersionUID = -3191004072326826527L;
 	private int programId;
 	private int fragmentShader;
 	private StringBuilder fragmentShaderSource;

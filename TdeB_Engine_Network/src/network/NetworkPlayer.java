@@ -50,6 +50,8 @@ public class NetworkPlayer extends Player{
 			System.out.println("Player velocityX out of range!");
 			break;
 		}
+		
+		weapon.draw();
 	}
 
 	public int getPlayerUniqueID() {

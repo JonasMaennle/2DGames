@@ -105,7 +105,7 @@ public class GameClient implements Runnable{
 							}
 								
 							if(!trigger) {
-								System.out.println("added");
+								//System.out.println("added");
 								handler.addNetworkPlayer(player);
 							}	
 						}	

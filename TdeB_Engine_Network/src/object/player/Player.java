@@ -38,7 +38,7 @@ public class Player implements GameEntity{
 	protected transient Handler handler;
 	protected int helmetBightness;
 	
-	protected transient Weapon_Basic weapon;
+	protected Weapon_Basic weapon;
 	protected boolean isShooting, hasHelmet;
 	
 	protected transient Animation walkRight, walkLeft;

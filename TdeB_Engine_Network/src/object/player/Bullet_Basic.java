@@ -13,7 +13,8 @@ import framework.shader.Light;
 
 public class Bullet_Basic implements GameEntity{
 
-	protected Image image;
+	private static final long serialVersionUID = 1L;
+	protected transient Image image;
 	protected float x, y, angle, destX, destY, speed;
 	protected float velX, velY;
 	protected int width, height;
@@ -47,6 +48,9 @@ public class Bullet_Basic implements GameEntity{
 
 	@Override
 	public void draw() {
+		if(image == null)
+			image = quickLoaderImage("player/bullet_basic");
+		
 		drawQuadImageRotCenter(image, x, y, width, height, angle);	
 	}
 	

@@ -4,9 +4,13 @@ import static org.lwjgl.opengl.GL11.GL_STENCIL_TEST;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;
 
+import java.io.Serializable;
+
 import org.lwjgl.util.vector.Vector2f;
 
-public class Light {
+public class Light implements Serializable{
+
+	private static final long serialVersionUID = 6244870893102900385L;
 	public Vector2f location;
 	public float red;
 	public float green;

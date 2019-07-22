@@ -21,7 +21,7 @@ public class Weapon_Basic implements GameEntity{
 	protected int width, height;
 	protected Player player;
 	protected Handler handler;
-	protected Image default_weapon;
+	protected transient Image default_weapon;
 	protected int bulletSpeed;
 	protected int bulletDamage;
 	
@@ -92,6 +92,9 @@ public class Weapon_Basic implements GameEntity{
 
 	@Override
 	public void draw() {
+		
+		if(default_weapon == null)
+			default_weapon = quickLoaderImage("player/weapon");
 		
 		for(Bullet_Basic bullet : bulletList){
 			bullet.draw();
