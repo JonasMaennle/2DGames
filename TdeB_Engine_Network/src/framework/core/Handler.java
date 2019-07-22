@@ -111,6 +111,8 @@ public class Handler implements Serializable{
 			if(timestamp - net.getTimeout() > 3000) {
 				otherPlayers.remove(net);
 			}
+			
+			net.update();
 		}
 		
 	}

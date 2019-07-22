@@ -25,10 +25,7 @@ public class NetworkPlayer extends Player{
 	}
 	
 	public void update() {
-		collectableCollision();
-		
-		updateDirection();
-		weapon.update();
+		//weapon.update();
 	}
 	
 	public void draw() {
