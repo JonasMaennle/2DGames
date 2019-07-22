@@ -20,7 +20,7 @@ public class Weapon_Basic implements GameEntity{
 	protected float x, y, angle, destX, destY;
 	protected int width, height;
 	protected Player player;
-	protected Handler handler;
+	protected transient Handler handler;
 	protected transient Image default_weapon;
 	protected int bulletSpeed;
 	protected int bulletDamage;

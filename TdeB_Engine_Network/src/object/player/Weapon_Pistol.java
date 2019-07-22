@@ -7,7 +7,7 @@ import framework.core.Handler;
 public class Weapon_Pistol extends Weapon_Basic{
 
 	private static final long serialVersionUID = -7662168055647602104L;
-	private Image weaponRight, weaponLeft;
+	private transient Image weaponRight, weaponLeft;
 	
 	public Weapon_Pistol(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
@@ -21,6 +21,11 @@ public class Weapon_Pistol extends Weapon_Basic{
 	}
 	
 	public void draw(){
+		
+		if(weaponRight == null || weaponLeft == null) {
+			this.weaponRight = quickLoaderImage("player/weapon_pistol_right");
+			this.weaponLeft = quickLoaderImage("player/weapon_pistol_left");
+		}
 
 		if(player.getDirection().equals("right")){
 			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);

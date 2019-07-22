@@ -24,6 +24,13 @@ public class NetworkPlayer extends Player{
 		timeout = System.currentTimeMillis();
 	}
 	
+	public void update() {
+		collectableCollision();
+		
+		updateDirection();
+		weapon.update();
+	}
+	
 	public void draw() {
 		
 		if(idle_left == null || idle_right == null || walkRight == null || walkLeft == null) {
@@ -51,7 +58,7 @@ public class NetworkPlayer extends Player{
 			break;
 		}
 		
-		weapon.draw();
+		//weapon.draw();
 	}
 
 	public int getPlayerUniqueID() {

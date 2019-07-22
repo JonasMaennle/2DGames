@@ -166,7 +166,7 @@ public class Player implements GameEntity{
 		}
 	}
 	
-	private void collectableCollision(){
+	protected void collectableCollision(){
 		for(Collectable_Basic c : handler.collectableList){
 			if(c.getBounds().intersects(getBounds())){
 				// Helmet
@@ -244,7 +244,7 @@ public class Player implements GameEntity{
 		drawQuad((int)x,(int) y + TILE_SIZE - 16, TILE_SIZE, 16); // bottom
 	}
 	
-	private void updateDirection(){
+	protected void updateDirection(){
 		float mouseX = Mouse.getX() - MOVEMENT_X;
 		
 		if(mouseX > x)
