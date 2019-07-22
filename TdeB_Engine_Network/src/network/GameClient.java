@@ -3,27 +3,30 @@ package network;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 
 import framework.core.Handler;
-import object.player.Player;
 
 
 public class GameClient implements Runnable{
 	
 	private final static int PORT = 55123;
-	private static String TARGET_IP = "192.168.2.109"; //  PI 192.168.2.109
+	private static String TARGET_IP = "localhost"; //  PI 192.168.2.109
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
 	private ObjectInputStream in_stream;
 	private Handler handler;
-	private GameState state;
+	private NetworkPlayer localPlayer;
+	private HashMap<Integer, NetworkPlayer> playerMap;
 	
 	private boolean running = true;
 	private long t1,t2;
 	
-	public GameClient(){
-		state = new GameState();
+	public GameClient(Handler handler){
+		this.handler = handler;
+		localPlayer = new NetworkPlayer(handler.getPlayer(), handler);
+		playerMap = new HashMap<>();
 	}
 	
 	public void run(){
@@ -38,7 +41,7 @@ public class GameClient implements Runnable{
 		// send current gamestate
 		while(running){
 			t1 = System.currentTimeMillis();
-			if(t1 - t2 > 10) {
+			if(t1 - t2 > 15) {
 				sendData();
 				t2 = t1;
 			}
@@ -60,7 +63,10 @@ public class GameClient implements Runnable{
 		try {
 			if(handler != null) {
 				//System.out.println(handler.getPlayer().getX());
-				os_stream.writeObject(handler.getPlayer());
+				localPlayer.setX(handler.getPlayer().getX());
+				localPlayer.setY(handler.getPlayer().getY());
+				
+				os_stream.writeObject(localPlayer);
 				os_stream.flush();
 				os_stream.reset();
 			}
@@ -72,43 +78,45 @@ public class GameClient implements Runnable{
 	// receive current gamestate from server
 	public class StateReceiver implements Runnable{
 
+		@SuppressWarnings("unchecked")
 		public void run() {
 			try {
+				// read from server
 				while(running) {
-					GameState tmp = (GameState)in_stream.readObject();
-					//System.out.println(test.list.size());
-					// remove own player
-					tmp.list.remove(tmp.sessionID);
+					playerMap = (HashMap<Integer, NetworkPlayer>) in_stream.readObject();
 					
-					state = tmp;
-					state.list.clear();
-					for(Player p : tmp.list){
-						Player tmpPlayer = new Player((int)p.getX(), (int)p.getY(), handler);
-						state.list.add(tmpPlayer);
+					for(NetworkPlayer player : playerMap.values()) {
+						//System.out.println(player.getPlayerUniqueID());
+						
+						// test if player = localplayer
+						if(player.getPlayerUniqueID() != localPlayer.getPlayerUniqueID()) {
+							boolean trigger = false;
+							long timestamp = System.currentTimeMillis();
+							
+							for(int i = 0; i < handler.getOtherPlayers().size(); i++) {
+								
+								if(handler.getOtherPlayers().get(i).getPlayerUniqueID() == player.getPlayerUniqueID()) {
+									trigger = true;
+									handler.getOtherPlayers().get(i).setX(player.getX());
+									handler.getOtherPlayers().get(i).setY(player.getY());
+									// all updated player receive new timestamp
+									handler.getOtherPlayers().get(i).setTimeout(timestamp);
+								}
+							}
+								
+							if(!trigger) {
+								System.out.println("added");
+								handler.addNetworkPlayer(player);
+							}	
+						}	
 					}
-					
-					// test
-					state.list.add(new Player(200, 400, handler));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}	
 	}
-
-	public Handler getHandler() {
-		return handler;
-	}
-
 	public void setHandler(Handler handler) {
 		this.handler = handler;
-	}
-
-	public GameState getState() {
-		return state;
-	}
-
-	public void setState(GameState state) {
-		this.state = state;
 	}
 }

@@ -28,17 +28,20 @@ import object.collectable.Collectable_Railgun;
 public class Player implements GameEntity{
 
 	private static final long serialVersionUID = 6760259338720320641L;
-	private int width, height, velX, velY;
-	private float x, y, speed;
-	private  String direction;
-	private transient Image idle_left, idle_right;
-	private transient Handler handler;
-	private transient int helmetBightness;
+	protected int width;
+	protected int height;
+	protected int velX;
+	protected int velY;
+	protected float x, y, speed;
+	protected String direction;
+	protected transient Image idle_left, idle_right;
+	protected transient Handler handler;
+	protected int helmetBightness;
 	
-	private transient Weapon_Basic weapon;
-	private transient boolean isShooting, hasHelmet;
+	protected transient Weapon_Basic weapon;
+	protected boolean isShooting, hasHelmet;
 	
-	private transient Animation walkRight, walkLeft;
+	protected transient Animation walkRight, walkLeft;
 	
 	public Player(int x, int y, Handler handler){
 		
@@ -117,7 +120,7 @@ public class Player implements GameEntity{
 	}
 
 	public void draw() {
-
+		
 		switch (direction) {
 		case "right":
 			if(velX == 0 && velY == 0)

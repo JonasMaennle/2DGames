@@ -11,6 +11,7 @@ import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -19,20 +20,21 @@ import org.newdawn.slick.Image;
 
 import framework.entity.GameEntity;
 import framework.ui.IngameMessage;
-import network.GameClient;
+import network.NetworkPlayer;
 
-public class Handler{
+public class Handler implements Serializable{
 
+	private static final long serialVersionUID = -3339798243834817526L;
 	public CopyOnWriteArrayList<GameEntity> obstacleList;
 	public CopyOnWriteArrayList<Enemy_Basic> enemyList;
 	public CopyOnWriteArrayList<LightSpot> lightSpotList;
 	public CopyOnWriteArrayList<Collectable_Basic> collectableList;
 	private CopyOnWriteArrayList<IngameMessage> message;
+	private CopyOnWriteArrayList<NetworkPlayer> otherPlayers;
 	
 	private TileGrid map;
 	private GameEntity currentEntity;
 	private Player player;
-	private GameClient client;
 	
 	private float brightness;
 	private Image filter, path;
@@ -44,7 +46,7 @@ public class Handler{
 	
 	private int outOfScreenBorder;
 	
-	public Handler(GameClient client){
+	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
 		this.brightness = 0.4f;
@@ -54,7 +56,7 @@ public class Handler{
 		this.lightSpotList = new CopyOnWriteArrayList<>();
 		this.collectableList = new CopyOnWriteArrayList<>();
 		this.message = new CopyOnWriteArrayList<>();
-		this.client = client;
+		this.otherPlayers = new CopyOnWriteArrayList<NetworkPlayer>();
 		
 		this.filter = quickLoaderImage("background/Filter");
 		this.path = quickLoaderImage("tiles/path");
@@ -82,13 +84,6 @@ public class Handler{
 				c.update();
 			}	
 		}
-		
-		// update other players
-		if(client.getState() != null){
-			for(Player p : client.getState().list){
-				//p.update();
-			}
-		}
 
 		// update enemy
 		for(Enemy_Basic e : enemyList){
@@ -109,6 +104,15 @@ public class Handler{
 			}
 		}
 		//objectInfo();
+		
+		// kick inactive players
+		for(NetworkPlayer net : otherPlayers) {
+			long timestamp = System.currentTimeMillis();
+			if(timestamp - net.getTimeout() > 3000) {
+				otherPlayers.remove(net);
+			}
+		}
+		
 	}
 	
 	public void draw(){
@@ -129,12 +133,8 @@ public class Handler{
 			}
 		}
 		
-		// draw other players
-		if(client.getState() != null){
-			for(Player p : client.getState().list){
-				p.update();
-				p.draw();
-			}
+		for(NetworkPlayer netPlayer : otherPlayers) {
+			netPlayer.draw();
 		}
 
 		// draw player
@@ -293,6 +293,19 @@ public class Handler{
 	public void setMap(TileGrid map) {
 		this.map = map;
 	}
+	
+	public void addNetworkPlayer(NetworkPlayer p) {
+		otherPlayers.add(p);
+	}
+	
+	public void removeNetworkPlayer(NetworkPlayer p) {
+		otherPlayers.remove(p);
+	}
+
+	public CopyOnWriteArrayList<NetworkPlayer> getOtherPlayers() {
+		return otherPlayers;
+	}
+	
 	
 	
 }

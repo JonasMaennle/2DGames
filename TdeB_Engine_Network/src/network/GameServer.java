@@ -5,7 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
-import object.player.Player;
+import java.util.HashMap;
 
 public class GameServer implements Serializable {
 
@@ -17,11 +17,16 @@ public class GameServer implements Serializable {
 	private Socket clientSocket;
 	private int connectionCounter;
 	private boolean running = true;
-	private GameState state;
+	private static HashMap<Integer, NetworkPlayer> playerMap = new HashMap<>();
+	private long t1, t2;
 
 	public static void main(String[] args) {
 		GameServer server = new GameServer();
 		server.run(PORT);
+	}
+	
+	public GameServer() {
+
 	}
 
 	// setup connection
@@ -30,7 +35,6 @@ public class GameServer implements Serializable {
 		try {
 			serverSock = new ServerSocket(port);
 			connectionCounter = -1;
-			this.state = new GameState();
 			// start thread
 
 			while (running) {
@@ -71,24 +75,33 @@ public class GameServer implements Serializable {
 		public void run() {
 			Object o;
 			if (in_stream == null)
-				System.out.println("miip");
+				System.out.println("Error in GameServer");
 			try {
 				// add data from received state to current
+				// loop for ever
 				while ((o = in_stream.readObject()) != null) {
-					Player p = (Player) o;
+					NetworkPlayer p = (NetworkPlayer) o;
+					// add new player to hashmap
+					if(!playerMap.containsKey(connectionNumber)) {
+						playerMap.put(connectionNumber, p);
+					}else { // player already exits
+						playerMap.replace(connectionNumber, p);
+					}
+					
+					t1 = System.currentTimeMillis();
 
-					// System.out.println(o);
-					if (state.list.size() <= connectionNumber)
-						state.list.add(connectionNumber, p);
-					else if (state.list.size() > connectionNumber)
-						state.list.set(connectionNumber, p);
+					if(t1 - t2 > 100) {
+						sendMessageBack();
+						t2 = t1;
+					}
 					
-					state.sessionID = connectionNumber;
-					
-					sendMessageBack();
 				}
 			} catch (Exception e) {
-				//e.printStackTrace();
+
+				NetworkPlayer p = playerMap.get(connectionNumber);
+				playerMap.remove(connectionNumber, p);
+				System.out.println("player " + connectionNumber + " removed");
+				
 				System.out.println("Client disconnected:   " + connectionNumber + ":   " + sock.getInetAddress());
 			}
 		}
@@ -96,7 +109,7 @@ public class GameServer implements Serializable {
 		// send message to client
 		private void sendMessageBack() {
 			try {
-				os_stream.writeObject(state);
+				os_stream.writeObject(playerMap);
 				os_stream.flush();
 				os_stream.reset();
 			} catch (Exception e) {

@@ -46,8 +46,7 @@ public class StateManager {
 	
 	public StateManager(){
 		this.graph = new Graph();
-		this.client = new GameClient();
-		this.handler = new Handler(client);
+		this.handler = new Handler();
 		this.game = new Game(handler, this);
 		this.deathscreen = new Deathscreen(handler, this);
 		this.loadingscreen = new Loadingscreen(this, handler);
@@ -84,9 +83,9 @@ public class StateManager {
 			// check if already connected
 			// init new network connection
 			if(!connected) {
+				this.client = new GameClient(this.handler);
 				Thread t = new Thread(client);
 				t.start();
-				client.setHandler(this.handler);
 				connected = true;
 			}
 			break;
