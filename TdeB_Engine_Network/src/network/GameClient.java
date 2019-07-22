@@ -40,11 +40,11 @@ public class GameClient implements Runnable{
 		
 		// send current gamestate
 		while(running){
-		//	t1 = System.currentTimeMillis();
-	//		if(t1 - t2 > 1) {
+			t1 = System.currentTimeMillis();
+			if(t1 - t2 > 2) {
 				sendData();
-//				t2 = t1;
-//			}
+				t2 = t1;
+			}
 		}
 	}
 	
