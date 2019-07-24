@@ -23,7 +23,6 @@ public class GameClient implements Runnable{
 	private Handler handler;
 	private NetworkPlayer localPlayer;
 	private HashMap<Integer, NetworkPlayer> playerMap;
-	public static ArrayList<Obstacle> removedObstacles = new ArrayList<>();
 	
 	private boolean running = true;
 	private long t1,t2;
@@ -48,7 +47,6 @@ public class GameClient implements Runnable{
 			t1 = System.currentTimeMillis();
 			if(t1 - t2 > 2) {
 				sendData();
-				sendObstacleInfo();
 				t2 = t1;
 			}
 		}
@@ -64,20 +62,6 @@ public class GameClient implements Runnable{
 		}
 	}
 	
-	private void sendObstacleInfo() {
-		if(removedObstacles.size() != 0) {
-			try {
-				if(handler != null) {
-					os_stream.writeObject(removedObstacles);
-					os_stream.flush();
-					os_stream.reset();
-					removedObstacles.clear();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	// send message to server
 	private void sendData(){
@@ -139,12 +123,6 @@ public class GameClient implements Runnable{
 						handler.obstacleServerList = (CopyOnWriteArrayList<Obstacle>) o;
 						for(Obstacle ob : handler.obstacleServerList) {
 							Collection.shadowObstacleList.add(ob);
-						}
-					}else if(o instanceof ArrayList<?>) {
-						ArrayList<Obstacle> tmp = (ArrayList<Obstacle>) o;
-						System.out.println(tmp.size());
-						for(Obstacle ob : tmp) {
-							handler.obstacleServerList.remove(ob);
 						}
 					}
 				}

@@ -80,7 +80,6 @@ public class Explosion implements GameEntity{
 		for(Obstacle o : handler.obstacleServerList) {
 			for(Rectangle rect : explosionHitArea) {
 				if(o.getBounds().intersects(rect)) {
-					GameClient.removedObstacles.add(o);
 					
 					Collection.shadowObstacleList.remove(o);
 					handler.obstacleServerList.remove(o);

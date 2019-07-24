@@ -5,6 +5,7 @@ import static framework.helper.Collection.*;
 
 
 import framework.core.Handler;
+import object.player.Bomb;
 import object.player.Player;
 
 import static framework.helper.Graphics.*;
@@ -26,7 +27,8 @@ public class NetworkPlayer extends Player{
 	}
 	
 	public void update() {
-
+		for(Bomb b : bombList)
+			b.update();
 	}
 	
 	public void draw() {

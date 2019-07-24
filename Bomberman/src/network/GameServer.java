@@ -24,7 +24,6 @@ public class GameServer implements Serializable {
 	private boolean running = true;
 	private static HashMap<Integer, NetworkPlayer> playerMap = new HashMap<>();
 	private static CopyOnWriteArrayList<Obstacle> obstacleList = new CopyOnWriteArrayList<Obstacle>();
-	private static ArrayList<Obstacle> removedObstacleList = new ArrayList<Obstacle>();
 	private long t1, t2;
 
 
@@ -96,7 +95,6 @@ public class GameServer implements Serializable {
 		}
 
 		// receive message from client
-		@SuppressWarnings("unchecked")
 		public void run() {
 			Object o;
 			if (in_stream == null)
@@ -115,9 +113,6 @@ public class GameServer implements Serializable {
 						}else { // player already exits
 							playerMap.replace(connectionNumber, p);
 						}
-					}else if(o instanceof ArrayList<?>) {
-						removedObstacleList = (ArrayList<Obstacle>) o;
-						sendRemovedObstacles();
 					}
 
 					
@@ -150,17 +145,6 @@ public class GameServer implements Serializable {
 				os_stream.writeObject(playerMap);
 				os_stream.flush();
 				os_stream.reset();
-			} catch (Exception e) {
-				//e.printStackTrace();
-			}
-		}
-		
-		private void sendRemovedObstacles() {
-			try {		
-				os_stream.writeObject(removedObstacleList);
-				os_stream.flush();
-				os_stream.reset();
-				removedObstacleList.clear();
 			} catch (Exception e) {
 				//e.printStackTrace();
 			}
