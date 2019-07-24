@@ -45,7 +45,7 @@ public class GameClient implements Runnable{
 		// send current gamestate
 		while(running){
 			t1 = System.currentTimeMillis();
-			if(t1 - t2 > 2) {
+			if(t1 - t2 > 4) {
 				sendData();
 				t2 = t1;
 			}
