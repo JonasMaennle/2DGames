@@ -15,7 +15,7 @@ import object.Obstacle;
 public class GameClient implements Runnable{
 	
 	private final static int PORT = 55123;
-	private static String TARGET_IP = "localhost"; //raspberry_jonas.selfhost.eu 192.168.2.104
+	private static String TARGET_IP = "192.168.2.139"; //raspberry_jonas.selfhost.eu 192.168.2.139
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
