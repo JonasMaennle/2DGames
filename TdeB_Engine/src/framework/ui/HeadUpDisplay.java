@@ -11,6 +11,7 @@ import framework.core.Handler;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.gamestate.Deathscreen;
+import framework.helper.Collection;
 
 import static framework.helper.Graphics.*;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -57,6 +58,9 @@ public class HeadUpDisplay {
 	
 	public void update() {
 		if(ui.isButtonClicked("Back")) {
+			
+			Collection.MOVEMENT_X = 0;
+			Collection.MOVEMENT_Y = 0;
 			new Deathscreen(handler, statemanager).resetGame();
 			StateManager.gameState = GameState.MAINMENU;
 		}

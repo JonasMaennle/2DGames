@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="6">
+ <tileset firstgid="1" source="tileset_00.tsx"/>
+ <layer name="Background" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3XMQ6AIAxAUbz/ifR0rgwmFAxDy3tJdz9KE1sDYIerm1PcmyaL/pmfwJzeHz2DLGa69df7/mffffQcsoj2jmTtH+2+aE+1/tme7P39Gazc5yr9q/usQv+ffa7/nP6v/8Tq/bOThX79J/cDAAAAAAAAAAAAe71q1CZYAEAAAA==
+  </data>
+ </layer>
+ <layer name="Wall" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3Wuw2AMAwFQGAdJkFiSFZhM5BoSQOEWPGd5Dp++Q8DALyzj607aOuP/EvyOc6ePzLnv/4Ykfd/9vxPzNN9lfSWvyfuv9Yd0Lvs91/k/Nnff/lbd9C/yOtP+T//VUW2nf2tlcv+BwAAAAAAAAAAuBz5uvqmAEAAAA==
+  </data>
+ </layer>
+ <layer name="Shadow" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3VsQ3CQBAEwOMTQzt0QAFuhaIRhQC5ZfH4jDk8I2100uo3+giAHLdnzivl8sUdn7oW7c5if83uLPbX7M5if83uLD1vvB8iTm06r9uS7q307u+5/eP+sU1nL/t7bvb/PvvfN7T5LOneiv+/ZncW+2t2Z9n7/mNbNwAAAAAAAAAAAEDEA4sFfksAQAAA
+  </data>
+ </layer>
+ <layer name="Border" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3XsQkAQAgEQVu0/2Y+NRHhMRFmYJPr4CIA2JKlbv8JAACAm6afCAAAAAAAAAAAAABQPY1lBWgAQAAA
+  </data>
+ </layer>
+<objectgroup name="Objects" width="32" height="32">
+  <object id="1" name="player" type="player" x="865" y="330" width="27" height="23"/>
+  <object id="2" name="spawn" type="spawn" x="805" y="167" width="19" height="15"/>
+  <object id="3" name="spawn" type="spawn" x="1124" y="616" width="19" height="15"/>
+  <object id="4" name="Helmet" type="Helmet" x="710" y="393" width="20" height="19"/>
+  <object id="5" name="Flamethrower" type="Flamethrower" x="812" y="524" width="27" height="9"/>
+ </objectgroup>
+</map>

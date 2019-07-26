@@ -26,6 +26,7 @@ import framework.path.Graph;
 import framework.path.Node;
 import framework.shader.Light;
 import object.LightSpot;
+import object.Spawner;
 import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Goal;
@@ -35,6 +36,7 @@ import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
 import object.collectable.Collectable_Railgun;
 import object.enemy.Enemy_Digger;
+import object.enemy.Enemy_Fly;
 import object.enemy.Enemy_Ghost;
 import object.enemy.Enemy_Spider;
 import object.player.Player;
@@ -47,7 +49,7 @@ public class Leveler {
 		
 		TileImageStorage list;	
 		TiledMap t_map = null;
-			
+
 		try {
 			InputStream in = Leveler.class.getClassLoader().getResourceAsStream(path + ".tmx");
 			//t_map = new TiledMap(in);
@@ -127,6 +129,18 @@ public class Leveler {
 				handler.enemyList.add(tmp);
 				//shadowObstacleList.add(tmp);
 			}
+			if(objName.equals("EnemyFly")){
+				Enemy_Fly tmp = new Enemy_Fly(x, y, TILE_SIZE, TILE_SIZE, handler);
+				handler.enemyList.add(tmp);
+				shadowObstacleList.add(tmp);
+			}
+			
+			// Arena Spawners
+			if(objName.equals("spawn")){
+				Spawner tmp = new Spawner(x, y);
+				handler.spawnPoints.add(tmp);
+			}
+
 			if(objName.equals("LightBlue")){
 				handler.lightSpotList.add(new LightSpot(x, y, new Light(new Vector2f(0, 0), 15, 25, 25, 10)));
 			}
@@ -163,7 +177,7 @@ public class Leveler {
 				handler.collectableList.add(ammo);
 			}
 		}
-		
+		handler.setMaxEnemies(handler.enemyList.size());
 		handler.setCurrentEntity(handler.getPlayer());
 		
 		graph.createMatrix();

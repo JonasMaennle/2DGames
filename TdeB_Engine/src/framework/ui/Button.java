@@ -1,5 +1,7 @@
 package framework.ui;
 
+import java.awt.Rectangle;
+
 import org.newdawn.slick.Image;
 
 public class Button{
@@ -26,6 +28,10 @@ public class Button{
 		this.y = y;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
+	}
+	
+	public void changeImage(Image image) {
+		this.image = image;
 	}
 
 	public String getName() {
@@ -74,5 +80,9 @@ public class Button{
 
 	public int getY() {
 		return y;
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, width, height);
 	}
 }

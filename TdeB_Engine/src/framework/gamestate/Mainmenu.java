@@ -1,10 +1,14 @@
 package framework.gamestate;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Image;
 import static framework.helper.Graphics.*;
+
+import java.awt.Rectangle;
+
 import static framework.helper.Collection.*;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
@@ -31,10 +35,12 @@ public class Mainmenu {
 		this.buttonWidth = 256;
 		this.buttonHeight = 64;
 		
-		this.buttonY = 160;
+		this.buttonY = 96;
 		this.buttonYOffset = 128;
 		
 		ui.addButton("Start", "hud/button_start", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
+		buttonY += buttonYOffset;
+		ui.addButton("Arena", "hud/button_arena", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
 		buttonY += buttonYOffset;
 		ui.addButton("Credits", "hud/button_credits", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
 		buttonY += buttonYOffset;
@@ -56,6 +62,8 @@ public class Mainmenu {
 				System.exit(0);
 			}
 		}
+		
+		mouseHoverOverButton();
 
 		if(credits == null) {
 			// check if button is clicked
@@ -66,6 +74,11 @@ public class Mainmenu {
 					Collection.resetPlayerStats();
 					StateManager.CURRENT_LEVEL = 0;
 					StateManager.gameState = GameState.LOADING;
+				}
+				// Arena
+				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Arena")) {
+					manager.getArena().getWaveManager().reset();
+					StateManager.gameState = GameState.ARENA;
 				}
 				// Credits
 				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Credits")) {
@@ -82,6 +95,50 @@ public class Mainmenu {
 			credits.update();
 		}
 
+	}
+	
+	private void mouseHoverOverButton() {
+		// create Rect for Mouse coords
+		Rectangle mouse = new Rectangle((int)(Mouse.getX() - MOVEMENT_X), (int)(HEIGHT - Mouse.getY() - MOVEMENT_Y), 1, 1);
+		
+		for(Button b : ui.getButtonList()) {		
+			if(b.getBounds().intersects(mouse)) {
+				switch (b.getName()) {
+				case "Start":
+					b.setImage(quickLoaderImage("hud/button_start_selected"));
+					break;
+				case "Credits":
+					b.setImage(quickLoaderImage("hud/button_credits_selected"));
+					break;
+				case "Exit":
+					b.setImage(quickLoaderImage("hud/button_exit_selected"));
+					break;
+				case "Arena":
+					b.setImage(quickLoaderImage("hud/button_arena_selected"));
+					break;
+				default:
+					break;
+				}
+				
+			}else {
+				switch (b.getName()) {
+				case "Start":
+					b.setImage(quickLoaderImage("hud/button_start"));
+					break;
+				case "Credits":
+					b.setImage(quickLoaderImage("hud/button_credits"));
+					break;
+				case "Exit":
+					b.setImage(quickLoaderImage("hud/button_exit"));
+					break;
+				case "Arena":
+					b.setImage(quickLoaderImage("hud/button_arena"));
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 	
 	public void render() {

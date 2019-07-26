@@ -43,7 +43,7 @@ public class Weapon_Railgun extends Weapon_Basic{
 	
 	public void shoot(){
 		
-		bulletDamage = 20;
+		bulletDamage = 40;
 		bulletSpeed = 18;
 		
 		timer1 = System.currentTimeMillis();

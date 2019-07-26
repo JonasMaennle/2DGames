@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextobjectid="32">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="33">
  <tileset firstgid="1" source="tileset_00.tsx"/>
  <layer name="Background" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3UzUoCURgG4DPeRb9eQTeQlXoFXUGgV1BqrYT86wb6sVaS+RMUtSiDdJ2mULiJInJdEREtIgpK6B36Bg9fOnPEkhbzwsMZOzbv+ZxMCDu95tohxKJoiUAUYhCHBCwp3GcW5iAAQQjBPCxAuAM9TU2ILNa0aK0Zus5BHrYV+pdhBVZhDZKwDhtkSPspTH2yLKnAKVShptBfgCN9HkkRSpCi/hQ7z2ab7jTNXZbWskL/JVyx/hto0Bn0vhJdd+qvsX5DTqH/Dd6l7g/4pGt5/pR0HquozG1kAPcbpOc6DCMwCk6t1c/9Zr8L95uASZgCN3jAp31/3n6t9eyNz8EqYwpnNIve7Zd0m+ke+2PU6+uy33g+AQhCSOF3t/CeDJNl8+/ALuzBvsk9+d9GUqH/BO8pQ4XNbKxeOINzuq63uecBfnYIBbZ3jNdF/ftrco5b7N3BPXXm2exeSb3DGS4s5myY7Ovfv0c2c5XWZ+qT1zp5kbxa9DdN9l1sXuMsD+wMT6xfjtX/BKfDfL/X6P3j6HCxHjdee8D7x/1GZliPv0+9RiLoi0IM4pDoc78dO3bs2Pnf+QLDRtqGABAAAA==
+   H4sIAAAAAAAAC+3UzUoCURgG4DPeRb9eQTeQlXoFXUGgV1BqrYT86wb6sVaS+RMUtSiDdJ2mULiJInJdEREtIgpK6B36Bg9fOnPEkhbzwsMZOzbv+ZxMCDu95tohxKJoiUAUYhCHBCwp3GcW5iAAQQjBPCxAuAM9TU2ILNa0aK0Zus5BHrYV+pdhBVZhDZKwDhtkSPspTH2yLKnAKVShptBfgCN9HkkRSpCi/hQ7z2ab7jTNXZbWskL/JVyx/hto0Bn0vhJdd+qvsX5DTqH/Dd6l7g/4pGt5/pR0HquozG1kAPcbpOc6DCMwCk6t1c/9Zr8L95uASZgCN3jAp31/3n6t9eyNz8EqYwpnNIve7Zd0m+ke+2PU6+uy33g+AQhCSOF3t/CeDJNl8+/ALuzBvsk9+d9GUqH/BO8pQ4XNbKxeOINzuq63uecBfnYIBbZ3jNdF/ftrco5b7N3BPXXm2exeSb3DGS4s5myY7Ovfv0c2c5XWZ+qT1zp5kbxa9DdN9l1sXuMsD+wMT6xfjtX/BKfDfL/X6P3j6HCxHjdee8D7x/1GZliPv0+9RiLoi0IM4pDoc78dO3bs2Pnf+QLDRtqGABAAAA==
   </data>
  </layer>
  <layer name="Wall" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3UyQ2CQBiGYYYEt1iAVoBbtA7ccEM9AXq1CD24nKzBEqzBznwRDh40agAJYb7kySSz/D8ZCIqS/thw4GKF9Zs5Lxvx/+d7zjnh/llP1t9/HP01auaQRwFFlIQ/76UsfE70rR/Rha+GOhpoohX0bwtfJ6a7NyKqa2JPLYtxy7h7UdebO+CIU7Ce9m/6EvL8NeT5m/wnR5qKqihV9fv92g9744geU3+bug7cD/UN1rvooY8BhjAxwhgTTDGDhTkWWCZ8dzIyMjIy6cwddgDhLgAQAAA=
+   H4sIAAAAAAAAC+3UyQ2CQBiGYYYEt1iAVoBbtA7ccEM9AXq1CD24nKzBEqzBznwRDh40agAJYb7kySSz/D8ZCIqS/thw4GKF9Zs5Lxvx/+d7zjnh/llP1t9/HP01auaQRwFFlIQ/76UsfE70rR/Rha+GOhpoohX0bwtfJ6a7NyKqa2JPLYtxy7h7UdebO+CIU7Ce9m/6EvL8NeT5m/wnR5qKqihV9fv92g9744geU3+bug7cD/UN1rvooY8BhjAxwhgTTDGDhTkWWCZ8dzIyMjIy6cwddgDhLgAQAAA=
   </data>
  </layer>
  <layer name="Shadow" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3UO04CURTG8ZmJYQ1GXQDvp5iIgNq7BG1EGwuWQEdnYcA92FkYdQ/2+Cwt1GiPz8K/CSYTMhznHkewuF/yq86d8w1kZhznd7nFok8FS6iihjqWsYJVYU8SKaSRQRY55FFAww12ZHCvUv+awR5/oupvKvsP3fBnG8JsT9lvkrYwM/kftTkQZr0x9J8Js75y59f7dz/Cw+DMI+7wJOyZNniO/JlSXjecinLPTkT96+zZCDCczcF3ZwvbbnT9rQn/fm3/rnBdh1kX+yF2a/ul798xsxOc/mF/UHrsOscFLnGFa9wIHVH299n1jBe84g3v+BhT/3dmPMeZxZz389mYpzcqVWY11EP0xzmTQBIppJFBFjnkUUARJcyjjIUQu21sbGxsbP5bPgGJmnlVABAAAA==
+   H4sIAAAAAAAAC+3UO04CURTG8ZmJYQ1GXQDvp5iIgNq7BG1EGwuWQEdnYcA92FkYdQ/2+Cwt1GiPz8K/CSYTMhznHkewuF/yq86d8w1kZhznd7nFok8FS6iihjqWsYJVYU8SKaSRQRY55FFAww12ZHCvUv+awR5/oupvKvsP3fBnG8JsT9lvkrYwM/kftTkQZr0x9J8Js75y59f7dz/Cw+DMI+7wJOyZNniO/JlSXjecinLPTkT96+zZCDCczcF3ZwvbbnT9rQn/fm3/rnBdh1kX+yF2a/ul798xsxOc/mF/UHrsOscFLnGFa9wIHVH299n1jBe84g3v+BhT/3dmPMeZxZz389mYpzcqVWY11EP0xzmTQBIppJFBFjnkUUARJcyjjIUQu21sbGxsbP5bPgGJmnlVABAAAA==
   </data>
  </layer>
  <layer name="Border" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu2STQrCMBQGY+6gO4u30LV7xfoDoq70Kh5EbXtPZ5FAFqY20GT1DQy0r+UNKTVGeDa4xRPusMY9HtzMXx/x7GZCCBEyCfx1X6KfMh+z23fO3N9h6N6x+6nnKvUflOpPrTEzZ4w5zyqbp790e1c9/ZDFwPdSubD3irfI/jvzB64z9T2x7/vM3PW86Lzxgw222NlyfSGEEP/5Avk9ihUAEAAA
+   H4sIAAAAAAAAC+2STQrCMBQGY+6gO4u30LV7xfoDoq70Kh5EbXtPZ5FAFqY20GT1DQy0r+UNKTVGeDa4xRPusMY9HtzMXx/x7GZCCBEyCfx1X6KfMh+z23fO3N9h6N6x+6nnKvUflOpPrTEzZ4w5zyqbp790e1c9/ZDFwPdSubD3irfI/jvzB64z9T2x7/vM3PW86Lzxgw222NlyfSGEEP/5Avk9ihUAEAAA
   </data>
  </layer>
 <objectgroup name="Objects" width="32" height="32">
@@ -30,9 +30,7 @@
   <object id="12" name="EnemyDigger" type="EnemyDigger" x="420" y="482" width="24" height="28"/>
   <object id="14" name="EnemyGhost" type="EnemyGhost" x="631" y="113" width="24" height="28"/>
   <object id="15" name="Helmet" type="Helmet" x="131" y="489" width="23" height="21"/>
-  <object id="18" name="EnemySpider" type="EnemySpider" x="836" y="355" width="24" height="28"/>
   <object id="19" name="EnemySpider" type="EnemySpider" x="643" y="418" width="24" height="28"/>
-  <object id="20" name="EnemySpider" type="EnemySpider" x="834" y="612" width="24" height="28"/>
   <object id="21" name="Flamethrower" type="Flamethrower" x="195" y="164" width="23" height="9"/>
   <object id="24" name="LMG" type="LMG" x="195" y="235" width="23" height="9"/>
   <object id="25" name="EnergyStone" type="EnergyStone" x="900" y="422" width="22" height="19"/>
@@ -40,5 +38,6 @@
   <object id="27" name="Goal" type="Goal" x="803" y="99" width="24" height="24"/>
   <object id="29" name="Ammo" type="Ammo" x="356" y="258" width="27" height="24"/>
   <object id="30" name="HPStone" type="HPStone" x="710" y="612" width="22" height="22"/>
+  <object id="32" name="EnemyFly" type="EnemyFly" x="839" y="606" width="24" height="28"/>
  </objectgroup>
 </map>

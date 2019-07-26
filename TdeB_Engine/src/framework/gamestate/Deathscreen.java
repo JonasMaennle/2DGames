@@ -54,7 +54,13 @@ public class Deathscreen {
 		manager.getGame().setShowLevelMessage(true);
 		manager.getGame().getHud().resetColors();
 		StateManager.CURRENT_LEVEL = 0;
-		StateManager.gameState = GameState.GAME;
+		
+		if(StateManager.gameMode == GameState.GAME) {
+			StateManager.gameState = GameState.GAME;
+		}else {
+			manager.getArena().getWaveManager().reset();
+			StateManager.gameState = GameState.ARENA;
+		}
 	}
 	
 	public void render(){

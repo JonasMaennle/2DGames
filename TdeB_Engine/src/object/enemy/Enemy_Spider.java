@@ -154,7 +154,7 @@ public class Enemy_Spider extends Enemy_Basic{
 	}
 	
 	@Override
-	public void isPlayerInRange(){
+	public void isPlayerInRange(int borderOffset){
 		if(x > handler.getPlayer().getX() - 350 && x < handler.getPlayer().getX() + 350){
 			if(y > handler.getPlayer().getY() - 350 && y < handler.getPlayer().getY() + 350){
 				speed = 2;

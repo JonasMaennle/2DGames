@@ -19,6 +19,7 @@ import object.player.Player;
 public abstract class Enemy_Basic implements GameEntity{
 
 	protected float x, y, speed, velX, velY;
+	protected float spawnX, spawnY;
 	protected int width, height;
 	protected int hp;
 	protected boolean pathLock;
@@ -29,6 +30,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected int nextX, nextY;
 	protected float absx, absy;
 	protected int hpFactor;
+	protected int playerRange;
 	
 	protected Handler handler;
 	protected Image image;
@@ -40,6 +42,9 @@ public abstract class Enemy_Basic implements GameEntity{
 	public Enemy_Basic(float x, float y, int width, int height, Handler handler){
 		this.x = x;
 		this.y = y;
+		this.spawnX = x;
+		this.spawnY = y;
+		
 		this.width = width;
 		this.height = height;
 		this.image = quickLoaderImage("enemy/Enemy_tmp");
@@ -63,7 +68,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.pathLock = false;
 		this.direction = "right";
 	}
-	
+
 	public boolean isPathLock() {
 		return pathLock;
 	}
@@ -111,7 +116,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		
 		damagePlayer();
 		mapCollision();
-		isPlayerInRange();
+		isPlayerInRange(250);
 		
 		// remove visited nodes
 		if(path.size() > 0){
@@ -129,9 +134,9 @@ public abstract class Enemy_Basic implements GameEntity{
 		drawQuadImage(image, x, y, width, height);
 	}
 	
-	public void isPlayerInRange(){
-		if(x > handler.getPlayer().getX() - 250 && x < handler.getPlayer().getX() + 250){
-			if(y > handler.getPlayer().getY() - 250 && y < handler.getPlayer().getY() + 250){
+	public void isPlayerInRange(int borderOffset){
+		if(x > handler.getPlayer().getX() - borderOffset && x < handler.getPlayer().getX() + borderOffset){
+			if(y > handler.getPlayer().getY() - borderOffset && y < handler.getPlayer().getY() + borderOffset){
 				speed = 2;
 			}
 		}else

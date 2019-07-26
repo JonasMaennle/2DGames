@@ -79,7 +79,7 @@ public class Enemy_Digger extends Enemy_Basic{
 		}
 
 		
-		isPlayerInRange();
+		isPlayerInRange(64);
 		if(speed != 0) {
 			timer1 = System.currentTimeMillis();
 			
@@ -146,9 +146,9 @@ public class Enemy_Digger extends Enemy_Basic{
 	}
 	
 	@Override
-	public void isPlayerInRange(){
-		if(x > handler.getPlayer().getX() - 64 && x < handler.getPlayer().getX() + 64){
-			if(y > handler.getPlayer().getY() - 64 && y < handler.getPlayer().getY() + 64){
+	public void isPlayerInRange(int borderOffset){
+		if(x > handler.getPlayer().getX() - borderOffset && x < handler.getPlayer().getX() + borderOffset){
+			if(y > handler.getPlayer().getY() - borderOffset && y < handler.getPlayer().getY() + borderOffset){
 				speed = 2;
 			}
 		}else

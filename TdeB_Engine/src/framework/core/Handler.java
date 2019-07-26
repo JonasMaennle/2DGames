@@ -1,6 +1,7 @@
 package framework.core;
 
 import object.LightSpot;
+import object.Spawner;
 import object.collectable.Collectable_Basic;
 import object.enemy.Enemy_Basic;
 import object.player.Player;
@@ -14,11 +15,11 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
+import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
-import framework.ui.IngameMessage;
+import framework.ui.InformationManager;
 
 public class Handler {
 	
@@ -26,8 +27,10 @@ public class Handler {
 	public CopyOnWriteArrayList<Enemy_Basic> enemyList;
 	public CopyOnWriteArrayList<LightSpot> lightSpotList;
 	public CopyOnWriteArrayList<Collectable_Basic> collectableList;
-	private CopyOnWriteArrayList<IngameMessage> message;
 	
+	public CopyOnWriteArrayList<Spawner> spawnPoints;
+	
+	private InformationManager info_manager;
 	private TileGrid map;
 	private GameEntity currentEntity;
 	private Player player;
@@ -35,6 +38,10 @@ public class Handler {
 	private float brightness;
 	private Image filter, path;
 	private long time1, time2;
+	
+	private int enemiesLeft;
+	private int enemiesKilled;
+	private int maxEnemies;
 	
 	private float filterScale = 0.125f;
 	private float filterValue = 0.0f;
@@ -45,19 +52,25 @@ public class Handler {
 	public Handler(){
 		this.currentEntity = null;
 		this.player = null;
-		this.brightness = 0.4f;
+		this.brightness = 0.35f;
 		
 		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.enemyList = new CopyOnWriteArrayList<>();
 		this.lightSpotList = new CopyOnWriteArrayList<>();
 		this.collectableList = new CopyOnWriteArrayList<>();
-		this.message = new CopyOnWriteArrayList<>();
+		
+		this.spawnPoints = new CopyOnWriteArrayList<>();
 		
 		this.filter = quickLoaderImage("background/Filter");
 		this.path = quickLoaderImage("tiles/path");
+		this.info_manager = new InformationManager(this);
 		this.time1 = System.currentTimeMillis();
 		this.time2 = time1;
 		this.outOfScreenBorder = 64;
+		
+		this.enemiesLeft = 0;
+		this.enemiesKilled = 0;
+		this.maxEnemies = 0;
 		
 		setFogFilter(0);
 	}
@@ -75,29 +88,50 @@ public class Handler {
 		
 		// update collectables
 		for(Collectable_Basic c : collectableList){
-			if(c.getX() > getLeftBorder() - outOfScreenBorder && c.getX() < getRightBorder() + outOfScreenBorder && c.getY() > getTopBorder() - outOfScreenBorder && c.getY() < getBottomBorder() + outOfScreenBorder){
+			//if(c.getX() > getLeftBorder() - outOfScreenBorder && c.getX() < getRightBorder() + outOfScreenBorder && c.getY() > getTopBorder() - outOfScreenBorder && c.getY() < getBottomBorder() + outOfScreenBorder){
 				c.update();
-			}	
+			//}	
 		}
 		
 		// update enemy
-		for(Enemy_Basic e : enemyList){
-			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
-				e.update();
-				if(e.getHp() <= 0){
-					e.die();
-					enemyList.remove(e);
-					shadowObstacleList.remove(e);
+		if(StateManager.gameMode == GameState.GAME) {
+			for(Enemy_Basic e : enemyList){
+				if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
+					e.update();
+					if(e.getHp() <= 0){
+						e.die();
+						enemyList.remove(e);
+						shadowObstacleList.remove(e);
+						enemiesKilled++;
+						enemiesLeft = enemyList.size();
+					}
+				}else if(e.getSpeed() != 0){
+					e.update();
+					if(e.getHp() <= 0){
+						e.die();
+						enemyList.remove(e);
+						shadowObstacleList.remove(e);
+						enemiesKilled++;
+						enemiesLeft = enemyList.size();
+					}
 				}
-			}else if(e.getSpeed() != 0){
+			}
+		}else if(StateManager.gameMode == GameState.ARENA) {
+			for(Enemy_Basic e : enemyList){
+
 				e.update();
 				if(e.getHp() <= 0){
 					e.die();
 					enemyList.remove(e);
 					shadowObstacleList.remove(e);
+					enemiesKilled++;
+					enemiesLeft = enemyList.size();
 				}
 			}
 		}
+		
+		
+		info_manager.update();
 		objectInfo();
 	}
 	
@@ -150,28 +184,8 @@ public class Handler {
 				GL11.glColor4f(1, 1, 1, 1);
 			}
 		}
-			
-		// draw messages
-		messageFadeOut();
-	}
-	
-	public void popUpMessage(float x, float y, String text, Color color, int textSize, int ms){
-		message.add(new IngameMessage(x, y, text, color, textSize, ms));
-	}
-	
-	private void messageFadeOut(){
-		for(IngameMessage m : message){
-			// set initial timestamp
-			if(m.getStartTime() == 0){
-				m.setStartTime(System.currentTimeMillis());
-			}
-			// draw string during time, remove after
-			if(System.currentTimeMillis() - m.getStartTime() < m.getTime()){
-				m.draw();	
-			}else{
-				message.remove(m);
-			}	
-		}
+		
+		info_manager.draw();
 	}
 	
 	public void wipe(){
@@ -183,8 +197,13 @@ public class Handler {
 		enemyList.clear();
 		lightSpotList.clear();
 		collectableList.clear();
-		message.clear();
 		lights.clear();
+		
+		enemiesKilled = 0;
+		enemiesLeft = 0;
+		
+		spawnPoints.clear();		
+		info_manager.resetAll();
 	}
 	
 	//@SuppressWarnings("unused")
@@ -244,8 +263,6 @@ public class Handler {
 	}
 	
 	private void colorReset(){
-		
-		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(255, 255, 255, 255);
@@ -275,6 +292,24 @@ public class Handler {
 	public void setMap(TileGrid map) {
 		this.map = map;
 	}
-	
-	
+
+	public InformationManager getInfo_manager() {
+		return info_manager;
+	}
+
+	public int getEnemiesLeft() {
+		return enemiesLeft;
+	}
+
+	public int getEnemiesKilled() {
+		return enemiesKilled;
+	}
+
+	public int getMaxEnemies() {
+		return maxEnemies;
+	}
+
+	public void setMaxEnemies(int maxEnemies) {
+		this.maxEnemies = maxEnemies;
+	}
 }
