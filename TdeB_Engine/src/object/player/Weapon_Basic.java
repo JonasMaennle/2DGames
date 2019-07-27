@@ -123,7 +123,7 @@ public class Weapon_Basic implements GameEntity{
 	}
 	
 	// Calc Angle in degree between x,y and destX,destY <- nice
-	private void calcAngle(float destX, float destY){
+	protected void calcAngle(float destX, float destY){
 		angle = (float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
 
 	    if(angle < 0){

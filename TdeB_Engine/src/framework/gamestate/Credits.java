@@ -1,12 +1,19 @@
 package framework.gamestate;
 
+import static framework.helper.Collection.HEIGHT;
+import static framework.helper.Collection.MOVEMENT_X;
+import static framework.helper.Collection.MOVEMENT_Y;
 import static framework.helper.Graphics.drawQuadImageStatic;
 import static framework.helper.Graphics.quickLoaderImage;
 
+import java.awt.Rectangle;
+
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 import framework.core.StateManager;
+import framework.ui.Button;
 import framework.ui.HeadUpDisplay;
 import framework.ui.UI;
 
@@ -32,6 +39,8 @@ public class Credits {
 		if(ui.isButtonClicked("Menu")){
 			manager.setMenu(new Mainmenu(manager));
 		}	
+		
+		mouseHoverOverButton();
 	}
 	
 	public void draw() {
@@ -56,5 +65,18 @@ public class Credits {
 		
 		hud.drawString(64, messageY + 320, ">>  Special THANKS  to  Scut  for  the  Amazing  Tileset", new Color(243, 243, 243));
 		hud.drawString(64, messageY + 320+64, ">>  View  his  Profile  at   https://scut.itch.io/", new Color(243, 243, 243));
+	}
+	
+	private void mouseHoverOverButton() {
+		// create Rect for Mouse coords
+		Rectangle mouse = new Rectangle((int)(Mouse.getX() - MOVEMENT_X), (int)(HEIGHT - Mouse.getY() - MOVEMENT_Y), 1, 1);
+		
+		for(Button b : ui.getButtonList()) {		
+			if(b.getBounds().intersects(mouse)) {
+				b.setImage(quickLoaderImage("hud/button_menu_selected"));
+			}else {
+				b.setImage(quickLoaderImage("hud/button_menu"));
+			}
+		}
 	}
 }

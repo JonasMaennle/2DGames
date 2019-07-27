@@ -18,6 +18,7 @@ public class Bullet_Basic implements GameEntity{
 	protected float velX, velY;
 	protected int width, height;
 	protected Light light;
+	protected long spawnTime;
 	
 	public Bullet_Basic(float x, float y, int width, int height, float destX, float destY, String direction, int speed, float angle){
 		this.x = x;
@@ -28,6 +29,8 @@ public class Bullet_Basic implements GameEntity{
 		this.angle = angle;
 		this.destX = destX;
 		this.destY = destY;
+		
+		this.spawnTime = System.currentTimeMillis();
 		
 		this.image = quickLoaderImage("player/bullet_basic");
 		
@@ -148,5 +151,9 @@ public class Bullet_Basic implements GameEntity{
 	@Override
 	public Rectangle getRightBounds() {
 		return null;
+	}
+
+	public long getSpawnTime() {
+		return spawnTime;
 	}
 }

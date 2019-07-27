@@ -33,13 +33,16 @@ public class HeadUpDisplay {
 	private Color color;
 	private UI ui;
 	
-	private int r, g, b, alpha;
+	private int r;
+	private int g;
+	private int b;
+	private int alpha;
 	
 	public HeadUpDisplay(Handler handler, int fontSize, StateManager manager){
 		this.handler = handler;
 		this.statemanager = manager;
 		this.awtFont = loadCustomFont("font/Pixel-Miners.ttf", fontSize);
-		this.font = new TrueTypeFont(awtFont, false);
+		font = new TrueTypeFont(awtFont, false);
 		this.ui = new UI();
 		this.ui.addButton("Back", "hud/button_back", 2, 0, 32, 32);
 		
@@ -50,10 +53,10 @@ public class HeadUpDisplay {
 		this.hud_mid = WIDTH/2 + 15;
 		this.color = new Color(200, 200, 200);
 
-		this.r = 255;
-		this.g = 255;
-		this.b = 255;
-		this.alpha = 255;
+		r = 255;
+		g = 255;
+		b = 255;
+		alpha = 255;
 	}
 	
 	public void update() {
@@ -69,10 +72,10 @@ public class HeadUpDisplay {
 	public void draw(){
 
 		if(PLAYER_HP > 25) {
-			this.r = 255;
-			this.g = 255;
-			this.b = 255;
-			this.alpha = 255;
+			r = 255;
+			g = 255;
+			b = 255;
+			alpha = 255;
 		}
 		// HP Bar + Text
 		drawString(hud_mid - 290, 4, "HP", color);
@@ -121,9 +124,9 @@ public class HeadUpDisplay {
 	}
 	
 	public void resetColors() {
-		this.r = 255;
-		this.g = 255;
-		this.b = 255;
-		this.alpha = 255;
+		r = 255;
+		g = 255;
+		b = 255;
+		alpha = 255;
 	}
 }

@@ -5,6 +5,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
+import framework.entity.EnemyType;
 import framework.shader.Light;
 
 import static framework.helper.Collection.*;
@@ -27,8 +28,10 @@ public class Enemy_Spider extends Enemy_Basic{
 		this.eyeX = (int) x;
 		this.eyeY = (int) y;
 		
-		eyeLight = new Light(new Vector2f(x, y), 20, 0, 0, 20);
+		eyeLight = new Light(new Vector2f(-1000, -1000), 20, 0, 0, 20);
 		lights.add(eyeLight);
+		
+		this.type = EnemyType.SPIDER;
 	}
 	
 	public void update(){
@@ -155,8 +158,8 @@ public class Enemy_Spider extends Enemy_Basic{
 	
 	@Override
 	public void isPlayerInRange(int borderOffset){
-		if(x > handler.getPlayer().getX() - 350 && x < handler.getPlayer().getX() + 350){
-			if(y > handler.getPlayer().getY() - 350 && y < handler.getPlayer().getY() + 350){
+		if(x > handler.getPlayer().getX() - borderOffset && x < handler.getPlayer().getX() + borderOffset){
+			if(y > handler.getPlayer().getY() - borderOffset && y < handler.getPlayer().getY() + borderOffset){
 				speed = 2;
 			}
 		}else

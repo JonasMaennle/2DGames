@@ -18,6 +18,9 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
+import org.newdawn.slick.TrueTypeFont;
+
+import framework.helper.Collection;
 
 public class Boot {
 	
@@ -81,5 +84,9 @@ public class Boot {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		Display.setVSyncEnabled(true); // <- geilo
+		
+		
+		Collection.awtFont = loadCustomFont("font/Pixel-Miners.ttf", fontSize);
+		Collection.font = new TrueTypeFont(awtFont, false);
 	}
 }

@@ -1,6 +1,9 @@
 package object.enemy;
 
 import framework.core.Handler;
+import framework.core.StateManager;
+import framework.core.StateManager.GameState;
+import framework.entity.EnemyType;
 import framework.shader.Light;
 import object.Particle;
 
@@ -39,10 +42,16 @@ public class Enemy_Digger extends Enemy_Basic{
 		this.tmpHeight = 0;
 		this.hpFactor = 14;
 		
+		if(StateManager.gameMode == GameState.GAME)
+			playerRange = 64;
+		else
+			playerRange = 1000;
+		
 		eyeLightLeft = new Light(new Vector2f(x,y), 156, 198, 217, 200);
 		eyeLightRight = new Light(new Vector2f(x,y), 156, 198, 217, 200);
 
-
+		
+		this.type = EnemyType.DIGGER;
 	}
 	
 	public void update() {
@@ -78,8 +87,8 @@ public class Enemy_Digger extends Enemy_Basic{
 			}
 		}
 
+		isPlayerInRange(playerRange);
 		
-		isPlayerInRange(64);
 		if(speed != 0) {
 			timer1 = System.currentTimeMillis();
 			

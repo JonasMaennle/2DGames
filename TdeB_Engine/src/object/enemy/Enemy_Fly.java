@@ -11,6 +11,9 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
 
 import framework.core.Handler;
+import framework.core.StateManager;
+import framework.core.StateManager.GameState;
+import framework.entity.EnemyType;
 
 public class Enemy_Fly extends Enemy_Basic{
 
@@ -20,10 +23,16 @@ public class Enemy_Fly extends Enemy_Basic{
 		this.hpFactor = 4;
 		this.hp *= hpFactor;
 		
-		this.playerRange = 500;
+		
+		if(StateManager.gameMode == GameState.GAME)
+			this.playerRange = 500;
+		else
+			this.playerRange = 1000;
 		
 		this.moveLeft = new Animation(loadSpriteSheet("enemy/Enemy_Fly_left", TILE_SIZE, TILE_SIZE), 200);
 		this.moveRight = new Animation(loadSpriteSheet("enemy/Enemy_Fly_right", TILE_SIZE, TILE_SIZE), 200);
+		
+		this.type = EnemyType.FLY;
 	}
 	
 	public void update() {

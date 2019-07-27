@@ -11,6 +11,9 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
+import framework.core.StateManager;
+import framework.core.StateManager.GameState;
+import framework.entity.EnemyType;
 import framework.entity.GameEntity;
 import framework.path.Node;
 import object.Tile;
@@ -24,6 +27,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected int hp;
 	protected boolean pathLock;
 	protected String direction;
+	protected EnemyType type;
 	
 	protected LinkedList<Node> path;
 	protected LinkedList<Node> visited;
@@ -67,6 +71,11 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.handler = handler;
 		this.pathLock = false;
 		this.direction = "right";
+		
+		if(StateManager.gameMode == GameState.GAME)
+			this.playerRange = 250;
+		else
+			this.playerRange = 1000;
 	}
 
 	public boolean isPathLock() {
@@ -116,7 +125,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		
 		damagePlayer();
 		mapCollision();
-		isPlayerInRange(250);
+		isPlayerInRange(playerRange);
 		
 		// remove visited nodes
 		if(path.size() > 0){
@@ -360,5 +369,9 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
+	}
+
+	public EnemyType getType() {
+		return type;
 	}
 }

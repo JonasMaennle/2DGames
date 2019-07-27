@@ -34,7 +34,10 @@ import object.collectable.Collectable_Health;
 import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
 import object.collectable.Collectable_LMG;
+import object.collectable.Collectable_LaserShotgun;
+import object.collectable.Collectable_Minigun;
 import object.collectable.Collectable_Railgun;
+import object.collectable.Collectable_Shotgun;
 import object.enemy.Enemy_Digger;
 import object.enemy.Enemy_Fly;
 import object.enemy.Enemy_Ghost;
@@ -158,6 +161,18 @@ public class Leveler {
 			}
 			if(objName.equals("LMG")){
 				Collectable_LMG lmg = new Collectable_LMG(x, y, 32, 16);
+				handler.collectableList.add(lmg);
+			}
+			if(objName.equals("Shotgun")){
+				Collectable_Shotgun lmg = new Collectable_Shotgun(x, y, 32, 16);
+				handler.collectableList.add(lmg);
+			}
+			if(objName.equals("LaserShotgun")){
+				Collectable_LaserShotgun lmg = new Collectable_LaserShotgun(x, y, 32, 16);
+				handler.collectableList.add(lmg);
+			}
+			if(objName.equals("Minigun")){
+				Collectable_Minigun lmg = new Collectable_Minigun(x, y, 32, 16);
 				handler.collectableList.add(lmg);
 			}
 			if(objName.equals("EnergyStone")){

@@ -1,5 +1,9 @@
 package framework.helper;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glEnable;
+
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -7,9 +11,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
@@ -32,6 +38,10 @@ public class Collection {
 	public static int TILES_WIDTH;
 	public static int TILES_HEIGHT;
 	
+	// Font stuff
+	public static int fontSize = 30;
+	public static Font awtFont;
+	public static TrueTypeFont font;
 	
 	// PLAYER STATS
 	public static int PLAYER_HP = 96;
@@ -39,6 +49,8 @@ public class Collection {
 	public static int AMMO_LEFT = 999;
 	
 	private static long time1, time2;
+	
+	public static int ARENA_CURRENT_WAVE;
 	
 	// Static Methods
 	public static void resetPlayerStats(){
@@ -86,6 +98,18 @@ public class Collection {
 		        e.printStackTrace();
 		    } 
 		return awtFont;
+	}
+	
+	public static void drawString(int x, int y, String text, Color color, int fontSize){
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		font.drawString(x, y, text, color);
+		color = new Color(255, 255, 255, 255);
+		font.drawString(x, y, "", color);
+
+		GL11.glDisable(GL_BLEND);	
 	}
 	
 	public static Vector2f[] getImageVertices(int x, int y, Image image, int scale){

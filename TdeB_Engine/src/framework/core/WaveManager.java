@@ -10,6 +10,7 @@ import static framework.helper.Collection.shadowObstacleList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import framework.helper.Collection;
 import framework.path.Node;
 import object.Spawner;
 import object.enemy.Enemy_Digger;
@@ -35,6 +36,9 @@ public class WaveManager {
 	private Random rand;
 	private StateManager manager;
 	
+	private long lastEnemyDead;
+	private boolean lastEnemyDied;
+	
 	public WaveManager(Handler handler, StateManager manager) {
 		this.waveCounter = 1;
 		this.showWaveCounter = false;
@@ -44,9 +48,11 @@ public class WaveManager {
 		this.waveOffsetInMSEC = 3000;
 		this.waveHasSpawned = false;
 		this.rand = new Random();
+		this.lastEnemyDied = false;
 		
 		this.enemiesInWave = 1;
-		enemyWaveMultiplier = 1.2f;
+		this.enemyWaveMultiplier = 1.2f; // can be changed -> value > 1
+		
 		this.currentEnemiesInWave = 0;
 	}
 	
@@ -60,15 +66,16 @@ public class WaveManager {
 		}
 		
 		// start wave after cooldown
-		if(System.currentTimeMillis() - timer > waveOffsetInMSEC && !waveHasSpawned) {
-			
+		if(System.currentTimeMillis() - timer > waveOffsetInMSEC && !waveHasSpawned && (System.currentTimeMillis() - lastEnemyDead > 2000)) {		
 			waveHasSpawned = true;
 			enemiesInWave *= enemyWaveMultiplier;
 			currentEnemiesInWave = 0;
 			handler.getInfo_manager().createNewMessage(WIDTH/2 - MOVEMENT_X - 64, HEIGHT/2 - 196 - MOVEMENT_Y, "Wave " + waveCounter, new org.newdawn.slick.Color(255,255,255), 32, 3000);
 			waveCounter++;
-			
+			lastEnemyDied = false;
 			showWaveCounter = true;
+			Collection.ARENA_CURRENT_WAVE = waveCounter;
+			
 		}
 		
 		if(waveHasSpawned) {
@@ -76,6 +83,21 @@ public class WaveManager {
 		}
 		
 		if(handler.enemyList.size() == 0) {
+			// remove all uncollected items after wave
+//			if(waveCounter > 1) {
+//				for(Collectable_Basic c : handler.collectableList) {
+//					if(!(c instanceof Collectable_Helmet)) {
+//						handler.collectableList.remove(c);
+//					}
+//				}
+//			}
+			
+			
+			if(!lastEnemyDied) {
+				lastEnemyDead = System.currentTimeMillis();
+				lastEnemyDied = true;
+			}
+				
 			waveHasSpawned = false;
 		}
 	}
@@ -105,18 +127,22 @@ public class WaveManager {
 					
 				// WAVE >= 10 && < 20
 				}else if(waveCounter >= 10 && waveCounter < 20) {
-					if(random < 0.6) {
+					if(random < 0.5) {
 						Enemy_Spider tmp = new Enemy_Spider(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.6 && random < 0.95) {
+					}else if(random >= 0.5 && random < 0.7) {
 						Enemy_Fly tmp = new Enemy_Fly(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.95) {
+					}else if(random >= 0.7 && random < 0.95) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
+					}else if(random >= 0.95) {
+						Node n = getRandomNode();
+						Enemy_Digger tmp = new Enemy_Digger(n.getX() * TILE_SIZE, n.getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE, handler);
+						handler.enemyList.add(tmp);
 					}
 					
 				// WAVE >= 20 && < 30
@@ -129,11 +155,16 @@ public class WaveManager {
 						Enemy_Fly tmp = new Enemy_Fly(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.7) {
+					}else if(random >= 0.7 && random < 0.9) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
+					}else if(random >= 0.9) {
+						Node n = getRandomNode();
+						Enemy_Digger tmp = new Enemy_Digger(n.getX() * TILE_SIZE, n.getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE, handler);
+						handler.enemyList.add(tmp);
 					}
+					
 				// WAVE >= 30 && < 40
 				}else if(waveCounter >= 30 && waveCounter < 40) {
 					// spawn diggers
@@ -145,12 +176,11 @@ public class WaveManager {
 						Enemy_Fly tmp = new Enemy_Fly(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.6 && random < 0.9) {
+					}else if(random >= 0.6 && random < 0.75) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}
-					else if(random >= 0.9) {
+					}else if(random >= 0.75) {
 						Node n = getRandomNode();
 						Enemy_Digger tmp = new Enemy_Digger(n.getX() * TILE_SIZE, n.getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
@@ -167,6 +197,7 @@ public class WaveManager {
 		this.showWaveCounter = true;
 		this.enemiesInWave = 1;
 		currentEnemiesInWave = 0;
+		this.lastEnemyDied = false;
 	}
 
 	public int getWaveCounter() {

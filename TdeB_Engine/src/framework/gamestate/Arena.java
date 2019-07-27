@@ -41,6 +41,13 @@ public class Arena {
 		camera.update();
 		handler.update();
 		hud.update();
+		
+		// Player dead?
+		if(PLAYER_HP <= 0){
+			StateManager.gameState = GameState.DEATHSCREEN;
+			return;
+		}
+		
 		waveManager.update();
 		
 		while(Keyboard.next()){
@@ -52,10 +59,7 @@ public class Arena {
 			}
 		}
 		
-		// Player dead?
-		if(PLAYER_HP <= 0){
-			StateManager.gameState = GameState.DEATHSCREEN;
-		}
+
 		
 		checkBattery();
 	}

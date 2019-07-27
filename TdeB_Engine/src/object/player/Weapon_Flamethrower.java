@@ -43,8 +43,8 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 			for(Enemy_Basic e : handler.enemyList){
 				if(e.getBounds().intersects(p.getBounds())){
 					p.die();
-					fireList.remove(p);
-					e.setHp(e.getHp()-1);
+					//fireList.remove(p);
+					e.setHp(e.getHp()-2);
 					
 					// trigger enemy if enemy is out of range
 					if(e.getSpeed() == 0)

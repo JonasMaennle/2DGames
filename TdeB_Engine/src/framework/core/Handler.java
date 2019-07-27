@@ -34,6 +34,7 @@ public class Handler {
 	private TileGrid map;
 	private GameEntity currentEntity;
 	private Player player;
+	private ItemSpawner itemSpawner;
 	
 	private float brightness;
 	private Image filter, path;
@@ -60,6 +61,7 @@ public class Handler {
 		this.collectableList = new CopyOnWriteArrayList<>();
 		
 		this.spawnPoints = new CopyOnWriteArrayList<>();
+		this.itemSpawner = new ItemSpawner(this);
 		
 		this.filter = quickLoaderImage("background/Filter");
 		this.path = quickLoaderImage("tiles/path");
@@ -121,6 +123,9 @@ public class Handler {
 
 				e.update();
 				if(e.getHp() <= 0){
+					// spawn random item
+					itemSpawner.spawnItem((int)e.getX(), (int)e.getY(), e.getType());
+					
 					e.die();
 					enemyList.remove(e);
 					shadowObstacleList.remove(e);
