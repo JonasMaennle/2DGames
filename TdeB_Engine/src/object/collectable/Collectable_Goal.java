@@ -7,8 +7,6 @@ import org.lwjgl.util.vector.Vector2f;
 import framework.shader.Light;
 
 public class Collectable_Goal extends Collectable_Basic{
-	
-	private Light light;
 
 	public Collectable_Goal(int x, int y, int width, int height) {
 		super(x, y, width, height);

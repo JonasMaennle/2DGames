@@ -15,6 +15,7 @@ import framework.core.Handler;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
+import framework.helper.Collection;
 import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Basic;
 import object.collectable.Collectable_Flamethrower;
@@ -27,6 +28,7 @@ import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
 import object.collectable.Collectable_Railgun;
 import object.collectable.Collectable_Shotgun;
+import object.collectable.Collectable_SpeedUp;
 
 public class Player implements GameEntity{
 	
@@ -38,7 +40,9 @@ public class Player implements GameEntity{
 	private int helmetBightness;
 	
 	private Weapon_Basic weapon;
-	private boolean isShooting, hasHelmet;
+	private boolean isShooting, hasHelmet, speedUp;
+	private long speedUpTimestamp;
+	private long maxSpeedUpTime;
 	
 	private Animation walkRight, walkLeft;
 	
@@ -54,7 +58,9 @@ public class Player implements GameEntity{
 		this.direction = "right";
 		this.isShooting = false;
 		this.hasHelmet = false;
+		this.speedUp = false;
 		
+		this.maxSpeedUpTime = 20000;
 		this.helmetBightness = 25;
 
 		this.weapon = new Weapon_Pistol(16, 8, this, handler);
@@ -62,7 +68,7 @@ public class Player implements GameEntity{
 		this.idle_left = quickLoaderImage("player/player_idle_left");
 		this.idle_right = quickLoaderImage("player/player_idle_right");
 		this.walkLeft = new Animation(loadSpriteSheet("player/player_walk_left", TILE_SIZE, TILE_SIZE), 200);
-		this.walkRight = new Animation(loadSpriteSheet("player/player_walk_right", TILE_SIZE, TILE_SIZE), 200);		
+		this.walkRight = new Animation(loadSpriteSheet("player/player_walk_right", TILE_SIZE, TILE_SIZE), 200);	
 		
 		//lights.add(playerLight);
 	}
@@ -85,6 +91,20 @@ public class Player implements GameEntity{
 			AMMO_LEFT = 999;
 			weapon.wipe();
 			weapon = new Weapon_Pistol(16, 8, this, handler);
+		}
+		
+		// speed up
+		if(speedUp) {
+			if(System.currentTimeMillis() - speedUpTimestamp < maxSpeedUpTime) {
+				this.speed = 5.5f;
+				float number = (float)(System.currentTimeMillis() - speedUpTimestamp) / maxSpeedUpTime;
+				number = (1 - number);
+				Collection.SPEEDBAR = number;
+			}else {
+				this.speed = 4f;
+				Collection.SPEEDBAR = 0;
+				speedUp = false;
+			}
 		}
 		
 		// Shoot
@@ -131,7 +151,7 @@ public class Player implements GameEntity{
 	}
 
 	public void draw() {
-
+		
 		switch (direction) {
 		case "right":
 			if(velX == 0 && velY == 0)
@@ -204,6 +224,15 @@ public class Player implements GameEntity{
 					if(PLAYER_HP >= 96)
 						PLAYER_HP = 96;
 					handler.getInfo_manager().createNewMessage(x - 100, y - 64, "HP  Stone  found   + 50", new org.newdawn.slick.Color(183,3,3), 18, 2000);
+					handler.collectableList.remove(c);
+				}
+				// Speed Stone
+				if(c instanceof Collectable_SpeedUp && !c.isFound()){
+					speedUp = true;
+					speedUpTimestamp = System.currentTimeMillis();
+					
+					handler.getInfo_manager().createNewMessage(x - 80, y - 64, "Speed  up  found", new org.newdawn.slick.Color(20,80,255), 18, 2000);
+					Collection.lights.remove(c.getLight());
 					handler.collectableList.remove(c);
 				}
 				// Goal

@@ -47,7 +47,7 @@ public class Collection {
 	public static int PLAYER_HP = 96;
 	public static float BATTERY_CHARGE = 96;
 	public static int AMMO_LEFT = 999;
-	
+	public static float SPEEDBAR = 0;
 	private static long time1, time2;
 	
 	public static int ARENA_CURRENT_WAVE;
@@ -57,6 +57,7 @@ public class Collection {
 		PLAYER_HP = 96;
 		BATTERY_CHARGE = 96;
 		AMMO_LEFT = 999;
+		SPEEDBAR = 0;
 	}
 	
 	public static float getLeftBorder(){

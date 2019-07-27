@@ -23,12 +23,13 @@ import java.awt.Font;
 
 public class HeadUpDisplay {
 	
-	
 	private Handler handler;
 	private StateManager statemanager;
 	private TrueTypeFont font;
 	private Font awtFont;
 	private Image hp_bar, energy_bar;
+	private Image speed_bar;
+	private int speedbar_max;
 	private int hud_mid;
 	private Color color;
 	private UI ui;
@@ -45,14 +46,13 @@ public class HeadUpDisplay {
 		font = new TrueTypeFont(awtFont, false);
 		this.ui = new UI();
 		this.ui.addButton("Back", "hud/button_back", 2, 0, 32, 32);
-		
+		this.speed_bar = quickLoaderImage("hud/speed_bar");
 		// status bar
 		this.hp_bar = quickLoaderImage("hud/hp_bar");
 		this.energy_bar = quickLoaderImage("hud/energy_bar");
-		
-		this.hud_mid = WIDTH/2 + 15;
+		this.hud_mid = (WIDTH/2) + 15;
 		this.color = new Color(200, 200, 200);
-
+		this.speedbar_max = 270 * 2;
 		r = 255;
 		g = 255;
 		b = 255;
@@ -110,6 +110,11 @@ public class HeadUpDisplay {
 		drawString(hud_mid + 220, 4, "" + StateManager.framesInLastSecond, color);
 		
 		ui.draw();
+		
+		// SPEEDBAR
+		if(Collection.SPEEDBAR > 0) {
+			drawQuadImageStatic(speed_bar, hud_mid - 290,  30, speedbar_max * Collection.SPEEDBAR , 6);
+		}
 	}
 	
 	public void drawString(int x, int y, String text, Color color){

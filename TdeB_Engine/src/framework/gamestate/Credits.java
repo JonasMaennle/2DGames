@@ -57,7 +57,7 @@ public class Credits {
 		hud.drawString(64, messageY + 128, "Lead  Gameplay  Designer: ", new Color(243, 243, 243));
 		hud.drawString(400, messageY + 128, "Jonas  Maennle", new Color(243, 243, 243));
 		
-		hud.drawString(64, messageY + 196, "very  necessary  Mainkick: ", new Color(243, 243, 243));
+		hud.drawString(64, messageY + 196, "Sidekick: ", new Color(243, 243, 243));
 		hud.drawString(400, messageY + 196, "Jana  Wiegert", new Color(243, 243, 243));
 		
 		hud.drawString(64, messageY + 256, "Special  THANKS  to  all  Testplayers!", new Color(243, 243, 243));

@@ -105,11 +105,20 @@ public class WaveManager {
 	private void spawnWave() {
 		// test
 		t1 = System.currentTimeMillis();
+		int spawnCounter = 0;
+		
 		if(t1 - t2 > 2000 && currentEnemiesInWave <= enemiesInWave) {
 			t2 = t1;
 			// spawn on each spawner
 			for(Spawner point : handler.spawnPoints) {
 				currentEnemiesInWave++;
+				spawnCounter++;
+				// use only 2 spawnpoints when wave < 10
+				if(Collection.ARENA_CURRENT_WAVE < 10 && spawnCounter == handler.spawnPoints.size()) {
+					spawnCounter = 0;
+					break;
+				}
+
 				
 				Double random = rand.nextDouble();
 

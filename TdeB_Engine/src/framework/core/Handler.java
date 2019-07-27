@@ -218,7 +218,7 @@ public class Handler {
 		{
 			time2 = time1;
 			// Data output
-			System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tPlayer HP: " + PLAYER_HP);
+			System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tPlayer HP: " + PLAYER_HP + "\t Player Speed: " + getPlayer().getSpeed());
 		}
 	}
 	

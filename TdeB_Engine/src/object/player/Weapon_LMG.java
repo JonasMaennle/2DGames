@@ -19,7 +19,7 @@ public class Weapon_LMG extends Weapon_Basic{
 	
 	public Weapon_LMG(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
-		player.setSpeed(player.getSpeed() * 0.75f);
+		player.setSpeed(3f);
 		
 		this.weaponRight = quickLoaderImage("player/weapon_lmg_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_lmg_left");
@@ -95,6 +95,6 @@ public class Weapon_LMG extends Weapon_Basic{
 	@Override
 	public void wipe(){
 		bulletList.clear();
-		player.setSpeed(player.getSpeed() / 0.75f);
+		player.setSpeed(4f);
 	}
 }

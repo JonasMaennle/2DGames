@@ -6,12 +6,14 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
 import framework.entity.GameEntity;
+import framework.shader.Light;
 
 public class Collectable_Basic implements GameEntity{
 
 	protected int x, y, width, height;
 	protected Image image;
 	protected boolean found;
+	protected Light light;
 	
 	public Collectable_Basic(int x, int y, int width, int height){
 		this.x = x;
@@ -113,5 +115,13 @@ public class Collectable_Basic implements GameEntity{
 
 	public void setFound(boolean found) {
 		this.found = found;
+	}
+
+	public Light getLight() {
+		return light;
+	}
+
+	public void setLight(Light light) {
+		this.light = light;
 	}
 }

@@ -12,11 +12,12 @@ import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
 import object.collectable.Collectable_Railgun;
 import object.collectable.Collectable_Shotgun;
+import object.collectable.Collectable_SpeedUp;
 
 public class ItemSpawner {
 	
 	private enum Item{
-		HP(0.1f), 
+		HP(0.15f), 
 		ENERGY(0.6f), 
 		AMMO(0.2f),
 		FLAMETHROWER(0.08f), 
@@ -24,7 +25,8 @@ public class ItemSpawner {
 		LMG(0.17f), 
 		SHOTGUN(0.12f), 
 		MINIGUN(0.05f), 
-		RAILGUN(0.08f);
+		RAILGUN(0.08f),
+		SPEED(0.15f);
 		
 		private float possibility;
 		
@@ -52,7 +54,7 @@ public class ItemSpawner {
 		float random = rand.nextFloat();
 		// Item possibility * enemy possibilityFactor > random (0 - 1)
 		if((currentItem.possibility * type.getPossibilityFactor()) > random) {
-			System.out.println((currentItem.possibility * type.getPossibilityFactor()));
+
 			switch (currentItem) {
 			case HP:
 				Collectable_Health hp = new Collectable_Health(x, y, 32, 32);
@@ -89,6 +91,9 @@ public class ItemSpawner {
 			case RAILGUN:
 				Collectable_Railgun rai = new Collectable_Railgun(x, y, 32, 16);
 				handler.collectableList.add(rai);
+			case SPEED:
+				Collectable_SpeedUp speed = new Collectable_SpeedUp(x, y, 32, 32);
+				handler.collectableList.add(speed);
 				break;
 			default:
 				break;
