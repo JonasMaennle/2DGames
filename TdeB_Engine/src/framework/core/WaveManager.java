@@ -38,6 +38,7 @@ public class WaveManager {
 	
 	private long lastEnemyDead;
 	private boolean lastEnemyDied;
+	private boolean showLvl10Message;
 	
 	public WaveManager(Handler handler, StateManager manager) {
 		this.waveCounter = 1;
@@ -54,6 +55,7 @@ public class WaveManager {
 		this.enemyWaveMultiplier = 1.2f; // can be changed -> value > 1
 		
 		this.currentEnemiesInWave = 0;
+		this.showLvl10Message = false;
 	}
 	
 	public void update() {
@@ -70,12 +72,20 @@ public class WaveManager {
 			waveHasSpawned = true;
 			enemiesInWave *= enemyWaveMultiplier;
 			currentEnemiesInWave = 0;
+			if(waveCounter == 10) {
+				showLvl10Message = true;
+			}
 			handler.getInfo_manager().createNewMessage(WIDTH/2 - MOVEMENT_X - 64, HEIGHT/2 - 196 - MOVEMENT_Y, "Wave " + waveCounter, new org.newdawn.slick.Color(255,255,255), 32, 3000);
 			waveCounter++;
 			lastEnemyDied = false;
 			showWaveCounter = true;
 			Collection.ARENA_CURRENT_WAVE = waveCounter;
 			
+		}
+		
+		if(showLvl10Message) {
+			showLvl10Message = false;
+			handler.getInfo_manager().createNewMessage(WIDTH/2 - MOVEMENT_X - 256, HEIGHT/2 - 256 - MOVEMENT_Y, "More  Enemies  are  coming !", new org.newdawn.slick.Color(255,0,0), 32, 3000);
 		}
 		
 		if(waveHasSpawned) {
@@ -114,7 +124,7 @@ public class WaveManager {
 				currentEnemiesInWave++;
 				spawnCounter++;
 				// use only 2 spawnpoints when wave < 10
-				if(Collection.ARENA_CURRENT_WAVE < 10 && spawnCounter == handler.spawnPoints.size()) {
+				if(Collection.ARENA_CURRENT_WAVE <= 10 && spawnCounter == handler.spawnPoints.size()) {
 					spawnCounter = 0;
 					break;
 				}
