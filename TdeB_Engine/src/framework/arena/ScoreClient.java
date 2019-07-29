@@ -9,7 +9,7 @@ import framework.core.Handler;
 
 public class ScoreClient implements Runnable{
 	private final static int PORT = 55123;
-	private static String TARGET_IP = "game.raspberry_jonas.selfhost.eu"; //raspberry_jonas.selfhost.eu, 192.168.2.104
+	private static String TARGET_IP = "192.168.2.104"; //raspberry_jonas.selfhost.eu, 192.168.2.104
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
@@ -36,17 +36,18 @@ public class ScoreClient implements Runnable{
 		
 		// send current entry
 		//System.out.println("Send data...");
+
 		sendData();	
 		
 	}
 	
 	private void setupConnection(String ip, int port){
 		try {
-			sock = new Socket(ip, port);
+			sock = new Socket(ip, port);		
 			os_stream = new ObjectOutputStream(sock.getOutputStream());
 			in_stream = new ObjectInputStream(sock.getInputStream());
 		} catch (Exception e) {
-			System.out.println("Server not responding");
+			e.printStackTrace();
 		}
 	}
 	
@@ -72,7 +73,6 @@ public class ScoreClient implements Runnable{
 				// read from server
 				while(running) {
 					scoreList = (ArrayList<ScoreEntry>) in_stream.readObject();
-					//System.out.println(scoreList.size());
 					running = false;
 				}
 			} catch (Exception e) {

@@ -119,6 +119,7 @@ public class ScoreServer {
 			try {
 				// add data from received state to current
 				// loop for ever
+				System.out.println("wait for message");
 				while ((o = in_stream.readObject()) != null) {
 					readScoreFile();
 					

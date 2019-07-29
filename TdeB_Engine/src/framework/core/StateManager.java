@@ -210,5 +210,12 @@ public class StateManager {
 	public Graph getGraph() {
 		return graph;
 	}
-	
+
+	public ScoreScreen getScoreScreen() {
+		return scoreScreen;
+	}
+
+	public void setScoreScreen(ScoreScreen scoreScreen) {
+		this.scoreScreen = scoreScreen;
+	}
 }

@@ -25,6 +25,8 @@ public class Weapon_Basic implements GameEntity{
 	protected int bulletDamage;
 	
 	protected int max_ammo;
+	protected int bottomAngleRange;
+	protected int topAngleRange;
 	
 	protected CopyOnWriteArrayList<Bullet_Basic> bulletList;
 	
@@ -46,6 +48,9 @@ public class Weapon_Basic implements GameEntity{
 		this.handler = handler;
 		this.default_weapon = quickLoaderImage("player/weapon");
 		this.bulletList = new CopyOnWriteArrayList<Bullet_Basic>();
+		
+		this.topAngleRange = 50; // def. 50
+		this.bottomAngleRange = 45; // def. 40
 	}
 	
 	@Override
@@ -131,10 +136,10 @@ public class Weapon_Basic implements GameEntity{
 	    }
 	    // block angle 320 - 360 && 0 - 30
 	    if(player.getDirection().equals("right")){
-	    	if(angle < 310 && angle > 180){
-	    		angle = 310;
-	    	}else if(angle > 40 && angle < 180){
-	    		angle = 40;
+	    	if(angle < (360 - topAngleRange) && angle > 180){
+	    		angle = (360 - topAngleRange);
+	    	}else if(angle > bottomAngleRange && angle < 180){
+	    		angle = bottomAngleRange;
 	    	}else{
 	    		this.destX = destX;
 	    		this.destY = destY;
@@ -142,10 +147,10 @@ public class Weapon_Basic implements GameEntity{
 	    }
 	    // block angle if 220 - 180 && 180 - 150
 	    if(player.getDirection().equals("left")){
-	    	if(angle > 230 && angle < 360){
-	    		angle = 230;
-	    	}else if(angle < 140 && angle > 0){
-	    		angle = 140;
+	    	if(angle > 180 + topAngleRange && angle < 360){
+	    		angle = 180 + topAngleRange;
+	    	}else if(angle < 180 - bottomAngleRange && angle > 0){
+	    		angle = 180 - bottomAngleRange;
 	    	}else{
 	    		this.destX = destX;
 	    		this.destY = destY;

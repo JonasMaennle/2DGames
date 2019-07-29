@@ -70,7 +70,11 @@ public class WaveManager {
 		}
 		
 		// start wave after cooldown
-		if(System.currentTimeMillis() - timer > waveOffsetInMSEC && !waveHasSpawned && (System.currentTimeMillis() - lastEnemyDead > 2000)) {		
+		if(System.currentTimeMillis() - timer > waveOffsetInMSEC && !waveHasSpawned && (System.currentTimeMillis() - lastEnemyDead > 2000)) {	
+			
+			if(waveCounter >= 20)
+				enemyWaveMultiplier = 1.1f;
+			
 			waveHasSpawned = true;
 			enemiesInWave *= enemyWaveMultiplier;
 			currentEnemiesInWave = 0;
@@ -217,7 +221,8 @@ public class WaveManager {
 		this.waveHasSpawned = false;
 		this.showWaveCounter = true;
 		this.enemiesInWave = 1;
-		currentEnemiesInWave = 0;
+		this.enemyWaveMultiplier = 1.2f;
+		this.currentEnemiesInWave = 0;
 		this.lastEnemyDied = false;
 	}
 

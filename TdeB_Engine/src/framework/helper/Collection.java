@@ -101,7 +101,7 @@ public class Collection {
 		return awtFont;
 	}
 	
-	public static void drawString(int x, int y, String text, Color color, int fontSize){
+	public static void drawString(int x, int y, String text, Color color){
 		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
