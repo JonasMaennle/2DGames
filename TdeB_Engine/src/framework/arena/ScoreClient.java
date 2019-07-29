@@ -9,7 +9,7 @@ import framework.core.Handler;
 
 public class ScoreClient implements Runnable{
 	private final static int PORT = 55123;
-	private static String TARGET_IP = "192.168.2.104"; //raspberry_jonas.selfhost.eu, 192.168.2.104
+	private static String TARGET_IP = "game.raspberry_jonas.selfhost.eu"; // outside-> game.raspberry_jonas.selfhost.eu, inside -> 192.168.2.104
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
