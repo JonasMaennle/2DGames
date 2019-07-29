@@ -1,7 +1,8 @@
-package framework.core;
+package framework.arena;
 
 import java.util.Random;
 
+import framework.core.Handler;
 import framework.entity.EnemyType;
 import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Flamethrower;
@@ -17,15 +18,15 @@ import object.collectable.Collectable_SpeedUp;
 public class ItemSpawner {
 	
 	private enum Item{
-		HP(0.15f), 
+		HP(0.2f), 
 		ENERGY(0.6f), 
 		AMMO(0.2f),
-		FLAMETHROWER(0.08f), 
+		FLAMETHROWER(0.1f), 
 		LASERSHOTGUN(0.08f), 
 		LMG(0.17f), 
-		SHOTGUN(0.12f), 
-		MINIGUN(0.05f), 
-		RAILGUN(0.08f),
+		SHOTGUN(0.16f), 
+		MINIGUN(0.07f), 
+		RAILGUN(0.1f),
 		SPEED(0.15f);
 		
 		private float possibility;
@@ -91,6 +92,7 @@ public class ItemSpawner {
 			case RAILGUN:
 				Collectable_Railgun rai = new Collectable_Railgun(x, y, 32, 16);
 				handler.collectableList.add(rai);
+				break;
 			case SPEED:
 				Collectable_SpeedUp speed = new Collectable_SpeedUp(x, y, 32, 32);
 				handler.collectableList.add(speed);

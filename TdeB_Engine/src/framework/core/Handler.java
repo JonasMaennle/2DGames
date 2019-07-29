@@ -17,6 +17,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
+import framework.arena.ItemSpawner;
 import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
 import framework.ui.InformationManager;

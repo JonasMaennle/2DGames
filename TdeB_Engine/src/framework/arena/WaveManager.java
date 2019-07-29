@@ -1,4 +1,4 @@
-package framework.core;
+package framework.arena;
 
 import static framework.helper.Collection.HEIGHT;
 import static framework.helper.Collection.MOVEMENT_X;
@@ -10,6 +10,8 @@ import static framework.helper.Collection.shadowObstacleList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import framework.core.Handler;
+import framework.core.StateManager;
 import framework.helper.Collection;
 import framework.path.Node;
 import object.Spawner;

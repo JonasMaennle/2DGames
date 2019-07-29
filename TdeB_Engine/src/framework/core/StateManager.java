@@ -8,7 +8,8 @@ import static framework.helper.Leveler.*;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Image;
 
-import framework.gamestate.Arena;
+import framework.arena.Arena;
+import framework.arena.ScoreScreen;
 import framework.gamestate.Deathscreen;
 import framework.gamestate.Game;
 import framework.gamestate.Loadingscreen;
@@ -20,7 +21,7 @@ public class StateManager {
 	
 	// possible gamestates
 	public static enum GameState{
-		MAINMENU, GAME, DEATHSCREEN, LOADING, ARENA
+		MAINMENU, GAME, DEATHSCREEN, LOADING, ARENA, SCOREBOARD
 	}
 	
 	// Start parameter
@@ -35,6 +36,7 @@ public class StateManager {
 	private Deathscreen deathscreen;
 	private Loadingscreen loadingscreen;
 	private Mainmenu menu;
+	private ScoreScreen scoreScreen;
 	
 	private Graph graph;
 	private PathfindingThread pathThread;
@@ -52,6 +54,7 @@ public class StateManager {
 		this.loadingscreen = new Loadingscreen(this, handler);
 		this.menu = new Mainmenu(this);
 		this.arena = new Arena(handler, this);
+		this.scoreScreen = new ScoreScreen(handler);
 		
 		this.cursor = quickLoaderImage("hud/cursor");
 	}
@@ -83,6 +86,11 @@ public class StateManager {
 		case DEATHSCREEN:
 			deathscreen.update();
 			deathscreen.render();
+			break;
+			
+		case SCOREBOARD:
+			scoreScreen.update();
+			scoreScreen.render();
 			break;
 			
 		case LOADING:
@@ -131,7 +139,8 @@ public class StateManager {
 		handler.wipe();
 		shadowObstacleList.clear();
 		graph = new Graph();
-		System.out.println(levelPath+CURRENT_LEVEL);
+		
+		//System.out.println(levelPath+CURRENT_LEVEL);
 		
 		switch (CURRENT_LEVEL) {
 		// Szenario maps

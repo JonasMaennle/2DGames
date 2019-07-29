@@ -1,4 +1,4 @@
-package framework.gamestate;
+package framework.arena;
 
 import static framework.helper.Collection.BATTERY_CHARGE;
 import static framework.helper.Collection.PLAYER_HP;
@@ -12,7 +12,6 @@ import framework.core.Camera;
 import framework.core.Handler;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
-import framework.core.WaveManager;
 import framework.ui.HeadUpDisplay;
 
 public class Arena {

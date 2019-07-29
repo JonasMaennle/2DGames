@@ -23,7 +23,7 @@ public class Weapon_Railgun extends Weapon_Basic{
 		this.weaponRight = quickLoaderImage("player/weapon_railgun_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_railgun_left");
 		
-		this.max_ammo = 50;
+		this.max_ammo = 100;
 	}
 
 	public void update(){
@@ -45,7 +45,7 @@ public class Weapon_Railgun extends Weapon_Basic{
 	public void shoot(){
 		
 		bulletDamage = 40;
-		bulletSpeed = 18;
+		bulletSpeed = 22;
 		
 		timer1 = System.currentTimeMillis();
 		if(timer1 - timer2 > 150){

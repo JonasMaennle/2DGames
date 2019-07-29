@@ -12,6 +12,7 @@ import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.helper.Collection;
 import framework.path.PathfindingThread;
+import framework.ui.UI;
 
 import static framework.helper.Graphics.*;
 import static framework.helper.Collection.*;
@@ -22,13 +23,16 @@ public class Deathscreen {
 	private BackgroundHandler backgroundHandler;
 	private StateManager manager;
 	private Image image, image_arena;
+	private UI ui;
 	
 	public Deathscreen(Handler handler, StateManager manager){
 		this.handler = handler;
 		this.manager = manager;
+		this.ui = new UI();
 		this.backgroundHandler = new BackgroundHandler();	
 		this.image = quickLoaderImage("hud/text_died");
 		this.image_arena = quickLoaderImage("hud/text_died_arena");
+		this.ui.addButton("Score", "hud/button_score", (WIDTH / 2) - 128, HEIGHT - 96, 256, 64);
 	}
 	
 	public void update(){
@@ -48,6 +52,12 @@ public class Deathscreen {
 				Collection.MOVEMENT_X = 0;
 				Collection.MOVEMENT_Y = 0;
 				StateManager.gameState = GameState.MAINMENU;
+			}
+		}
+		
+		if(StateManager.gameMode == GameState.ARENA) {
+			if(ui.isButtonClicked("Score")) {
+				StateManager.gameState = GameState.SCOREBOARD;
 			}
 		}
 	}
@@ -79,6 +89,7 @@ public class Deathscreen {
 		}else {
 			drawQuadImageStatic(image_arena, (WIDTH - image.getWidth()) / 2, 200, image.getWidth(), image.getHeight());
 			Collection.drawString(WIDTH/2 - 32, HEIGHT/2 + 20, "" + (Collection.ARENA_CURRENT_WAVE - 1), new Color(200, 0, 0), 30);
+			ui.draw();
 		}
 	}
 }
