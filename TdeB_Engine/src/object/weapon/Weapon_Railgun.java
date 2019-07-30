@@ -1,36 +1,34 @@
-package object.player;
+package object.weapon;
 
-import framework.core.Handler;
-import static framework.helper.Collection.*;
-
+import static framework.helper.Collection.AMMO_LEFT;
 import static framework.helper.Collection.getLeftBorder;
 import static framework.helper.Collection.getRightBorder;
-import static framework.helper.Graphics.*;
-
-import java.util.Random;
+import static framework.helper.Graphics.drawQuadImageRotLeft;
+import static framework.helper.Graphics.drawQuadImageRotRight;
+import static framework.helper.Graphics.quickLoaderImage;
 
 import org.newdawn.slick.Image;
 
-public class Weapon_LMG extends Weapon_Basic{
-	
+import framework.core.Handler;
+import framework.helper.Color;
+import object.player.Player;
+
+public class Weapon_Railgun extends Weapon_Basic{
+
 	private Image weaponRight, weaponLeft;
-	private Random rand;
 	private long timer1, timer2;
 	
-	public Weapon_LMG(int width, int height, Player player, Handler handler) {
+	public Weapon_Railgun(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
-		player.setSpeed(3f);
 		
-		this.weaponRight = quickLoaderImage("player/weapon_lmg_right");
-		this.weaponLeft = quickLoaderImage("player/weapon_lmg_left");
+		this.weaponRight = quickLoaderImage("player/weapon_railgun_right");
+		this.weaponLeft = quickLoaderImage("player/weapon_railgun_left");
 		
-		this.bulletDamage = 12;
-		this.bulletSpeed = 18;
-		this.rand = new Random();
-		
-		this.max_ammo = 300;
+		this.max_ammo = 50;
+		this.bulletDamage = 128;
+		this.bulletSpeed = 24;
 	}
-	
+
 	public void update(){
 		super.update();
 	}
@@ -48,12 +46,11 @@ public class Weapon_LMG extends Weapon_Basic{
 	}
 	
 	public void shoot(){
+		
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 70){
+		if(timer1 - timer2 > 300){
 			AMMO_LEFT--;
-			float destYOffeset = rand.nextFloat() * 32 - 16;
 			float angleOffset = 0;
-			
 			// walk right
 			if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){
 				if(destX < x + (width/2)){
@@ -68,7 +65,7 @@ public class Weapon_LMG extends Weapon_Basic{
 				}
 				angleOffset /= 20;
 				
-				bulletList.add(new Bullet_Basic(x + 4, y + (height/2)- 2 + angleOffset* -5, 6, 6, destX, destY + destYOffeset, "right", bulletSpeed, angle));
+				bulletList.add(new Bullet_Laser(x + 2, y + (height/2) + angleOffset* -5, 20, 6, destX, destY, "right", bulletSpeed, angle, new Color(20, 0, 0)));
 			}
 			
 			// walk left
@@ -85,7 +82,7 @@ public class Weapon_LMG extends Weapon_Basic{
 				}	
 				angleOffset /= 20;
 				
-				bulletList.add(new Bullet_Basic(x + 4, y + (height/2) - 2 + angleOffset* -8, 6, 6, destX, destY + destYOffeset, "left", bulletSpeed, angle));
+				bulletList.add(new Bullet_Laser(x, y + (height/2) + angleOffset* -8, 20, 6, destX, destY, "left", bulletSpeed, angle, new Color(20, 0, 0)));
 			}
 			
 			timer2 = timer1;
@@ -94,7 +91,9 @@ public class Weapon_LMG extends Weapon_Basic{
 	
 	@Override
 	public void wipe(){
+		for(Bullet_Basic b : bulletList){
+			b.die();
+		}
 		bulletList.clear();
-		player.setSpeed(4f);
 	}
 }

@@ -32,10 +32,13 @@ public class Particle {
 		this.speed = speed;
 		this.angle = 0;
 		if(lightProbability > 80){ // 85 for laptop to run smooth
-			light = new Light(new Vector2f(0, 0), 20, 6, 0, 4);
+			if(color.equals("orange"))light = new Light(new Vector2f(0, 0), 20, 6, 0, 4);
+			if(color.equals("blue"))light = new Light(new Vector2f(0, 0), 10, 25, 25, 18);
+				
 			lights.add(light);
 		}
 		if(color.equals("orange"))particles = quickLoaderImage("tiles/Lava_" + rand.nextInt(5));
+		if(color.equals("blue"))particles = quickLoaderImage("tiles/Ice_" + rand.nextInt(5));
 	}
 	
 	public Particle(int x, int y, int width, int height, float velX, float velY, float speed, String color){

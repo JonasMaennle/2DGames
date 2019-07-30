@@ -11,7 +11,7 @@ import framework.core.Handler;
 public class GameClient implements Runnable{
 	
 	private final static int PORT = 55123;
-	private static String TARGET_IP = "192.168.2.104"; //raspberry_jonas.selfhost.eu
+	private static String TARGET_IP = "game.raspberry_jonas.selfhost.eu"; //raspberry_jonas.selfhost.eu  192.168.2.104
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
@@ -52,7 +52,11 @@ public class GameClient implements Runnable{
 		try {
 			sock = new Socket(ip, port);
 			os_stream = new ObjectOutputStream(sock.getOutputStream());
+			os_stream.flush();
+			
+			System.out.println("1");
 			in_stream = new ObjectInputStream(sock.getInputStream());
+			System.out.println("2");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,6 +64,7 @@ public class GameClient implements Runnable{
 	
 	// send message to server
 	private void sendData(){
+		System.out.println("send");
 		try {
 			if(handler != null) {
 				//System.out.println(handler.getPlayer().getX());

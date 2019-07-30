@@ -33,6 +33,7 @@ import object.collectable.Collectable_Goal;
 import object.collectable.Collectable_Health;
 import object.collectable.Collectable_Helmet;
 import object.collectable.Collectable_HelmetBattery;
+import object.collectable.Collectable_Icethrower;
 import object.collectable.Collectable_LMG;
 import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
@@ -154,6 +155,10 @@ public class Leveler {
 			if(objName.equals("Flamethrower")){
 				Collectable_Flamethrower flamethrower = new Collectable_Flamethrower(x, y, 32, 16);
 				handler.collectableList.add(flamethrower);
+			}
+			if(objName.equals("Icethrower")){
+				Collectable_Icethrower icethrower = new Collectable_Icethrower(x, y, 32, 16);
+				handler.collectableList.add(icethrower);
 			}
 			if(objName.equals("Railgun")){
 				Collectable_Railgun gun = new Collectable_Railgun(x, y, 32, 16);

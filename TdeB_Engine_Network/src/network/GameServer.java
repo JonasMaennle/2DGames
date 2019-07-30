@@ -64,8 +64,12 @@ public class GameServer implements Serializable {
 			connectionNumber = counter;
 			try {
 				sock = clientSocket;
-				in_stream = new ObjectInputStream(sock.getInputStream());
+				System.out.println("1");
 				os_stream = new ObjectOutputStream(sock.getOutputStream());
+				os_stream.flush();
+				System.out.println("2");
+				in_stream = new ObjectInputStream(sock.getInputStream());
+				System.out.println("3");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

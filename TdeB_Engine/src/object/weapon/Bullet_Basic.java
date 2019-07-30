@@ -1,4 +1,4 @@
-package object.player;
+package object.weapon;
 
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;

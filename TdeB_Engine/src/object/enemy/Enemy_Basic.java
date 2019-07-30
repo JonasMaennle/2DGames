@@ -21,10 +21,10 @@ import object.player.Player;
 
 public abstract class Enemy_Basic implements GameEntity{
 
-	protected float x, y, speed, velX, velY;
+	protected float x, y, speed, velX, velY, max_speed;
 	protected float spawnX, spawnY;
 	protected int width, height;
-	protected int hp;
+	protected float hp;
 	protected boolean pathLock;
 	protected String direction;
 	protected EnemyType type;
@@ -54,6 +54,7 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.image = quickLoaderImage("enemy/Enemy_tmp");
 		this.hpBar = quickLoaderImage("enemy/healthForeground");
 		
+		this.max_speed = 2;
 		this.speed = 0;
 		this.velX = 0;
 		this.velY = 0;
@@ -146,7 +147,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	public void isPlayerInRange(int borderOffset){
 		if(x > handler.getPlayer().getX() - borderOffset && x < handler.getPlayer().getX() + borderOffset){
 			if(y > handler.getPlayer().getY() - borderOffset && y < handler.getPlayer().getY() + borderOffset){
-				speed = 2;
+				speed = max_speed;
 			}
 		}else
 			return;
@@ -352,11 +353,11 @@ public abstract class Enemy_Basic implements GameEntity{
 		return new Rectangle((int)x + width-4, (int)y + 4, 4, height - 8);
 	}
 
-	public int getHp() {
+	public float getHp() {
 		return hp;
 	}
 
-	public void setHp(int hp) {
+	public void setHp(float hp) {
 		this.hp = hp;
 	}
 	
@@ -373,5 +374,13 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	public EnemyType getType() {
 		return type;
+	}
+
+	public float getMax_speed() {
+		return max_speed;
+	}
+
+	public void setMax_speed(float max_speed) {
+		this.max_speed = max_speed;
 	}
 }

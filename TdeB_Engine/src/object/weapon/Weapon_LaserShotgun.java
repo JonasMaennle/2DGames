@@ -1,4 +1,4 @@
-package object.player;
+package object.weapon;
 
 import static framework.helper.Collection.AMMO_LEFT;
 import static framework.helper.Collection.HEIGHT;
@@ -15,21 +15,23 @@ import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
+import framework.helper.Color;
 import object.enemy.Enemy_Basic;
+import object.player.Player;
 
-public class Weapon_Shotgun extends Weapon_Basic {
+public class Weapon_LaserShotgun extends Weapon_Basic {
 
 	private Image weaponRight, weaponLeft;
 
-	public Weapon_Shotgun(int width, int height, Player player, Handler handler) {
+	public Weapon_LaserShotgun(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
 
-		this.weaponRight = quickLoaderImage("player/weapon_shotgun_right");
-		this.weaponLeft = quickLoaderImage("player/weapon_shotgun_left");
+		this.weaponRight = quickLoaderImage("player/weapon_lasershotgun_right");
+		this.weaponLeft = quickLoaderImage("player/weapon_lasershotgun_left");
 
 		this.max_ammo = 50;
-		this.bulletDamage = 30;
-		this.bulletSpeed = 15;
+		this.bulletDamage = 50;
+		this.bulletSpeed = 16;
 	}
 
 	public void update() {
@@ -103,11 +105,11 @@ public class Weapon_Shotgun extends Weapon_Basic {
 			}
 			angleOffset /= 20;
 
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY - 40, "right", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY - 20 , "right", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY, "right", bulletSpeed, angle)); // center
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY + 20, "right", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY + 40, "right", bulletSpeed, angle));
+			bulletList.add(new Bullet_Laser(x + 2, y + (height / 2) + angleOffset * -5, 20, 6, destX, destY - 40, "right", bulletSpeed, angle, new Color(20, 0, 0)));
+			bulletList.add(new Bullet_Laser(x + 2, y + (height / 2) + angleOffset * -5, 20, 6, destX, destY - 20 , "right", bulletSpeed, angle, new Color(20, 0, 0)));
+			bulletList.add(new Bullet_Laser(x + 2, y + (height / 2) + angleOffset * -5, 20, 6, destX, destY, "right", bulletSpeed, angle, new Color(20, 0, 0))); // center
+			bulletList.add(new Bullet_Laser(x + 2, y + (height / 2) + angleOffset * -5, 20, 6, destX, destY + 20, "right", bulletSpeed, angle, new Color(20, 0, 0)));
+			bulletList.add(new Bullet_Laser(x + 2, y + (height / 2) + angleOffset * -5, 20, 6, destX, destY + 40, "right", bulletSpeed, angle, new Color(20, 0, 0)));
 		}
 
 		// walk left
@@ -124,11 +126,11 @@ public class Weapon_Shotgun extends Weapon_Basic {
 			}
 			angleOffset /= 20;
 			
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY - 40, "left", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY - 20, "left", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY, "left", bulletSpeed, angle)); // center
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY + 20, "left", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY + 40, "left", bulletSpeed, angle));
+			bulletList.add(new Bullet_Laser(x, y + (height / 2) + angleOffset * -8, 20, 6, destX, destY - 40, "left", bulletSpeed, angle, new Color(20, 0, 0)));
+			bulletList.add(new Bullet_Laser(x, y + (height / 2) + angleOffset * -8, 20, 6, destX, destY - 20, "left", bulletSpeed, angle, new Color(20, 0, 0)));
+			bulletList.add(new Bullet_Laser(x, y + (height / 2) + angleOffset * -8, 20, 6, destX, destY, "left", bulletSpeed, angle, new Color(20, 0, 0))); // center
+			bulletList.add(new Bullet_Laser(x, y + (height / 2) + angleOffset * -8, 20, 6, destX, destY + 20, "left", bulletSpeed, angle, new Color(20, 0, 0)));
+			bulletList.add(new Bullet_Laser(x, y + (height / 2) + angleOffset * -8, 20, 6, destX, destY + 40, "left", bulletSpeed, angle, new Color(20, 0, 0)));
 		}
 
 	}

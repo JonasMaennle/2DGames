@@ -1,31 +1,36 @@
-package object.player;
+package object.weapon;
 
-import static framework.helper.Collection.AMMO_LEFT;
+import framework.core.Handler;
+import object.player.Player;
+
+import static framework.helper.Collection.*;
+
 import static framework.helper.Collection.getLeftBorder;
 import static framework.helper.Collection.getRightBorder;
-import static framework.helper.Graphics.drawQuadImageRotLeft;
-import static framework.helper.Graphics.drawQuadImageRotRight;
-import static framework.helper.Graphics.quickLoaderImage;
+import static framework.helper.Graphics.*;
+
+import java.util.Random;
 
 import org.newdawn.slick.Image;
 
-import framework.core.Handler;
-import framework.helper.Color;
-
-public class Weapon_Minigun extends Weapon_Basic{
-
+public class Weapon_LMG extends Weapon_Basic{
+	
 	private Image weaponRight, weaponLeft;
+	private Random rand;
 	private long timer1, timer2;
 	
-	public Weapon_Minigun(int width, int height, Player player, Handler handler) {
+	public Weapon_LMG(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
+		player.setSpeed(3f);
 		
-		this.weaponRight = quickLoaderImage("player/weapon_minigun_right");
-		this.weaponLeft = quickLoaderImage("player/weapon_minigun_left");
-
+		this.weaponRight = quickLoaderImage("player/weapon_lmg_right");
+		this.weaponLeft = quickLoaderImage("player/weapon_lmg_left");
+		
+		this.bulletDamage = 12;
+		this.bulletSpeed = 18;
+		this.rand = new Random();
+		
 		this.max_ammo = 300;
-		this.bulletDamage = 40;
-		this.bulletSpeed = 20;
 	}
 	
 	public void update(){
@@ -45,11 +50,12 @@ public class Weapon_Minigun extends Weapon_Basic{
 	}
 	
 	public void shoot(){
-		
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 100){
+		if(timer1 - timer2 > 70){
 			AMMO_LEFT--;
+			float destYOffeset = rand.nextFloat() * 32 - 16;
 			float angleOffset = 0;
+			
 			// walk right
 			if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){
 				if(destX < x + (width/2)){
@@ -64,8 +70,7 @@ public class Weapon_Minigun extends Weapon_Basic{
 				}
 				angleOffset /= 20;
 				
-				bulletList.add(new Bullet_Laser(x + 2,(y + (height/2) + angleOffset* -5) + 5, 10, 6, destX, destY + 5, "right", bulletSpeed, angle, new Color(40, 20, 5)));
-				bulletList.add(new Bullet_Laser(x + 2,(y + (height/2) + angleOffset* -5) - 5, 10, 6, destX, destY - 5, "right", bulletSpeed, angle, new Color(40, 20, 5)));
+				bulletList.add(new Bullet_Basic(x + 4, y + (height/2)- 2 + angleOffset* -5, 6, 6, destX, destY + destYOffeset, "right", bulletSpeed, angle));
 			}
 			
 			// walk left
@@ -82,8 +87,7 @@ public class Weapon_Minigun extends Weapon_Basic{
 				}	
 				angleOffset /= 20;
 				
-				bulletList.add(new Bullet_Laser(x,( y + (height/2) + angleOffset* -8) + 5, 10, 6, destX, destY + 5, "left", bulletSpeed, angle, new Color(25, 15, 5)));
-				bulletList.add(new Bullet_Laser(x,( y + (height/2) + angleOffset* -8) - 5, 10, 6, destX, destY - 5, "left", bulletSpeed, angle, new Color(25, 15, 5)));
+				bulletList.add(new Bullet_Basic(x + 4, y + (height/2) - 2 + angleOffset* -8, 6, 6, destX, destY + destYOffeset, "left", bulletSpeed, angle));
 			}
 			
 			timer2 = timer1;
@@ -92,10 +96,7 @@ public class Weapon_Minigun extends Weapon_Basic{
 	
 	@Override
 	public void wipe(){
-		for(Bullet_Basic b : bulletList){
-			b.die();
-		}
 		bulletList.clear();
+		player.setSpeed(4f);
 	}
-
 }

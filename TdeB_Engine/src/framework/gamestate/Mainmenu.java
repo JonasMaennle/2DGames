@@ -79,6 +79,7 @@ public class Mainmenu {
 				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Arena")) {
 					manager.getArena().getWaveManager().reset();
 					Collection.resetPlayerStats();
+					manager.getHandler().setFogFilter(0);
 					StateManager.CURRENT_LEVEL = 0;
 					StateManager.gameState = GameState.ARENA;
 				}

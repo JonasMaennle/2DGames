@@ -1,4 +1,4 @@
-package object.player;
+package object.weapon;
 
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
@@ -13,6 +13,7 @@ import org.newdawn.slick.Image;
 import framework.core.Handler;
 import framework.entity.GameEntity;
 import object.enemy.Enemy_Basic;
+import object.player.Player;
 
 public class Weapon_Basic implements GameEntity{
 
@@ -109,7 +110,7 @@ public class Weapon_Basic implements GameEntity{
 		}
 	}
 	
-	protected void shoot(){
+	public void shoot(){
 		// walk right
 		if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){
 			if(destX < x + (width/2)){

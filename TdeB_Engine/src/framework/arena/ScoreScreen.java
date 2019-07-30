@@ -175,6 +175,8 @@ public class ScoreScreen {
 		showScoreBoard();
 		Collection.drawString((WIDTH / 2) - 270, 16, "Highscore  List  -  TOP  10", new Color(200, 200, 200));
 		// draw user input
+		drawString(WIDTH / 2 + 32, HEIGHT - 160, "Your  Score:   Wave  " + (Collection.ARENA_CURRENT_WAVE-1), new Color(200, 200, 200));
+		
 		drawString(WIDTH / 2 + 32, HEIGHT - 128, "Enter   Name:   " + userInput, new Color(200, 200, 200));
 		
 		for(int i = 0; i < 15; i++) {

@@ -8,6 +8,7 @@ import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Health;
 import object.collectable.Collectable_HelmetBattery;
+import object.collectable.Collectable_Icethrower;
 import object.collectable.Collectable_LMG;
 import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
@@ -27,7 +28,8 @@ public class ItemSpawner {
 		SHOTGUN(0.16f), 
 		MINIGUN(0.07f), 
 		RAILGUN(0.1f),
-		SPEED(0.15f);
+		SPEED(0.15f),
+		ICETHROWER(0.1f);
 		
 		private float possibility;
 		
@@ -96,6 +98,10 @@ public class ItemSpawner {
 			case SPEED:
 				Collectable_SpeedUp speed = new Collectable_SpeedUp(x, y, 32, 32);
 				handler.collectableList.add(speed);
+				break;
+			case ICETHROWER:
+				Collectable_Icethrower ice = new Collectable_Icethrower(x, y, 32, 16);
+				handler.collectableList.add(ice);
 				break;
 			default:
 				break;

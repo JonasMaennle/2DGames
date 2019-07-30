@@ -7,6 +7,7 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
+import framework.arena.ScoreScreen;
 import framework.core.BackgroundHandler;
 import framework.core.Handler;
 import framework.core.StateManager;
@@ -70,6 +71,7 @@ public class Deathscreen {
 			
 			if(ui.isButtonClicked("Score")) {
 				manager.getScoreScreen().reset();
+				manager.setScoreScreen(new ScoreScreen(handler));
 				StateManager.gameState = GameState.SCOREBOARD;
 			}
 			if(ui.isButtonClicked("Back")) {
