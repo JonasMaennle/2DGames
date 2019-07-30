@@ -114,7 +114,7 @@ public abstract class Enemy_Basic implements GameEntity{
 			velX = 0;
 			velY = 0;
 		}
-		
+
 		// set direction
 		if(velX == -1)
 			direction = "left";

@@ -75,4 +75,25 @@ public class PathfindingThread extends Thread{
 		if(StateManager.gameState == GameState.MAINMENU)
 			running = false;
 	}
+	
+	public void getPathForEnemy(Enemy_Basic e) {
+		try {		
+			int enemyX = e.getNextX();
+			int enemyY = e.getNextY();
+
+			if(graph.getNodeID(enemyX, enemyY) != -1 && graph.getNodeID((int)handler.getCurrentEntity().getX()/TILE_SIZE, (int)handler.getCurrentEntity().getY()/TILE_SIZE) != -1)
+			{
+				e.setPathLock(true);
+				if(e != null){
+					LinkedList<Node> tmp = graph.astar(graph.getNodeID(enemyX, enemyY), graph.getNodeID((int)(handler.getCurrentEntity().getX())/TILE_SIZE, (int)(handler.getCurrentEntity().getY())/TILE_SIZE));
+					e.setPath(tmp);
+
+				}
+				e.setPathLock(false);					
+			}
+			System.out.println("special path found");
+		} catch (Exception err) {
+			System.out.println("no path found");
+		}
+	}
 }

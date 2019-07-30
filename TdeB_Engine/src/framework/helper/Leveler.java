@@ -49,7 +49,7 @@ public class Leveler {
 	
 	public static TileGrid loadMap(Handler handler, String path, Graph graph)
 	{
-		prepareMap(path);
+		//prepareMap(path);
 		
 		TileImageStorage list;	
 		TiledMap t_map = null;

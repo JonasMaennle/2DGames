@@ -218,4 +218,8 @@ public class StateManager {
 	public void setScoreScreen(ScoreScreen scoreScreen) {
 		this.scoreScreen = scoreScreen;
 	}
+
+	public PathfindingThread getPathThread() {
+		return pathThread;
+	}
 }
