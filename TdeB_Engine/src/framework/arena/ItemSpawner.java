@@ -59,7 +59,6 @@ public class ItemSpawner {
 		int randomItem = rand.nextInt(items.length);
 		currentItem = items[randomItem];
 		
-		
 		float random = rand.nextFloat();
 		// Item possibility * enemy possibilityFactor > random (0 - 1)
 		if((currentItem.possibility * type.getPossibilityFactor()) > random) {

@@ -164,37 +164,8 @@ public abstract class Enemy_Basic implements GameEntity{
 	}
 	
 	protected void mapCollision() {
-		for(GameEntity ge : handler.obstacleList){
-			int boxingOffet = 2;
-			if(ge instanceof Tile){
-				boxingOffet = 0;
-			}
-			// top
-			if(ge.getBottomBounds().intersects(getTopBounds()))
-			{
-				velY = 0;
-				y = (float) (ge.getY() + ge.getHeight() + boxingOffet);
-			}
-			// bottom
-			if(ge.getTopBounds().intersects(getBottomBounds()))
-			{	
-				velY = 0;
-				y = (float) (ge.getY() - TILE_SIZE - boxingOffet);
-			}		
-			// left
-			if(ge.getRightBounds().intersects(getLeftBounds()))
-			{
-				velX = 0;
-				x = (float) (ge.getX() + ge.getWidth() + boxingOffet);
-			}
-			// right
-			if(ge.getLeftBounds().intersects(getRightBounds()))
-			{
-				velX = 0;
-				x = (float) (ge.getX() - TILE_SIZE - boxingOffet);
-			}	
-		}
 		
+		// other enemy collision
 		for(Enemy_Basic ge : handler.enemyList){
 			if(ge.getSpeed() != 0){
 				int boxingOffet = 2;
@@ -225,7 +196,7 @@ public abstract class Enemy_Basic implements GameEntity{
 			}
 		}
 		
-		
+		// Player collision
 		Player player = handler.getPlayer();
 		// top
 		if(player.getBottomBounds().intersects(getTopBounds()))
@@ -251,6 +222,38 @@ public abstract class Enemy_Basic implements GameEntity{
 			velX = 0;
 			x = (float) (player.getX() - TILE_SIZE);
 		}	
+		
+		// Map collision
+		for(GameEntity ge : handler.obstacleList){
+			int boxingOffet = 2;
+			if(ge instanceof Tile)
+				boxingOffet = 0;
+		
+			// top
+			if(ge.getBottomBounds().intersects(getTopBounds()))
+			{
+				velY = 0;
+				y = (float) (ge.getY() + ge.getHeight() + boxingOffet);
+			}
+			// bottom
+			if(ge.getTopBounds().intersects(getBottomBounds()))
+			{	
+				velY = 0;
+				y = (float) (ge.getY() - TILE_SIZE - boxingOffet);
+			}		
+			// left
+			if(ge.getRightBounds().intersects(getLeftBounds()))
+			{
+				velX = 0;
+				x = (float) (ge.getX() + ge.getWidth() + boxingOffet);
+			}
+			// right
+			if(ge.getLeftBounds().intersects(getRightBounds()))
+			{
+				velX = 0;
+				x = (float) (ge.getX() - TILE_SIZE - boxingOffet);
+			}	
+		}
 	}
 	
 	public int getNextX() {
