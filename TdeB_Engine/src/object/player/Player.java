@@ -29,6 +29,7 @@ import object.collectable.Collectable_LMG;
 import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
 import object.collectable.Collectable_Railgun;
+import object.collectable.Collectable_Shield;
 import object.collectable.Collectable_Shotgun;
 import object.collectable.Collectable_SpeedForWeapon;
 import object.collectable.Collectable_SpeedUp;
@@ -51,6 +52,7 @@ public class Player implements GameEntity{
 	private Handler handler;
 	private int helmetBightness;
 	
+	private Shield shield;
 	private Weapon_Basic weapon;
 	private boolean isShooting, hasHelmet, speedUp;
 	private long speedUpTimestamp;
@@ -165,6 +167,15 @@ public class Player implements GameEntity{
 		if(!weapon.isEmpowered())
 			weaponBackgroundLight = null;
 		
+		// update || remove shield
+		if(shield != null) {
+			shield.update();
+			if(shield.getEngeryLeft() <= 0) {
+				shield.die();
+				shield = null;
+			}
+		}
+		
 		updateDirection();
 		weapon.update();
 	}
@@ -195,6 +206,9 @@ public class Player implements GameEntity{
 		
 		if(weaponBackgroundLight != null)renderSingleLightStatic(shadowObstacleList, weaponBackgroundLight);
 		weapon.draw();
+		
+		if(shield != null)
+			shield.draw();
 	}
 	
 	private void mapCollision() {
@@ -260,6 +274,16 @@ public class Player implements GameEntity{
 					speedUpTimestamp = System.currentTimeMillis();
 					
 					handler.getInfo_manager().createNewMessage(x - 80, y - 64, "Speed  up  found", new org.newdawn.slick.Color(20,80,255), 18, 2000);
+					Collection.lights.remove(c.getLight());
+					handler.collectableList.remove(c);
+				}
+				// Shield
+				if(c instanceof Collectable_Shield && !c.isFound()){
+					
+					if(shield != null)
+						shield.die();
+					shield = new Shield((int)x, (int)y, this);
+					handler.getInfo_manager().createNewMessage(x - 70, y - 64, "Shield  found", new org.newdawn.slick.Color(0,255,230), 18, 2000);
 					Collection.lights.remove(c.getLight());
 					handler.collectableList.remove(c);
 				}
@@ -496,5 +520,13 @@ public class Player implements GameEntity{
 
 	public void setHelmetBightness(int helmetBightness) {
 		this.helmetBightness = helmetBightness;
+	}
+
+	public Shield getShield() {
+		return shield;
+	}
+
+	public void setShield(Shield shield) {
+		this.shield = shield;
 	}
 }

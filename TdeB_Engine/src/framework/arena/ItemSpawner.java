@@ -14,6 +14,7 @@ import object.collectable.Collectable_LMG;
 import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
 import object.collectable.Collectable_Railgun;
+import object.collectable.Collectable_Shield;
 import object.collectable.Collectable_Shotgun;
 import object.collectable.Collectable_SpeedForWeapon;
 import object.collectable.Collectable_SpeedUp;
@@ -32,7 +33,8 @@ public class ItemSpawner {
 		RAILGUN(0.1f),
 		SPEED(0.15f),
 		ICETHROWER(0.1f),
-		WEAPONSPEED(0.1f);
+		WEAPONSPEED(0.1f),
+		SHIELD(0.15f);
 		
 		private float possibility;
 		
@@ -56,6 +58,7 @@ public class ItemSpawner {
 	public void spawnItem(int x, int y, EnemyType type) {
 		int randomItem = rand.nextInt(items.length);
 		currentItem = items[randomItem];
+		
 		
 		float random = rand.nextFloat();
 		// Item possibility * enemy possibilityFactor > random (0 - 1)
@@ -112,6 +115,12 @@ public class ItemSpawner {
 					handler.collectableList.add(speed4W);
 				}
 				break;
+			case SHIELD:
+				if(Collection.ARENA_CURRENT_WAVE >= 15) {
+					Collectable_Shield shield = new Collectable_Shield(x, y, 32, 32);
+					handler.collectableList.add(shield);
+				}
+				break;	
 			default:
 				break;
 			}
