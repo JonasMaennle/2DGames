@@ -4,6 +4,7 @@ import java.util.Random;
 
 import framework.core.Handler;
 import framework.entity.EnemyType;
+import framework.helper.Collection;
 import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Flamethrower;
 import object.collectable.Collectable_Health;
@@ -14,6 +15,7 @@ import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
 import object.collectable.Collectable_Railgun;
 import object.collectable.Collectable_Shotgun;
+import object.collectable.Collectable_SpeedForWeapon;
 import object.collectable.Collectable_SpeedUp;
 
 public class ItemSpawner {
@@ -29,7 +31,8 @@ public class ItemSpawner {
 		MINIGUN(0.07f), 
 		RAILGUN(0.1f),
 		SPEED(0.15f),
-		ICETHROWER(0.1f);
+		ICETHROWER(0.1f),
+		WEAPONSPEED(0.1f);
 		
 		private float possibility;
 		
@@ -102,6 +105,12 @@ public class ItemSpawner {
 			case ICETHROWER:
 				Collectable_Icethrower ice = new Collectable_Icethrower(x, y, 32, 16);
 				handler.collectableList.add(ice);
+				break;
+			case WEAPONSPEED:
+				if(Collection.ARENA_CURRENT_WAVE >= 20) {
+					Collectable_SpeedForWeapon speed4W = new Collectable_SpeedForWeapon(x, y, 24, 24);
+					handler.collectableList.add(speed4W);
+				}
 				break;
 			default:
 				break;

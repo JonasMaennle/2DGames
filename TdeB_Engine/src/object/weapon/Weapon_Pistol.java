@@ -14,6 +14,9 @@ public class Weapon_Pistol extends Weapon_Basic{
 
 		this.weaponRight = quickLoaderImage("player/weapon_pistol_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_pistol_left");
+		this.bulletDamage = 15;
+		this.bulletSpeed = 12;
+		this.bulletSpeedMAX = 12;
 	}
 	
 	public void update(){
@@ -34,8 +37,6 @@ public class Weapon_Pistol extends Weapon_Basic{
 	}
 	
 	public void shoot(){
-		bulletDamage = 15;
-		bulletSpeed = 12;
 		super.shoot();
 	}
 }

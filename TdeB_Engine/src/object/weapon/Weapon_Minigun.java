@@ -27,6 +27,9 @@ public class Weapon_Minigun extends Weapon_Basic{
 		this.max_ammo = 300;
 		this.bulletDamage = 40;
 		this.bulletSpeed = 20;
+		this.bulletSpeedMAX = 20;
+		this.weaponDelta = 100;
+		this.weaponDeltaMAX = 100;
 	}
 	
 	public void update(){
@@ -48,7 +51,7 @@ public class Weapon_Minigun extends Weapon_Basic{
 	public void shoot(){
 		
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 100){
+		if(timer1 - timer2 > weaponDelta){
 			AMMO_LEFT--;
 			float angleOffset = 0;
 			// walk right

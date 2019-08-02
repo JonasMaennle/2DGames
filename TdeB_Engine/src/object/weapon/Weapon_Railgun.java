@@ -27,6 +27,9 @@ public class Weapon_Railgun extends Weapon_Basic{
 		this.max_ammo = 50;
 		this.bulletDamage = 128;
 		this.bulletSpeed = 24;
+		this.weaponDelta = 250;
+		this.weaponDeltaMAX = 250;
+		this.bulletSpeedMAX = 24;
 	}
 
 	public void update(){
@@ -48,7 +51,7 @@ public class Weapon_Railgun extends Weapon_Basic{
 	public void shoot(){
 		
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 300){
+		if(timer1 - timer2 > weaponDelta){
 			AMMO_LEFT--;
 			float angleOffset = 0;
 			// walk right

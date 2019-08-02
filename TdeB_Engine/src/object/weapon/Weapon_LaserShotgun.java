@@ -32,6 +32,7 @@ public class Weapon_LaserShotgun extends Weapon_Basic {
 		this.max_ammo = 50;
 		this.bulletDamage = 50;
 		this.bulletSpeed = 16;
+		this.bulletSpeedMAX = 16;
 	}
 
 	public void update() {

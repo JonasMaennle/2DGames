@@ -16,6 +16,7 @@ import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
 import framework.helper.Collection;
+import framework.shader.Light;
 import object.collectable.Collectable_Ammo;
 import object.collectable.Collectable_Basic;
 import object.collectable.Collectable_Flamethrower;
@@ -29,6 +30,7 @@ import object.collectable.Collectable_LaserShotgun;
 import object.collectable.Collectable_Minigun;
 import object.collectable.Collectable_Railgun;
 import object.collectable.Collectable_Shotgun;
+import object.collectable.Collectable_SpeedForWeapon;
 import object.collectable.Collectable_SpeedUp;
 import object.weapon.Weapon_Basic;
 import object.weapon.Weapon_Flamethrower;
@@ -54,6 +56,7 @@ public class Player implements GameEntity{
 	private long speedUpTimestamp;
 	private long maxSpeedUpTime;
 	
+	private Light weaponBackgroundLight;
 	private Animation walkRight, walkLeft;
 	
 	public Player(int x, int y, Handler handler){
@@ -159,6 +162,9 @@ public class Player implements GameEntity{
 		mapCollision();
 		collectableCollision();
 		
+		if(!weapon.isEmpowered())
+			weaponBackgroundLight = null;
+		
 		updateDirection();
 		weapon.update();
 	}
@@ -171,17 +177,23 @@ public class Player implements GameEntity{
 				drawQuadImage(idle_right, x, y, width, height);
 			else
 				drawAnimation(walkRight, x, y, width, height);
+			
+			if(weaponBackgroundLight != null)weaponBackgroundLight.setLocation(new Vector2f(x + width/2 + MOVEMENT_X, y + MOVEMENT_Y + height/2));
 			break;
 		case "left":
 			if(velX == 0 && velY == 0)
 				drawQuadImage(idle_left, x, y, width, height);
 			else
 				drawAnimation(walkLeft, x, y, width, height);
+			
+			if(weaponBackgroundLight != null)weaponBackgroundLight.setLocation(new Vector2f(x + width/2 + MOVEMENT_X, y + MOVEMENT_Y + height/2));
 			break;
 		default:
 			System.out.println("Player velocityX out of range!");
 			break;
 		}
+		
+		if(weaponBackgroundLight != null)renderSingleLightStatic(shadowObstacleList, weaponBackgroundLight);
 		weapon.draw();
 	}
 	
@@ -230,9 +242,11 @@ public class Player implements GameEntity{
 						BATTERY_CHARGE = 96;
 					handler.getInfo_manager().createNewMessage(x - 100, y - 64, "Energy  Stone  found   + " + (96 - batteryTMP), new org.newdawn.slick.Color(50,255,28), 18, 2000);
 					handler.collectableList.remove(c);
+					Collection.lights.remove(c.getLight());
 				}
 				// HP Stone
 				if(c instanceof Collectable_Health && !c.isFound()){
+					Collection.lights.remove(c.getLight());
 					int hpTMP = PLAYER_HP;
 					PLAYER_HP += 50;
 					if(PLAYER_HP >= 96)
@@ -252,6 +266,24 @@ public class Player implements GameEntity{
 				// Goal
 				if(c instanceof Collectable_Goal && !c.isFound()){
 					StateManager.gameState = GameState.LOADING;
+					handler.collectableList.remove(c);
+				}
+				
+				// Weapon Speed
+				if(c instanceof Collectable_SpeedForWeapon && !c.isFound()){
+					Collection.lights.remove(c.getLight());
+					// check if weapon was already upgraded
+					if(weapon.getBulletSpeed() == weapon.getBulletSpeedMAX()) {
+						
+						this.weaponBackgroundLight = new Light(new Vector2f(x, y), 25, 2, 24, 2);
+						
+						weapon.setEmpowered(true);
+						weapon.setBulletSpeed(weapon.getBulletSpeed() * 2);
+						weapon.setWeaponDelta(weapon.getWeaponDeltaMAX() / 2);
+						weapon.setBulletDamage((int)(weapon.getBulletDamage() * 1.5f));
+						handler.getInfo_manager().createNewMessage(x - 128, y - 192, "Weapon  improved", new org.newdawn.slick.Color(255,0,247), 30, 2000);
+					}
+
 					handler.collectableList.remove(c);
 				}
 				

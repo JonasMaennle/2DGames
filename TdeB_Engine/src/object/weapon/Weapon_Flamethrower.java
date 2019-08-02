@@ -18,7 +18,6 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 	
 	private CopyOnWriteArrayList<Particle> fireList;
 	private Random rand;
-	private int flamethrowerRange;
 	private Image weaponRight, weaponLeft;
 
 	public Weapon_Flamethrower(int width, int height, Player player, Handler handler) {
@@ -26,12 +25,15 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		
 		this.fireList = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
-		this.flamethrowerRange = 150;
+		
 		
 		this.weaponRight = quickLoaderImage("player/weapon_flamethrower_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_flamethrower_left");
 		
+		this.bulletDamage = 2;
 		this.max_ammo = 999;
+		this.bulletSpeed = 150; // range in this case
+		this.bulletSpeedMAX = 150;
 	}
 	
 	public void update(){
@@ -45,7 +47,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 				if(e.getBounds().intersects(p.getBounds())){
 					p.die();
 					//fireList.remove(p);
-					e.setHp(e.getHp()-2);
+					e.setHp(e.getHp()-bulletDamage);
 					
 					// trigger enemy if enemy is out of range
 					if(e.getSpeed() == 0)
@@ -58,7 +60,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 				fireList.remove(p);
 			}
 
-			if(calcDistance(p.getX(), p.getY(),this.x, this.y) > rand.nextInt(50)+flamethrowerRange){
+			if(calcDistance(p.getX(), p.getY(),this.x, this.y) > rand.nextInt(50) + bulletSpeed){
 				p.die();
 				fireList.remove(p);
 			}

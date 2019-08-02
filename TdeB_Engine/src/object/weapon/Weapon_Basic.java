@@ -19,9 +19,15 @@ public class Weapon_Basic implements GameEntity{
 
 	protected float x, y, angle, destX, destY;
 	protected int width, height;
+	protected int weaponDelta;
+	protected int weaponDeltaMAX;
+	
 	protected Player player;
 	protected Handler handler;
 	protected Image default_weapon;
+	protected boolean empowered;
+	
+	protected int bulletSpeedMAX;
 	protected int bulletSpeed;
 	protected int bulletDamage;
 	
@@ -41,6 +47,8 @@ public class Weapon_Basic implements GameEntity{
 		this.angle = 0;
 		this.destX = 0;
 		this.destY = 0;
+		
+		this.empowered = false;
 		
 		this.max_ammo = 999;
 		this.bulletSpeed = 5;
@@ -240,5 +248,53 @@ public class Weapon_Basic implements GameEntity{
 
 	public void setMax_ammo(int max_ammo) {
 		this.max_ammo = max_ammo;
+	}
+
+	public int getBulletSpeed() {
+		return bulletSpeed;
+	}
+
+	public void setBulletSpeed(int bulletSpeed) {
+		this.bulletSpeed = bulletSpeed;
+	}
+
+	public int getBulletDamage() {
+		return bulletDamage;
+	}
+
+	public void setBulletDamage(int bulletDamage) {
+		this.bulletDamage = bulletDamage;
+	}
+
+	public int getWeaponDelta() {
+		return weaponDelta;
+	}
+
+	public void setWeaponDelta(int weaponDelta) {
+		this.weaponDelta = weaponDelta;
+	}
+
+	public int getWeaponDeltaMAX() {
+		return weaponDeltaMAX;
+	}
+
+	public void setWeaponDeltaMAX(int weaponDeltaMAX) {
+		this.weaponDeltaMAX = weaponDeltaMAX;
+	}
+
+	public int getBulletSpeedMAX() {
+		return bulletSpeedMAX;
+	}
+
+	public void setBulletSpeedMAX(int bulletSpeedMAX) {
+		this.bulletSpeedMAX = bulletSpeedMAX;
+	}
+
+	public boolean isEmpowered() {
+		return empowered;
+	}
+
+	public void setEmpowered(boolean empowered) {
+		this.empowered = empowered;
 	}
 }

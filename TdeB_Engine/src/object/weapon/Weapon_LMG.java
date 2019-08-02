@@ -31,6 +31,9 @@ public class Weapon_LMG extends Weapon_Basic{
 		this.rand = new Random();
 		
 		this.max_ammo = 300;
+		this.weaponDelta = 70;
+		this.weaponDeltaMAX = 70;
+		this.bulletSpeedMAX = 18;
 	}
 	
 	public void update(){
@@ -51,7 +54,7 @@ public class Weapon_LMG extends Weapon_Basic{
 	
 	public void shoot(){
 		timer1 = System.currentTimeMillis();
-		if(timer1 - timer2 > 70){
+		if(timer1 - timer2 > weaponDelta){
 			AMMO_LEFT--;
 			float destYOffeset = rand.nextFloat() * 32 - 16;
 			float angleOffset = 0;

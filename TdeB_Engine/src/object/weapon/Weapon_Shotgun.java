@@ -31,6 +31,7 @@ public class Weapon_Shotgun extends Weapon_Basic {
 		this.max_ammo = 50;
 		this.bulletDamage = 30;
 		this.bulletSpeed = 15;
+		this.bulletSpeedMAX = 15;
 	}
 
 	public void update() {

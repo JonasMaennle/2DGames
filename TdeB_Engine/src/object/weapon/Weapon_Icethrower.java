@@ -20,7 +20,6 @@ public class Weapon_Icethrower extends Weapon_Basic{
 	
 	private CopyOnWriteArrayList<Particle> iceList;
 	private Random rand;
-	private int icethrowerRange;
 	private Image weaponRight, weaponLeft;
 
 	public Weapon_Icethrower(int width, int height, Player player, Handler handler) {
@@ -28,12 +27,14 @@ public class Weapon_Icethrower extends Weapon_Basic{
 		
 		this.iceList = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
-		this.icethrowerRange = 150;
 		
 		this.weaponRight = quickLoaderImage("player/weapon_icethrower_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_icethrower_left");
 		
 		this.max_ammo = 1000;	
+		this.bulletSpeed = 150; // range in this case
+		this.bulletSpeedMAX = 150;
+		this.bulletDamage = 1;
 	}
 	
 	public void update(){
@@ -47,7 +48,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 				if(e.getBounds().intersects(p.getBounds())){
 					p.die();
 					//fireList.remove(p);
-					e.setHp(e.getHp() - 0.5f);
+					e.setHp(e.getHp() - bulletDamage);
 					if(e.getMax_speed() > 0.1f)
 						e.setMax_speed(e.getMax_speed() * 0.99f);
 					
@@ -62,7 +63,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 				iceList.remove(p);
 			}
 
-			if(calcDistance(p.getX(), p.getY(),this.x, this.y) > rand.nextInt(50)+icethrowerRange){
+			if(calcDistance(p.getX(), p.getY(),this.x, this.y) > rand.nextInt(50)+ bulletSpeed){
 				p.die();
 				iceList.remove(p);
 			}
