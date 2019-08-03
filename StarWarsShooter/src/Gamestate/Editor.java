@@ -35,6 +35,8 @@ import object.entity.AT_ST_Walker;
 import object.entity.Player;
 import object.entity.Speeder;
 
+// cant save maps
+
 public class Editor {
 
 	private TileGrid grid;
