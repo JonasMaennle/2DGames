@@ -56,10 +56,7 @@ public class Arena {
 				Display.destroy();
 				System.exit(0);
 			}
-		}
-		
-
-		
+		}	
 		checkBattery();
 	}
 	
