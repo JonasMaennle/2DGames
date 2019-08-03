@@ -5,7 +5,6 @@ import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +26,8 @@ import framework.shader.Light;
 public class Collection {
 	
 	// START SETTINGS
-	public static int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static int HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static int WIDTH =  960; //(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	public static int HEIGHT =  640;//(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static boolean SET_FULL_SCREEN = false;
 	public static final int TILE_SIZE = 32;
 	
@@ -50,6 +49,8 @@ public class Collection {
 	public static int AMMO_LEFT = 999;
 	public static float SPEEDBAR = 0;
 	private static long time1, time2;
+	
+	public static int PISTOL_STREAK = 0;
 	
 	public static int ARENA_CURRENT_WAVE = 1;
 	public static int ENEMIES_LEFT;

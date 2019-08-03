@@ -49,7 +49,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 					p.die();
 					//fireList.remove(p);
 					e.setHp(e.getHp() - bulletDamage);
-					if(e.getMax_speed() > 0.1f)
+					if(e.getMax_speed() > 0.2f)
 						e.setMax_speed(e.getMax_speed() * 0.99f);
 					
 					// trigger enemy if enemy is out of range

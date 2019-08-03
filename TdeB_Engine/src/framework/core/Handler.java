@@ -5,6 +5,7 @@ import object.Spawner;
 import object.collectable.Collectable_Basic;
 import object.enemy.Enemy_Basic;
 import object.player.Player;
+import object.weapon.Weapon_Pistol;
 
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
@@ -129,6 +130,12 @@ public class Handler {
 					itemSpawner.spawnItem((int)e.getX(), (int)e.getY(), e.getType());
 					Collection.ENEMIES_LEFT -= 1;
 					
+					if(player.getWeapon() instanceof Weapon_Pistol) {
+						PISTOL_STREAK++;
+					}else{
+						PISTOL_STREAK = 0;
+					}
+					
 					e.die();
 					enemyList.remove(e);
 					shadowObstacleList.remove(e);
@@ -137,7 +144,6 @@ public class Handler {
 				}
 			}
 		}
-		
 		
 		info_manager.update();
 		objectInfo();

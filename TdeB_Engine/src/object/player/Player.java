@@ -57,6 +57,8 @@ public class Player implements GameEntity{
 	private boolean isShooting, hasHelmet, speedUp;
 	private long speedUpTimestamp;
 	private long maxSpeedUpTime;
+	private final float NORMAL_SPEED;
+	private long slowTimer;
 	
 	private Light weaponBackgroundLight;
 	private Animation walkRight, walkLeft;
@@ -70,6 +72,7 @@ public class Player implements GameEntity{
 		this.width = 32;
 		this.height = 32;
 		this.speed = 4f;
+		this.NORMAL_SPEED = 4f;
 		this.direction = "right";
 		this.isShooting = true;
 		this.hasHelmet = false;
@@ -106,6 +109,13 @@ public class Player implements GameEntity{
 			AMMO_LEFT = 999;
 			weapon.wipe();
 			weapon = new Weapon_Pistol(16, 8, this, handler);
+		}
+		
+		// check if slowed
+		if(speed < 3 && System.currentTimeMillis() - slowTimer > 2000) {
+			speed = NORMAL_SPEED;
+			if(weapon instanceof Weapon_LMG)
+				speed = 3f;
 		}
 		
 		// speed up
@@ -528,5 +538,13 @@ public class Player implements GameEntity{
 
 	public void setShield(Shield shield) {
 		this.shield = shield;
+	}
+
+	public long getSlowTimer() {
+		return slowTimer;
+	}
+
+	public void setSlowTimer(long slowTimer) {
+		this.slowTimer = slowTimer;
 	}
 }

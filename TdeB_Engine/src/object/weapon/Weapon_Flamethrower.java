@@ -24,8 +24,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		super(width, height, player, handler);
 		
 		this.fireList = new CopyOnWriteArrayList<>();
-		this.rand = new Random();
-		
+		this.rand = new Random();	
 		
 		this.weaponRight = quickLoaderImage("player/weapon_flamethrower_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_flamethrower_left");
@@ -75,7 +74,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 					p.die();
 					fireList.remove(p);
 				}
-			}
+			}		
 		}
 	}
 	

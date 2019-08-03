@@ -65,8 +65,23 @@ public class ItemSpawner {
 		currentItem = items[randomItem];
 		
 		float random = rand.nextFloat();
+
+		float itemPossibility = currentItem.possibility;
+		// reduce spawn probability if there are many items already on the map
+		if(handler.collectableList.size() >= 10)
+			itemPossibility *= 0.5f;
+		
+		// spawn item if 5 enemies in a row drop nothing
+		if(Collection.PISTOL_STREAK >= 5) {
+			Collection.PISTOL_STREAK = 0;
+			
+			Collectable_LMG lmg = new Collectable_LMG(x, y, 32, 16);
+			handler.collectableList.add(lmg);
+			return;
+		}
+		
 		// Item possibility * enemy possibilityFactor > random (0 - 1)
-		if((currentItem.possibility * type.getPossibilityFactor()) > random) {
+		if((itemPossibility * type.getPossibilityFactor()) > random) {
 
 			switch (currentItem) {
 			case HP:

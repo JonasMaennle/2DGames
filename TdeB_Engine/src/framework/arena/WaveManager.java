@@ -15,6 +15,7 @@ import framework.core.StateManager;
 import framework.helper.Collection;
 import framework.path.Node;
 import object.Spawner;
+import object.enemy.Enemy_Devil;
 import object.enemy.Enemy_Digger;
 import object.enemy.Enemy_Fly;
 import object.enemy.Enemy_Ghost;
@@ -169,10 +170,13 @@ public class WaveManager {
 						Enemy_Spider tmp = new Enemy_Spider(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.5 && random < 0.7) {
+					}else if(random >= 0.5 && random < 0.65) {
 						Enemy_Fly tmp = new Enemy_Fly(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
+					}else if(random >= 0.65 && random < 0.7) {
+						Enemy_Devil tmp = new Enemy_Devil(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
+						handler.enemyList.add(tmp);
 					}else if(random >= 0.7 && random < 0.95) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
@@ -189,10 +193,13 @@ public class WaveManager {
 						Enemy_Spider tmp = new Enemy_Spider(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.3 && random < 0.7) {
+					}else if(random >= 0.3 && random < 0.65) {
 						Enemy_Fly tmp = new Enemy_Fly(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
+					}else if(random >= 0.65 && random < 0.7) {
+						Enemy_Devil tmp = new Enemy_Devil(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
+						handler.enemyList.add(tmp);
 					}else if(random >= 0.7 && random < 0.9) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
@@ -214,11 +221,14 @@ public class WaveManager {
 						Enemy_Fly tmp = new Enemy_Fly(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.6 && random < 0.75) {
+					}else if(random >= 0.6 && random < 0.7) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
 						shadowObstacleList.add(tmp);
-					}else if(random >= 0.75) {
+					}else if(random >= 0.7 && random < 0.8) {
+						Enemy_Devil tmp = new Enemy_Devil(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
+						handler.enemyList.add(tmp);
+					}else if(random >= 0.8) {
 						Node n = getRandomNode();
 						Enemy_Digger tmp = new Enemy_Digger(n.getX() * TILE_SIZE, n.getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
