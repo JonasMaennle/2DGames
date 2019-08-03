@@ -13,6 +13,8 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 
+import java.awt.Toolkit;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -21,6 +23,13 @@ import org.lwjgl.opengl.PixelFormat;
 import org.newdawn.slick.TrueTypeFont;
 
 import framework.helper.Collection;
+
+/**
+ * Export as .jar Checkliste
+ *  - windowMode = false;
+ *  - Raspberry PI IP change
+ *  - leveler disable map parsing
+ */
 
 public class Boot {
 	
@@ -43,11 +52,24 @@ public class Boot {
 	}
 	
 	private void beginSession(){	
+		boolean windowMode = false;
+		
+		if(windowMode) {
+			Collection.WIDTH = 960;
+			Collection.HEIGHT = 640;
+		}else {
+			Collection.WIDTH =  (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+			Collection.HEIGHT =  (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+			Collection.SET_FULL_SCREEN = true;
+		}
+		
+		// no 4K support yet
 		if(WIDTH > 1920){
 			WIDTH = 1920;
 			HEIGHT = 1080;
 			SET_FULL_SCREEN = false;
 		}
+		
 		System.setProperty( "org.lwjgl.opengl.Window.undecorated" , "true" ) ;
 		Display.setTitle("");
 		

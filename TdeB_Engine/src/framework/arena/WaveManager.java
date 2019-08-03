@@ -177,6 +177,7 @@ public class WaveManager {
 					}else if(random >= 0.65 && random < 0.7) {
 						Enemy_Devil tmp = new Enemy_Devil(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
+						shadowObstacleList.add(tmp);
 					}else if(random >= 0.7 && random < 0.95) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
@@ -200,6 +201,7 @@ public class WaveManager {
 					}else if(random >= 0.65 && random < 0.7) {
 						Enemy_Devil tmp = new Enemy_Devil(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
+						shadowObstacleList.add(tmp);
 					}else if(random >= 0.7 && random < 0.9) {
 						Enemy_Ghost tmp = new Enemy_Ghost(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
@@ -228,6 +230,7 @@ public class WaveManager {
 					}else if(random >= 0.7 && random < 0.8) {
 						Enemy_Devil tmp = new Enemy_Devil(point.getX(), point.getY(), TILE_SIZE, TILE_SIZE, handler);
 						handler.enemyList.add(tmp);
+						shadowObstacleList.add(tmp);
 					}else if(random >= 0.8) {
 						Node n = getRandomNode();
 						Enemy_Digger tmp = new Enemy_Digger(n.getX() * TILE_SIZE, n.getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE, handler);

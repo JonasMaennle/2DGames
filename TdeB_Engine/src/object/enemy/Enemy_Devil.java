@@ -142,6 +142,93 @@ public class Enemy_Devil extends Enemy_Basic{
 		lights.remove(eyeLight);
 	}
 	
+	@Override
+	public Vector2f[] getVertices() {
+		
+		if(direction.equals("left")){
+			
+			if(moveLeft.getFrame() == 0) {
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 0, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 0, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 11),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 11),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 0),
+						new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 0),
+						new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 11, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 11, y + MOVEMENT_Y + 0),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 0)
+				};
+			}else {
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 0, y + MOVEMENT_Y + 12),
+						new Vector2f(x + MOVEMENT_X + 0, y + MOVEMENT_Y + 23),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 23),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 24, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 11, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 11, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 4)
+				};
+			}
+		}else{
+			if(moveRight.getFrame() == 0) {
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 0),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 11),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 11),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 24),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 19),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 0),
+						new Vector2f(x + MOVEMENT_X + 20, y + MOVEMENT_Y + 0),
+						new Vector2f(x + MOVEMENT_X + 20, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 7, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 7, y + MOVEMENT_Y + 0)
+				};
+			}else {
+				return new Vector2f[] {
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 15),
+						new Vector2f(x + MOVEMENT_X + 8, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 20),
+						new Vector2f(x + MOVEMENT_X + 4, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 31),
+						new Vector2f(x + MOVEMENT_X + 27, y + MOVEMENT_Y + 23),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 23),
+						new Vector2f(x + MOVEMENT_X + 31, y + MOVEMENT_Y + 12),
+						new Vector2f(x + MOVEMENT_X + 23, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 20, y + MOVEMENT_Y + 4),
+						new Vector2f(x + MOVEMENT_X + 20, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 7, y + MOVEMENT_Y + 8),
+						new Vector2f(x + MOVEMENT_X + 7, y + MOVEMENT_Y + 4)
+				};
+			}
+		}
+	}
+	
 	// throw object
 	private class Slime {
 		
