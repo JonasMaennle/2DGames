@@ -13,7 +13,7 @@ public class Collectable_Health extends Collectable_Basic{
 	public Collectable_Health(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		image = quickLoaderImage("player/hp_stone");
-		light = new Light(new Vector2f(x, y), 30, 0, 0, 8);
+		light = new Light(new Vector2f(-10000, -10000), 30, 0, 0, 8);
 		lights.add(light);
 	}
 	

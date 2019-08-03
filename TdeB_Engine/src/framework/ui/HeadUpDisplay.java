@@ -115,6 +115,18 @@ public class HeadUpDisplay {
 		if(Collection.SPEEDBAR > 0) {
 			drawQuadImageStatic(speed_bar, hud_mid - 290,  30, speedbar_max * Collection.SPEEDBAR , 6);
 		}
+		
+		// Wave Counter
+		if(StateManager.gameState == GameState.ARENA) {
+			
+			// Wave
+			drawString(hud_mid - 400, 4, "Wave:  " + (Collection.ARENA_CURRENT_WAVE - 1), color);
+			drawString(hud_mid - 300, 4, "|", color);
+			// Enemies left
+			
+			drawString(hud_mid + 250, 4, " |  Enemies:  " + statemanager.getHandler().enemyList.size(), color);
+			
+		}
 	}
 	
 	public void drawString(int x, int y, String text, Color color){

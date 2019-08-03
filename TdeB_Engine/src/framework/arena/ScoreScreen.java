@@ -124,8 +124,8 @@ public class ScoreScreen {
 		
 		for(int i = 0; i < list.size(); i++) {
 			if(i < 10) {
-				drawString(48, 85 + (i * 48), (i+1) + ".", new Color(200, 200, 200));
-				drawString(96, 85 + (i * 48), "Wave:   " + list.get(i).getWave() + "           Name:   " + list.get(i).getName(), new Color(200, 200, 200));
+				drawString(WIDTH / 2 - 348, 85 + (i * 48), (i+1) + ".", new Color(200, 200, 200));
+				drawString(WIDTH / 2 - 300, 85 + (i * 48), "Wave:   " + list.get(i).getWave() + "           Name:   " + list.get(i).getName(), new Color(200, 200, 200));
 			}
 		}
 	}
@@ -170,7 +170,7 @@ public class ScoreScreen {
 	
 	public void render() {
 		backgroundHandler.draw();
-		drawQuadImageStatic(background, 0, 0, 1024, 1024);
+		drawQuadImageStatic(background,  WIDTH/2 - background.getWidth()/2, HEIGHT/2 - background.getHeight()/4, 1024, 1024);
 		ui.draw();
 		showScoreBoard();
 		Collection.drawString((WIDTH / 2) - 270, 16, "Highscore  List  -  TOP  10", new Color(200, 200, 200));

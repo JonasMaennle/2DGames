@@ -2,15 +2,9 @@ package object.weapon;
 
 import framework.core.Handler;
 import object.player.Player;
-
 import static framework.helper.Collection.*;
-
-import static framework.helper.Collection.getLeftBorder;
-import static framework.helper.Collection.getRightBorder;
 import static framework.helper.Graphics.*;
-
 import java.util.Random;
-
 import org.newdawn.slick.Image;
 
 public class Weapon_LMG extends Weapon_Basic{
@@ -26,10 +20,11 @@ public class Weapon_LMG extends Weapon_Basic{
 		this.weaponRight = quickLoaderImage("player/weapon_lmg_right");
 		this.weaponLeft = quickLoaderImage("player/weapon_lmg_left");
 		
-		this.bulletDamage = 12;
-		this.bulletSpeed = 18;
+		
 		this.rand = new Random();
 		
+		this.bulletDamage = 20;
+		this.bulletSpeed = 18;
 		this.max_ammo = 300;
 		this.weaponDelta = 70;
 		this.weaponDeltaMAX = 70;
@@ -58,41 +53,32 @@ public class Weapon_LMG extends Weapon_Basic{
 			AMMO_LEFT--;
 			float destYOffeset = rand.nextFloat() * 32 - 16;
 			float angleOffset = 0;
-			
 			// walk right
-			if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){
-				if(destX < x + (width/2)){
-					destX = getRightBorder() - destX;
-				}
+			if(player.getDirection().equals("right")){
 				
 				angleOffset = 0;
-				if(angle >= 310){
+				if(angle >= 270){
 					angleOffset = 360 - angle; 
 				}else{
 					angleOffset = -angle;
 				}
-				angleOffset /= 20;
+				angleOffset /= 360;
 				
-				bulletList.add(new Bullet_Basic(x + 4, y + (height/2)- 2 + angleOffset* -5, 6, 6, destX, destY + destYOffeset, "right", bulletSpeed, angle));
+				bulletList.add(new Bullet_Basic(centX + 4, centY - (angleOffset * 100), 6, 6, destX, destY + destYOffeset, "right", bulletSpeed, angle));
 			}
-			
 			// walk left
-			if(player.getDirection().equals("left") && destX < (player.getX()+player.getWidth()/2)){
-				if(destX > x + (width/2)){
-					destX = getLeftBorder() + destX;
-				}
+			if(player.getDirection().equals("left")){
 				
 				angleOffset = 0;
-				if(angle <= 230 && angle >= 180){
+				if(angle <= 270 && angle >= 180){
 					angleOffset = angle - 180; 
 				}else if(angle < 180){
 					angleOffset = -(180 - angle);
 				}	
-				angleOffset /= 20;
+				angleOffset /= 360;
 				
-				bulletList.add(new Bullet_Basic(x + 4, y + (height/2) - 2 + angleOffset* -8, 6, 6, destX, destY + destYOffeset, "left", bulletSpeed, angle));
-			}
-			
+				bulletList.add(new Bullet_Basic(centX - 4, centY - (angleOffset * 100), 6, 6, destX, destY + destYOffeset, "left", bulletSpeed, angle));
+			}	
 			timer2 = timer1;
 		}
 	}

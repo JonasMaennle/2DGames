@@ -1,8 +1,6 @@
 package object.weapon;
 
 import static framework.helper.Collection.AMMO_LEFT;
-import static framework.helper.Collection.getLeftBorder;
-import static framework.helper.Collection.getRightBorder;
 import static framework.helper.Graphics.drawQuadImageRotLeft;
 import static framework.helper.Graphics.drawQuadImageRotRight;
 import static framework.helper.Graphics.quickLoaderImage;
@@ -55,39 +53,31 @@ public class Weapon_Railgun extends Weapon_Basic{
 			AMMO_LEFT--;
 			float angleOffset = 0;
 			// walk right
-			if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){
-				if(destX < x + (width/2)){
-					destX = getRightBorder() - destX;
-				}
+			if(player.getDirection().equals("right")){
 				
 				angleOffset = 0;
-				if(angle >= 310){
+				if(angle >= 270){
 					angleOffset = 360 - angle; 
 				}else{
 					angleOffset = -angle;
 				}
-				angleOffset /= 20;
-				
-				bulletList.add(new Bullet_Laser(x + 2, y + (height/2) + angleOffset* -5, 20, 6, destX, destY, "right", bulletSpeed, angle, new Color(20, 0, 0)));
+				angleOffset /= 360;
+
+				bulletList.add(new Bullet_Laser(centX - 6, centY - (angleOffset * 100), 20, 6, destX, destY, "right", bulletSpeed, angle, new Color(20, 0, 0)));
 			}
-			
 			// walk left
-			if(player.getDirection().equals("left") && destX < (player.getX()+player.getWidth()/2)){
-				if(destX > x + (width/2)){
-					destX = getLeftBorder() + destX;
-				}
+			if(player.getDirection().equals("left")){
 				
 				angleOffset = 0;
-				if(angle <= 230 && angle >= 180){
+				if(angle <= 270 && angle >= 180){
 					angleOffset = angle - 180; 
 				}else if(angle < 180){
 					angleOffset = -(180 - angle);
 				}	
-				angleOffset /= 20;
+				angleOffset /= 360;
 				
-				bulletList.add(new Bullet_Laser(x, y + (height/2) + angleOffset* -8, 20, 6, destX, destY, "left", bulletSpeed, angle, new Color(20, 0, 0)));
+				bulletList.add(new Bullet_Laser(centX - 12, centY - (angleOffset * 100), 20, 6, destX, destY, "left", bulletSpeed, angle, new Color(20, 0, 0)));
 			}
-			
 			timer2 = timer1;
 		}
 	}

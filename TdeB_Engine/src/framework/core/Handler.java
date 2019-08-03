@@ -20,6 +20,7 @@ import org.newdawn.slick.Image;
 import framework.arena.ItemSpawner;
 import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
+import framework.helper.Collection;
 import framework.ui.InformationManager;
 
 public class Handler {
@@ -126,6 +127,7 @@ public class Handler {
 				if(e.getHp() <= 0){
 					// spawn random item
 					itemSpawner.spawnItem((int)e.getX(), (int)e.getY(), e.getType());
+					Collection.ENEMIES_LEFT -= 1;
 					
 					e.die();
 					enemyList.remove(e);

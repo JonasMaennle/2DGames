@@ -1,8 +1,6 @@
 package object.weapon;
 
 import static framework.helper.Collection.AMMO_LEFT;
-import static framework.helper.Collection.getLeftBorder;
-import static framework.helper.Collection.getRightBorder;
 import static framework.helper.Graphics.drawQuadImageRotLeft;
 import static framework.helper.Graphics.drawQuadImageRotRight;
 import static framework.helper.Graphics.quickLoaderImage;
@@ -55,39 +53,33 @@ public class Weapon_Minigun extends Weapon_Basic{
 			AMMO_LEFT--;
 			float angleOffset = 0;
 			// walk right
-			if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){
-				if(destX < x + (width/2)){
-					destX = getRightBorder() - destX;
-				}
+			if(player.getDirection().equals("right")){
 				
 				angleOffset = 0;
-				if(angle >= 310){
+				if(angle >= 270){
 					angleOffset = 360 - angle; 
 				}else{
 					angleOffset = -angle;
 				}
-				angleOffset /= 20;
+				angleOffset /= 360;
 				
-				bulletList.add(new Bullet_Laser(x + 2,(y + (height/2) + angleOffset* -5) + 5, 10, 6, destX, destY + 5, "right", bulletSpeed, angle, new Color(40, 20, 5)));
-				bulletList.add(new Bullet_Laser(x + 2,(y + (height/2) + angleOffset* -5) - 5, 10, 6, destX, destY - 5, "right", bulletSpeed, angle, new Color(40, 20, 5)));
+				bulletList.add(new Bullet_Laser(centX + 4, centY - (angleOffset * 100), 10, 6, destX, destY + 5, "right", bulletSpeed, angle, new Color(40, 20, 5)));
+				bulletList.add(new Bullet_Laser(centX + 4, centY - (angleOffset * 100), 10, 6, destX, destY - 5, "right", bulletSpeed, angle, new Color(40, 20, 5)));
 			}
 			
 			// walk left
-			if(player.getDirection().equals("left") && destX < (player.getX()+player.getWidth()/2)){
-				if(destX > x + (width/2)){
-					destX = getLeftBorder() + destX;
-				}
+			if(player.getDirection().equals("left")){
 				
 				angleOffset = 0;
-				if(angle <= 230 && angle >= 180){
+				if(angle <= 270 && angle >= 180){
 					angleOffset = angle - 180; 
 				}else if(angle < 180){
 					angleOffset = -(180 - angle);
 				}	
-				angleOffset /= 20;
+				angleOffset /= 360;
 				
-				bulletList.add(new Bullet_Laser(x,( y + (height/2) + angleOffset* -8) + 5, 10, 6, destX, destY + 5, "left", bulletSpeed, angle, new Color(25, 15, 5)));
-				bulletList.add(new Bullet_Laser(x,( y + (height/2) + angleOffset* -8) - 5, 10, 6, destX, destY - 5, "left", bulletSpeed, angle, new Color(25, 15, 5)));
+				bulletList.add(new Bullet_Laser(centX - 4, centY - (angleOffset * 100), 10, 6, destX, destY + 5, "left", bulletSpeed, angle, new Color(25, 15, 5)));
+				bulletList.add(new Bullet_Laser(centX - 4, centY - (angleOffset * 100), 10, 6, destX, destY - 5, "left", bulletSpeed, angle, new Color(25, 15, 5)));
 			}
 			
 			timer2 = timer1;

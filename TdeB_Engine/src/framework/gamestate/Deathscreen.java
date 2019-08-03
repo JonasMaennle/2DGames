@@ -151,10 +151,10 @@ public class Deathscreen {
 		
 		if(StateManager.gameMode == GameState.GAME) {
 			ui_story.draw();
-			drawQuadImageStatic(image, (WIDTH - image.getWidth()) / 2, 200, image.getWidth(), image.getHeight());
+			drawQuadImageStatic(image, (WIDTH - image.getWidth()) / 2, HEIGHT / 2 - image.getHeight()/2, image.getWidth(), image.getHeight());
 		}else {
-			drawQuadImageStatic(image_arena, (WIDTH - image.getWidth()) / 2, 200, image.getWidth(), image.getHeight());
-			Collection.drawString(WIDTH/2 - 32, HEIGHT/2 + 20, "" + (Collection.ARENA_CURRENT_WAVE - 1), new Color(200, 0, 0));
+			drawQuadImageStatic(image_arena, (WIDTH - image.getWidth()) / 2, HEIGHT / 2 - image.getHeight()/2, image.getWidth(), image.getHeight());
+			Collection.drawString((WIDTH - image.getWidth()) / 2 + 225, HEIGHT/2 - image.getHeight()/2 + 142, "" + (Collection.ARENA_CURRENT_WAVE - 1), new Color(200, 0, 0));
 			ui.draw();
 		}
 	}

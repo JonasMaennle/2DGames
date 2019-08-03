@@ -17,7 +17,7 @@ import object.player.Player;
 
 public class Weapon_Basic implements GameEntity{
 
-	protected float x, y, angle, destX, destY;
+	protected float x, y, angle, destX, destY, centX, centY;
 	protected int width, height;
 	protected int weaponDelta;
 	protected int weaponDeltaMAX;
@@ -35,12 +35,14 @@ public class Weapon_Basic implements GameEntity{
 	protected int bottomAngleRange;
 	protected int topAngleRange;
 	
+	protected Rectangle bulletSpawnPoint;
+	
 	protected CopyOnWriteArrayList<Bullet_Basic> bulletList;
 	
 	public Weapon_Basic(int width, int height, Player player, Handler handler) {
 		this.player = player;
-		this.x = player.getX();
-		this.y = player.getY();
+		this.x = player.getX() + player.getWidth() / 2;
+		this.y = player.getY() + player.getHeight() / 2;
 		this.width = width;
 		this.height = height;
 		
@@ -58,13 +60,16 @@ public class Weapon_Basic implements GameEntity{
 		this.default_weapon = quickLoaderImage("player/weapon");
 		this.bulletList = new CopyOnWriteArrayList<Bullet_Basic>();
 		
-		this.topAngleRange = 50; // def. 50
-		this.bottomAngleRange = 45; // def. 40
+		this.topAngleRange = 90; // def. 50
+		this.bottomAngleRange = 90; // def. 40
 	}
 	
 	@Override
 	public void update() {
-			
+		
+		centX = player.getX() + player.getWidth()/2;
+		centY = player.getY() + player.getHeight()/2;
+		
 		if(player.getDirection().equals("right")){
 			x = player.getX() + 22;
 			y = player.getY() + 7;
@@ -120,25 +125,19 @@ public class Weapon_Basic implements GameEntity{
 	
 	public void shoot(){
 		// walk right
-		if(player.getDirection().equals("right") && destX > (player.getX()+player.getWidth()/2)){
-			if(destX < x + (width/2)){
-				destX = getRightBorder() - destX;
-			}
+		if(player.getDirection().equals("right")){
 			bulletList.add(new Bullet_Basic(x + 2, y + (height/2) - 4, 6, 6, destX, destY, "right", bulletSpeed, angle));
 		}
 		
 		// walk left
-		if(player.getDirection().equals("left") && destX < (player.getX()+player.getWidth()/2)){
-			if(destX > x + (width/2)){
-				destX = getLeftBorder() + destX;
-			}
+		if(player.getDirection().equals("left")){
 			bulletList.add(new Bullet_Basic(x + width - 6, y + (height/2) - 4, 6, 6, destX, destY, "left", bulletSpeed, angle));
 		}
 	}
 	
 	// Calc Angle in degree between x,y and destX,destY <- nice
 	protected void calcAngle(float destX, float destY){
-		angle = (float) Math.toDegrees(Math.atan2(destY - (y), destX - (x)));
+		angle = (float) Math.toDegrees(Math.atan2(destY - (centY), destX - (centX)));
 
 	    if(angle < 0){
 	        angle += 360;

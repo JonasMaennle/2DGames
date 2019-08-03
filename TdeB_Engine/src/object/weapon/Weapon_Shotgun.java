@@ -4,8 +4,6 @@ import static framework.helper.Collection.AMMO_LEFT;
 import static framework.helper.Collection.HEIGHT;
 import static framework.helper.Collection.MOVEMENT_X;
 import static framework.helper.Collection.MOVEMENT_Y;
-import static framework.helper.Collection.getLeftBorder;
-import static framework.helper.Collection.getRightBorder;
 import static framework.helper.Graphics.drawQuadImageRotLeft;
 import static framework.helper.Graphics.drawQuadImageRotRight;
 import static framework.helper.Graphics.quickLoaderImage;
@@ -35,6 +33,9 @@ public class Weapon_Shotgun extends Weapon_Basic {
 	}
 
 	public void update() {
+		
+		centX = player.getX() + player.getWidth()/2;
+		centY = player.getY() + player.getHeight()/2;
 		
 		if(player.getDirection().equals("right")){
 			x = player.getX() + 22;
@@ -92,45 +93,39 @@ public class Weapon_Shotgun extends Weapon_Basic {
 		AMMO_LEFT--;
 		float angleOffset = 0;
 		// walk right
-		if (player.getDirection().equals("right") && destX > (player.getX() + player.getWidth() / 2)) {
-			if (destX < x + (width / 2)) {
-				destX = getRightBorder() - destX;
-			}
+		if (player.getDirection().equals("right")) {
 
 			angleOffset = 0;
-			if (angle >= 310) {
+			if (angle >= 270) {
 				angleOffset = 360 - angle;
 			} else {
 				angleOffset = -angle;
 			}
-			angleOffset /= 20;
+			angleOffset /= 360;
 
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY - 40, "right", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY - 20 , "right", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY, "right", bulletSpeed, angle)); // center
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY + 20, "right", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x + 2, y + (height / 2) + angleOffset * -5, 6, 6, destX, destY + 40, "right", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX + 4, centY - (angleOffset * 100), 6, 6, destX, destY - 40, "right", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX + 4, centY - (angleOffset * 100), 6, 6, destX, destY - 20 , "right", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX + 4, centY - (angleOffset * 100), 6, 6, destX, destY, "right", bulletSpeed, angle)); // center
+			bulletList.add(new Bullet_Basic(centX + 4, centY - (angleOffset * 100), 6, 6, destX, destY + 20, "right", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX + 4, centY - (angleOffset * 100), 6, 6, destX, destY + 40, "right", bulletSpeed, angle));
 		}
 
 		// walk left
-		if (player.getDirection().equals("left") && destX < (player.getX() + player.getWidth() / 2)) {
-			if (destX > x + (width / 2)) {
-				destX = getLeftBorder() + destX;
-			}
+		if (player.getDirection().equals("left")) {
 
 			angleOffset = 0;
-			if (angle <= 230 && angle >= 180) {
+			if (angle <= 270 && angle >= 180) {
 				angleOffset = angle - 180;
 			} else if (angle < 180) {
 				angleOffset = -(180 - angle);
 			}
-			angleOffset /= 20;
+			angleOffset /= 360;
 			
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY - 40, "left", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY - 20, "left", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY, "left", bulletSpeed, angle)); // center
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY + 20, "left", bulletSpeed, angle));
-			bulletList.add(new Bullet_Basic(x, y + (height / 2) + angleOffset * -8, 6, 6, destX, destY + 40, "left", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX - 4, centY - (angleOffset * 100), 6, 6, destX, destY - 40, "left", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX - 4, centY - (angleOffset * 100), 6, 6, destX, destY - 20, "left", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX - 4, centY - (angleOffset * 100), 6, 6, destX, destY, "left", bulletSpeed, angle)); // center
+			bulletList.add(new Bullet_Basic(centX - 4, centY - (angleOffset * 100), 6, 6, destX, destY + 20, "left", bulletSpeed, angle));
+			bulletList.add(new Bullet_Basic(centX - 4, centY - (angleOffset * 100), 6, 6, destX, destY + 40, "left", bulletSpeed, angle));
 		}
 
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="34">
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="39">
  <tileset firstgid="1" source="tileset_00.tsx"/>
  <layer name="Background" width="32" height="32">
   <data encoding="base64" compression="gzip">
@@ -27,18 +27,16 @@
   <object id="8" name="LightBlue" type="LightBlue" x="335" y="70" width="7" height="6"/>
   <object id="9" name="LightBlue" type="LightBlue" x="495" y="70" width="7" height="6"/>
   <object id="10" name="LightBlue" type="LightBlue" x="879" y="517" width="7" height="6"/>
-  <object id="12" name="EnemyDigger" type="EnemyDigger" x="420" y="482" width="24" height="28"/>
-  <object id="14" name="EnemyGhost" type="EnemyGhost" x="631" y="113" width="24" height="28"/>
-  <object id="15" name="Helmet" type="Helmet" x="131" y="489" width="23" height="21"/>
-  <object id="19" name="EnemySpider" type="EnemySpider" x="643" y="418" width="24" height="28"/>
-  <object id="21" name="Flamethrower" type="Flamethrower" x="195" y="164" width="23" height="9"/>
-  <object id="24" name="LMG" type="LMG" x="195" y="235" width="23" height="9"/>
+  <object id="15" name="Helmet" type="Helmet" x="291" y="171" width="23" height="21"/>
+  <object id="21" name="Flamethrower" type="Flamethrower" x="150" y="123" width="23" height="9"/>
+  <object id="24" name="LMG" type="LMG" x="389" y="151" width="23" height="9"/>
   <object id="25" name="EnergyStone" type="EnergyStone" x="900" y="422" width="22" height="19"/>
-  <object id="26" name="Railgun" type="Railgun" x="345" y="138" width="23" height="9"/>
+  <object id="26" name="Railgun" type="Railgun" x="389" y="112" width="23" height="9"/>
   <object id="27" name="Goal" type="Goal" x="803" y="99" width="24" height="24"/>
-  <object id="29" name="Ammo" type="Ammo" x="356" y="258" width="27" height="24"/>
   <object id="30" name="HPStone" type="HPStone" x="710" y="612" width="22" height="22"/>
   <object id="32" name="EnemyFly" type="EnemyFly" x="839" y="606" width="24" height="28"/>
-  <object id="33" name="Icethrower" type="Icethrower" x="366" y="210" width="23" height="9"/>
+  <object id="33" name="Icethrower" type="Icethrower" x="152" y="160" width="23" height="9"/>
+  <object id="34" name="Minigun" type="Minigun" x="390" y="188" width="26" height="9"/>
+  <object id="36" name="LaserShotgun" type="LaserShotgun" x="392" y="266" width="26" height="14"/>
  </objectgroup>
 </map>

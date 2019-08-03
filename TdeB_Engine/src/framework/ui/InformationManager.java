@@ -30,7 +30,7 @@ public class InformationManager {
 			// find the glowing stone to escape !
 			if(handler.getMaxEnemies() - 1 == handler.getEnemiesLeft() && !show1) {
 				show1 = true;
-				messageList.add(new IngameMessage(WIDTH/2 - MOVEMENT_X - 220, HEIGHT/2 - 256 - MOVEMENT_Y, "find the glowing stone to escape !", new org.newdawn.slick.Color(255,5,255), 18, 3500));
+				messageList.add(new IngameMessage(WIDTH/2 - MOVEMENT_X - 220, HEIGHT/2 - 256 - MOVEMENT_Y, "find the glowing stone to escape !", new org.newdawn.slick.Color(255,5,255), 18, 5000));
 			}	
 
 			break;

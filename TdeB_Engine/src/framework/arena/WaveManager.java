@@ -42,6 +42,9 @@ public class WaveManager {
 	private boolean lastEnemyDied;
 	private boolean showLvl10Message;
 	
+	private int totalEnemiesInCurrentWave;
+	
+	
 	public WaveManager(Handler handler, StateManager manager) {
 		this.waveCounter = 1;
 		this.showWaveCounter = false;
@@ -53,6 +56,7 @@ public class WaveManager {
 		this.rand = new Random();
 		this.lastEnemyDied = false;
 		
+		this.totalEnemiesInCurrentWave = 0;
 		this.enemiesInWave = 1;
 		this.enemyWaveMultiplier = 1.2f; // can be changed -> value > 1
 		
@@ -77,15 +81,24 @@ public class WaveManager {
 			
 			waveHasSpawned = true;
 			enemiesInWave *= enemyWaveMultiplier;
+			
 			currentEnemiesInWave = 0;
 			if(waveCounter == 10) {
 				showLvl10Message = true;
 			}
-			handler.getInfo_manager().createNewMessage(WIDTH/2 - MOVEMENT_X - 64, HEIGHT/2 - 196 - MOVEMENT_Y, "Wave " + waveCounter, new org.newdawn.slick.Color(255,255,255), 32, 3000);
+			handler.getInfo_manager().createNewMessage(WIDTH/2 - MOVEMENT_X - 64, HEIGHT/2 - 196 - MOVEMENT_Y, "Wave " + waveCounter, new org.newdawn.slick.Color(255,255,255), 40, 3000);
 			waveCounter++;
 			lastEnemyDied = false;
 			showWaveCounter = true;
 			Collection.ARENA_CURRENT_WAVE = waveCounter;
+			
+			// update enemies left
+			if(Collection.ARENA_CURRENT_WAVE <= 10) {
+				totalEnemiesInCurrentWave = (((int)enemiesInWave) + 1) * handler.spawnPoints.size() - 1;
+			}else {
+				totalEnemiesInCurrentWave = (((int)enemiesInWave) + 1) * handler.spawnPoints.size();
+			}
+			Collection.ENEMIES_LEFT = totalEnemiesInCurrentWave;
 			
 		}
 		
@@ -122,9 +135,10 @@ public class WaveManager {
 		// test
 		t1 = System.currentTimeMillis();
 		int spawnCounter = 0;
-		
+
 		if(t1 - t2 > 2000 && currentEnemiesInWave <= enemiesInWave) {
 			t2 = t1;
+			
 			// spawn on each spawner
 			for(Spawner point : handler.spawnPoints) {
 				currentEnemiesInWave++;
@@ -134,7 +148,6 @@ public class WaveManager {
 					spawnCounter = 0;
 					break;
 				}
-
 				
 				Double random = rand.nextDouble();
 
@@ -239,5 +252,13 @@ public class WaveManager {
 		LinkedList<Node> nodes = manager.getGraph().getNodes();
 		n = nodes.get(rand.nextInt(nodes.size()));
 		return n;
+	}
+
+	public int getTotalEnemiesInCurrentWave() {
+		return totalEnemiesInCurrentWave;
+	}
+
+	public void setTotalEnemiesInCurrentWave(int totalEnemiesInCurrentWave) {
+		this.totalEnemiesInCurrentWave = totalEnemiesInCurrentWave;
 	}
 }

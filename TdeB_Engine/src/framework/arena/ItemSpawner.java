@@ -27,7 +27,7 @@ public class ItemSpawner {
 		AMMO(0.2f),
 		FLAMETHROWER(0.1f), 
 		LASERSHOTGUN(0.08f), 
-		LMG(0.17f), 
+		LMG(0.14f), 
 		SHOTGUN(0.16f), 
 		MINIGUN(0.07f), 
 		RAILGUN(0.1f),
@@ -48,9 +48,14 @@ public class ItemSpawner {
 	private Item[] items;
 	private Handler handler;
 	
+	private boolean lvl9Drop, lvl10Drop;
+	
 	public ItemSpawner(Handler handler) {
 		this.rand = new Random();
 		this.handler = handler;
+		
+		this.lvl9Drop = false;
+		this.lvl10Drop = false;
 		
 		items = Item.values();
 	}
@@ -123,6 +128,23 @@ public class ItemSpawner {
 			default:
 				break;
 			}
+		}else {
+			specialAirdrop(x, y);
+		}
+	}
+	
+	private void specialAirdrop(int x, int y) {
+		// Level 9 drop - Shotgun
+		if((Collection.ARENA_CURRENT_WAVE - 1) == 9 && !lvl9Drop){
+			lvl9Drop = true;
+			Collectable_Shotgun sho = new Collectable_Shotgun(x, y, 32, 16);
+			handler.collectableList.add(sho);
+		}
+		// Level 10 Airdrop - engery stone
+		if((Collection.ARENA_CURRENT_WAVE - 1) == 10 && !lvl10Drop){
+			lvl10Drop = true;
+			Collectable_HelmetBattery eng = new Collectable_HelmetBattery(x, y, 32, 32);
+			handler.collectableList.add(eng);
 		}
 	}
 }

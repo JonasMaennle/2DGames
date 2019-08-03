@@ -71,7 +71,7 @@ public class Player implements GameEntity{
 		this.height = 32;
 		this.speed = 4f;
 		this.direction = "right";
-		this.isShooting = false;
+		this.isShooting = true;
 		this.hasHelmet = false;
 		this.speedUp = false;
 		
@@ -390,9 +390,9 @@ public class Player implements GameEntity{
 	private void updateDirection(){
 		float mouseX = Mouse.getX() - MOVEMENT_X;
 		
-		if(mouseX > x)
+		if(mouseX >= x + (width/2))
 			direction = "right";
-		if(mouseX < x)
+		if(mouseX < x + (width/2))
 			direction = "left";
 	}
 

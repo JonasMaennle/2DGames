@@ -111,27 +111,32 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		
 		if(player.getDirection().equals("right")){
 			angleOffset = 0;
-			if(angle >= 310){
+			if(angle >= 270){
 				angleOffset = 360 - angle; 
 			}else{
 				angleOffset = -angle;
 			}
-			angleOffset /= 20;
-			velX = rand.nextFloat() * 4 + 1;
-			velY = rand.nextFloat() * 1.0f - 0.5f - angleOffset;
-			fireList.add(new Particle((int)x + 12, (int)y + 12 + (int)angleOffset*-10, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(3)+4, "orange", rand.nextInt(100)));
+			angleOffset /= 360;
+			
+			velX = (rand.nextFloat() * 3 + 1) - (Math.abs(angleOffset*10)) * (1 - Math.abs(angleOffset));
+			velY = (rand.nextFloat() * 1.0f - 0.5f) - (angleOffset*10);
+			
+			//System.out.println(velX + "            " + velY);
+			              // Particle(int x,          int y,                               int width,           int height,          float velX,            float velY,loat speed,     String color,int lightProbability)
+			fireList.add(new Particle((int)centX + 12, (int)(centY - (angleOffset * 100)), rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(4)+4, "orange", rand.nextInt(100)));
 		}else{
 			angleOffset = 0;
-			if(angle <= 230 && angle >= 180){
+			if(angle <= 270 && angle >= 180){
 				angleOffset = angle - 180; 
 			}else if(angle < 180){
 				angleOffset = -(180 - angle);
 			}	
-			angleOffset /= 20;
-			velX = -(rand.nextFloat() * 4 + 1);
-			velY = rand.nextFloat() * 1.0f - 0.5f - angleOffset;
+			angleOffset /= 360;
 			
-			fireList.add(new Particle((int)x , (int)y + 12 + (int)angleOffset*-10, rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(3)+4, "orange", rand.nextInt( 100)));
+			velX = -((rand.nextFloat() * 3 + 1) - (Math.abs(angleOffset*10)));
+			velY = (rand.nextFloat() * 1.0f - 0.5f) - (angleOffset*10);
+			
+			fireList.add(new Particle((int)centX - 12, (int)(centY - (angleOffset * 100)), rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(5)+4, "orange", rand.nextInt( 100)));
 		}
 		//                Particle( x,  y, width, height, velX, velY, speed, String color, angle){
 	}

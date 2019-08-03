@@ -10,6 +10,8 @@ import static framework.helper.Graphics.*;
 import java.awt.Rectangle;
 
 import static framework.helper.Collection.*;
+
+import framework.core.BackgroundHandler;
 import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.helper.Collection;
@@ -19,6 +21,7 @@ import framework.ui.UI;
 
 public class Mainmenu {
 	
+	private BackgroundHandler backgroundHandler;
 	private Image background;
 	private UI ui;
 	private int buttonWidth, buttonHeight, buttonY, buttonYOffset;
@@ -28,6 +31,7 @@ public class Mainmenu {
 	
 	public Mainmenu(StateManager manager) {
 		this.ui = new UI();
+		this.backgroundHandler = new BackgroundHandler();
 		this.background = quickLoaderImage("hud/menu_screenshot");
 		this.manager = manager;
 		this.resetLoading = true;
@@ -35,7 +39,7 @@ public class Mainmenu {
 		this.buttonWidth = 256;
 		this.buttonHeight = 64;
 		
-		this.buttonY = 96;
+		this.buttonY = (int)(Collection.HEIGHT * 0.25f);
 		this.buttonYOffset = 128;
 		
 		ui.addButton("Start", "hud/button_start", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
@@ -145,8 +149,9 @@ public class Mainmenu {
 	}
 	
 	public void render() {
+		backgroundHandler.draw();
 		if(credits == null) {
-			drawQuadImageStatic(background, 0, 0, 1024, 1024);
+			drawQuadImageStatic(background,  WIDTH/2 - background.getWidth()/2, HEIGHT/2 - background.getHeight()/4, 1024, 1024);
 			ui.draw();
 		}else {
 			credits.draw();

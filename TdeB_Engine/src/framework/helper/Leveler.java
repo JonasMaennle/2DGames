@@ -49,6 +49,7 @@ public class Leveler {
 	
 	public static TileGrid loadMap(Handler handler, String path, Graph graph)
 	{
+		// disable in jar!
 		prepareMap(path);
 		
 		TileImageStorage list;	

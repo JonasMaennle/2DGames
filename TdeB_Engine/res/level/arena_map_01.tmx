@@ -22,13 +22,13 @@
   </data>
  </layer>
 <objectgroup name="Objects" width="32" height="32">
-  <object id="1" name="player" type="player" x="721" y="373" width="27" height="23"/>
+  <object id="1" name="player" type="player" x="692" y="389" width="27" height="23"/>
   <object id="2" name="spawn" type="spawn" x="294" y="73" width="19" height="15"/>
   <object id="3" name="spawn" type="spawn" x="1097" y="76" width="19" height="15"/>
-  <object id="4" name="Helmet" type="Helmet" x="295" y="603" width="20" height="19"/>
+  <object id="4" name="Helmet" type="Helmet" x="486" y="392" width="20" height="19"/>
   <object id="9" name="LightBlue" type="LightBlue" x="592" y="230" width="6" height="6"/>
   <object id="10" name="LightBlue" type="LightBlue" x="816" y="230" width="8" height="4"/>
   <object id="15" name="spawn" type="spawn" x="695" y="836" width="19" height="18"/>
-  <object id="16" name="LMG" type="LMG" x="1095" y="617" width="28" height="11"/>
+  <object id="16" name="LMG" type="LMG" x="902" y="396" width="28" height="11"/>
  </objectgroup>
 </map>
