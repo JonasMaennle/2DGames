@@ -23,6 +23,8 @@ public class MultiplayerClient implements Runnable{
 	private boolean firstMessage;
 	private PlayerExtension localPlayer;
 	private Random rand;
+	
+	private long t1, t2;
 
 	public MultiplayerClient(Handler handler){
 		this.handler = handler;
@@ -46,7 +48,9 @@ public class MultiplayerClient implements Runnable{
 			if(!firstMessage) {
 				firstMessage = true;
 				
-				localPlayer = new PlayerExtension((int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), handler, rand.nextInt(100000000));
+				int id = rand.nextInt(100000000);
+				Collection.PLAYER_ID = id;
+				localPlayer = new PlayerExtension((int)handler.getPlayer().getX(), (int)handler.getPlayer().getY(), handler, id);
 				
 				message = new Message(MessageType.CONNECT);
 				message.setDeliveryObject(localPlayer);
@@ -60,8 +64,16 @@ public class MultiplayerClient implements Runnable{
 				//System.out.println(localPlayer.getX() + "    " + localPlayer.getY());
 			}
 			
-			
-			sendData(message);	
+			if(!firstMessage) {
+				sendData(message);	
+			}else {
+				t1 = System.currentTimeMillis();
+				if(t1 - t2 > 8) { // test with lower values
+					t2 = t1;
+					//System.out.println("send");
+					sendData(message);	
+				}
+			}
 		}
 	}
 	

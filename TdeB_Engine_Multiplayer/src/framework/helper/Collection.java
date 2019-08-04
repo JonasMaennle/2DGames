@@ -50,6 +50,8 @@ public class Collection {
 	public static float SPEEDBAR = 0;
 	private static long time1, time2;
 	
+	public static int PLAYER_ID;
+	
 	public static int PISTOL_STREAK = 0;
 	
 	public static int ARENA_CURRENT_WAVE = 1;

@@ -177,7 +177,8 @@ public class Handler {
 			player.draw();
 		
 		for(PlayerExtension p : pl) {
-			p.draw();
+			if(p.getPlayerID() != Collection.PLAYER_ID)
+				p.draw();
 		}
 
 		
