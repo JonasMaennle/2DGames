@@ -98,7 +98,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		addFireParticle();
 		addFireParticle();
 		addFireParticle();
-		addFireParticle();
+		//addFireParticle();
 		
 		AMMO_LEFT--;
 	}

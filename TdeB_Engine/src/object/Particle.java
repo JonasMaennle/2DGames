@@ -31,7 +31,7 @@ public class Particle {
 		this.height = height;
 		this.speed = speed;
 		this.angle = 0;
-		if(lightProbability > 80){ // 85 for laptop to run smooth
+		if(lightProbability > 85){ // 85 for laptop to run smooth
 			if(color.equals("orange"))light = new Light(new Vector2f(0, 0), 20, 6, 0, 4);
 			if(color.equals("blue"))light = new Light(new Vector2f(0, 0), 10, 25, 25, 18);
 				

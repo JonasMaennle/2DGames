@@ -52,7 +52,7 @@ public class Boot {
 	}
 	
 	private void beginSession(){	
-		boolean windowMode = false;
+		boolean windowMode = true;
 		
 		if(windowMode) {
 			Collection.WIDTH = 960;
