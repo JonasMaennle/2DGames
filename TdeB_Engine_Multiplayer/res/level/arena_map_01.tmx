@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="17">
+ <tileset firstgid="1" source="tileset_00.tsx"/>
+ <layer name="Background" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2XvW4UMRDHPfsWNORBLqfAo/AEJJx4gINHQFEaoLhcJAqqpOBatNKGgCAFogAaGqQjhyCUEEXBg2ew1+vdzeW8H5HmJ/21a8cX+z/jr1VKEMoBR9e5j2W4qzUi3QSrkVN/Hfq4KgdaL2u0KmuJUjvKaqry5XmHk6HO/7cIY/ugjOfP+n/tKSP2PoM4fawyNva6ocdxpPUabN1hhLG9AOP9UL+fUAwwHljGGOx36H8A+XwvdPm7U7cboQ+e/37u3TnQJrgfbZH+6LGtg8k9Pi903RMSesd4jJXVfa1bSf5Zpt/099uJyT8K88++D8Dm3/1d0+CaH5Jf9szv7J3jMKU48HOi9UoVc1gmP+e8Dvag2HZOdU0zcLz7Yv88JvR8QvUzmsePapTzz3tewC/rwnl/18JawD3P9/vYa4PlhTNm9M5zFz0eBfxge9//jtM21Ifftg3/N5x8DyHs/0tgbKyQx6q/cX6r+vihx/FT67QF/2lgvpeNbSOQZ/S4CNRnJfln1cWY95WmwfWfeev+39icy3kC1f7r1n8W+F1ZH3gO7LboPyX/fgzWS/aoUAweVuxnVftbSBOv3DS4/7F3NwaZsneyT4l5z5SNgRsHPqtwzWLbORRzjvWzpOgX88xn6f+145TbBPt7Q+Nm7zwefN6LsB9xDPad+HBfXXh2SQN547Nsk+4qqzKA4jyfkDDO0wh9XJWUvr9wrnLOOe+x8j+A4tzi+c7Prkghv18vwI5vO4njH/cb/N/vwXh9qqx3fu8Kd/5nUMz9KFL+3TV/luRzH+MbMwau96Y4S+wa6Bs4TzlHTbFG52qXc76Mr5T7Bw3ewdH/MfQz/2M6B5rM/zmY+0Af8z+mvCyTf77OX5Y7FF+MQd/g+Y8xeAaX07Yy4vKE5Ld7TvpI/n+18J27LHxOb5Z82wwrvnlCd0i3/i0Ycf1xD/0LgiAIgiAIgiAIgiAIgiAIgiAIgiAIgiAIQp/5C74A/TQAQAAA
+  </data>
+ </layer>
+ <layer name="Wall" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3YQQ6DIBAFUONlegTP0NT7b3sVY9y4aipUBjrvJbNyMXxAJE4THB5z9AhiXc2/FMxXix6lsucHII+R7jx3fAvl//z8fapo7kK/N9L+J7fs7/9d5/96qivWuaxKe/S2/r2Np7Xs+f9N9v9f35yFtedRix7Ueyaf98j89nxuPax/9v2/538FVQ/5AQAAAAAAAIBxbHUN62gAQAAA
+  </data>
+ </layer>
+ <layer name="Shadow" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3YzQnCMBjG8VpEcRU/bo7hCM7gLJ714iJeHMaLS9iA0hCT+jbf6P8Hz0EMhKepsU3TQLfsshHkGDjHSpBdwBy+DsJxIf2lc9A/P/rL/FJ/c8+TeHS5W7IWRkIfL71mPkLWMhf6p0P/+pXqf3rlnHD+9xzTiXtMqf5XLalstbhw/6dD//ql7H8Z2HdqkbL/rO2zF14LNW7Rfibme716Lh/7zBxKei+E3DPStUy55i70jzvOhv5xx8U0b/vcjI7qs/69r6H3+hJ7noutf2xm/xJr7pKjv/nsVXN/2/+9HunZ19BZWM39c6B/Pf69/7ff+9jEPBsHAAAAAAAAAAAAAAAAlCfW2nLeAEAAAA==
+  </data>
+ </layer>
+ <layer name="Border" width="64" height="64">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3YXwqCMBwAYPWly/TcLXow8L33riHkLbtKhQ1XuXJgkvB98GNu7o+CzrmigGf1I47VeHk9wxj7RF+psQF+JcxHbTm9fneruyn7Nk3RH4c+4rQphnktlOVc0yHrTgBYi0sUAEvKXZcG8T983MdrtOUQuWPMuecA8Mm3fYDUvuW/jbGk00s69Rzrck583+/Rle/PbMh/awf8n7H1fbyO31bp9zquF2Ks/q56zwMAAAAAAAAAMN0VCXO7WwBAAAA=
+  </data>
+ </layer>
+<objectgroup name="Objects" width="32" height="32">
+  <object id="1" name="player" type="player" x="692" y="389" width="27" height="23"/>
+  <object id="2" name="spawn" type="spawn" x="294" y="73" width="19" height="15"/>
+  <object id="3" name="spawn" type="spawn" x="1097" y="76" width="19" height="15"/>
+  <object id="4" name="Helmet" type="Helmet" x="486" y="392" width="20" height="19"/>
+  <object id="9" name="LightBlue" type="LightBlue" x="592" y="230" width="6" height="6"/>
+  <object id="10" name="LightBlue" type="LightBlue" x="816" y="230" width="8" height="4"/>
+  <object id="15" name="spawn" type="spawn" x="695" y="836" width="19" height="18"/>
+  <object id="16" name="LMG" type="LMG" x="902" y="396" width="28" height="11"/>
+ </objectgroup>
+</map>
