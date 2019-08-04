@@ -68,7 +68,7 @@ public class MultiplayerClient implements Runnable{
 				sendData(message);	
 			}else {
 				t1 = System.currentTimeMillis();
-				if(t1 - t2 > 8) { // test with lower values
+				if(t1 - t2 > 4) { // test with lower values
 					t2 = t1;
 					//System.out.println("send");
 					sendData(message);	
