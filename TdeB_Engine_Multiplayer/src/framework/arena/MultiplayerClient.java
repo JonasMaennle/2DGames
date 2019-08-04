@@ -11,7 +11,7 @@ import framework.helper.Collection;
 
 public class MultiplayerClient implements Runnable{
 	private final static int PORT = 55124;
-	private static String TARGET_IP = "localhost"; // outside-> game.raspberry_jonas.selfhost.eu, inside -> 192.168.2.104
+	private static String TARGET_IP = "192.168.2.104"; // outside-> game.raspberry_jonas.selfhost.eu, inside -> 192.168.2.104
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
