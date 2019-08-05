@@ -20,6 +20,8 @@ public class PlayerExtension extends Player{
 	private int playerID;
 	private transient Image weaponImageLeft, weaponImageRight;
 	private float weaponAngle;
+	
+	private float weaponX, weaponY, weaponWidth, weaponHeight;
 
 	public PlayerExtension(int x, int y, Handler handler, int playerID) {
 		super(x, y, handler);
@@ -37,7 +39,6 @@ public class PlayerExtension extends Player{
 	
 	@Override
 	public void draw() {
-		// init images and animations
 		loadImages();
 		
 		switch (direction) {
@@ -64,9 +65,9 @@ public class PlayerExtension extends Player{
 	private void drawWeaponImage() {
 		
 		if(direction.equals("right")){
-			drawQuadImageRotLeft(weaponImageRight, x, y, width, height, weaponAngle);
+			drawQuadImageRotLeft(weaponImageRight, weaponX, weaponY, weaponWidth, weaponHeight, weaponAngle);
 		}else{
-			drawQuadImageRotRight(weaponImageLeft, x, y, width, height, weaponAngle - 180);
+			drawQuadImageRotRight(weaponImageLeft, weaponX, weaponY, weaponWidth, weaponHeight, weaponAngle - 180);
 		}
 	}
 
@@ -102,5 +103,37 @@ public class PlayerExtension extends Player{
 
 	public void setWeaponAngle(float weaponAngle) {
 		this.weaponAngle = weaponAngle;
+	}
+
+	public float getWeaponX() {
+		return weaponX;
+	}
+
+	public void setWeaponX(float weaponX) {
+		this.weaponX = weaponX;
+	}
+
+	public float getWeaponY() {
+		return weaponY;
+	}
+
+	public void setWeaponY(float weaponY) {
+		this.weaponY = weaponY;
+	}
+
+	public float getWeaponWidth() {
+		return weaponWidth;
+	}
+
+	public void setWeaponWidth(float weaponWidth) {
+		this.weaponWidth = weaponWidth;
+	}
+
+	public float getWeaponHeight() {
+		return weaponHeight;
+	}
+
+	public void setWeaponHeight(float weaponHeight) {
+		this.weaponHeight = weaponHeight;
 	}
 }

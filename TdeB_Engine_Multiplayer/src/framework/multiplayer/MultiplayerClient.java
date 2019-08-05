@@ -71,6 +71,10 @@ public class MultiplayerClient implements Runnable{
 				localPlayer.setVelY(tmpPlayer.getVelY());
 				
 				localPlayer.setWeaponAngle(tmpPlayer.getWeapon().getAngle());
+				localPlayer.setWeaponX(tmpPlayer.getWeapon().getX());
+				localPlayer.setWeaponY(tmpPlayer.getWeapon().getY());
+				localPlayer.setWeaponWidth(tmpPlayer.getWeapon().getWidth());
+				localPlayer.setWeaponHeight(tmpPlayer.getWeapon().getHeight());
 				
 				// add dummy to message
 				message.setDeliveryObject(localPlayer);
@@ -148,6 +152,10 @@ public class MultiplayerClient implements Runnable{
 				p.setVelY(playerEx.getVelY());
 				
 				p.setWeaponAngle(playerEx.getWeaponAngle());
+				p.setWeaponX(playerEx.getWeaponX());
+				p.setWeaponY(playerEx.getWeaponY());
+				p.setWeaponWidth(playerEx.getWeaponWidth());
+				p.setWeaponHeight(playerEx.getWeaponHeight());
 				//System.out.println(p.getX() + "     "  + p.getY());
 			}
 		}
