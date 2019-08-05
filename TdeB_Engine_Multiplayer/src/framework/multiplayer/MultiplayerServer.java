@@ -94,7 +94,7 @@ public class MultiplayerServer {
 					case POSITION:
 						PlayerExtension tmp2 = (PlayerExtension) m.getDeliveryObject();	
 						playerMap.replace(tmp2.getPlayerID(), tmp2);
-						System.out.println(System.currentTimeMillis() - m.getTimeCreated());
+						//System.out.println(System.currentTimeMillis() - m.getTimeCreated());
 						// send playerMap
 						sendMessageBack();
 						break;
@@ -111,6 +111,7 @@ public class MultiplayerServer {
 				// remove player if disconnect
 				playerMap.remove(playerID);
 				System.out.println("Client disconnected:   " + connectionNumber + ":   " + sock.getInetAddress());
+				e.printStackTrace();
 			}
 		}
 
