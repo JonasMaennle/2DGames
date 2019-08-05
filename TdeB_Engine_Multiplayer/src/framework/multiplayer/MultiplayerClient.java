@@ -9,6 +9,7 @@ import java.util.Random;
 import framework.core.Handler;
 import framework.entity.MessageType;
 import framework.helper.Collection;
+import object.player.Player;
 
 public class MultiplayerClient implements Runnable{
 	private final static int PORT = 55124;
@@ -60,10 +61,14 @@ public class MultiplayerClient implements Runnable{
 				message = new Message(MessageType.POSITION);
 				
 				// set all attributes to dummy object
-				localPlayer.setX(handler.getPlayer().getX());
-				localPlayer.setY(handler.getPlayer().getY());
+				Player tmpPlayer = handler.getPlayer();
+				localPlayer.setX(tmpPlayer.getX());
+				localPlayer.setY(tmpPlayer.getY());
 				
-				localPlayer.setDirection(handler.getPlayer().getDirection());
+				localPlayer.setDirection(tmpPlayer.getDirection());
+				
+				localPlayer.setVelX(tmpPlayer.getVelX());
+				localPlayer.setVelY(tmpPlayer.getVelY());
 				
 				// add dummy to message
 				message.setDeliveryObject(localPlayer);
@@ -134,7 +139,11 @@ public class MultiplayerClient implements Runnable{
 				// update attributes
 				p.setX(playerEx.getX());
 				p.setY(playerEx.getY());
+				
 				p.setDirection(playerEx.getDirection());
+				
+				p.setVelX(playerEx.getVelX());
+				p.setVelY(playerEx.getVelY());
 				//System.out.println(p.getX() + "     "  + p.getY());
 			}
 		}

@@ -555,4 +555,12 @@ public class Player implements GameEntity, Serializable{
 	public void setSlowTimer(long slowTimer) {
 		this.slowTimer = slowTimer;
 	}
+
+	public int getVelY() {
+		return velY;
+	}
+
+	public void setVelY(int velY) {
+		this.velY = velY;
+	}
 }
