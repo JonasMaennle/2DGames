@@ -296,4 +296,12 @@ public class Weapon_Basic implements GameEntity{
 	public void setEmpowered(boolean empowered) {
 		this.empowered = empowered;
 	}
+
+	public float getAngle() {
+		return angle;
+	}
+
+	public void setAngle(float angle) {
+		this.angle = angle;
+	}
 }

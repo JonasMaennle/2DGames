@@ -25,11 +25,6 @@ public class Weapon_Pistol extends Weapon_Basic{
 	
 	public void draw(){
 		
-		if(weaponLeft == null)
-			this.weaponLeft = quickLoaderImage("player/weapon_pistol_left");
-		if(weaponRight == null)
-			this.weaponRight = quickLoaderImage("player/weapon_pistol_right");
-		
 		if(player.getDirection().equals("right")){
 			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		}else{
