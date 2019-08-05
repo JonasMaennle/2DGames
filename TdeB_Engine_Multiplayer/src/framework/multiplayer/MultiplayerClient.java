@@ -131,10 +131,10 @@ public class MultiplayerClient implements Runnable{
 		for(PlayerExtension p : handler.getPl()) {
 			if(p.getPlayerID() == key) {
 				found = true;
-				// update 
+				// update attributes
 				p.setX(playerEx.getX());
 				p.setY(playerEx.getY());
-				
+				p.setDirection(playerEx.getDirection());
 				//System.out.println(p.getX() + "     "  + p.getY());
 			}
 		}
