@@ -56,13 +56,17 @@ public class MultiplayerClient implements Runnable{
 				message = new Message(MessageType.CONNECT);
 				message.setDeliveryObject(localPlayer);
 			}else {
-				// send player pos
+				// create new message
 				message = new Message(MessageType.POSITION);
+				
+				// set all attributes to dummy object
 				localPlayer.setX(handler.getPlayer().getX());
 				localPlayer.setY(handler.getPlayer().getY());
-				message.setDeliveryObject(localPlayer);
 				
-				//System.out.println(localPlayer.getX() + "    " + localPlayer.getY());
+				localPlayer.setDirection(handler.getPlayer().getDirection());
+				
+				// add dummy to message
+				message.setDeliveryObject(localPlayer);
 			}
 			
 			if(!firstMessage) {

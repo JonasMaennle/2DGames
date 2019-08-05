@@ -1,8 +1,12 @@
 package framework.multiplayer;
 
 
+import static framework.helper.Collection.TILE_SIZE;
 import static framework.helper.Graphics.drawQuadImage;
+import static framework.helper.Graphics.loadSpriteSheet;
 import static framework.helper.Graphics.quickLoaderImage;
+
+import org.newdawn.slick.Animation;
 
 import framework.core.Handler;
 import object.player.Player;
@@ -20,12 +24,31 @@ public class PlayerExtension extends Player{
 	
 	@Override
 	public void draw() {
+		// init images and animations
 		if(idle_right == null)
 			this.idle_right = quickLoaderImage("player/player_idle_right");
+		if(idle_left == null)
+			this.idle_left = quickLoaderImage("player/player_idle_left");
+		if(walkLeft == null)
+			this.walkLeft = new Animation(loadSpriteSheet("player/player_walk_left", TILE_SIZE, TILE_SIZE), 200);
+		if(walkRight == null)
+			this.walkRight = new Animation(loadSpriteSheet("player/player_walk_right", TILE_SIZE, TILE_SIZE), 200);	
 		
-		drawQuadImage(idle_right, x, y, width, height);
+		
+		switch (direction) {
+		case "right":
+			drawQuadImage(idle_right, x, y, width, height);
+			break;
+		case "left":
+			drawQuadImage(idle_left, x, y, width, height);
+			break;
+
+		default:
+			break;
+		}
 	}
 
+	
 
 	public int getPlayerID() {
 		return playerID;

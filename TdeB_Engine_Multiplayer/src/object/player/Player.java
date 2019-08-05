@@ -49,13 +49,13 @@ public class Player implements GameEntity, Serializable{
 	private static final long serialVersionUID = 7660465331018662059L;
 	protected int width;
 	protected int height;
-	private int velX;
-	private int velY;
+	protected int velX;
+	protected int velY;
 	protected float x;
 	protected float y;
-	private float speed;
-	private String direction;
-	private transient Image idle_left;
+	protected float speed;
+	protected String direction;
+	protected transient Image idle_left;
 	protected transient Image idle_right;
 	private transient Handler handler;
 	private int helmetBightness;
@@ -68,8 +68,8 @@ public class Player implements GameEntity, Serializable{
 	private final float NORMAL_SPEED;
 	private long slowTimer;
 	
-	private transient Light weaponBackgroundLight;
-	private transient Animation walkRight, walkLeft;
+	protected transient Light weaponBackgroundLight;
+	protected transient Animation walkRight, walkLeft;
 	
 	public Player(int x, int y, Handler handler){
 		
