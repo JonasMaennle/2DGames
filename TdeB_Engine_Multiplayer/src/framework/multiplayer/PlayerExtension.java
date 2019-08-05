@@ -8,13 +8,15 @@ import static framework.helper.Graphics.drawQuadImageRotRight;
 import static framework.helper.Graphics.loadSpriteSheet;
 import static framework.helper.Graphics.quickLoaderImage;
 
+import java.io.Serializable;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import object.player.Player;
 
-public class PlayerExtension extends Player{
+public class PlayerExtension extends Player implements Serializable{
 
 	private static final long serialVersionUID = -287827503604601538L;
 	private int playerID;
@@ -63,7 +65,7 @@ public class PlayerExtension extends Player{
 	}
 	
 	private void drawWeaponImage() {
-		
+
 		if(direction.equals("right")){
 			drawQuadImageRotLeft(weaponImageRight, weaponX, weaponY, weaponWidth, weaponHeight, weaponAngle);
 		}else{

@@ -75,7 +75,6 @@ public class MultiplayerClient implements Runnable{
 				localPlayer.setWeaponY(tmpPlayer.getWeapon().getY());
 				localPlayer.setWeaponWidth(tmpPlayer.getWeapon().getWidth());
 				localPlayer.setWeaponHeight(tmpPlayer.getWeapon().getHeight());
-				
 				// add dummy to message
 				message.setDeliveryObject(localPlayer);
 			}
@@ -156,6 +155,7 @@ public class MultiplayerClient implements Runnable{
 				p.setWeaponY(playerEx.getWeaponY());
 				p.setWeaponWidth(playerEx.getWeaponWidth());
 				p.setWeaponHeight(playerEx.getWeaponHeight());
+				
 				//System.out.println(p.getX() + "     "  + p.getY());
 			}
 		}
