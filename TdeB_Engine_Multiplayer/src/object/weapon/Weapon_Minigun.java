@@ -13,7 +13,7 @@ import object.player.Player;
 
 public class Weapon_Minigun extends Weapon_Basic{
 
-	private Image weaponRight, weaponLeft;
+	private transient Image weaponRight, weaponLeft;
 	private long timer1, timer2;
 	
 	public Weapon_Minigun(int width, int height, Player player, Handler handler) {

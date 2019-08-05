@@ -10,6 +10,7 @@ import org.newdawn.slick.Animation;
 
 import framework.core.Handler;
 import object.player.Player;
+import object.weapon.Weapon_Pistol;
 
 public class PlayerExtension extends Player{
 
@@ -23,16 +24,18 @@ public class PlayerExtension extends Player{
 	}
 	
 	@Override
+	public void update() {
+		// update weapon position
+		if(weapon != null) 
+			weapon.update();
+		
+
+	}
+	
+	@Override
 	public void draw() {
 		// init images and animations
-		if(idle_right == null)
-			this.idle_right = quickLoaderImage("player/player_idle_right");
-		if(idle_left == null)
-			this.idle_left = quickLoaderImage("player/player_idle_left");
-		if(walkLeft == null)
-			this.walkLeft = new Animation(loadSpriteSheet("player/player_walk_left", TILE_SIZE, TILE_SIZE), 200);
-		if(walkRight == null)
-			this.walkRight = new Animation(loadSpriteSheet("player/player_walk_right", TILE_SIZE, TILE_SIZE), 200);	
+		loadImages();
 		
 		switch (direction) {
 		case "right":
@@ -51,6 +54,26 @@ public class PlayerExtension extends Player{
 			System.out.println("Player velocityX out of range!");
 			break;
 		}
+		
+		if(weapon != null)
+			weapon.draw();
+		
+	}
+	
+	private void loadImages() {
+		if(idle_right == null)
+			this.idle_right = quickLoaderImage("player/player_idle_right");
+		if(idle_left == null)
+			this.idle_left = quickLoaderImage("player/player_idle_left");
+		if(walkLeft == null)
+			this.walkLeft = new Animation(loadSpriteSheet("player/player_walk_left", TILE_SIZE, TILE_SIZE), 200);
+		if(walkRight == null)
+			this.walkRight = new Animation(loadSpriteSheet("player/player_walk_right", TILE_SIZE, TILE_SIZE), 200);	
+		if(weapon == null) 
+			this.weapon = new Weapon_Pistol(16, 8, this, handler);
+			
+		
+		
 	}
 
 	public int getPlayerID() {

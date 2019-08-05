@@ -9,7 +9,7 @@ import org.newdawn.slick.Image;
 
 public class Weapon_LMG extends Weapon_Basic{
 	
-	private Image weaponRight, weaponLeft;
+	private transient Image weaponRight, weaponLeft;
 	private Random rand;
 	private long timer1, timer2;
 	

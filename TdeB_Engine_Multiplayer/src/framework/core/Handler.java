@@ -91,6 +91,11 @@ public class Handler {
 			currentEntity.update();
 		}
 		
+		for(PlayerExtension p : pl) {
+			if(p.getPlayerID() != Collection.PLAYER_ID)
+				p.update();
+		}
+		
 		// update SpotLights
 		for(LightSpot spot : lightSpotList){
 			spot.update();

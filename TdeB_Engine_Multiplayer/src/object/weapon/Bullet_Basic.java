@@ -13,11 +13,11 @@ import framework.shader.Light;
 
 public class Bullet_Basic implements GameEntity{
 
-	protected Image image;
+	protected transient Image image;
 	protected float x, y, angle, destX, destY, speed;
 	protected float velX, velY;
 	protected int width, height;
-	protected Light light;
+	protected transient Light light;
 	protected long spawnTime;
 	
 	public Bullet_Basic(float x, float y, int width, int height, float destX, float destY, String direction, int speed, float angle){

@@ -7,7 +7,7 @@ import object.player.Player;
 
 public class Weapon_Pistol extends Weapon_Basic{
 
-	private Image weaponRight, weaponLeft;
+	private transient Image weaponRight, weaponLeft;
 	
 	public Weapon_Pistol(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
@@ -24,7 +24,12 @@ public class Weapon_Pistol extends Weapon_Basic{
 	}
 	
 	public void draw(){
-
+		
+		if(weaponLeft == null)
+			this.weaponLeft = quickLoaderImage("player/weapon_pistol_left");
+		if(weaponRight == null)
+			this.weaponRight = quickLoaderImage("player/weapon_pistol_right");
+		
 		if(player.getDirection().equals("right")){
 			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		}else{

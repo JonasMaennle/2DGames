@@ -14,7 +14,7 @@ import framework.shader.Light;
 
 public class Particle {
 	
-	private Image particles;
+	private transient Image particles;
 	private Random rand;
 	private int x, y, width, height;
 	private float velX, velY, speed, angle;

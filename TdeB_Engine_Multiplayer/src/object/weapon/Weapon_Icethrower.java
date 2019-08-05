@@ -20,7 +20,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 	
 	private CopyOnWriteArrayList<Particle> iceList;
 	private Random rand;
-	private Image weaponRight, weaponLeft;
+	private transient Image weaponRight, weaponLeft;
 
 	public Weapon_Icethrower(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);

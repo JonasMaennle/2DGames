@@ -22,9 +22,9 @@ public class Weapon_Basic implements GameEntity{
 	protected int weaponDelta;
 	protected int weaponDeltaMAX;
 	
-	protected Player player;
-	protected Handler handler;
-	protected Image default_weapon;
+	protected transient Player player;
+	protected transient Handler handler;
+	protected transient Image default_weapon;
 	protected boolean empowered;
 	
 	protected int bulletSpeedMAX;
@@ -35,7 +35,7 @@ public class Weapon_Basic implements GameEntity{
 	protected int bottomAngleRange;
 	protected int topAngleRange;
 	
-	protected Rectangle bulletSpawnPoint;
+	protected transient Rectangle bulletSpawnPoint;
 	
 	protected CopyOnWriteArrayList<Bullet_Basic> bulletList;
 	

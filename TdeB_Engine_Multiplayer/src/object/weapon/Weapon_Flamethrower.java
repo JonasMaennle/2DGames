@@ -18,7 +18,7 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 	
 	private CopyOnWriteArrayList<Particle> fireList;
 	private Random rand;
-	private Image weaponRight, weaponLeft;
+	private transient Image weaponRight, weaponLeft;
 
 	public Weapon_Flamethrower(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);

@@ -57,16 +57,16 @@ public class Player implements GameEntity, Serializable{
 	protected String direction;
 	protected transient Image idle_left;
 	protected transient Image idle_right;
-	private transient Handler handler;
-	private int helmetBightness;
+	protected transient Handler handler;
+	protected int helmetBightness;
 	
-	private transient Shield shield;
-	private transient Weapon_Basic weapon;
-	private boolean isShooting, hasHelmet, speedUp;
-	private long speedUpTimestamp;
-	private long maxSpeedUpTime;
-	private final float NORMAL_SPEED;
-	private long slowTimer;
+	protected transient Shield shield;
+	protected transient Weapon_Basic weapon;
+	protected boolean isShooting, hasHelmet, speedUp;
+	protected long speedUpTimestamp;
+	protected long maxSpeedUpTime;
+	protected final float NORMAL_SPEED;
+	protected long slowTimer;
 	
 	protected transient Light weaponBackgroundLight;
 	protected transient Animation walkRight, walkLeft;

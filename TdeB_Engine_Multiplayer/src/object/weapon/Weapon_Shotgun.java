@@ -18,7 +18,7 @@ import object.player.Player;
 
 public class Weapon_Shotgun extends Weapon_Basic {
 
-	private Image weaponRight, weaponLeft;
+	private transient Image weaponRight, weaponLeft;
 
 	public Weapon_Shotgun(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
