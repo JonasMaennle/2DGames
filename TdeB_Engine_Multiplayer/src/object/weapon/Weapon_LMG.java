@@ -5,11 +5,9 @@ import object.player.Player;
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 import java.util.Random;
-import org.newdawn.slick.Image;
 
 public class Weapon_LMG extends Weapon_Basic{
 	
-	private transient Image weaponRight, weaponLeft;
 	private Random rand;
 	private long timer1, timer2;
 	
@@ -33,13 +31,21 @@ public class Weapon_LMG extends Weapon_Basic{
 	
 	public void update(){
 		super.update();
+		
+		if(player.getDirection().equals("right")){
+			x = player.getX() + 8;
+			y = player.getY() + 5;
+		}else{
+			x = player.getX() - 4;
+			y = player.getY() + 5;
+		}
 	}
 	
 	public void draw(){
 		if(player.getDirection().equals("right")){
-			drawQuadImageRotLeft(weaponRight, x - 14, y - 2, width, height, angle);
+			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		}else{
-			drawQuadImageRotRight(weaponLeft, x, y - 2, width, height, angle - 180);
+			drawQuadImageRotRight(weaponLeft, x, y, width, height, angle - 180);
 		}
 		
 		for(Bullet_Basic bullet : bulletList){

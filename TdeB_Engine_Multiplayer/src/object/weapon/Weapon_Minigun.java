@@ -5,15 +5,12 @@ import static framework.helper.Graphics.drawQuadImageRotLeft;
 import static framework.helper.Graphics.drawQuadImageRotRight;
 import static framework.helper.Graphics.quickLoaderImage;
 
-import org.newdawn.slick.Image;
-
 import framework.core.Handler;
 import framework.helper.Color;
 import object.player.Player;
 
 public class Weapon_Minigun extends Weapon_Basic{
 
-	private transient Image weaponRight, weaponLeft;
 	private long timer1, timer2;
 	
 	public Weapon_Minigun(int width, int height, Player player, Handler handler) {
@@ -32,13 +29,21 @@ public class Weapon_Minigun extends Weapon_Basic{
 	
 	public void update(){
 		super.update();
+		
+		if(player.getDirection().equals("right")){
+			x = player.getX() + 8;
+			y = player.getY() + 5;
+		}else{
+			x = player.getX() - 4;
+			y = player.getY() + 5;
+		}
 	}
 	
 	public void draw(){
 		if(player.getDirection().equals("right")){
-			drawQuadImageRotLeft(weaponRight, x - 14, y - 2, width, height, angle);
+			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		}else{
-			drawQuadImageRotRight(weaponLeft, x, y - 2, width, height, angle - 180);
+			drawQuadImageRotRight(weaponLeft, x, y, width, height, angle - 180);
 		}
 		
 		for(Bullet_Basic bullet : bulletList){

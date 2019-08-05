@@ -94,7 +94,7 @@ public class StateManager {
 		case MULTIPLAYER:
 			if(CURRENT_LEVEL == 0) {
 				loadLevel();
-				
+
 				// join multiplayer sessoin
 				this.client = new MultiplayerClient(handler);
 				Thread t = new Thread(client);
@@ -249,5 +249,13 @@ public class StateManager {
 
 	public PathfindingThread getPathThread() {
 		return pathThread;
+	}
+
+	public MultiplayerClient getClient() {
+		return client;
+	}
+
+	public void setClient(MultiplayerClient client) {
+		this.client = client;
 	}
 }

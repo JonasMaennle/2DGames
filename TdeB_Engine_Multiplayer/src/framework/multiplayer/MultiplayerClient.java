@@ -70,11 +70,17 @@ public class MultiplayerClient implements Runnable{
 				localPlayer.setVelX(tmpPlayer.getVelX());
 				localPlayer.setVelY(tmpPlayer.getVelY());
 				
+				// weapon
 				localPlayer.setWeaponAngle(tmpPlayer.getWeapon().getAngle());
 				localPlayer.setWeaponX(tmpPlayer.getWeapon().getX());
 				localPlayer.setWeaponY(tmpPlayer.getWeapon().getY());
 				localPlayer.setWeaponWidth(tmpPlayer.getWeapon().getWidth());
 				localPlayer.setWeaponHeight(tmpPlayer.getWeapon().getHeight());
+				localPlayer.setWeaponClassName(tmpPlayer.getWeapon().getClass().getSimpleName());
+				
+				// bullet list
+				localPlayer.setBulletList(tmpPlayer.getWeapon().getBulletList());
+				
 				// add dummy to message
 				message.setDeliveryObject(localPlayer);
 			}
@@ -150,21 +156,41 @@ public class MultiplayerClient implements Runnable{
 				p.setVelX(playerEx.getVelX());
 				p.setVelY(playerEx.getVelY());
 				
+				// weapon
 				p.setWeaponAngle(playerEx.getWeaponAngle());
 				p.setWeaponX(playerEx.getWeaponX());
 				p.setWeaponY(playerEx.getWeaponY());
 				p.setWeaponWidth(playerEx.getWeaponWidth());
 				p.setWeaponHeight(playerEx.getWeaponHeight());
+				p.setWeaponClassName(playerEx.getWeaponClassName());
 				
+				//add bullets to list
+//				for(Bullet_Basic b : playerEx.getBulletList()) {
+//					if(!p.getBulletList().contains(b))
+//						p.getBulletList().add(b);
+//				}
+				p.setBulletList(playerEx.getBulletList());
 				//System.out.println(p.getX() + "     "  + p.getY());
 			}
 		}
 		
-		if(!found)
+		if(!found) {
+			playerEx.setHandler(handler);
 			handler.getPl().add(playerEx);
+			
+		}
+
 	}
 	
 	public void setHandler(Handler handler) {
 		this.handler = handler;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 }

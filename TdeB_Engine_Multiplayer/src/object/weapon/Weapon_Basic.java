@@ -27,6 +27,8 @@ public class Weapon_Basic implements GameEntity{
 	protected transient Image default_weapon;
 	protected boolean empowered;
 	
+	protected transient Image weaponRight, weaponLeft;
+	
 	protected int bulletSpeedMAX;
 	protected int bulletSpeed;
 	protected int bulletDamage;
@@ -304,4 +306,29 @@ public class Weapon_Basic implements GameEntity{
 	public void setAngle(float angle) {
 		this.angle = angle;
 	}
+
+	public Image getWeaponRight() {
+		return weaponRight;
+	}
+
+	public void setWeaponRight(Image weaponRight) {
+		this.weaponRight = weaponRight;
+	}
+
+	public Image getWeaponLeft() {
+		return weaponLeft;
+	}
+
+	public void setWeaponLeft(Image weaponLeft) {
+		this.weaponLeft = weaponLeft;
+	}
+
+	public CopyOnWriteArrayList<Bullet_Basic> getBulletList() {
+		return bulletList;
+	}
+
+	public void setBulletList(CopyOnWriteArrayList<Bullet_Basic> bulletList) {
+		this.bulletList = bulletList;
+	}
 }
+

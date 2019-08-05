@@ -9,7 +9,6 @@ import static framework.helper.Graphics.drawQuadImageRotRight;
 import static framework.helper.Graphics.quickLoaderImage;
 
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
@@ -17,8 +16,6 @@ import object.enemy.Enemy_Basic;
 import object.player.Player;
 
 public class Weapon_Shotgun extends Weapon_Basic {
-
-	private transient Image weaponRight, weaponLeft;
 
 	public Weapon_Shotgun(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
@@ -38,11 +35,11 @@ public class Weapon_Shotgun extends Weapon_Basic {
 		centY = player.getY() + player.getHeight()/2;
 		
 		if(player.getDirection().equals("right")){
-			x = player.getX() + 22;
-			y = player.getY() + 7;
+			x = player.getX() + 8;
+			y = player.getY() + 5;
 		}else{
 			x = player.getX() - 4;
-			y = player.getY() + 7;
+			y = player.getY() + 5;
 		}
 		calcAngle(Mouse.getX() - MOVEMENT_X, HEIGHT - Mouse.getY() - MOVEMENT_Y);
 		
@@ -78,9 +75,9 @@ public class Weapon_Shotgun extends Weapon_Basic {
 	public void draw() {
 
 		if (player.getDirection().equals("right")) {
-			drawQuadImageRotLeft(weaponRight, x - 14, y - 2, width, height, angle);
+			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		} else {
-			drawQuadImageRotRight(weaponLeft, x, y - 2, width, height, angle - 180);
+			drawQuadImageRotRight(weaponLeft, x, y, width, height, angle - 180);
 		}
 
 		for (Bullet_Basic bullet : bulletList) {

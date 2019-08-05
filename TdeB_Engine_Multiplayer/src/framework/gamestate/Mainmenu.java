@@ -89,8 +89,9 @@ public class Mainmenu {
 					StateManager.CURRENT_LEVEL = 0;
 					StateManager.gameState = GameState.ARENA;
 				}
-				// Arena
+				// Multiplayer
 				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Multiplayer")) {
+					//if(manager.getClient() != null)manager.getClient().setRunning(false);
 					manager.getArena().getWaveManager().reset();
 					Collection.resetPlayerStats();
 					manager.getHandler().setFogFilter(0);

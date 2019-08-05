@@ -4,6 +4,7 @@ import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
@@ -11,8 +12,9 @@ import org.newdawn.slick.Image;
 import framework.entity.GameEntity;
 import framework.shader.Light;
 
-public class Bullet_Basic implements GameEntity{
+public class Bullet_Basic implements GameEntity, Serializable{
 
+	private static final long serialVersionUID = 4811538936833511096L;
 	protected transient Image image;
 	protected float x, y, angle, destX, destY, speed;
 	protected float velX, velY;
@@ -155,5 +157,13 @@ public class Bullet_Basic implements GameEntity{
 
 	public long getSpawnTime() {
 		return spawnTime;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 }

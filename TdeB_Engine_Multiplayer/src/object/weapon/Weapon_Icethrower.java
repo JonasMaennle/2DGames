@@ -8,8 +8,6 @@ import static framework.helper.Graphics.quickLoaderImage;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import org.newdawn.slick.Image;
-
 import framework.core.Handler;
 import framework.entity.GameEntity;
 import object.Particle;
@@ -20,7 +18,6 @@ public class Weapon_Icethrower extends Weapon_Basic{
 	
 	private CopyOnWriteArrayList<Particle> iceList;
 	private Random rand;
-	private transient Image weaponRight, weaponLeft;
 
 	public Weapon_Icethrower(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
@@ -39,6 +36,14 @@ public class Weapon_Icethrower extends Weapon_Basic{
 	
 	public void update(){
 		super.update();
+		
+		if(player.getDirection().equals("right")){
+			x = player.getX() + 10;
+			y = player.getY() + 5;
+		}else{
+			x = player.getX() - 4;
+			y = player.getY() + 5;
+		}
 		
 		// update fire
 		for(Particle p : iceList){
@@ -90,9 +95,9 @@ public class Weapon_Icethrower extends Weapon_Basic{
 		}		
 
 		if(player.getDirection().equals("right")){
-			drawQuadImageRotLeft(weaponRight, x - 12, y - 2, width, height, angle);
+			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		}else{
-			drawQuadImageRotRight(weaponLeft, x, y - 2, width, height, angle - 180);
+			drawQuadImageRotRight(weaponLeft, x, y, width, height, angle - 180);
 		}
 	}
 	

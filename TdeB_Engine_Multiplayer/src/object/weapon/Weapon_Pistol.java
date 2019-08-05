@@ -1,13 +1,10 @@
 package object.weapon;
 
-import org.newdawn.slick.Image;
 import static framework.helper.Graphics.*;
 import framework.core.Handler;
 import object.player.Player;
 
 public class Weapon_Pistol extends Weapon_Basic{
-
-	private transient Image weaponRight, weaponLeft;
 	
 	public Weapon_Pistol(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);

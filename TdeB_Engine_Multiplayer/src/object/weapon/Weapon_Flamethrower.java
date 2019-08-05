@@ -38,6 +38,14 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 	public void update(){
 		super.update();
 		
+		if(player.getDirection().equals("right")){
+			x = player.getX() + 10;
+			y = player.getY() + 5;
+		}else{
+			x = player.getX() - 4;
+			y = player.getY() + 5;
+		}
+		
 		// update fire
 		for(Particle p : fireList){
 			p.update();
@@ -86,9 +94,9 @@ public class Weapon_Flamethrower extends Weapon_Basic{
 		}		
 
 		if(player.getDirection().equals("right")){
-			drawQuadImageRotLeft(weaponRight, x - 12, y - 2, width, height, angle);
+			drawQuadImageRotLeft(weaponRight, x, y, width, height, angle);
 		}else{
-			drawQuadImageRotRight(weaponLeft, x, y - 2, width, height, angle - 180);
+			drawQuadImageRotRight(weaponLeft, x, y, width, height, angle - 180);
 		}
 	}
 	

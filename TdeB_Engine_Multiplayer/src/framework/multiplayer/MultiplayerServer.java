@@ -111,7 +111,7 @@ public class MultiplayerServer {
 				// remove player if disconnect
 				playerMap.remove(playerID);
 				System.out.println("Client disconnected:   " + connectionNumber + ":   " + sock.getInetAddress());
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 
