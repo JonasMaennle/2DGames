@@ -1,4 +1,4 @@
-package framework.arena;
+package framework.entity;
 
 public enum MessageType {
 	

@@ -8,13 +8,14 @@ import static framework.helper.Leveler.*;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Image;
 
-import framework.arena.Arena;
-import framework.arena.MultiplayerClient;
 import framework.arena.ScoreScreen;
+import framework.gamestate.Arena;
 import framework.gamestate.Deathscreen;
 import framework.gamestate.Game;
 import framework.gamestate.Loadingscreen;
 import framework.gamestate.Mainmenu;
+import framework.gamestate.Multiplayer;
+import framework.multiplayer.MultiplayerClient;
 import framework.path.Graph;
 import framework.path.PathfindingThread;
 
@@ -22,7 +23,7 @@ public class StateManager {
 	
 	// possible gamestates
 	public static enum GameState{
-		MAINMENU, GAME, DEATHSCREEN, LOADING, ARENA, SCOREBOARD
+		MAINMENU, GAME, DEATHSCREEN, LOADING, ARENA, SCOREBOARD, MULTIPLAYER
 	}
 	
 	// Start parameter
@@ -38,6 +39,7 @@ public class StateManager {
 	private Loadingscreen loadingscreen;
 	private Mainmenu menu;
 	private ScoreScreen scoreScreen;
+	private Multiplayer multiplayer;
 	
 	private Graph graph;
 	private PathfindingThread pathThread;
@@ -52,12 +54,14 @@ public class StateManager {
 	public StateManager(){
 		this.graph = new Graph();
 		this.handler = new Handler();
+		
 		this.game = new Game(handler, this);
 		this.deathscreen = new Deathscreen(handler, this);
 		this.loadingscreen = new Loadingscreen(this, handler);
 		this.menu = new Mainmenu(this);
 		this.arena = new Arena(handler, this);
 		this.scoreScreen = new ScoreScreen(handler);
+		this.multiplayer = new Multiplayer(handler, this);
 		
 		this.cursor = quickLoaderImage("hud/cursor");
 	}
@@ -81,6 +85,15 @@ public class StateManager {
 		case ARENA:
 			if(CURRENT_LEVEL == 0) {
 				loadLevel();
+			}
+			
+			arena.update();
+			arena.render();
+			break;
+			
+		case MULTIPLAYER:
+			if(CURRENT_LEVEL == 0) {
+				loadLevel();
 				
 				// join multiplayer sessoin
 				this.client = new MultiplayerClient(handler);
@@ -88,8 +101,8 @@ public class StateManager {
 				t.start();
 			}
 			
-			arena.update();
-			arena.render();
+			multiplayer.update();
+			multiplayer.render();
 			break;
 			
 		case DEATHSCREEN:
@@ -129,14 +142,19 @@ public class StateManager {
 		
 		String levelPath = "level/map_0";
 		
-		// select other map in arena mode
+		// set gameMode
 		if(gameState == GameState.ARENA) {
 			levelPath = "level/arena_map_0";
 			CURRENT_LEVEL = 0;
 			gameMode = GameState.ARENA;
-		}else {
+		}else if(gameState == GameState.MULTIPLAYER) {
+			levelPath = "level/arena_map_0";
+			CURRENT_LEVEL = 0;
+			gameMode = GameState.MULTIPLAYER;
+		}else if(gameState == GameState.GAME) {
 			gameMode = GameState.GAME;
 		}
+		
 
 		CURRENT_LEVEL++;
 		
@@ -170,6 +188,7 @@ public class StateManager {
 		// set camera
 		game.getCamera().setEntity(handler.getCurrentEntity());
 		arena.getCamera().setEntity(handler.getCurrentEntity());
+		multiplayer.getCamera().setEntity(handler.getCurrentEntity());
 		
 		PathfindingThread.running = true;
 		pathThread = new PathfindingThread(handler.enemyList, graph, handler);

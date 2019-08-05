@@ -101,9 +101,14 @@ public class Deathscreen {
 		
 		if(StateManager.gameMode == GameState.GAME) {
 			StateManager.gameState = GameState.GAME;
-		}else {
+			
+		}else if(StateManager.gameMode == GameState.ARENA){
 			manager.getArena().getWaveManager().reset();
 			StateManager.gameState = GameState.ARENA;
+			
+		}else if(StateManager.gameMode == GameState.MULTIPLAYER){
+			manager.getArena().getWaveManager().reset();
+			StateManager.gameState = GameState.MULTIPLAYER;
 		}
 	}
 	

@@ -39,12 +39,14 @@ public class Mainmenu {
 		this.buttonWidth = 256;
 		this.buttonHeight = 64;
 		
-		this.buttonY = (int)(Collection.HEIGHT * 0.25f);
+		this.buttonY = (int)(Collection.HEIGHT * 0.05f);
 		this.buttonYOffset = 128;
 		
 		ui.addButton("Start", "hud/button_start", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
 		buttonY += buttonYOffset;
 		ui.addButton("Arena", "hud/button_arena", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
+		buttonY += buttonYOffset;
+		ui.addButton("Multiplayer", "hud/button_multiplayer", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
 		buttonY += buttonYOffset;
 		ui.addButton("Credits", "hud/button_credits", WIDTH/2 - buttonWidth/2, buttonY, buttonWidth, buttonHeight);
 		buttonY += buttonYOffset;
@@ -87,6 +89,14 @@ public class Mainmenu {
 					StateManager.CURRENT_LEVEL = 0;
 					StateManager.gameState = GameState.ARENA;
 				}
+				// Arena
+				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Multiplayer")) {
+					manager.getArena().getWaveManager().reset();
+					Collection.resetPlayerStats();
+					manager.getHandler().setFogFilter(0);
+					StateManager.CURRENT_LEVEL = 0;
+					StateManager.gameState = GameState.MULTIPLAYER;
+				}
 				// Credits
 				if(ui.isButtonClicked(b.getName()) && b.getName().equals("Credits")) {
 					credits = new Credits(manager);
@@ -123,6 +133,9 @@ public class Mainmenu {
 				case "Arena":
 					b.setImage(quickLoaderImage("hud/button_arena_selected"));
 					break;
+				case "Multiplayer":
+					b.setImage(quickLoaderImage("hud/button_multiplayer_selected"));
+					break;
 				default:
 					break;
 				}
@@ -140,6 +153,9 @@ public class Mainmenu {
 					break;
 				case "Arena":
 					b.setImage(quickLoaderImage("hud/button_arena"));
+					break;
+				case "Multiplayer":
+					b.setImage(quickLoaderImage("hud/button_multiplayer"));
 					break;
 				default:
 					break;

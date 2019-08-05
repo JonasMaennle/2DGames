@@ -1,4 +1,4 @@
-package framework.arena;
+package framework.core;
 
 import static framework.helper.Collection.BATTERY_CHARGE;
 import static framework.helper.Collection.PLAYER_HP;
@@ -7,33 +7,31 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 
-import framework.core.BackgroundHandler;
-import framework.core.Camera;
-import framework.core.Handler;
-import framework.core.StateManager;
 import framework.core.StateManager.GameState;
 import framework.ui.HeadUpDisplay;
 
-public class Arena {
+public abstract class Scene2D {
 	
-	private Handler handler;
-	private BackgroundHandler backgroundHandler;
-	private Camera camera;
-	private HeadUpDisplay hud;
-	private WaveManager waveManager;
+	protected Handler handler;
+	protected BackgroundHandler backgroundHandler;
+	protected Camera camera;
+	protected HeadUpDisplay hud;
+	protected StateManager statemanager;
 	
-	private int lightReductionTime;
-	private long timer1, timer2;
+	protected int lightReductionTime;
+	protected long timer1, timer2;
 	
-	public Arena(Handler handler, StateManager manager) {
+	// build basic scene
+	public Scene2D(Handler handler, StateManager statemanager) {
 		this.handler = handler;
+		this.statemanager = statemanager;
+		
 		this.backgroundHandler = new BackgroundHandler();
 		this.camera = new Camera(handler.getCurrentEntity());
-		this.hud = new HeadUpDisplay(handler, 16, manager);
+		this.hud = new HeadUpDisplay(handler, 16, statemanager);
 		
 		this.timer1 = System.currentTimeMillis();
-		this.lightReductionTime = 500; // time in ms
-		this.waveManager = new WaveManager(handler, manager);
+		this.lightReductionTime = 500; // time between energy reduction in ms
 	}
 	
 	public void update() {
@@ -46,8 +44,6 @@ public class Arena {
 			StateManager.gameState = GameState.DEATHSCREEN;
 			return;
 		}
-		
-		waveManager.update();
 		
 		while(Keyboard.next()){
 			// Exit game
@@ -84,6 +80,22 @@ public class Arena {
 		handler.getPlayer().setHelmetBightness((int)((12 / BATTERY_CHARGE) * 100) - 5);
 	}
 
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public void setHandler(Handler handler) {
+		this.handler = handler;
+	}
+
+	public BackgroundHandler getBackgroundHandler() {
+		return backgroundHandler;
+	}
+
+	public void setBackgroundHandler(BackgroundHandler backgroundHandler) {
+		this.backgroundHandler = backgroundHandler;
+	}
+
 	public Camera getCamera() {
 		return camera;
 	}
@@ -92,11 +104,19 @@ public class Arena {
 		this.camera = camera;
 	}
 
-	public WaveManager getWaveManager() {
-		return waveManager;
+	public HeadUpDisplay getHud() {
+		return hud;
 	}
 
-	public void setWaveManager(WaveManager waveManager) {
-		this.waveManager = waveManager;
+	public void setHud(HeadUpDisplay hud) {
+		this.hud = hud;
+	}
+
+	public StateManager getStatemanager() {
+		return statemanager;
+	}
+
+	public void setStatemanager(StateManager statemanager) {
+		this.statemanager = statemanager;
 	}
 }

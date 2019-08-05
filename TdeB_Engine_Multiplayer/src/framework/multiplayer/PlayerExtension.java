@@ -1,4 +1,4 @@
-package framework.arena;
+package framework.multiplayer;
 
 
 import static framework.helper.Graphics.drawQuadImage;

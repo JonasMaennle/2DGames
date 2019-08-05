@@ -19,10 +19,10 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
 import framework.arena.ItemSpawner;
-import framework.arena.PlayerExtension;
 import framework.core.StateManager.GameState;
 import framework.entity.GameEntity;
 import framework.helper.Collection;
+import framework.multiplayer.PlayerExtension;
 import framework.ui.InformationManager;
 
 public class Handler {

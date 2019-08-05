@@ -1,4 +1,4 @@
-package framework.arena;
+package framework.multiplayer;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import framework.core.Handler;
+import framework.entity.MessageType;
 import framework.helper.Collection;
 
 public class MultiplayerClient implements Runnable{

@@ -1,6 +1,8 @@
-package framework.arena;
+package framework.multiplayer;
 
 import java.io.Serializable;
+
+import framework.entity.MessageType;
 
 public class Message implements Serializable{
 	
