@@ -35,7 +35,6 @@ public class MultiplayerClient implements Runnable{
 	}
 	
 	public void run(){
-		
 		// setup connection
 		setupConnection(TARGET_IP, PORT);
 		
@@ -80,6 +79,17 @@ public class MultiplayerClient implements Runnable{
 				
 				// bullet list
 				localPlayer.setBulletList(tmpPlayer.getWeapon().getBulletList());
+				localPlayer.setParticleList(tmpPlayer.getWeapon().getParticleList());
+				
+				// shield
+				if(tmpPlayer.getShield() != null) {
+					localPlayer.setShieldActive(true);
+					localPlayer.setShieldEnergyLeft(tmpPlayer.getShield().getEngeryLeft());
+				}
+				else {
+					localPlayer.setShieldActive(false);
+				}
+
 				
 				// add dummy to message
 				message.setDeliveryObject(localPlayer);
@@ -138,6 +148,7 @@ public class MultiplayerClient implements Runnable{
 				}
 			} catch (Exception e) {
 				System.out.println("No data from Server");
+				e.printStackTrace();
 			}
 		}	
 	}
@@ -164,22 +175,21 @@ public class MultiplayerClient implements Runnable{
 				p.setWeaponHeight(playerEx.getWeaponHeight());
 				p.setWeaponClassName(playerEx.getWeaponClassName());
 				
-				//add bullets to list
-//				for(Bullet_Basic b : playerEx.getBulletList()) {
-//					if(!p.getBulletList().contains(b))
-//						p.getBulletList().add(b);
-//				}
+				// bullet / particle list
 				p.setBulletList(playerEx.getBulletList());
+				p.setParticleList(playerEx.getParticleList());
+				
+				// shield
+				p.setShieldActive(playerEx.isShieldActive());
+				p.setShieldEnergyLeft(playerEx.getShieldEnergyLeft());
 				//System.out.println(p.getX() + "     "  + p.getY());
 			}
 		}
 		
 		if(!found) {
 			playerEx.setHandler(handler);
-			handler.getPl().add(playerEx);
-			
+			handler.getPl().add(playerEx);		
 		}
-
 	}
 	
 	public void setHandler(Handler handler) {

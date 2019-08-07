@@ -1,6 +1,7 @@
 package object;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.Random;
 import static framework.helper.Graphics.*;
 import static framework.helper.Collection.*;
@@ -12,13 +13,14 @@ import framework.core.Handler;
 import framework.entity.GameEntity;
 import framework.shader.Light;
 
-public class Particle {
+public class Particle implements Serializable{
 	
+	private static final long serialVersionUID = -6371670665817235367L;
 	private transient Image particles;
 	private Random rand;
 	private int x, y, width, height;
 	private float velX, velY, speed, angle;
-	private Light light;
+	private transient Light light;
 	private long timeCreated;
 	
 	public Particle(int x, int y, int width, int height, float velX, float velY, float speed, String color, int lightProbability){
@@ -149,5 +151,13 @@ public class Particle {
 
 	public void setTimeCreated(long timeCreated) {
 		this.timeCreated = timeCreated;
+	}
+
+	public Image getParticles() {
+		return particles;
+	}
+
+	public void setParticles(Image particles) {
+		this.particles = particles;
 	}
 }

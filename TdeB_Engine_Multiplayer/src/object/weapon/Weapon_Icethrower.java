@@ -6,7 +6,6 @@ import static framework.helper.Graphics.drawQuadImageRotRight;
 import static framework.helper.Graphics.quickLoaderImage;
 
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
@@ -16,13 +15,11 @@ import object.player.Player;
 
 public class Weapon_Icethrower extends Weapon_Basic{
 	
-	private CopyOnWriteArrayList<Particle> iceList;
 	private Random rand;
 
 	public Weapon_Icethrower(int width, int height, Player player, Handler handler) {
 		super(width, height, player, handler);
 		
-		this.iceList = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
 		
 		this.weaponRight = quickLoaderImage("player/weapon_icethrower_right");
@@ -46,7 +43,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 		}
 		
 		// update fire
-		for(Particle p : iceList){
+		for(Particle p : particleList){
 			p.update();
 				
 			for(Enemy_Basic e : handler.enemyList){
@@ -65,23 +62,23 @@ public class Weapon_Icethrower extends Weapon_Basic{
 			
 			if(isBehindPlayer(p)){
 				p.die();
-				iceList.remove(p);
+				particleList.remove(p);
 			}
 
 			if(calcDistance(p.getX(), p.getY(),this.x, this.y) > rand.nextInt(50)+ bulletSpeed){
 				p.die();
-				iceList.remove(p);
+				particleList.remove(p);
 			}
 			
 			if(p.getVelX() * p.getSpeed() < 1 && p.getVelX() * p.getSpeed() > -1){
 				p.die();
-				iceList.remove(p);
+				particleList.remove(p);
 			}
 			
 			for(GameEntity ge : handler.obstacleList){
 				if(ge.getBounds().intersects(p.getBounds())){
 					p.die();
-					iceList.remove(p);
+					particleList.remove(p);
 				}
 			}
 		}
@@ -90,7 +87,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 	public void draw(){
 		
 		// draw fire
-		for(Particle p : iceList){
+		for(Particle p : particleList){
 			p.draw();
 		}		
 
@@ -130,7 +127,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 			
 			//System.out.println(velX + "            " + velY);
 			              // Particle(int x,          int y,                               int width,           int height,          float velX,            float velY,loat speed,     String color,int lightProbability)
-			iceList.add(new Particle((int)centX + 12, (int)(centY - (angleOffset * 100)), rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(4)+2, "blue", rand.nextInt(100)));
+			particleList.add(new Particle((int)centX + 12, (int)(centY - (angleOffset * 100)), rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(4)+2, "blue", rand.nextInt(100)));
 		}else{
 			angleOffset = 0;
 			if(angle <= 270 && angle >= 180){
@@ -143,7 +140,7 @@ public class Weapon_Icethrower extends Weapon_Basic{
 			velX = -((rand.nextFloat() * 3 + 1) - (Math.abs(angleOffset*10)));
 			velY = (rand.nextFloat() * 1.0f - 0.5f) - (angleOffset*10);
 
-			iceList.add(new Particle((int)centX - 12, (int)(centY - (angleOffset * 100)), rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(5)+2, "blue", rand.nextInt( 100)));
+			particleList.add(new Particle((int)centX - 12, (int)(centY - (angleOffset * 100)), rand.nextInt(4) + 4, rand.nextInt(4) + 4, velX + player.getVelX(), velY, rand.nextInt(5)+2, "blue", rand.nextInt( 100)));
 		}
 		//                Particle( x,  y, width, height, velX, velY, speed, String color, angle){
 	}
@@ -169,9 +166,9 @@ public class Weapon_Icethrower extends Weapon_Basic{
 	}
 	
 	public void wipe(){
-		for(Particle p : iceList){
+		for(Particle p : particleList){
 			p.die();
-			iceList.remove(p);
+			particleList.remove(p);
 		}
 	}
 

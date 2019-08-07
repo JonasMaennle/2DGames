@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
+import object.Particle;
 import object.enemy.Enemy_Basic;
 import object.player.Player;
 
@@ -40,6 +41,7 @@ public class Weapon_Basic implements GameEntity{
 	protected transient Rectangle bulletSpawnPoint;
 	
 	protected CopyOnWriteArrayList<Bullet_Basic> bulletList;
+	protected CopyOnWriteArrayList<Particle> particleList;
 	
 	public Weapon_Basic(int width, int height, Player player, Handler handler) {
 		this.player = player;
@@ -61,6 +63,7 @@ public class Weapon_Basic implements GameEntity{
 		this.handler = handler;
 		this.default_weapon = quickLoaderImage("player/weapon");
 		this.bulletList = new CopyOnWriteArrayList<Bullet_Basic>();
+		this.particleList = new CopyOnWriteArrayList<>();
 		
 		this.topAngleRange = 90; // def. 50
 		this.bottomAngleRange = 90; // def. 40
@@ -329,6 +332,14 @@ public class Weapon_Basic implements GameEntity{
 
 	public void setBulletList(CopyOnWriteArrayList<Bullet_Basic> bulletList) {
 		this.bulletList = bulletList;
+	}
+
+	public CopyOnWriteArrayList<Particle> getParticleList() {
+		return particleList;
+	}
+
+	public void setParticleList(CopyOnWriteArrayList<Particle> particleList) {
+		this.particleList = particleList;
 	}
 }
 

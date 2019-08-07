@@ -10,12 +10,14 @@ import static framework.helper.Graphics.quickLoaderImage;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
+import object.Particle;
 import object.player.Player;
 import object.weapon.Bullet_Basic;
 import object.weapon.Bullet_Laser;
@@ -32,20 +34,35 @@ public class PlayerExtension extends Player implements Serializable{
 
 	private static final long serialVersionUID = -287827503604601538L;
 	private int playerID;
-	private transient Image weaponImageLeft, weaponImageRight;
+
 	private float weaponAngle;
 	private String weaponClassName;
-	
+	private Random rand;
 	private float weaponX, weaponY, weaponWidth, weaponHeight;
+	private boolean loadBulletImages, shieldActive;
+	private float shieldEnergyLeft;
+	
 	private CopyOnWriteArrayList<Bullet_Basic> bulletList;
-
+	private CopyOnWriteArrayList<Particle> particleList;	
+	
+	// set local
+	private transient Image weaponImageLeft, weaponImageRight;
+	private transient Image bullet_basic, bullet_laser, shield, shield_bar;
+	private transient Image[] fireParticleImages;
+	private transient Image[] iceParticleImages;
+	
+	
 	public PlayerExtension(int x, int y, Handler handler, int playerID) {
 		super(x, y, handler);
 		
 		this.playerID = playerID;
 		this.weaponAngle = 0;
 		this.weaponClassName = "";
+		this.rand = new Random();
 		this.bulletList = new CopyOnWriteArrayList<>();
+		this.particleList = new CopyOnWriteArrayList<>();
+		this.loadBulletImages = false;
+		this.shieldActive = false;
 	}
 	
 	@Override
@@ -57,6 +74,10 @@ public class PlayerExtension extends Player implements Serializable{
 	@Override
 	public void draw() {
 		loadImages();
+		if(!loadBulletImages) {
+			loadBulletImages = true;
+			loadBulletImages();
+		}
 		
 		switch (direction) {
 		case "right":
@@ -78,6 +99,11 @@ public class PlayerExtension extends Player implements Serializable{
 		
 		drawBullets();
 		drawWeaponImage();
+		
+		if(shieldActive) {
+			drawQuadImage(shield, x - 16, y - 16, 64, 64);
+			drawQuadImage(shield_bar, x - 16,  y - 26, (int)shieldEnergyLeft, 6);
+		}
 	}
 	
 	private void drawWeaponImage() {
@@ -92,12 +118,42 @@ public class PlayerExtension extends Player implements Serializable{
 	private void drawBullets() {
 		for(Bullet_Basic b : bulletList) {
 			if(b.getImage() == null && b instanceof Bullet_Basic)
-				b.setImage(quickLoaderImage("player/bullet_basic"));
+				b.setImage(bullet_basic);
 			if(b.getImage() == null && b instanceof Bullet_Laser)
-				b.setImage(quickLoaderImage("player/laser_red"));
+				b.setImage(bullet_laser);
 			
 			b.draw();
 		}
+		
+		for(Particle p : particleList) {
+			if(p.getParticles() == null) {
+				if(weaponClassName.equals("Weapon_Flamethrower")) {
+					p.setParticles(fireParticleImages[rand.nextInt(5)]);
+				}else if(weaponClassName.equals("Weapon_Icethrower")) {
+					p.setParticles(iceParticleImages[rand.nextInt(5)]);
+				}
+			}
+			p.draw();
+		}
+	}
+	
+	public void loadBulletImages() {
+		Image[] fireParticleImages = new Image[5];
+		Image[] iceParticleImages = new Image[5];
+		Random rand = new Random();
+		for(int i = 0; i < 5; i++) {
+			fireParticleImages[i] = quickLoaderImage("tiles/Lava_" + rand.nextInt(5));
+			iceParticleImages[i] = quickLoaderImage("tiles/Ice_" + rand.nextInt(5));
+		}
+		
+		this.fireParticleImages = fireParticleImages;
+		this.iceParticleImages = iceParticleImages;
+		
+		setBullet_basic(quickLoaderImage("player/bullet_basic"));
+		setBullet_laser(quickLoaderImage("player/laser_red"));
+		
+		this.shield = quickLoaderImage("player/shield");
+		this.shield_bar = quickLoaderImage("player/shield_bar");
 	}
 
 	private void loadImages() {
@@ -218,4 +274,60 @@ public class PlayerExtension extends Player implements Serializable{
 	public void setBulletList(CopyOnWriteArrayList<Bullet_Basic> bulletList) {
 		this.bulletList = bulletList;
 	}
+
+	public CopyOnWriteArrayList<Particle> getParticleList() {
+		return particleList;
+	}
+
+	public void setParticleList(CopyOnWriteArrayList<Particle> particleList) {
+		this.particleList = particleList;
+	}
+
+	public Image getBullet_basic() {
+		return bullet_basic;
+	}
+
+	public void setBullet_basic(Image bullet_basic) {
+		this.bullet_basic = bullet_basic;
+	}
+
+	public Image getBullet_laser() {
+		return bullet_laser;
+	}
+
+	public void setBullet_laser(Image bullet_laser) {
+		this.bullet_laser = bullet_laser;
+	}
+
+	public Image[] getFireParticleImages() {
+		return fireParticleImages;
+	}
+
+	public void setFireParticleImages(Image[] fireParticleImages) {
+		this.fireParticleImages = fireParticleImages;
+	}
+
+	public Image[] getIceParticleImages() {
+		return iceParticleImages;
+	}
+
+	public void setIceParticleImages(Image[] iceParticleImages) {
+		this.iceParticleImages = iceParticleImages;
+	}
+
+	public boolean isShieldActive() {
+		return shieldActive;
+	}
+
+	public void setShieldActive(boolean shieldActive) {
+		this.shieldActive = shieldActive;
+	}
+
+	public float getShieldEnergyLeft() {
+		return shieldEnergyLeft;
+	}
+
+	public void setShieldEnergyLeft(float shieldEnergyLeft) {
+		this.shieldEnergyLeft = shieldEnergyLeft;
+	}	
 }
