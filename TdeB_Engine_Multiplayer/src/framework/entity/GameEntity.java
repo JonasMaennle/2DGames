@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import org.lwjgl.util.vector.Vector2f;
 
-public interface GameEntity {
+public interface GameEntity{
 	
 	public void update();
 	public void draw();

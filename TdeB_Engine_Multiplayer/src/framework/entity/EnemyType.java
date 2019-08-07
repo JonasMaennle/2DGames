@@ -1,6 +1,6 @@
 package framework.entity;
 
-public enum EnemyType {
+public enum EnemyType{
 	
 	SPIDER(1.0f),
 	GHOST(1.5f), 

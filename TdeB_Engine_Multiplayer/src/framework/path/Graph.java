@@ -2,10 +2,12 @@ package framework.path;
 
 import static framework.helper.Collection.*;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Graph {
+public class Graph implements Serializable{
 	
+	private static final long serialVersionUID = 8733621707565781335L;
 	private LinkedList<Node> nodes;
 	private int[][] matrix;
 	private long t1,t2;

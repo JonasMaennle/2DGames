@@ -7,15 +7,17 @@ import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
 
-public class Tile implements GameEntity{
+public class Tile implements GameEntity, Serializable{
 	
+	private static final long serialVersionUID = -6266509072943995252L;
 	private float x, y;
 	private int width, height;
-	private Image image;
+	private transient Image image;
 	
 	public Tile(float x, float y, Image image, Handler handler)
 	{

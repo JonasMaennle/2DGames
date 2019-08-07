@@ -1,7 +1,10 @@
 package framework.path;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable{
 	
+	private static final long serialVersionUID = 119204755102607561L;
 	private int x;
 	private int y;
 	private int heuristic;

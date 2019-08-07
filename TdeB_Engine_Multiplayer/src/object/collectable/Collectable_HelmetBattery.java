@@ -10,6 +10,8 @@ import framework.shader.Light;
 
 public class Collectable_HelmetBattery extends Collectable_Basic{
 
+	private static final long serialVersionUID = -5938181392569012315L;
+
 	public Collectable_HelmetBattery(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		

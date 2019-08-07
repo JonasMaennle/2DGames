@@ -2,6 +2,6 @@ package framework.entity;
 
 public enum MessageType {
 	
-	CONNECT, POSITION, DEFAULT;
+	CONNECT, POSITION, DEFAULT, WAVE;
 
 }

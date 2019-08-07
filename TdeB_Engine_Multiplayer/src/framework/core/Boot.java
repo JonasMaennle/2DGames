@@ -69,7 +69,7 @@ public class Boot {
 			HEIGHT = 1080;
 			SET_FULL_SCREEN = false;
 		}
-		
+
 		System.setProperty( "org.lwjgl.opengl.Window.undecorated" , "true" ) ;
 		Display.setTitle("");
 		
@@ -106,8 +106,7 @@ public class Boot {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		Display.setVSyncEnabled(true); // <- geilo
-		
-		
+
 		Collection.awtFont = loadCustomFont("font/Pixel-Miners.ttf", fontSize);
 		Collection.font = new TrueTypeFont(awtFont, false);
 	}

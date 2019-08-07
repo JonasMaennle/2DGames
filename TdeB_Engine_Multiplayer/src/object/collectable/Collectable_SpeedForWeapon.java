@@ -12,6 +12,8 @@ import framework.shader.Light;
 
 public class Collectable_SpeedForWeapon extends Collectable_Basic{
 
+	private static final long serialVersionUID = -8325712588720491071L;
+
 	public Collectable_SpeedForWeapon(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		light = new Light(new Vector2f(x, y), 25, 0, 24, 8);

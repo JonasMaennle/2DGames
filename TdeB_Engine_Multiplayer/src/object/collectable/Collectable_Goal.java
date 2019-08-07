@@ -8,6 +8,8 @@ import framework.shader.Light;
 
 public class Collectable_Goal extends Collectable_Basic{
 
+	private static final long serialVersionUID = 333724987802639481L;
+
 	public Collectable_Goal(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		

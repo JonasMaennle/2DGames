@@ -1,7 +1,10 @@
 package object;
 
-public class Spawner {
+import java.io.Serializable;
+
+public class Spawner implements Serializable{
 	
+	private static final long serialVersionUID = -3123394438513881537L;
 	private int x, y;
 	
 	public Spawner(int x, int y) {

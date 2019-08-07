@@ -96,7 +96,7 @@ public class StateManager {
 				loadLevel();
 
 				// join multiplayer sessoin
-				this.client = new MultiplayerClient(handler);
+				this.client = new MultiplayerClient(handler, this);
 				Thread t = new Thread(client);
 				t.start();
 			}

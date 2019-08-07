@@ -18,7 +18,8 @@ import org.newdawn.slick.Image;
 
 public class Enemy_Digger extends Enemy_Basic{
 	
-	private Image ground;
+	private static final long serialVersionUID = 8718039614090262353L;
+	private transient Image ground;
 	private CopyOnWriteArrayList<Particle> particleList;
 	private Random rand;
 	private long timer1, timer2;
@@ -26,7 +27,7 @@ public class Enemy_Digger extends Enemy_Basic{
 	private boolean digged, initHP;
 	
 	private int eyeX, eyeY;
-	private Light eyeLightLeft, eyeLightRight;
+	private transient Light eyeLightLeft, eyeLightRight;
 
 	public Enemy_Digger(float x, float y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);

@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.opengl.GL11;
@@ -25,23 +26,24 @@ import framework.helper.Collection;
 import framework.multiplayer.PlayerExtension;
 import framework.ui.InformationManager;
 
-public class Handler {
+public class Handler implements Serializable{
 	
+	private static final long serialVersionUID = -8123778130178032047L;
 	public CopyOnWriteArrayList<GameEntity> obstacleList;
 	public CopyOnWriteArrayList<Enemy_Basic> enemyList;
-	public CopyOnWriteArrayList<LightSpot> lightSpotList;
+	public transient CopyOnWriteArrayList<LightSpot> lightSpotList;
 	public CopyOnWriteArrayList<Collectable_Basic> collectableList;
 	
 	public CopyOnWriteArrayList<Spawner> spawnPoints;
 	
-	private InformationManager info_manager;
-	private TileGrid map;
-	private GameEntity currentEntity;
-	private Player player;
-	private ItemSpawner itemSpawner;
+	private transient InformationManager info_manager;
+	private transient TileGrid map;
+	private transient GameEntity currentEntity;
+	private transient Player player;
+	private transient ItemSpawner itemSpawner;
 	
 	private float brightness;
-	private Image filter, path;
+	private transient Image filter, path;
 	private long time1, time2;
 	
 	private int enemiesLeft;

@@ -7,18 +7,20 @@ import java.util.HashMap;
 import java.util.Random;
 
 import framework.core.Handler;
+import framework.core.StateManager;
 import framework.entity.MessageType;
 import framework.helper.Collection;
 import object.player.Player;
 
 public class MultiplayerClient implements Runnable{
 	private final static int PORT = 55124;
-	private static String TARGET_IP = "192.168.2.104"; // outside-> game.raspberry_jonas.selfhost.eu, inside -> 192.168.2.104
+	private static String TARGET_IP = "localhost"; // outside-> game.raspberry_jonas.selfhost.eu, inside -> 192.168.2.104
 	
 	private Socket sock;
 	private ObjectOutputStream os_stream;
 	private ObjectInputStream in_stream;
 	private Handler handler;
+	private StateManager stateManager;
 	private Message message;
 	
 	private boolean running = true;
@@ -28,8 +30,10 @@ public class MultiplayerClient implements Runnable{
 	
 	private long t1, t2;
 
-	public MultiplayerClient(Handler handler){
+	public MultiplayerClient(Handler handler, StateManager stateManager){
 		this.handler = handler;
+		this.stateManager = stateManager;
+		
 		this.firstMessage = false;
 		this.rand = new Random();
 	}
@@ -55,6 +59,9 @@ public class MultiplayerClient implements Runnable{
 				
 				message = new Message(MessageType.CONNECT);
 				message.setDeliveryObject(localPlayer);
+				
+				message.setHandler(handler);
+				message.setGraph(stateManager.getGraph());
 			}else {
 				// create new message
 				message = new Message(MessageType.POSITION);
@@ -138,12 +145,23 @@ public class MultiplayerClient implements Runnable{
 			try {
 				// read from server
 				while(running) {
-					@SuppressWarnings("unchecked")
-					HashMap<Integer, PlayerExtension> tmpMap = (HashMap<Integer, PlayerExtension>) in_stream.readObject();
+					Message received = (Message) in_stream.readObject();
 					
-					for(Integer key : tmpMap.keySet()) {
+					switch (received.getType()) {
+					case POSITION:
+						@SuppressWarnings("unchecked") 
+						HashMap<Integer, PlayerExtension> tmpMap = (HashMap<Integer, PlayerExtension>)received.getDeliveryObject();
+						for(Integer key : tmpMap.keySet()) {
+							
+							updatePlayers(key, tmpMap.get(key));
+						}
+						break;
 						
-						updatePlayers(key, tmpMap.get(key));
+					case WAVE:
+						
+						break;
+					default:
+						break;
 					}
 				}
 			} catch (Exception e) {

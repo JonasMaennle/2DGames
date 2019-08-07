@@ -4,6 +4,7 @@ import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -19,8 +20,9 @@ import framework.path.Node;
 import object.Tile;
 import object.player.Player;
 
-public abstract class Enemy_Basic implements GameEntity{
+public abstract class Enemy_Basic implements GameEntity, Serializable{
 
+	private static final long serialVersionUID = 9148879485389546769L;
 	protected float x, y, speed, velX, velY, max_speed;
 	protected float spawnX, spawnY;
 	protected int width, height;
@@ -36,12 +38,12 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected int hpFactor;
 	protected int playerRange;
 	
-	protected Handler handler;
-	protected Image image;
-	protected Image hpBar;
+	protected transient Handler handler;
+	protected transient Image image;
+	protected transient Image hpBar;
 	
-	protected Animation moveLeft;
-	protected Animation moveRight;
+	protected transient Animation moveLeft;
+	protected transient Animation moveRight;
 
 	public Enemy_Basic(float x, float y, int width, int height, Handler handler){
 		this.x = x;

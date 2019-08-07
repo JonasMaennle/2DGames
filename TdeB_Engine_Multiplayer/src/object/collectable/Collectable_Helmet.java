@@ -12,9 +12,10 @@ import object.player.Player;
 
 public class Collectable_Helmet extends Collectable_Basic{
 
-	private Player player;
-	private Image imgLeft, imgRight;
-	private Light light;
+	private static final long serialVersionUID = -7368837253690407301L;
+	private transient Player player;
+	private transient Image imgLeft, imgRight;
+	private transient Light light;
 	private int offset;
 	
 	public Collectable_Helmet(int x, int y, int width, int height) {

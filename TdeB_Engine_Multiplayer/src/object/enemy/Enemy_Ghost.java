@@ -17,8 +17,9 @@ import framework.shader.Light;
 
 public class Enemy_Ghost extends Enemy_Basic{
 	
+	private static final long serialVersionUID = -8673308662810959817L;
 	private int eyeX, eyeY;
-	private Light eyeLightLeft, eyeLightRight;
+	private transient Light eyeLightLeft, eyeLightRight;
 
 	public Enemy_Ghost(float x, float y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);

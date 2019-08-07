@@ -12,6 +12,8 @@ import framework.shader.Light;
 
 public class Collectable_Shield extends Collectable_Basic{
 
+	private static final long serialVersionUID = 2226717915217760781L;
+
 	public Collectable_Shield(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		image = quickLoaderImage("player/shield");

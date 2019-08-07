@@ -13,10 +13,11 @@ import static framework.helper.Graphics.*;
 
 public class Enemy_Spider extends Enemy_Basic{
 	
-	private Light eyeLight;
+	private static final long serialVersionUID = 8679910929294628405L;
+	private transient Light eyeLight;
 	private int eyeX, eyeY;
 	private int hpFactor;
-	Image img;
+	transient Image img;
 
 	public Enemy_Spider(float x, float y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);

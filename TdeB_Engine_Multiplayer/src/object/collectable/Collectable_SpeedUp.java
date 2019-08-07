@@ -12,6 +12,8 @@ import framework.shader.Light;
 
 public class Collectable_SpeedUp extends Collectable_Basic{
 
+	private static final long serialVersionUID = -6401686109246303485L;
+
 	public Collectable_SpeedUp(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		

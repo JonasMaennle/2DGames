@@ -1,6 +1,7 @@
 package object.collectable;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
@@ -8,12 +9,13 @@ import org.newdawn.slick.Image;
 import framework.entity.GameEntity;
 import framework.shader.Light;
 
-public class Collectable_Basic implements GameEntity{
+public class Collectable_Basic implements GameEntity, Serializable{
 
+	private static final long serialVersionUID = 7036469980922995500L;
 	protected int x, y, width, height;
-	protected Image image;
+	protected transient Image image;
 	protected boolean found;
-	protected Light light;
+	protected transient Light light;
 	
 	public Collectable_Basic(int x, int y, int width, int height){
 		this.x = x;

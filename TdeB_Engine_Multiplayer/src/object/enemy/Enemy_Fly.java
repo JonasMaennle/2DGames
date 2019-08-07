@@ -17,6 +17,8 @@ import framework.entity.EnemyType;
 
 public class Enemy_Fly extends Enemy_Basic{
 
+	private static final long serialVersionUID = -8136620707204498750L;
+
 	public Enemy_Fly(float x, float y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);
 		

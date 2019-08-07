@@ -5,6 +5,7 @@ import static framework.helper.Graphics.drawQuadImage;
 import static framework.helper.Graphics.loadSpriteSheet;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
@@ -22,10 +23,11 @@ import static framework.helper.Collection.*;
 
 public class Enemy_Devil extends Enemy_Basic{
 	
+	private static final long serialVersionUID = 7886379198593888910L;
 	private CopyOnWriteArrayList<Slime> slimeList;
 	private int attackRange;
 	private long t1, t2;
-	private Light eyeLight;
+	private transient Light eyeLight;
 	private float eyeX, eyeY;
 
 	public Enemy_Devil(float x, float y, int width, int height, Handler handler) {
@@ -230,13 +232,14 @@ public class Enemy_Devil extends Enemy_Basic{
 	}
 	
 	// throw object
-	private class Slime {
+	private class Slime implements Serializable{
 		
+		private static final long serialVersionUID = -996306862098838805L;
 		private boolean testShot;
 		private float x, y, velX, velY, speed;
-		private Image image;
+		private transient Image image;
 		private int size;
-		private Light light;
+		private transient Light light;
 		
 		private float destX, destY;
 		
