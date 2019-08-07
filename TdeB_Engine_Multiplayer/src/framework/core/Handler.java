@@ -182,7 +182,7 @@ public class Handler {
 			player.draw();
 		
 		for(PlayerExtension p : pl) {
-			//if(p.getPlayerID() != Collection.PLAYER_ID)
+			if(p.getPlayerID() != Collection.PLAYER_ID)
 				p.draw();
 		}
 
