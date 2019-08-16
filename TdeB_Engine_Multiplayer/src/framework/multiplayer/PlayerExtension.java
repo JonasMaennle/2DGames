@@ -178,7 +178,7 @@ public class PlayerExtension extends Player implements Serializable{
 			
 			Class<?> clazz = Class.forName(fullName);
 			Constructor<?> constructor = clazz.getConstructor(Integer.TYPE, Integer.TYPE, Player.class, Handler.class);
-			Object instance = constructor.newInstance(new Integer((int)weaponWidth), new Integer((int)weaponHeight), handler.getPlayer(), handler);
+			Object instance = constructor.newInstance((int)weaponWidth, (int)weaponHeight, handler.getPlayer(), handler);
 			
 			if(instance instanceof Weapon_Pistol) {
 				weaponImageLeft = ((Weapon_Pistol) instance).getWeaponLeft();
