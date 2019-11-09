@@ -157,6 +157,34 @@ public class Graphics {
 		
 	}
 	
+	public static void drawQuadImageRotCenter(Image image, float x, float y, float width, float height, float angle, float alpha){	
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1, 1, 1, alpha);
+		image.bind();
+		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE); // Removes weird line above texture
+		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+		glTranslatef(x + (width / 2) + MOVEMENT_X, y + (height / 2) + MOVEMENT_Y, 0);
+		glRotatef(angle, 0, 0, 1);
+		glTranslatef(- width / 2, - height / 2, 0);
+				
+		glBegin(GL_QUADS);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(1, 0);
+		glVertex2f(width, 0);
+		glTexCoord2f(1, 1);
+		glVertex2f(width, height);
+		glTexCoord2f(0, 1);
+		glVertex2f(0, height);
+		glEnd();
+		
+		glLoadIdentity();
+		GL11.glColor4f(255, 255, 255, 255);
+		glDisable(GL_BLEND);
+		
+	}
+	
 	// Rotate right
 	public static void drawQuadImageRotRight(Image image, float x, float y, float width, float height, float angle){	
 		glEnable(GL_BLEND);

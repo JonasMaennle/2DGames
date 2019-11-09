@@ -1,14 +1,14 @@
 package object.enemy;
 
 import static framework.helper.Collection.MOVEMENT_X;
+import static framework.helper.Collection.*;
 import static framework.helper.Collection.MOVEMENT_Y;
 import static framework.helper.Collection.PLAYER_HP;
 import static framework.helper.Collection.TILE_SIZE;
-import static framework.helper.Graphics.drawQuadImage;
+import static framework.helper.Graphics.*;
 import static framework.helper.Graphics.quickLoaderImage;
 
 import java.awt.Rectangle;
-import java.util.LinkedList;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Animation;
@@ -16,9 +16,8 @@ import org.newdawn.slick.Image;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
-import framework.path.Node;
-import object.Tile;
-import object.Player;
+import framework.shader.Light;
+import object.weapon.Laser_Basic;
 
 public abstract class Enemy_Basic implements GameEntity{
 
@@ -27,13 +26,9 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected float spawnX, spawnY;
 	protected int width, height;
 	protected float hp;
-	protected boolean pathLock;
+	protected float angle;
 	protected String direction;
 	
-	protected LinkedList<Node> path;
-	protected LinkedList<Node> visited;
-	protected int nextX, nextY;
-	protected float absx, absy;
 	protected int hpFactor;
 	protected int playerRange;
 	
@@ -43,6 +38,7 @@ public abstract class Enemy_Basic implements GameEntity{
 	
 	protected Animation moveLeft;
 	protected Animation moveRight;
+	protected Light light;
 
 	public Enemy_Basic(int x, int y, int width, int height, Handler handler){
 		this.x = x;
@@ -55,62 +51,24 @@ public abstract class Enemy_Basic implements GameEntity{
 		this.image = quickLoaderImage("enemy/Enemy_tmp");
 		this.hpBar = quickLoaderImage("enemy/healthForeground");
 		
-		this.max_speed = 2;
+		this.max_speed = 4;
 		this.speed = 0;
 		this.velX = 0;
 		this.velY = 0;
 		this.hp = 32;
 		
-		this.path = new LinkedList<>();
-		this.visited = new LinkedList<>();
-		
-		this.nextX = (int)x;
-		this.nextY = (int)y;
-		
-		this.absx = x;
-		this.absy = y;
-		
 		this.handler = handler;
-		this.pathLock = false;
 		this.direction = "right";
 
-		this.playerRange = 250;
-	}
-
-	public boolean isPathLock() {
-		return pathLock;
-	}
-
-	public void setPathLock(boolean pathLock) {
-		this.pathLock = pathLock;
+		this.playerRange = HEIGHT;
 	}
 
 	public void update() {
 		velX = 0;
 		velY = 0;
-		//System.out.println(path.size());
-		if(path.size() > 0)
-		{
-			absx = (path.get(path.size() - 1).getX() * 32);
-			absy = (path.get(path.size() - 1).getY() * 32);
-			// System.out.println(path.size());
-			//System.out.println(absx + "   " + x);
-			if(absx > x)
-				velX = 1; 
-			if(absx < x)
-				velX = -1;
-			if(absx == x || x >= absx - 4 && x <= absx + 4) // removes epileptic effect
-				velX = 0;
-			
-			if(absy > y)
-				velY = 1;
-			if(absy < y)
-				velY = -1;
-			if(absy == y || y >= absy - 4 && y <= absy + 4) // removes epileptic effect
-				velY = 0;				
-		}else{
-			velX = 0;
-			velY = 0;
+		
+		if(!handler.getPlayer().getBounds().intersects(getBounds())) {
+			calcDirectPathToPlayer(handler.getPlayer().getX() + handler.getPlayer().getWidth()/2, handler.getPlayer().getY() + handler.getPlayer().getHeight()/2);
 		}
 
 		// set direction
@@ -125,21 +83,41 @@ public abstract class Enemy_Basic implements GameEntity{
 		damagePlayer();
 		mapCollision();
 		isPlayerInRange(playerRange);
+		calcNoseAngle();
 		
-		// remove visited nodes
-		if(path.size() > 0){
-			// create rect for current node
-			Rectangle node = new Rectangle(path.get(path.size() - 1).getX() * 32, path.get(path.size() - 1).getY() * 32, 32, 32);
-			
-			if(getBounds().intersects(node) && path.size() > 0 && !pathLock){
-				visited.add(path.get(path.size()-1));
-				path.remove(path.size() - 1);		
-			}
-		}
+		if(light != null)
+			light.setLocation(new Vector2f(x + width/2 + MOVEMENT_X, y + height/2 + MOVEMENT_Y));
+	}
+	
+	protected void calcNoseAngle() {
+		angle = (float) Math.toDegrees(Math.atan2(handler.getPlayer().getY() + handler.getPlayer().getHeight()/2 - (y), handler.getPlayer().getX() + handler.getPlayer().getWidth()/2 - (x)));
+	    angle += 90;
+	    angle %= 360;
+		if(angle < 0){
+	        angle += 360;
+	    }
 	}
 
 	public void draw() {
-		drawQuadImage(image, x, y, width, height);
+		drawQuadImageRotCenter(image, x, y, width, height, angle);
+	}
+	
+	private void calcDirectPathToPlayer(float playerX, float playerY) {
+		
+		float totalAllowedMovement = 1.0f;
+		float xDistanceFromTarget = Math.abs(playerX - x);
+		float yDistanceFromTarget = Math.abs(playerY - y);
+		float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
+		float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
+		
+		velX = xPercentOfMovement;
+		velY = totalAllowedMovement - xPercentOfMovement;
+
+		if(playerY < y)
+			velY *= -1;
+		
+		if(playerX < x)
+			velX *= -1;	
 	}
 	
 	public void isPlayerInRange(int borderOffset){
@@ -190,97 +168,20 @@ public abstract class Enemy_Basic implements GameEntity{
 				}	
 			}
 		}
-		
-		// Player collision
-		Player player = handler.getPlayer();
-		// top
-		if(player.getBottomBounds().intersects(getTopBounds()))
-		{
-			velY = 0;
-			y = (player.getY() + player.getHeight());
-		}
-		// bottom
-		if(player.getTopBounds().intersects(getBottomBounds()))
-		{	
-			velY = 0;
-			y = (player.getY() - TILE_SIZE);
-		}		
-		// left
-		if(player.getRightBounds().intersects(getLeftBounds()))
-		{
-			velX = 0;
-			x = (player.getX() + player.getWidth());
-		}
-		// right
-		if(player.getLeftBounds().intersects(getRightBounds()))
-		{
-			velX = 0;
-			x = (player.getX() - TILE_SIZE);
-		}	
-		
-		// Map collision
-		for(GameEntity ge : handler.getObstacleList()){
-			int boxingOffet = 2;
-			if(ge instanceof Tile)
-				boxingOffet = 0;
-		
-			// top
-			if(ge.getBottomBounds().intersects(getTopBounds()))
-			{
-				velY = 0;
-				y = (ge.getY() + ge.getHeight() + boxingOffet);
+		bulletCollision();
+	}
+	
+	private void bulletCollision() {
+		for(Laser_Basic laser : handler.getLaserList()) {
+			if(laser.getBounds().intersects(this.getBounds())) {
+				laser.die();
+				handler.getLaserList().remove(laser);
+				
+				// damage to enemy
+				if(light != null)lights.remove(light);
+				hp = 0;
 			}
-			// bottom
-			if(ge.getTopBounds().intersects(getBottomBounds()))
-			{	
-				velY = 0;
-				y = (ge.getY() - TILE_SIZE - boxingOffet);
-			}		
-			// left
-			if(ge.getRightBounds().intersects(getLeftBounds()))
-			{
-				velX = 0;
-				x = (ge.getX() + ge.getWidth() + boxingOffet);
-			}
-			// right
-			if(ge.getLeftBounds().intersects(getRightBounds()))
-			{
-				velX = 0;
-				x = (ge.getX() - TILE_SIZE - boxingOffet);
-			}	
 		}
-	}
-	
-	public int getNextX() {
-		
-		if(path.size() > 1){	
-			nextX = path.get(path.size() - 1).getX();
-		}else{
-			nextX = (int) x / TILE_SIZE;
-		}
-		return (int) absx/TILE_SIZE;
-	}
-
-	public int getNextY() {
-		
-		if(path.size() > 1){
-			nextX = path.get(path.size() - 1).getY();
-		}else{
-			nextY = (int) y / TILE_SIZE;
-		}
-		return (int) absy/TILE_SIZE;
-	}
-	
-	public void setPath(LinkedList<Node> path){
-		this.path = path;
-	}
-	
-	public int getEnemyNodesLeft(){
-		return path.size();
-	}
-
-	public LinkedList<Node> getPath() {
-		return path;
 	}
 
 	@Override
@@ -310,11 +211,27 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	@Override
 	public Vector2f[] getVertices() {
+		float radius = (width / 2);
+		float t = (float) Math.toRadians(angle);
+		
+		float yT = (float) (Math.cos(t) * radius) * -1;
+		float xT = (float) (Math.sin(t) * radius);
+		
+		t = (float) Math.toRadians(angle - 120);
+		
+		float yL = (float) (Math.cos(t) * radius) * -1;
+		float xL = (float) (Math.sin(t) * radius);
+		
+		t = (float) Math.toRadians(angle - 240);
+		
+		float yR = (float) (Math.cos(t) * radius) * -1;
+		float xR = (float) (Math.sin(t) * radius);
+		
+		
 		return new Vector2f[] {
-				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y), // left top
-				new Vector2f(x + MOVEMENT_X, y + MOVEMENT_Y + height), // left bottom
-				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y + height), // right bottom
-				new Vector2f(x + MOVEMENT_X + width, y + MOVEMENT_Y) // right top
+				new Vector2f(x + MOVEMENT_X + width / 2 + xT, y + MOVEMENT_Y + height / 2 + yT), // center top
+				new Vector2f(x + MOVEMENT_X + width / 2 + xL, y + MOVEMENT_Y + height / 2 + yL), // left bottom
+				new Vector2f(x + MOVEMENT_X + width / 2 + xR, y + MOVEMENT_Y + height / 2 + yR), // right bottom
 		};
 	}
 	
@@ -340,9 +257,6 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	public void setHp(float hp) {
 		this.hp = hp;
-	}
-	
-	public void die(){
 	}
 
 	public float getSpeed() {

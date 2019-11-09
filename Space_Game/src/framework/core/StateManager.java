@@ -11,8 +11,6 @@ import framework.gamestate.Deathscreen;
 import framework.gamestate.Game;
 import framework.gamestate.Loadingscreen;
 import framework.gamestate.Mainmenu;
-import framework.path.Graph;
-import framework.path.PathfindingThread;
 
 public class StateManager {
 	
@@ -34,8 +32,6 @@ public class StateManager {
 	
 	private BackgroundHandler backgroundHandler;
 	
-	private Graph graph;
-	private PathfindingThread pathThread;
 	private Image cursor;
 	
 	private long nextSecond = System.currentTimeMillis() + 1000;
@@ -43,9 +39,8 @@ public class StateManager {
 	private int framesInCurrentSecond = 0;
 	
 	public StateManager(){
-		this.graph = new Graph();
 		this.handler = new Handler();
-		this.backgroundHandler = new BackgroundHandler(quickLoaderImage("background/background_black"), WIDTH * 2, HEIGHT * 2);
+		this.backgroundHandler = new BackgroundHandler(quickLoaderImage("background/background_black"), WIDTH, HEIGHT, handler);
 		
 		this.game = new Game(this, handler, backgroundHandler);
 		this.deathscreen = new Deathscreen(this, handler, backgroundHandler);
@@ -111,18 +106,17 @@ public class StateManager {
 		
 		handler.wipe();
 		shadowObstacleList.clear();
-		graph = new Graph();
 		
 		//System.out.println(levelPath+CURRENT_LEVEL);
 		
 		switch (CURRENT_LEVEL) {
 		// Szenario maps
 		case 1:
-			handler.setMap(loadMap(handler, levelPath + CURRENT_LEVEL, graph));
+			handler.setMap(loadMap(handler, levelPath + CURRENT_LEVEL));
 			System.out.println("Level 1");
 			break;
 		case 2:
-			handler.setMap(loadMap(handler, levelPath + CURRENT_LEVEL, graph));
+			handler.setMap(loadMap(handler, levelPath + CURRENT_LEVEL));
 			System.out.println("Level 2");
 			break;
 
@@ -132,11 +126,7 @@ public class StateManager {
 		}
 		
 		// set camera
-		game.getCamera().setEntity(handler.getPlayer());
-		
-		PathfindingThread.running = true;
-		pathThread = new PathfindingThread(handler.getEnemyList(), graph, handler);
-		pathThread.start();
+		game.getCamera().setPlayer(handler.getPlayer());
 	}
 
 	public Game getGame() {
@@ -169,13 +159,5 @@ public class StateManager {
 
 	public void setLoadingscreen(Loadingscreen loadingscreen) {
 		this.loadingscreen = loadingscreen;
-	}
-
-	public Graph getGraph() {
-		return graph;
-	}
-
-	public PathfindingThread getPathThread() {
-		return pathThread;
 	}
 }

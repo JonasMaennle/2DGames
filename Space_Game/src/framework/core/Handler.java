@@ -15,15 +15,18 @@ import framework.entity.GameEntity;
 import framework.ui.InformationManager;
 import object.Player;
 import object.enemy.Enemy_Basic;
+import object.weapon.Laser_Basic;
 
 public class Handler {
 	
 	private InformationManager info_manager;
 	private TileGrid map;
 	private Player player;
+	private ParticleManager particleManager;
+	private EnemySpawnManager enemySpawnManager;
 	
 	private float brightness;
-	private Image filter, path;
+	private Image filter;
 	private long time1, time2;
 	
 	private float filterScale = 0.125f;
@@ -33,22 +36,25 @@ public class Handler {
 	
 	private CopyOnWriteArrayList<Enemy_Basic> enemyList;
 	private CopyOnWriteArrayList<GameEntity> obstacleList;
+	private CopyOnWriteArrayList<Laser_Basic> laserList;
 	
 	public Handler(){
 		this.player = null;
 		this.brightness = 0.35f;
 		
+		this.enemySpawnManager = new EnemySpawnManager(this);
+		this.particleManager = new ParticleManager();
 		this.filter = quickLoaderImage("background/Filter");
-		this.path = quickLoaderImage("tiles/path");
 		this.info_manager = new InformationManager();
 		this.time1 = System.currentTimeMillis();
 		this.time2 = time1;
-		this.outOfScreenBorder = 64;
+		this.outOfScreenBorder = 512;
 		
 		this.enemyList = new CopyOnWriteArrayList<Enemy_Basic>();
 		this.obstacleList = new CopyOnWriteArrayList<GameEntity>();
+		this.laserList = new CopyOnWriteArrayList<Laser_Basic>();
 		
-		setFogFilter(14);
+		setFogFilter(24);
 	}
 	
 	public void update(){
@@ -57,12 +63,27 @@ public class Handler {
 			player.update();
 		}
 		
-		for(Enemy_Basic e : enemyList){
-			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
-				e.update();
+		for(Laser_Basic laser : laserList) {
+			laser.update();
+			if(laser.isOutOfMap()){
+				laser.die();
+				laserList.remove(laser);
 			}
 		}
 		
+		for(Enemy_Basic e : enemyList){
+			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
+				e.update();
+				if(e.getHp() <= 0) {
+					shadowObstacleList.remove(e);
+					enemyList.remove(e);
+					particleManager.addEvent("orange", 35, (int)e.getX() + e.getWidth() / 2, (int)e.getY() + e.getHeight() / 2);
+				}
+			}
+		}
+		
+		particleManager.update();
+		enemySpawnManager.update();
 		info_manager.update();
 		objectInfo();
 	}
@@ -73,7 +94,9 @@ public class Handler {
 
 		// draw tile map
 		map.draw();
+		renderLightEntity(shadowObstacleList);
 		
+		particleManager.draw();
 		// draw enemy
 		for(Enemy_Basic e : enemyList){
 			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
@@ -93,9 +116,11 @@ public class Handler {
 //		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
 //		GL11.glColor4f(1, 1, 1, 1);
 
-		
+		for(Laser_Basic laser : laserList) {
+			laser.draw();
+		}
 		// render light list
-		renderLightEntity(shadowObstacleList);
+		
 
 		// draw fog of war
 		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
@@ -115,6 +140,7 @@ public class Handler {
 		
 		obstacleList.clear();
 		enemyList.clear();
+		laserList.clear();
 		lights.clear();
 		
 		info_manager.resetAll();
@@ -127,16 +153,7 @@ public class Handler {
 		{
 			time2 = time1;
 			// Data output
-			System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tPlayer HP: " + PLAYER_HP+ " " + MOVEMENT_X);
-		}
-	}
-	
-	@SuppressWarnings("unused")
-	private void drawPath(){
-		for(Enemy_Basic e : enemyList){
-			for(int i = 0; i < e.getPath().size(); i++){
-				drawQuadImage(path, e.getPath().get(i).getX() * TILE_SIZE, e.getPath().get(i).getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-			}
+			System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tAnzahl Enemies: " + enemyList.size() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lights.size() + "\tPlayer HP: " + PLAYER_HP);
 		}
 	}
 	
@@ -210,5 +227,13 @@ public class Handler {
 
 	public CopyOnWriteArrayList<GameEntity> getObstacleList() {
 		return obstacleList;
+	}
+
+	public CopyOnWriteArrayList<Laser_Basic> getLaserList() {
+		return laserList;
+	}
+
+	public ParticleManager getParticleManager() {
+		return particleManager;
 	}
 }

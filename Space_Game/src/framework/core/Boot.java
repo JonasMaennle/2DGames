@@ -63,12 +63,12 @@ public class Boot {
 			Collection.SET_FULL_SCREEN = true;
 		}
 		
-		// no 4K support yet
-		if(WIDTH > 1920){
-			WIDTH = 1920;
-			HEIGHT = 1080;
-			SET_FULL_SCREEN = false;
-		}
+//		// no 4K support yet
+//		if(WIDTH > 1920){
+//			WIDTH = 1920;
+//			HEIGHT = 1080;
+//			SET_FULL_SCREEN = false;
+//		}
 		
 		System.setProperty( "org.lwjgl.opengl.Window.undecorated" , "true" ) ;
 		Display.setTitle("");

@@ -21,14 +21,12 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import framework.core.Handler;
 import framework.core.TileGrid;
-import framework.path.Graph;
-import framework.path.Node;
 import object.Player;
 import object.enemy.Enemy_Orange;
 
 public class Leveler {
 	
-	public static TileGrid loadMap(Handler handler, String path, Graph graph)
+	public static TileGrid loadMap(Handler handler, String path)
 	{
 		// disable in jar!
 		prepareMap(path);
@@ -63,8 +61,6 @@ public class Leveler {
 						// floor layer
 						if(layer == 0){
 							grid.setTile(x, y, list.getImage(tileIndex-1));	
-							// add node to graph
-							graph.addNode(new Node(x, y));
 						}
 						// wall layer
 						if(layer == 1){
@@ -106,8 +102,6 @@ public class Leveler {
 				shadowObstacleList.add(tmp);
 			}
 		}
-		
-		graph.createMatrix();
 		return grid;
 	}
 	

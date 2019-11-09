@@ -1,17 +1,16 @@
 package framework.core;
 
 import static framework.helper.Collection.*;
-
-import framework.entity.GameEntity;
+import object.Player;
 
 public class Camera {
 	
-	private GameEntity entity;
+	private Player player;
 	private float playerOptimatePosX;
 	private float playerOptimatePosY;
 	
-	public Camera(GameEntity entity){
-		this.entity = entity;
+	public Camera(Player player){
+		this.player = player;
 		reset();
 	}
 	
@@ -19,8 +18,8 @@ public class Camera {
 		playerOptimatePosX = (getRightBorder() + getLeftBorder()) / 2.0f;
 		playerOptimatePosY = (getTopBorder() + getBottomBorder()) / 2.0f;
 
-		MOVEMENT_X += ((playerOptimatePosX - entity.getX()) * 0.5); // * x.x -> smoothnes factor
-		MOVEMENT_Y += ((playerOptimatePosY - entity.getY()) * 0.5);
+		MOVEMENT_X += ((playerOptimatePosX - player.getX()) * 0.9); // * x.x -> smoothnes factor
+		MOVEMENT_Y += ((playerOptimatePosY - player.getY()) * 0.9);
 	}
 
 	public void reset(){
@@ -28,11 +27,11 @@ public class Camera {
 		MOVEMENT_Y = 0;
 	}
 
-	public GameEntity getEntity() {
-		return entity;
+	public Player getPlayer() {
+		return player;
 	}
 
-	public void setEntity(GameEntity entity) {
-		this.entity = entity;
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }
