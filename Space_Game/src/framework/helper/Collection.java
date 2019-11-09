@@ -45,22 +45,20 @@ public class Collection {
 	
 	// PLAYER STATS
 	public static int PLAYER_HP = 96;
-	public static float BATTERY_CHARGE = 96;
 	public static int AMMO_LEFT = 999;
 	public static float SPEEDBAR = 0;
 	private static long time1, time2;
 	
-	public static int PISTOL_STREAK = 0;
-	
-	public static int ARENA_CURRENT_WAVE = 1;
 	public static int ENEMIES_LEFT;
+	
+	public static int GAMESCORE = 0;
 	
 	// Static Methods
 	public static void resetPlayerStats(){
 		PLAYER_HP = 96;
-		BATTERY_CHARGE = 96;
 		AMMO_LEFT = 999;
 		SPEEDBAR = 0;
+		GAMESCORE = 0;
 	}
 	
 	public static float getLeftBorder(){

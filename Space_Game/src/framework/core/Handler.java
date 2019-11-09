@@ -75,6 +75,7 @@ public class Handler {
 			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
 				e.update();
 				if(e.getHp() <= 0) {
+					GAMESCORE += 10;
 					shadowObstacleList.remove(e);
 					enemyList.remove(e);
 					particleManager.addEvent("orange", 35, (int)e.getX() + e.getWidth() / 2, (int)e.getY() + e.getHeight() / 2);
