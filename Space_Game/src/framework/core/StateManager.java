@@ -38,6 +38,9 @@ public class StateManager {
 	public static int framesInLastSecond = 0;
 	private int framesInCurrentSecond = 0;
 	
+	private long t1, t2;
+	private int mouseX, mouseY;
+	
 	public StateManager(){
 		this.handler = new Handler();
 		this.backgroundHandler = new BackgroundHandler(quickLoaderImage("background/background_black"), WIDTH, HEIGHT, handler);
@@ -90,7 +93,7 @@ public class StateManager {
 		}
 		framesInCurrentSecond++;
 		
-		drawQuadImageStatic(cursor, Mouse.getX() - 12, HEIGHT - Mouse.getY() - 12, 32, 32);
+		drawCursor();
 	}
 	
 	private void loadLevel(){
@@ -128,6 +131,19 @@ public class StateManager {
 		// set camera
 		game.getCamera().setPlayer(handler.getPlayer());
 	}
+	
+	// cursor hide if no mouse movement
+	private void drawCursor() {
+		if(mouseX != Mouse.getX() && mouseY != Mouse.getY()) {			
+			mouseX = Mouse.getX();
+			mouseY = Mouse.getY();
+			t2 = System.currentTimeMillis();
+		}
+		t1 = System.currentTimeMillis();
+		if(t1 - t2 < 2000)
+			drawQuadImageStatic(cursor, Mouse.getX() - 12, HEIGHT - Mouse.getY() - 12, 32, 32);
+	}
+		
 
 	public Game getGame() {
 		return game;
