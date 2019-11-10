@@ -8,6 +8,7 @@ import static framework.helper.Collection.*;
 import org.lwjgl.util.vector.Vector2f;
 
 import framework.core.Handler;
+import framework.entity.EnemyType;
 import framework.shader.Light;
 
 public class Enemy_Orange extends Enemy_Basic{
@@ -17,5 +18,7 @@ public class Enemy_Orange extends Enemy_Basic{
 		this.image = quickLoaderImage("enemy/enemy_orange");
 		this.light = new Light(new Vector2f(x + width/2 + MOVEMENT_X, y + height/2 + MOVEMENT_Y), 100, 40, 0, 25);
 		lights.add(light);
+		
+		this.enemyType = EnemyType.ENEMY_ORANGE;
 	}
 }

@@ -25,7 +25,7 @@ public class Handler {
 	private ParticleManager particleManager;
 	private EnemySpawnManager enemySpawnManager;
 	
-	private float brightness;
+	//private float brightness;
 	private Image filter;
 	private long time1, time2;
 	
@@ -40,7 +40,7 @@ public class Handler {
 	
 	public Handler(){
 		this.player = null;
-		this.brightness = 0.35f;
+		//this.brightness = 0.35f;
 		
 		this.enemySpawnManager = new EnemySpawnManager(this);
 		this.particleManager = new ParticleManager();
@@ -75,10 +75,11 @@ public class Handler {
 			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
 				e.update();
 				if(e.getHp() <= 0) {
-					GAMESCORE += 10;
+					GAMESCORE += e.getEnemyType().getPoints();
 					shadowObstacleList.remove(e);
 					enemyList.remove(e);
-					particleManager.addEvent("orange", 35, (int)e.getX() + e.getWidth() / 2, (int)e.getY() + e.getHeight() / 2);
+					particleManager.addEvent(e.getEnemyType().getColor(), 35, (int)e.getX() + e.getWidth() / 2, (int)e.getY() + e.getHeight() / 2);
+					info_manager.createNewMessage(e.getX(), e.getY() - 16, "+ " + e.getEnemyType().getPoints(), e.getEnemyType().getEnemyColor(), 1500);
 				}
 			}
 		}

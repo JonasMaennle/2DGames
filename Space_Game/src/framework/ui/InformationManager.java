@@ -1,44 +1,30 @@
 package framework.ui;
 
+import static framework.helper.Collection.loadCustomFont;
+
+import java.awt.Font;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.newdawn.slick.Color;
-
-import framework.core.StateManager;
+import org.newdawn.slick.TrueTypeFont;
 
 public class InformationManager {
 	
 	private CopyOnWriteArrayList<IngameMessage> messageList;
+	private TrueTypeFont score_font_ttf;
+	private Font score_font;
 	
 	public InformationManager() {
 		this.messageList = new CopyOnWriteArrayList<>();
+		
+		// Score Font
+		score_font = loadCustomFont("font/SIMPLIFICA.ttf", 40, Font.BOLD);
+		score_font_ttf = new TrueTypeFont(score_font, false);
 	}
 	
-	public void update() {
-		switch (StateManager.CURRENT_LEVEL) {
-		case 1:
-			// messageList.add(new IngameMessage(WIDTH/2 - MOVEMENT_X - 220, HEIGHT/2 - 256 - MOVEMENT_Y, "find the glowing stone to escape !", new org.newdawn.slick.Color(255,5,255), 18, 5000));
-
-			break;
-		case 2:
-			
-			break;
-
-		default:
-			break;
-		}
-	}
+	public void update() {}
 
 	public void draw() {	
-		// draw messages
-		messageFadeOut();		
-	}
-	
-	public void createNewMessage(float x, float y, String text, Color color, int textSize, int ms){
-		messageList.add(new IngameMessage(x, y, text, color, textSize, ms));
-	}
-	
-	private void messageFadeOut(){
 		for(IngameMessage m : messageList){
 			// set initial timestamp
 			if(m.getStartTime() == 0){
@@ -50,7 +36,11 @@ public class InformationManager {
 			}else{
 				messageList.remove(m);
 			}	
-		}
+		}	
+	}
+	
+	public void createNewMessage(float x, float y, String text, Color color, int ms){
+		messageList.add(new IngameMessage(x, y, text, color, ms, score_font_ttf));
 	}
 	
 	public void resetAll() {

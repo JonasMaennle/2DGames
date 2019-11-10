@@ -20,7 +20,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
-import org.newdawn.slick.TrueTypeFont;
 
 import framework.helper.Collection;
 
@@ -108,7 +107,7 @@ public class Boot {
 		Display.setVSyncEnabled(true); // <- geilo
 		
 		
-		Collection.awtFont = loadCustomFont("font/Pixel-Miners.ttf", fontSize);
-		Collection.font = new TrueTypeFont(awtFont, false);
+		//Collection.awtFont = loadCustomFont("font/Pixel-Miners.ttf", fontSize);
+		//Collection.font = new TrueTypeFont(awtFont, false);
 	}
 }

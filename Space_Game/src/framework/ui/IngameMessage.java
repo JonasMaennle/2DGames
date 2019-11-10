@@ -5,8 +5,6 @@ import static framework.helper.Collection.*;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 
-import java.awt.Font;
-
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
@@ -18,16 +16,15 @@ public class IngameMessage {
 	private String text;
 	private Color color, color2;
 	private TrueTypeFont font;
-	private Font awtFont;
 	private int durationTime;
 	private long startTime;
 	private float timeFactor;
 	
 	private int r, g, b, alpha;
 	
-	public IngameMessage(float x, float y, String text, Color color, int textSize, int time){
-		this.x = x + MOVEMENT_X;
-		this.y = y + MOVEMENT_Y;
+	public IngameMessage(float x, float y, String text, Color color, int time, TrueTypeFont font){
+		this.x = x;
+		this.y = y;
 		this.text = text;
 		this.color = color;
 		this.durationTime = time;
@@ -37,9 +34,7 @@ public class IngameMessage {
 		this.g = color.getGreen();
 		this.b = color.getBlue();
 		
-		//awtFont = new Font("Arial", Font.BOLD, textSize);
-		awtFont = loadCustomFont("font/Pixel-Miners.ttf", textSize);
-		font = new TrueTypeFont(awtFont, false);
+		this.font = font;
 	}
 	
 	public void draw(){
@@ -55,7 +50,7 @@ public class IngameMessage {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		font.drawString(x, y, text, color);
+		font.drawString(x + MOVEMENT_X, y + MOVEMENT_Y, text, color);
 		color2 = new Color(255, 255, 255, 255);
 		font.drawString(x, y, "", color2);
 

@@ -30,7 +30,7 @@ public class HeadUpDisplay {
 	
 	public HeadUpDisplay(Handler handler, int fontSize, StateManager manager){
 		this.hud_center = WIDTH / 2;
-		this.awtFont = loadCustomFont("font/SIMPLIFICA.ttf", fontSize);
+		this.awtFont = loadCustomFont("font/SIMPLIFICA.ttf", fontSize, Font.PLAIN);
 		font = new TrueTypeFont(awtFont, false);
 		setColors();
 	}

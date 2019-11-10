@@ -86,15 +86,16 @@ public class Collection {
 		System.out.println("Time difference: " + ((time2 - time1)*StateManager.framesInLastSecond) + "\tms/s");
 	}
 	
-	public static Font loadCustomFont(String path, float size){
+	public static Font loadCustomFont(String path, float size, int type){
 		// read(TileImageStorage.class.getClassLoader().getResourceAsStream(path));
 		Font awtFont = null;
 		
 		try {
 	        InputStream inputStream = Collection.class.getClassLoader().getResourceAsStream(path);
 
-	        awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);		
-	        awtFont = awtFont.deriveFont(size); // set font size
+	        awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);	
+	        //awtFont = awtFont.deriveFont(size); // set font size
+	        awtFont = awtFont.deriveFont(type, size);
 
 		    } catch (Exception e) {
 		        e.printStackTrace();

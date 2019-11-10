@@ -15,6 +15,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import framework.core.Handler;
+import framework.entity.EnemyType;
 import framework.entity.GameEntity;
 import framework.shader.Light;
 import object.weapon.Laser_Basic;
@@ -39,6 +40,8 @@ public abstract class Enemy_Basic implements GameEntity{
 	protected Animation moveLeft;
 	protected Animation moveRight;
 	protected Light light;
+	
+	protected EnemyType enemyType;
 
 	public Enemy_Basic(int x, int y, int width, int height, Handler handler){
 		this.x = x;
@@ -273,5 +276,9 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	public void setMax_speed(float max_speed) {
 		this.max_speed = max_speed;
+	}
+
+	public EnemyType getEnemyType() {
+		return enemyType;
 	}
 }
