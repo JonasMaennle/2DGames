@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
 import framework.entity.GameEntity;
+import framework.entity.LaserType;
 import framework.shader.Light;
 import static framework.helper.Graphics.*;
 import static framework.helper.Collection.*;
@@ -17,6 +18,7 @@ public abstract class Laser_Basic implements GameEntity{
 	protected float velX, velY;
 	protected int width, height;
 	protected Light light;
+	protected LaserType laserType;
 	
 	public Laser_Basic(float x, float y, int width, int height, float velX, float velY, int speed, float angle, Light light) {
 		this.x = x;
@@ -42,7 +44,7 @@ public abstract class Laser_Basic implements GameEntity{
 
 	@Override
 	public void draw() {
-		drawQuadImageRotCenter(image, x, y, width, height, angle);
+		// drawQuadImageRotCenter(image, x, y, width, height, angle);
 	}
 	
 	public void die() {
@@ -110,4 +112,7 @@ public abstract class Laser_Basic implements GameEntity{
 		return null;
 	}
 
+	public LaserType getLaserType() {
+		return laserType;
+	}
 }

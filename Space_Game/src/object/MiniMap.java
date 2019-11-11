@@ -9,7 +9,7 @@ import static framework.helper.Graphics.*;
 
 public class MiniMap {
 	
-	private Image image, playerImage, enenmy_orange, minimap_background;
+	private Image image, playerImage, minimap_background;
 	private Handler handler;
 	private int x, y, width, height;
 	private float scaling;
@@ -26,7 +26,6 @@ public class MiniMap {
 		this.mapCenterY = y + height/2;
 		this.image = quickLoaderImage("hud/minimap");
 		this.playerImage = quickLoaderImage("hud/minimap_player");
-		this.enenmy_orange = quickLoaderImage("hud/minimap_enemy_orange");
 		this.minimap_background = quickLoaderImage("hud/minimap_background");
 		this.scaling = scaling;
 		
@@ -49,21 +48,19 @@ public class MiniMap {
 				float xDistanceFromTarget = (enemy.getX() - realCenterX) / scaling;
 				float yDistanceFromTarget = (enemy.getY() - realCenterY) / scaling;
 				
-				drawSpotOnMap((int)(mapCenterX + xDistanceFromTarget), (int)(mapCenterY + yDistanceFromTarget), enenmy_orange);
+				drawSpotOnMap((int)(mapCenterX + xDistanceFromTarget), (int)(mapCenterY + yDistanceFromTarget), enemy.getImage(), enemy.getAngle());
 			}
 		}
-		
 		// player
 		drawQuadImageStatic(playerImage, x + width/2 - 4, y + height/2 - 4, 8, 8);
-		
 		// map border
 		drawQuadImageStatic(image, x, y, width, height);
 	}
 	
-	private void drawSpotOnMap(int x, int y, Image image) {
+	private void drawSpotOnMap(int x, int y, Image image, float angle) {
 		if(x > this.x + 2 && x < this.x + width - 2) {
 			if(y > this.y + 2 && y < this.y + height - 2) {
-				drawQuadImageStatic(image, x - ((0.4f / scaling) * 100), y - ((0.4f / scaling) * 100), (0.8f / scaling) * 100, (0.8f / scaling) * 100);
+				drawStaticImageRotCenter(image, x - ((0.4f / scaling) * 100), y - ((0.4f / scaling) * 100), (0.8f / scaling) * 100, (0.8f / scaling) * 100, angle);
 			}
 		}
 	}

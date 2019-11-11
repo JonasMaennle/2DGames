@@ -17,6 +17,7 @@ import org.newdawn.slick.Image;
 import framework.core.Handler;
 import framework.entity.EnemyType;
 import framework.entity.GameEntity;
+import framework.entity.LaserType;
 import framework.shader.Light;
 import object.weapon.Laser_Basic;
 
@@ -176,13 +177,15 @@ public abstract class Enemy_Basic implements GameEntity{
 	
 	private void bulletCollision() {
 		for(Laser_Basic laser : handler.getLaserList()) {
-			if(laser.getBounds().intersects(this.getBounds())) {
-				laser.die();
-				handler.getLaserList().remove(laser);
-				
-				// damage to enemy
-				if(light != null)lights.remove(light);
-				hp = 0;
+			if(!laser.getLaserType().equals(LaserType.SIMPLE_GREEN)) {
+				if(laser.getBounds().intersects(this.getBounds())) {
+					laser.die();
+					handler.getLaserList().remove(laser);
+					
+					// damage to enemy
+					if(light != null)lights.remove(light);
+					hp = 0;
+				}
 			}
 		}
 	}
@@ -280,5 +283,13 @@ public abstract class Enemy_Basic implements GameEntity{
 
 	public EnemyType getEnemyType() {
 		return enemyType;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public float getAngle() {
+		return angle;
 	}
 }

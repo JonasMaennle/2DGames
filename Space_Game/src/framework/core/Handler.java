@@ -78,7 +78,7 @@ public class Handler {
 					GAMESCORE += e.getEnemyType().getPoints();
 					shadowObstacleList.remove(e);
 					enemyList.remove(e);
-					particleManager.addEvent(e.getEnemyType().getColor(), 35, (int)e.getX() + e.getWidth() / 2, (int)e.getY() + e.getHeight() / 2);
+					particleManager.addEvent(e.getEnemyType().getColor(), e.getEnemyType().getDeathParticleNumber(), (int)e.getX() + e.getWidth() / 2, (int)e.getY() + e.getHeight() / 2);
 					info_manager.createNewMessage(e.getX(), e.getY() - 16, "+ " + e.getEnemyType().getPoints(), e.getEnemyType().getEnemyColor(), 1500);
 				}
 			}
