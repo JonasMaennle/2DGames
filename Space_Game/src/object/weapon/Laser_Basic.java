@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
+import framework.core.Handler;
 import framework.entity.GameEntity;
 import framework.entity.LaserType;
 import framework.shader.Light;
@@ -19,8 +20,10 @@ public abstract class Laser_Basic implements GameEntity{
 	protected int width, height;
 	protected Light light;
 	protected LaserType laserType;
+	protected Handler handler;
+	protected boolean dead;
 	
-	public Laser_Basic(float x, float y, int width, int height, float velX, float velY, int speed, float angle, Light light) {
+	public Laser_Basic(float x, float y, int width, int height, float velX, float velY, int speed, float angle, Light light, Handler handler) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -28,18 +31,19 @@ public abstract class Laser_Basic implements GameEntity{
 		this.velX = velX;
 		this.velY = velY;
 		this.speed = speed;
+		this.handler = handler;
 		this.image = quickLoaderImage("player/bullet_tmp");
 		this.light = light;
+		this.dead = false;
 		
 		lights.add(light);
 	}
 	
 	@Override
 	public void update() {
-		light.setLocation(new Vector2f(x + MOVEMENT_X + width/2, y + MOVEMENT_Y + height/2));
-		
 		y += velY * speed;
 		x += velX * speed;	
+		light.setLocation(new Vector2f(x + MOVEMENT_X + width/2, y + MOVEMENT_Y + height / 2));
 	}
 
 	@Override
@@ -114,5 +118,13 @@ public abstract class Laser_Basic implements GameEntity{
 
 	public LaserType getLaserType() {
 		return laserType;
+	}
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
 	}
 }

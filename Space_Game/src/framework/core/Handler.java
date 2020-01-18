@@ -13,7 +13,9 @@ import org.newdawn.slick.Image;
 
 import framework.entity.GameEntity;
 import framework.ui.InformationManager;
+import object.PlasmaBomb;
 import object.Player;
+import object.collectable.Collectable_Basic;
 import object.enemy.Enemy_Basic;
 import object.weapon.Laser_Basic;
 
@@ -24,6 +26,7 @@ public class Handler {
 	private Player player;
 	private ParticleManager particleManager;
 	private EnemySpawnManager enemySpawnManager;
+	private CollectableSpawnManager collectableSpawnManager;
 	
 	//private float brightness;
 	private Image filter;
@@ -37,12 +40,15 @@ public class Handler {
 	private CopyOnWriteArrayList<Enemy_Basic> enemyList;
 	private CopyOnWriteArrayList<GameEntity> obstacleList;
 	private CopyOnWriteArrayList<Laser_Basic> laserList;
+	private CopyOnWriteArrayList<Collectable_Basic> collectableList;
+	private CopyOnWriteArrayList<PlasmaBomb> bombList;
 	
 	public Handler(){
 		this.player = null;
 		//this.brightness = 0.35f;
 		
 		this.enemySpawnManager = new EnemySpawnManager(this);
+		this.collectableSpawnManager = new CollectableSpawnManager(this);
 		this.particleManager = new ParticleManager();
 		this.filter = quickLoaderImage("background/Filter");
 		this.info_manager = new InformationManager();
@@ -53,19 +59,21 @@ public class Handler {
 		this.enemyList = new CopyOnWriteArrayList<Enemy_Basic>();
 		this.obstacleList = new CopyOnWriteArrayList<GameEntity>();
 		this.laserList = new CopyOnWriteArrayList<Laser_Basic>();
+		this.collectableList = new CopyOnWriteArrayList<Collectable_Basic>();
+		this.bombList = new CopyOnWriteArrayList<PlasmaBomb>();
 		
 		setFogFilter(24);
 	}
 	
 	public void update(){
 		// update current entity 
-		if(player != null){
+		if(player != null)
 			player.update();
-		}
+		
 		
 		for(Laser_Basic laser : laserList) {
 			laser.update();
-			if(laser.isOutOfMap()){
+			if(laser.isOutOfMap() || laser.isDead()){
 				laser.die();
 				laserList.remove(laser);
 			}
@@ -75,12 +83,23 @@ public class Handler {
 			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
 				e.update();
 				if(e.getHp() <= 0) {
+					e.die();
 					GAMESCORE += e.getEnemyType().getPoints();
 					shadowObstacleList.remove(e);
 					enemyList.remove(e);
 					particleManager.addEvent(e.getEnemyType().getColor(), e.getEnemyType().getDeathParticleNumber(), (int)e.getX() + e.getWidth() / 2, (int)e.getY() + e.getHeight() / 2);
 					info_manager.createNewMessage(e.getX(), e.getY() - 16, "+ " + e.getEnemyType().getPoints(), e.getEnemyType().getEnemyColor(), 1500);
+					// spawn collectable
+					collectableSpawnManager.enemyHasDied(e);
 				}
+			}
+		}
+		
+		for(PlasmaBomb bomb : bombList) {
+			if(!bomb.isExploded())
+				bomb.update();
+			else {
+				bombList.remove(bomb);
 			}
 		}
 		
@@ -99,6 +118,11 @@ public class Handler {
 		renderLightEntity(shadowObstacleList);
 		
 		particleManager.draw();
+		
+		for(Collectable_Basic collectable : collectableList) {
+			collectable.draw();
+		}
+		
 		// draw enemy
 		for(Enemy_Basic e : enemyList){
 			if(e.getX() > getLeftBorder() - outOfScreenBorder && e.getX() < getRightBorder() + outOfScreenBorder && e.getY() > getTopBorder() - outOfScreenBorder && e.getY() < getBottomBorder() + outOfScreenBorder){
@@ -133,6 +157,8 @@ public class Handler {
 			}
 		}
 		
+		renderLightList(lightsTopLevel);
+		
 		info_manager.draw();
 	}
 	
@@ -143,7 +169,10 @@ public class Handler {
 		obstacleList.clear();
 		enemyList.clear();
 		laserList.clear();
+		collectableList.clear();
+		bombList.clear();
 		lights.clear();
+		lightsTopLevel.clear();
 		
 		info_manager.resetAll();
 	}
@@ -237,5 +266,13 @@ public class Handler {
 
 	public ParticleManager getParticleManager() {
 		return particleManager;
+	}
+
+	public CopyOnWriteArrayList<Collectable_Basic> getCollectableList() {
+		return collectableList;
+	}
+
+	public CopyOnWriteArrayList<PlasmaBomb> getBombList() {
+		return bombList;
 	}
 }

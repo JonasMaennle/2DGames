@@ -425,11 +425,7 @@ public class Graphics {
 	// render all lights from light list
 	public static void renderLightList(CopyOnWriteArrayList<Light> lights){
 		
-		for (Light light : lights){
-			
-			// test if light is on screen
-			if(light.getLocation().getX()-MOVEMENT_X < getRightBorder() && light.getLocation().getX()-MOVEMENT_X > getLeftBorder() && light.getLocation().getY()-MOVEMENT_Y > getTopBorder() && light.getLocation().getY()-MOVEMENT_Y < getBottomBorder()){
-				
+		for (Light light : lights){		
 				glColorMask(false, false, false, false);
 				glStencilFunc(GL_ALWAYS, 1, 1);
 				glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
@@ -462,7 +458,7 @@ public class Graphics {
 				glDisable(GL_BLEND);
 				light.getShader().unUse();
 				glClear(GL_STENCIL_BUFFER_BIT);	
-			}
+			
 		}
 	}
 }

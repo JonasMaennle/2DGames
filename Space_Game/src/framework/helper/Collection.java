@@ -32,6 +32,7 @@ public class Collection {
 	public static final int TILE_SIZE = 32;
 	
 	public static ArrayList<Light> lights = new ArrayList<Light>();
+	public static CopyOnWriteArrayList<Light> lightsTopLevel = new CopyOnWriteArrayList<Light>();
 	public static CopyOnWriteArrayList<GameEntity> shadowObstacleList = new CopyOnWriteArrayList<>();
 	public static float MOVEMENT_X, MOVEMENT_Y;
 
@@ -44,18 +45,17 @@ public class Collection {
 	public static TrueTypeFont font;
 	
 	// PLAYER STATS
-	public static int PLAYER_HP = 96;
+	public static float PLAYER_HP = 32;
+	public static int PLAYER_HP_BLOCKS = 5;
 	public static int AMMO_LEFT = 999;
 	public static float SPEEDBAR = 0;
 	private static long time1, time2;
-	
-	public static int ENEMIES_LEFT;
-	
 	public static int GAMESCORE = 0;
 	
 	// Static Methods
 	public static void resetPlayerStats(){
-		PLAYER_HP = 96;
+		PLAYER_HP = 32;
+		PLAYER_HP_BLOCKS = 5;
 		AMMO_LEFT = 999;
 		SPEEDBAR = 0;
 		GAMESCORE = 0;

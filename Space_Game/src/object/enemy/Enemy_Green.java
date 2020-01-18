@@ -15,6 +15,9 @@ import object.weapon.Laser_SimpleGreen;
 public class Enemy_Green extends Enemy_Basic{
 
 	private long t1, t2;
+	private int laserLightSize;
+	private int shootingRange;
+	private int shootingTimer;
 	
 	public Enemy_Green(int x, int y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler);
@@ -24,20 +27,23 @@ public class Enemy_Green extends Enemy_Basic{
 		lights.add(light);
 		
 		this.max_speed = 3;
+		this.laserLightSize = 200;
+		this.shootingRange = 500;
+		this.shootingTimer = 750;
 	}
 	
 	public void update() {
 		super.update();
-		if(getPlayerDistance(x, y, handler.getPlayer().getX(), handler.getPlayer().getY()) < 500) {
+		if(getPlayerDistance(x, y, handler.getPlayer().getX(), handler.getPlayer().getY()) < shootingRange) {
 			shoot();
 		}
 	}
 	
 	private void shoot() {
 		t1 = System.currentTimeMillis();
-		if(t1 - t2 > 750) {
+		if(t1 - t2 > shootingTimer) {
 			t2 = t1;
-			handler.getLaserList().add(new Laser_SimpleGreen(calcNoseCoords()[0], calcNoseCoords()[1], 8, 8, calcVelX(), calcVelY(), (int)speed + 6, 0, new Light(new Vector2f(0,0), enemyType.getEnemyColor().getRed(), enemyType.getEnemyColor().getGreen(), enemyType.getEnemyColor().getBlue(), 75)));
+			handler.getLaserList().add(new Laser_SimpleGreen(calcNoseCoords()[0], calcNoseCoords()[1], 8, 8, calcVelX(), calcVelY(), (int)speed + 6, 0, new Light(new Vector2f(0,0), enemyType.getEnemyColor().getRed(), enemyType.getEnemyColor().getGreen(), enemyType.getEnemyColor().getBlue(), laserLightSize), handler));
 		}
 	}
 	

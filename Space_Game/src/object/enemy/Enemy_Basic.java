@@ -135,8 +135,13 @@ public abstract class Enemy_Basic implements GameEntity{
 	
 	protected void damagePlayer(){
 		Rectangle rangePlayer = new Rectangle((int)handler.getPlayer().getX() - 8, (int)handler.getPlayer().getY() - 8, (int)handler.getPlayer().getWidth() + 16, (int)handler.getPlayer().getHeight() + 16);
-		if(rangePlayer.intersects(getBounds())){
-			PLAYER_HP -= 1;
+		if(rangePlayer.intersects(getBounds()) && handler.getPlayer().getCollectable_Spike() == null){
+			
+			PLAYER_HP -= 0.1f;
+			if(PLAYER_HP < 0 && PLAYER_HP_BLOCKS > 0) {
+				PLAYER_HP = 32;
+				PLAYER_HP_BLOCKS -= 1;
+			}
 		}
 	}
 	
@@ -172,6 +177,12 @@ public abstract class Enemy_Basic implements GameEntity{
 				}	
 			}
 		}
+		
+		if(handler.getPlayer().getBounds().intersects(getBounds()) && handler.getPlayer().getCollectable_Spike() != null) {
+			handler.getPlayer().getCollectable_Spike().setHealthPoints(handler.getPlayer().getCollectable_Spike().getHealthPoints() - 10);
+			die();
+			hp -= 1000;
+		}
 		bulletCollision();
 	}
 	
@@ -183,11 +194,16 @@ public abstract class Enemy_Basic implements GameEntity{
 					handler.getLaserList().remove(laser);
 					
 					// damage to enemy
-					if(light != null)lights.remove(light);
-					hp = 0;
+					hp -= laser.getLaserType().getDamage();
+					if(hp <= 0)
+						die();
 				}
 			}
 		}
+	}
+	
+	public void die() {
+		if(light != null)lights.remove(light);
 	}
 
 	@Override

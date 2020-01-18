@@ -4,7 +4,7 @@ import org.newdawn.slick.Color;
 
 public enum EnemyType {
 	ENEMY_ORANGE(10, "orange", new Color(255, 102, 0), 55, 35),
-	ENEMY_GREEN(20, "green", new Color(0, 234, 7), 60, 40);
+	ENEMY_GREEN(20, "green", new Color(0, 234, 7), 125, 40);
 	
 	
 	private int points;
