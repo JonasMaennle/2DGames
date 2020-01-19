@@ -19,7 +19,6 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import framework.core.StateManager;
 import framework.entity.GameEntity;
 import framework.shader.Light;
 
@@ -28,8 +27,11 @@ public class Collection {
 	// START SETTINGS
 	public static int WIDTH =  960; //(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static int HEIGHT =  640;//(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static boolean SET_FULL_SCREEN = false;
-	public static final int TILE_SIZE = 32;
+	public static boolean SET_FULL_SCREEN = true;
+	public static int TILE_SIZE = 0;
+	public static int TILE_SIZE_IMAGE = 32;
+	public static int TILE_COUNT_SCREEN = 60; // number of tiles on screen width
+	public static int CHUNK_SIZE = 10; // 10 == 10 * 10 Chunk
 	
 	public static ArrayList<Light> lightsSecondLevel = new ArrayList<Light>();
 	public static CopyOnWriteArrayList<Light> lightsTopLevel = new CopyOnWriteArrayList<Light>();
@@ -68,7 +70,7 @@ public class Collection {
 	
 	public static void timerEnd(){
 		time2 = System.currentTimeMillis();
-		System.out.println("Time difference: " + ((time2 - time1)*StateManager.framesInLastSecond) + "\tms/s");
+		System.out.println("Time difference: " + (time2 - time1) + "\tms/s");
 	}
 	
 	public static Font loadCustomFont(String path, float size, int type){

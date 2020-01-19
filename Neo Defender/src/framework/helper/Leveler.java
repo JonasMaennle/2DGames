@@ -1,6 +1,7 @@
 package framework.helper;
 
 import static framework.helper.Collection.*;
+import static framework.helper.Graphics.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.tiled.TileSet;
@@ -27,7 +29,7 @@ public class Leveler {
 	public static TileGrid loadMap(Handler handler, String path)
 	{
 		// disable in jar!
-		//prepareMap(path);
+		prepareMap(path);
 		
 		TileImageStorage list;	
 		TiledMap t_map = null;
@@ -47,8 +49,16 @@ public class Leveler {
 		//System.out.println(t_map.getTileId(0, 0, t_map.getLayerIndex("Background")));
 		TileSet set = t_map.getTileSet(0);
 		SpriteSheet ss = set.tiles;
-		list = new TileImageStorage(32, 32, ss.getWidth(), ss.getHeight(), "level/tileset_00.png"); // "res/tiles/Itch release tileset.png"
+		list = new TileImageStorage(Collection.TILE_SIZE_IMAGE, Collection.TILE_SIZE_IMAGE, ss.getWidth(), ss.getHeight(), "level/tileset.png"); // "res/tiles/Itch release tileset.png"
 
+		
+		Image defaultEmptyTile = quickLoaderImage("tiles/default");
+		for(int x = 0; x < TILES_WIDTH; x++){
+			for(int y = 0; y < TILES_HEIGHT; y++){	
+				grid.setTile(x, y, defaultEmptyTile);
+			}
+		}
+		
 		// Add Tiles
 		for(int x = 0; x < TILES_WIDTH; x++){
 			for(int y = 0; y < TILES_HEIGHT; y++){	
@@ -56,31 +66,36 @@ public class Leveler {
 					
 					int tileIndex = t_map.getTileId(x, y, layer);
 					if(tileIndex > 0){
-						// floor layer
-						if(layer == 0){
+						
+						switch (layer) {
+						case 0:
 							grid.setTile(x, y, list.getImage(tileIndex-1));	
-						}
-						// wall layer
-						if(layer == 1){
+							break;
+						case 1:
 							grid.setTile(x, y, list.getImage(tileIndex-1));
 							handler.getObstacleList().add(grid.getTile(x, y));
 							shadowObstacleList.add(grid.getTile(x, y));
-						}
-						// shadow layer
-						if(layer == 2){
+							break;
+						case 2:
 							grid.setTile(x, y, list.getImage(tileIndex-1));
 							handler.getObstacleList().add(grid.getTile(x, y));
 							shadowObstacleList.add(grid.getTile(x, y));
-						}
-						// border layer
-						if(layer == 3){
+							break;
+						case 3:
 							grid.setTile(x, y, list.getImage(tileIndex-1));
 							handler.getObstacleList().add(grid.getTile(x, y));
+							break;
+
+						default:
+							System.out.println("No Layer found!");
+							break;
 						}
 					}
 				}
 			}
 		}
+		
+		grid.defineCluster();
 		
 		// Add Objects
 		int objectGroup = 0;

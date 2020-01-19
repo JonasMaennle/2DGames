@@ -4,6 +4,7 @@ import static framework.helper.Collection.*;
 
 import org.newdawn.slick.Image;
 
+import object.other.Chunk;
 import object.other.Tile;
 
 public class TileGrid {
@@ -12,6 +13,10 @@ public class TileGrid {
 	private int tilesWide, tilesHigh;
 	private Handler handler;
 	private int setTileCounter;
+	public Chunk[][] chunkList;
+	
+	public int chunkWidth, chunkHeight;
+	private int renderBorderOffset;
 	
 	public TileGrid(Handler handler){
 		this.tilesWide = TILES_WIDTH;//WIDTH / TILE_SIZE;
@@ -19,6 +24,7 @@ public class TileGrid {
 		map = new Tile[tilesWide][tilesHigh];
 		this.handler = handler;
 		this.setTileCounter = 0;
+		this.renderBorderOffset = TILE_SIZE * (CHUNK_SIZE/2);
 	}
 	
 	public void setTile(int xCoord, int yCoord, Image image){
@@ -39,6 +45,7 @@ public class TileGrid {
 	}
 	
 	public void draw(){
+		/*
 		for(int i = 0; i < map.length; i++){
 			for(int j = 0; j < map[i].length; j++){	
 				if(!(map[i][j] == null)){
@@ -46,7 +53,63 @@ public class TileGrid {
 				}
 			}
 		}
+		*/
+		// draw local chunks
+
+		
+		for(int x = 0; x < chunkList.length; x++) {
+			for(int y = 0; y < chunkList[0].length; y++) {
+				
+				if(chunkList[x][y].getCenterX() + renderBorderOffset > getLeftBorder() 
+						&& chunkList[x][y].getCenterX() - renderBorderOffset < getRightBorder() 
+						&& chunkList[x][y].getCenterY() + renderBorderOffset > getTopBorder() 
+						&& chunkList[x][y].getCenterY() - renderBorderOffset < getBottomBorder()) {
+					chunkList[x][y].draw();
+				}
+			}
+		}
+		
+		//System.out.println(getLeftBorder() + "                     " + chunkList[0][1].getCenterY());
+		
 	}
+	
+	public void defineCluster() {
+		//System.out.println(map.length);
+		//System.out.println();
+		
+		double tmpWidth = map.length/(float)CHUNK_SIZE;
+		double tmpHeight = map[0].length/(float)CHUNK_SIZE;
+		//System.out.println(Math.ceil(tmpWidth));
+		chunkWidth = (int)Math.ceil(tmpWidth);
+		chunkHeight = (int)Math.ceil(tmpHeight);
+		
+		chunkList = new Chunk[chunkWidth][chunkHeight]; // add as much chunks as needed
+		// fill with empty chunks
+		for(int x = 0; x < chunkWidth; x++) {
+			for(int y = 0; y < chunkHeight; y++) {
+				chunkList[x][y] = new Chunk();
+			}
+		}
+		
+		int cX = -1;
+		int cY = -1;
+		
+		for(int y = 0; y < map[0].length; y++) {
+			if(y % CHUNK_SIZE == 0)
+				cY++;
+
+			for(int x = 0; x < map.length; x++) {
+				if(x % CHUNK_SIZE == 0)
+					cX++;
+
+				chunkList[cX][cY].addTileToChunk(map[x][y], x % CHUNK_SIZE, y % CHUNK_SIZE);
+			}
+			cX = -1;
+		}
+		
+
+	}
+
 
 	public int getTilesWide() {
 		return tilesWide;

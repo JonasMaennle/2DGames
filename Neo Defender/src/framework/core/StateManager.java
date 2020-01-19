@@ -99,7 +99,7 @@ public class StateManager {
 	private void loadLevel(){
 		String levelPath = "level/map_0";
 
-		CURRENT_LEVEL++;
+		CURRENT_LEVEL += 2;
 		
 		// if max level is reached
 		if(MAX_LEVEL + 1 == StateManager.CURRENT_LEVEL){

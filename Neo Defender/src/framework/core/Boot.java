@@ -31,8 +31,6 @@ import framework.helper.Collection;
 
 public class Boot {
 	
-	private static boolean FULLSCREEN = true;
-	
 	public Boot(){
 		//Mouse.setGrabbed(true);
 		beginSession();
@@ -40,7 +38,10 @@ public class Boot {
 		Mouse.setGrabbed(true);
 		// Game loop
 		while(!Display.isCloseRequested()){
+			//Collection.timerStart();
 			statemanager.update();
+			//Collection.timerEnd();
+			
 			Display.update();
 			Display.sync(60);
 		}	
@@ -53,21 +54,15 @@ public class Boot {
 	
 	private void beginSession(){	
 		
-		if(!FULLSCREEN) {
-			Collection.WIDTH = 960;
-			Collection.HEIGHT = 640;
-		}else {
+		if(SET_FULL_SCREEN) {
 			Collection.WIDTH =  (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 			Collection.HEIGHT =  (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-			Collection.SET_FULL_SCREEN = true;
+		}else {
+			Collection.WIDTH = 960;
+			Collection.HEIGHT = 640;
 		}
 		
-//		// no 4K support yet
-//		if(WIDTH > 1920){
-//			WIDTH = 1920;
-//			HEIGHT = 1080;
-//			SET_FULL_SCREEN = false;
-//		}
+		TILE_SIZE = WIDTH / TILE_COUNT_SCREEN;
 		
 		System.setProperty( "org.lwjgl.opengl.Window.undecorated" , "true" ) ;
 		Display.setTitle("");
