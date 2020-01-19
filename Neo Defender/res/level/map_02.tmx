@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="80" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="2">
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Kachelebene 1" width="80" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3a3QqCQBBAYdN6/1eOLiSDhcbO/uTsObB0s2zwgTqg67Isa2BlaTu599uK2MzqFzlLP3bWLH6la6/GmS39Mt4/j7X0O7plNWzlV/LSL15pv37xss+Qe7tfpvm55nwS+a/oukoj/CL7rpJ+5xt1zWTxG5V+LP1Y+rH0Y+nHyjg/9+zlcg8ue7cdfiM2+n32D363Bmf2ivo9KqyRfr/ez0vPhZF+++pdzefhjPc//c7Xai6bxa9V+rGcn1nZ3h/1bpbvX1qlH0s/ln4s/Vj6sfRj6cdyfmb5/ojl+0uWfiz9WPqx9GPpx9KPpR/L+Zn1BMvFzgeAPgAA
+   H4sIAAAAAAAACu3ZAYrCQAyF4VTqPZY9iHgQ8SCyB5E9pngAlToYu9k6M7ENtf8HYUQdCM9MrSgCAAAAwOsU3cCM7a61utYmupFg2/t6vq/73uuNsSdll2rJGbbSZaRXrZG/GR6ly02vS3XL67e3auQ37Fu6zFL9ZOw5yPP5/RqruZnQs2dd7yw6v9w9n0rPX0l+6fySX938kV9Hz18uzu/Df9+9Q8jvoXT+0v1zOr9Lvn/eyvP85fz+SHN3VI+XqjXqlZVRY5j6utAY9UpOfmuKCiypeL9mnYOa50r7ts5jTfXVZlGT3bvVfoYRfZTum0p0djl9lO6bWnR2Q32U7osSnZ3Vx5h73o38fMjPh/x8yM+H/HzIz4f8fMjPp59fxP8IjZCfB/n5kJ9PbX4AAAD4XBc5QLxUgD4AAA==
   </data>
  </layer>
+<objectgroup name="Objects" width="32" height="32">
+  <object id="1" name="playerBase" type="playerBase" x="192" y="704" width="5" height="5"/>
+ </objectgroup>
 </map>

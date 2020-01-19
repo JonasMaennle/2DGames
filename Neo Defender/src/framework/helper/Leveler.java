@@ -23,6 +23,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import framework.core.Handler;
 import framework.core.TileGrid;
+import object.TowerPlayer;
 
 public class Leveler {
 	
@@ -106,9 +107,9 @@ public class Leveler {
 			int y = t_map.getObjectY(objectGroup, objectCount);
 			String objName = t_map.getObjectName(objectGroup, objectCount);
 		
-//			if(objName.equals("player")){
-//				handler.setPlayer(new Player(x, y, handler));
-//			}	
+			if(objName.equals("playerBase")){
+				handler.setTowerPlayer(new TowerPlayer(x, y));
+			}	
 //			if(objName.equals("enemy_orange")){
 //				Enemy_Orange tmp = new Enemy_Orange(x, y, TILE_SIZE, TILE_SIZE, handler);
 //				handler.getEnemyList().add(tmp);

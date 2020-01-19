@@ -13,6 +13,7 @@ import org.newdawn.slick.Image;
 
 import framework.entity.GameEntity;
 import framework.ui.InformationManager;
+import object.TowerPlayer;
 
 public class Handler {
 	
@@ -29,6 +30,8 @@ public class Handler {
 	private float filterValue = 0.0f;
 	private float[][] alphaFilter;
 	private float outOfScreenBorder;
+	
+	private TowerPlayer towerPlayer;
 	
 	private CopyOnWriteArrayList<GameEntity> obstacleList;
 	
@@ -49,6 +52,10 @@ public class Handler {
 	}
 	
 	public void update(){	
+		
+		if(towerPlayer != null)
+			towerPlayer.update();
+		
 		particleManager.update();
 		enemySpawnManager.update();
 		info_manager.update();
@@ -64,6 +71,9 @@ public class Handler {
 		renderLightEntity(shadowObstacleList);
 		
 		particleManager.draw();
+		
+		if(towerPlayer != null)
+			towerPlayer.draw();
 		
 		// draw filter to darken the map
 //		GL11.glColor4f(0, 0, 0, brightness);
@@ -173,5 +183,13 @@ public class Handler {
 
 	public ParticleManager getParticleManager() {
 		return particleManager;
+	}
+
+	public TowerPlayer getTowerPlayer() {
+		return towerPlayer;
+	}
+
+	public void setTowerPlayer(TowerPlayer towerPlayer) {
+		this.towerPlayer = towerPlayer;
 	}
 }

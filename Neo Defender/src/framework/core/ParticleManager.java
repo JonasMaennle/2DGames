@@ -18,16 +18,16 @@ public class ParticleManager {
 	public ParticleManager(){
 		this.list = new CopyOnWriteArrayList<>();
 		this.rand = new Random();
-		// add orange particles
-		this.orangeParticles = new CopyOnWriteArrayList<Image>();
-		for(int i = 0; i < 8; i++) {
-			orangeParticles.add(quickLoaderImage("enemy/particle_" + i));
-		}	
-		// add green particles
-		this.greenParticles = new CopyOnWriteArrayList<Image>();
-		for(int i = 0; i < 8; i++) {
-			greenParticles.add(quickLoaderImage("enemy/particle_green_" + i));
-		}	
+//		// add orange particles
+//		this.orangeParticles = new CopyOnWriteArrayList<Image>();
+//		for(int i = 0; i < 8; i++) {
+//			orangeParticles.add(quickLoaderImage("enemy/particle_" + i));
+//		}	
+//		// add green particles
+//		this.greenParticles = new CopyOnWriteArrayList<Image>();
+//		for(int i = 0; i < 8; i++) {
+//			greenParticles.add(quickLoaderImage("enemy/particle_green_" + i));
+//		}	
 	}
 	
 	public void addEvent(String color, int numberOfParticles, int x, int y) {	
