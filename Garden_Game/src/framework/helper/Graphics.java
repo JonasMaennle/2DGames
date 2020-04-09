@@ -123,8 +123,8 @@ public class Graphics {
 	
 	public static void drawAnimation(Animation anim, float x, float y, float width, float height){
 		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // WICHTIG! -> wenn Texture/Image mit transarentem Hintergrund gemalt werden soll
-		anim.draw(x + MOVEMENT_X, y + MOVEMENT_Y, width, height);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		anim.draw((x + MOVEMENT_X) * SCALE, (y + MOVEMENT_Y) * SCALE, width * SCALE, height * SCALE);
 		glDisable(GL_BLEND);
 	}
 	

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="isometric" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.4" orientation="isometric" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="32" infinite="0" nextlayerid="31" nextobjectid="3">
  <tileset firstgid="1" source="grid.tsx"/>
  <layer id="1" name="Kachelebene 1" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3VQQqDMBSE4dzEhS1YhAq9/+EawYCLGJOXBzORWfy4sTAfUTuHEGallFJKuTcdoXd4OUa0TKdrLvQ+yxmUQu/0sqA3ep5JzsTmbrWwn2Hv9s+pkc+FxdFrYXLcWb6xtcKENpQsu2GL/WLLzb3o/VfbkqHWzLY/9Y69Kn7DtvvKkbOgHS3fopIDncWB3mxx7O/2crQROmr3p+1sz5PlXXiSA73bw4HebLWk/21mQ42D+fvaYnmSA72v14LeJMfYhpwFvUUppZRSCtEfMOVMlRAnAAA=
+   H4sIAAAAAAAACu2VQQqDMBBFc4muDbQFS6FC73+4RtqAi4xOksKfiX/xyEbhPcaMMYQQC1ydMQmgvWopzYLz4Dw4D0J8Mspd87w3ps3peQ9K/h57ztQhNVnrrm2xPsNe98cGz3Ox0tHbYqnjqOWVeCqa0A17LWvDkngn5oNn0f6SW27QNlvzz9wTN8U71ryljlILuqNmF+11oGnpQDu3dKx3e/6xGOzQ+md3a99Ty10YqQPt/Y8OtHNrS/5vW27QdFjerzUtI3Wg/Xpb0E7s8N1QakG7EEIIId6J4ftP1ZwX4UQ3nLHjA5Zn17gQJwAA
   </data>
  </layer>
  <layer id="2" name="Kachelebene 2" width="50" height="50">
@@ -11,4 +11,7 @@
    H4sIAAAAAAAACu2Yzw6CMAzGd/QF/HfyIfSqKScjV/Hq+z+GW0JD0wxtGNiV9Jc0QBnJ95G1G4TgOI7jOHpctAXMwDmTu/1dxfw02gIKuMe49ufch1VfOKes6qc0YfCxi7H/cp/na2Ub4xQD+mvsC1xzGwZ/EOoDfRxH7kMm91pMzXTQB4X2BU5HzjcktDkIxkB/fLJ8LR440jp+xHiHej3U3I9ytCN5ED5fg2e+Z8TeA0HuQzpuKeieMb3PbmygEZIH3nsskfTztQF7j/Z8l4B7il/UUL9SsK7pt5QV/bi3s1zX+N6t1zUH69oqaf2jNQFKOkrI/TOxDM4z0BQxEeypdP0DNTVlWFkfJKzhHyKyJi+O4ziO4ziOfT66ClevECcAAA==
   </data>
  </layer>
+<objectgroup name="Objects" width="64" height="64">
+  <object id="1" name="player" type="player" x="681" y="1035" width="14" height="14"/>
+ </objectgroup>
 </map>

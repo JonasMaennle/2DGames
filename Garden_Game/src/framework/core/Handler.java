@@ -6,8 +6,11 @@ import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glEnable;
 
+import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import framework.core.pathfinding.Graph;
+import object.player.Player;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
@@ -31,10 +34,10 @@ public class Handler {
 	private float outOfScreenBorder;
 	
 	private CopyOnWriteArrayList<GameEntity> obstacleList;
+	private Player player;
+	private Graph graph;
 	
 	public Handler(){
-		//this.brightness = 0.35f;
-		
 		this.enemySpawnManager = new EnemySpawnManager(this);
 		this.particleManager = new ParticleManager();
 		this.filter = quickLoaderImage("background/background");
@@ -44,14 +47,15 @@ public class Handler {
 		this.outOfScreenBorder = 512;
 		
 		this.obstacleList = new CopyOnWriteArrayList<GameEntity>();
-
-		//setFogFilter(24);
+		this.player = null;
 	}
 	
 	public void update(){	
 		particleManager.update();
 		enemySpawnManager.update();
 		info_manager.update();
+		if(player != null) player.update();
+
 		objectInfo();
 	}
 	
@@ -64,30 +68,11 @@ public class Handler {
 			layer.draw();
 		}
 
+		if(player != null) player.draw();
+
 		renderLightEntity(shadowObstacleList);
 		
 		particleManager.draw();
-		
-		// draw filter to darken the map
-//		GL11.glColor4f(0, 0, 0, brightness);
-//		drawQuadImageStatic(filter, 0, 0, 2048, 2048);
-//		GL11.glColor4f(1, 1, 1, 1);
-
-
-		// render light list
-		
-
-		// draw fog of war
-//		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
-//			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){
-//				GL11.glColor4f(0, 0, 0, alphaFilter[y][x]);
-//				drawQuadImageStatic(filter, (x*32), (y*32), 32, 32);
-//				GL11.glColor4f(1, 1, 1, 1);
-//			}
-//		}
-		
-		//renderLightList(lightsTopLevel);
-		
 		info_manager.draw();
 	}
 	
@@ -108,52 +93,12 @@ public class Handler {
 		{
 			time2 = time1;
 			// Data output
-			// System.out.println("Anzahl Tiles: " + map.getSetTileCounter() + "\tFPS: " + StateManager.framesInLastSecond + "\t\tLight: " + lightsSecondLevel.size());
-		}
-	}
-	
-	public void setFogFilter(int filterPlayerOffset){
-		filterValue = 0;
-		alphaFilter = new float[HEIGHT/TILE_SIZE + 1][(WIDTH/TILE_SIZE) + 1]; 		
-		// fill array with value = 1
-		for(int y = 0; y < HEIGHT/TILE_SIZE + 1; y++){
-			for(int x = 0; x < WIDTH/TILE_SIZE + 1; x++){
-				alphaFilter[y][x] = 1;
+			int tileCount = 0;
+			for(TileGrid grid : mapLayers){
+				tileCount += grid.getSetTileCounter();
 			}
+			System.out.println("Accessible Tiles: " + tileCount + "\tFPS: " + StateManager.framesInLastSecond );
 		}
-		
-		// render filter for topFilterObstacle (objects in the fog of war)
-		for(int i = 0; i < WIDTH/TILE_SIZE; i++){
-			alphaFilter = drawCircle(WIDTH/2/TILE_SIZE, HEIGHT/2/TILE_SIZE, i, alphaFilter);
-			if(i > filterPlayerOffset)filterValue += filterScale;
-		}
-	}
-	
-	private float[][] drawCircle(int x, int y, int r, float[][] array) {
-	    double angle, x1, y1;
-
-	    int arrayWidth = array[0].length;
-	    int arrayHeight = array.length;
-	    
-	    for (int i = 0; i < 360; i++) {
-	        angle = i;
-	        x1 = r * Math.cos(angle * Math.PI / 180);
-	        y1 = r * Math.sin(angle * Math.PI / 180);
-
-	        int ElX = (int) Math.round(x + x1);
-	        int ElY = (int) Math.round(y + y1);
-	        if(ElX < arrayWidth && ElX >= 0 && ElY < arrayHeight && ElY >= 0)
-	        	array[ElY][ElX] = filterValue;
-	    }  
-	    return array;
-	}
-	
-	@SuppressWarnings("unused")
-	private void colorReset(){
-		glEnable(GL_BLEND);
-		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4f(255, 255, 255, 255);
-		GL11.glDisable(GL_BLEND);	
 	}
 
 	public TileGrid[] getMaps() {
@@ -168,13 +113,19 @@ public class Handler {
 		return info_manager;
 	}
 
-
 	public CopyOnWriteArrayList<GameEntity> getObstacleList() {
 		return obstacleList;
 	}
 
-
 	public ParticleManager getParticleManager() {
 		return particleManager;
 	}
+
+	public Player getPlayer() { return player; }
+
+	public void setPlayer(Player player) { this.player = player; }
+
+	public Graph getGraph() { return graph; }
+
+	public void setGraph(Graph graph) { this.graph = graph; }
 }

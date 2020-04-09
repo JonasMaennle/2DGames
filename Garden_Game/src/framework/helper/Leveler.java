@@ -14,6 +14,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import framework.core.pathfinding.Graph;
+import framework.core.pathfinding.Node;
+import object.player.Player;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.tiled.TileSet;
@@ -25,10 +29,10 @@ import framework.core.TileGrid;
 
 public class Leveler {
 	
-	public static TileGrid[] loadMap(StateManager stateManager, Handler handler, String path)
+	public static TileGrid[] loadMap(StateManager stateManager, Handler handler, Graph graph, String path)
 	{
 		// disable in jar!
-		//prepareMap(path);
+		prepareMap(path);
 		
 		TileImageStorage list;	
 		TiledMap t_map = null;
@@ -58,14 +62,18 @@ public class Leveler {
 				for(int layer = 0; layer < t_map.getLayerCount(); layer++){
 					
 					int tileIndex = t_map.getTileId(x, y, layer);
-					if(tileIndex > 0){					
+					if(tileIndex > 0){
+						int transformedX = (int) getIsometricCoordinates(x, y).x; // get real coordinates
+						int transformedY = (int) getIsometricCoordinates(x, y).y;
 						// ground layer
 						if(layer == 0){
-							map_layer[0].setTile(x, y, list.getImage(tileIndex-1), tileIndex-1);	
+							map_layer[0].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
+							if(map_layer[0].getTile(x,y).getID() != 34)
+								graph.addNode(new Node(x, y));
 						}
 						// tree layer
 						if(layer == 1){
-							map_layer[1].setTile(x, y, list.getImage(tileIndex-1), tileIndex-1);
+							map_layer[1].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
 							//handler.getObstacleList().add(grid.getTile(x, y));
 							shadowObstacleList.add(map_layer[1].getTile(x, y));
 						}
@@ -89,24 +97,32 @@ public class Leveler {
 		int objectGroup = 0;
 		// t_map.getObjectCount(0) -> 0 == Objectgroup
 		for(int objectCount = 0; objectCount < t_map.getObjectCount(objectGroup); objectCount++){
-			
-			int x = t_map.getObjectX(objectGroup, objectCount);
+			int x = t_map.getObjectX(objectGroup, objectCount) + 32;
 			int y = t_map.getObjectY(objectGroup, objectCount);
+
+			// transform coordinates in grid coords
+			int tmpX = (x / (TILE_SIZE / 2));     //(x * (TILE_SIZE/2) - y * (TILE_SIZE/2)) / TILE_SIZE; // transform coordinates
+			int tmpY = (y / (TILE_SIZE / 2)) + 1; //(x * (TILE_SIZE/2) + y * (TILE_SIZE/2)) / TILE_SIZE;
+
+			// transform grid coords to map coords
+			int transformedX = (int) getIsometricCoordinates(tmpX, tmpY).x; // get real coordinates
+			int transformedY = (int) getIsometricCoordinates(tmpX, tmpY).y;
+
 			String objName = t_map.getObjectName(objectGroup, objectCount);
-		
-//			if(objName.equals("player")){
-//				handler.setPlayer(new Player(x, y, handler));
-//			}	
+			System.out.println("Object: " + objName + "  X: " + tmpX + " / Y: " + tmpY);
+			if(objName.equals("player")){
+				handler.setPlayer(new Player(transformedX + 16, transformedY - (TILE_SIZE/2),24,48, handler));
+			}
+
 //			if(objName.equals("enemy_orange")){
 //				Enemy_Orange tmp = new Enemy_Orange(x, y, TILE_SIZE, TILE_SIZE, handler);
 //				handler.getEnemyList().add(tmp);
 //				shadowObstacleList.add(tmp);
 //			}
 		}
-		
-		// set camera offset
+		graph.createMatrix();
+		handler.setGraph(graph);
 		stateManager.getGame().getCamera().reset();
-		
 		return map_layer;
 	}
 	
@@ -122,7 +138,8 @@ public class Leveler {
 			try {
 				while((tmpStr = reader.readLine()) != null){
 					if(tmpStr.contains("Objects")){
-						tmpStr =  "<objectgroup name=\"Objects\" width=\"32\" height=\"32\">";
+						System.out.println("added object info to map");
+						tmpStr =  "<objectgroup name=\"Objects\" width=\"64\" height=\"64\">";
 						buffer.append(tmpStr + "\n");
 					}else{
 						buffer.append(tmpStr + "\n");
@@ -145,14 +162,13 @@ public class Leveler {
 			try {
 				writer.write(buffer.toString());
 				writer.flush();
-				
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("map prepared");
 	}
 }

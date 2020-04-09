@@ -22,9 +22,10 @@ public class TileGrid {
 		this.waveManager = new WaveManager(map);
 	}
 	
-	public void setTile(int xCoord, int yCoord, Image image, int ID){
-		map[xCoord][yCoord] = new Tile(xCoord*(TILE_SIZE/2) - yCoord*(TILE_SIZE/2), xCoord*(TILE_SIZE/2) - xCoord*16 + yCoord*(TILE_SIZE/2) - yCoord*16, image, handler, ID);	
-		setTileCounter++;
+	public void setTile(int x, int y, int xCoord, int yCoord, Image image, int ID){
+		map[x][y] = new Tile(xCoord, yCoord, image, handler, ID);
+		if(ID != 34)
+			setTileCounter++;
 	}
 	
 	public Tile getTile(int xPlace, int yPlace){

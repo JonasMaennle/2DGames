@@ -6,7 +6,7 @@ import org.newdawn.slick.Image;
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 import framework.core.Handler;
 import framework.entity.GameEntity;
@@ -88,8 +88,13 @@ public class Tile implements GameEntity{
 	}
 
 	@Override
-	public Rectangle getBounds() {
-		return new Rectangle((int)x, (int)y, width, height);
+	public Polygon getBounds() {
+		Polygon p = new Polygon();
+		p.addPoint((int)x + (TILE_SIZE/2),(int)y); // top center
+		p.addPoint((int)x + (TILE_SIZE/2),(int)y + (TILE_SIZE/2)); // bottom center
+		p.addPoint((int)x,(int)y + (TILE_SIZE/4)); // left center
+		p.addPoint((int)x + (TILE_SIZE), (int)y + (TILE_SIZE/4)); // right center
+		return p;
 	}
 	
 	public Rectangle getTopBounds(){

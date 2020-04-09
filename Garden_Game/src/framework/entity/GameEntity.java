@@ -1,6 +1,6 @@
 package framework.entity;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 import org.lwjgl.util.vector.Vector2f;
 
@@ -16,7 +16,7 @@ public interface GameEntity {
 	
 	public Vector2f[] getVertices();
 	
-	public Rectangle getBounds();
+	public Polygon getBounds();
 	public Rectangle getTopBounds();
 	public Rectangle getBottomBounds();
 	public Rectangle getLeftBounds();

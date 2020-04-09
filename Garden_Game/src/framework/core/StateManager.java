@@ -4,6 +4,8 @@ import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 import static framework.helper.Leveler.*;
 
+import framework.core.pathfinding.Graph;
+import framework.core.pathfinding.PathfinderService;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Image;
 
@@ -29,6 +31,7 @@ public class StateManager {
 	private Deathscreen deathscreen;
 	private Loadingscreen loadingscreen;
 	private Mainmenu menu;
+	private Graph graph;
 	
 	private BackgroundHandler backgroundHandler;
 	
@@ -98,8 +101,8 @@ public class StateManager {
 	
 	private void loadLevel(){
 		String levelPath = "level/map_0";
-
 		CURRENT_LEVEL++;
+		graph = new Graph();
 		
 		// if max level is reached
 		if(MAX_LEVEL + 1 == StateManager.CURRENT_LEVEL){
@@ -115,11 +118,11 @@ public class StateManager {
 		switch (CURRENT_LEVEL) {
 		// Szenario maps
 		case 1:
-			handler.setMaps(loadMap(this, handler, levelPath + CURRENT_LEVEL));
+			handler.setMaps(loadMap(this, handler, graph, levelPath + CURRENT_LEVEL));
 			System.out.println("Level 1");
 			break;
 		case 2:
-			handler.setMaps(loadMap(this, handler, levelPath + CURRENT_LEVEL));
+			handler.setMaps(loadMap(this, handler, graph, levelPath + CURRENT_LEVEL));
 			System.out.println("Level 2");
 			break;
 
@@ -127,10 +130,12 @@ public class StateManager {
 		default:
 			break;
 		}
+		System.out.println("-------------------------------------------");
 	}
 	
 	// cursor hide if no mouse movement
 	private void drawCursor() {
+		/*
 		if(mouseX != Mouse.getX() && mouseY != Mouse.getY()) {			
 			mouseX = Mouse.getX();
 			mouseY = Mouse.getY();
@@ -138,7 +143,8 @@ public class StateManager {
 		}
 		t1 = System.currentTimeMillis();
 		if(t1 - t2 < 2000)
-			drawQuadImageStatic(cursor, Mouse.getX() - 12, HEIGHT - Mouse.getY() - 12, 32, 32);
+		*/
+		drawQuadImageStatic(cursor, Mouse.getX() - 12, HEIGHT - Mouse.getY() - 12, 32, 32);
 	}
 		
 
@@ -172,5 +178,13 @@ public class StateManager {
 
 	public void setLoadingscreen(Loadingscreen loadingscreen) {
 		this.loadingscreen = loadingscreen;
+	}
+
+	public Graph getGraph() {
+		return graph;
+	}
+
+	public void setGraph(Graph graph) {
+		this.graph = graph;
 	}
 }

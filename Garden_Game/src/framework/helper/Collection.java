@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Color;
@@ -87,6 +88,36 @@ public class Collection {
 		        e.printStackTrace();
 		    } 
 		return awtFont;
+	}
+
+	public static Vector2f convertMouseCoordsToIsometricGrid(int mouseX, int mouseY){
+
+		// fix mouse coords due to world movement
+		int x = (int) (mouseX - MOVEMENT_X);
+		int y = (int) (HEIGHT - mouseY - MOVEMENT_Y);
+
+		int tiley = x - 2 * y + TILE_SIZE;
+		int tilex = x + 2*y - TILE_SIZE;
+		tilex = Math.abs(tilex);
+		tiley = Math.abs(tiley);
+
+		tilex /= TILE_SIZE;
+		tiley /= TILE_SIZE;
+
+		return new Vector2f(tilex, tiley + 1);
+	}
+
+	public static Vector2f convertObjectCoordinatesToIsometricGrid(int objectX, int objectY){
+		int xcoord = (int) Math.floor((objectY / (TILE_SIZE/2)) + (objectX / TILE_SIZE)) + 1;
+		int ycoord = (int) Math.floor((-objectX / TILE_SIZE) + (objectY / (TILE_SIZE / 2))) + 1;
+		return new Vector2f(xcoord, ycoord);
+	}
+
+	// Transforms TiledMap Grid Object Coordinates [1/49] to Map Coordinates [50 / 1540]
+	public static Vector2f getIsometricCoordinates(int x, int y){
+		int tmpX = (x * (TILE_SIZE/2) - y * (TILE_SIZE/2));
+		int tmpY = (x * (TILE_SIZE/2) - x * 16 + y * (TILE_SIZE/2) - y * 16);
+		return new Vector2f(tmpX, tmpY);
 	}
 	
 	public static void drawString(int x, int y, String text, Color color){
