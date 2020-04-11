@@ -56,7 +56,7 @@ public class Handler {
 		info_manager.update();
 		if(player != null) player.update();
 
-		objectInfo();
+		// objectInfo();
 	}
 	
 	public void draw(){
@@ -64,11 +64,16 @@ public class Handler {
 		MOVEMENT_Y = (int)MOVEMENT_Y;
 
 		// draw tile map
+		/*
 		for(TileGrid layer : mapLayers) {
 			layer.draw();
 		}
-
+		*/
+		mapLayers[0].draw();
+		mapLayers[1].draw();
+		mapLayers[2].draw();
 		if(player != null) player.draw();
+		mapLayers[3].draw();
 
 		renderLightEntity(shadowObstacleList);
 		

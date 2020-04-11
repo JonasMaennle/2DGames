@@ -24,6 +24,10 @@ public class Graph {
 	public void addNode(Node node){
 		nodes.add(node);
 	}
+
+	public void removeNode(Node node){
+		nodes.remove(node);
+	}
 	
 	public int getNodeID(int x, int y){
 		for(int i = 0; i < nodes.size(); i++){

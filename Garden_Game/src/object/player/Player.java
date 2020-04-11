@@ -25,7 +25,7 @@ public class Player implements GameEntity {
 	private Animation currentAnimation;
 
 	private PlayerTask currentTask;
-	private Image collisionBox, left_front_idle, left_back_idle, right_back_idle, right_front_idle, idle_image;
+	private Image collisionBox, left_front_idle, left_back_idle, right_back_idle, right_front_idle, idle_image, player_shadow;
 	private String movingDirection;
 	private boolean showIdle;
 
@@ -46,6 +46,7 @@ public class Player implements GameEntity {
 		this.left_back_idle = quickLoaderImage("player/left_back_idle");
 		this.right_front_idle = quickLoaderImage("player/right_front_idle");
 		this.right_back_idle = quickLoaderImage("player/right_back_idle");
+		this.player_shadow = quickLoaderImage("player/player_shadow");
 
 		this.currentAnimation = walk_right_front;
 		this.movingDirection = "right_front";
@@ -55,7 +56,7 @@ public class Player implements GameEntity {
 	@Override
 	public void update() {
 		showIdle = true;
-		if(currentTask != null && !currentTask.isTaskDone()) currentTask.performTask();
+		if(currentTask != null) currentTask.performTask();
 
 		switch (movingDirection){
 			case "right_front":
@@ -75,18 +76,22 @@ public class Player implements GameEntity {
 				idle_image = left_back_idle;
 				break;
 		}
+
+		// System.out.println(currentTask);
 	}
 
 	@Override
 	public void draw() {
-	if(showIdle)
-		drawQuadImage(idle_image, x, y, width, height);
-	else
-		drawAnimation(currentAnimation, x, y, width, height);
+		drawQuadImage(player_shadow, x - 10, y + height - 12, width + 8, 18);
 
-		if(currentTask != null) currentTask.renderTask();
+		if(showIdle)
+			drawQuadImage(idle_image, x, y, width, height);
+		else
+			drawAnimation(currentAnimation, x, y, width, height);
 
-		// drawQuadImage(collisionBox, x, y + height - 12, 24, 12);
+		if(currentTask != null)currentTask.renderTask();
+
+		// drawQuadImage(collisionBox, x + 4, y + height - 8, 20, 8);
 	}
 
 	@Override
@@ -102,10 +107,10 @@ public class Player implements GameEntity {
 	@Override
 	public Polygon getBounds() {
 		Polygon p = new Polygon();
-		p.addPoint((int)x + 12, (int)y + height - 12); // top center
+		p.addPoint((int)x + 12, (int)y + height - 8); // top center
 		p.addPoint((int)x + 12, (int)y + height); // bottom center
-		p.addPoint((int)x, (int)y + height - 6); // left center
-		p.addPoint((int)x + 24, (int) y + height - 6); // right center
+		p.addPoint((int)x + 4, (int)y + height - 4); // left center
+		p.addPoint((int)x + 20, (int) y + height - 4); // right center
 		return p;
 	}
 	@Override

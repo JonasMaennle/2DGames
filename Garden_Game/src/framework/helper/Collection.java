@@ -91,18 +91,20 @@ public class Collection {
 	}
 
 	public static Vector2f convertMouseCoordsToIsometricGrid(int mouseX, int mouseY){
+		int x = (int) (mouseX - (MOVEMENT_X * SCALE)  );
+		int y = (int) (HEIGHT - mouseY - (MOVEMENT_Y * SCALE));
 
-		// fix mouse coords due to world movement
-		int x = (int) (mouseX - MOVEMENT_X);
-		int y = (int) (HEIGHT - mouseY - MOVEMENT_Y);
-
-		int tiley = x - 2 * y + TILE_SIZE;
-		int tilex = x + 2*y - TILE_SIZE;
+		int tiley = ((x - 2 * y + TILE_SIZE) );
+		int tilex = ((x + 2*y - TILE_SIZE) );
 		tilex = Math.abs(tilex);
 		tiley = Math.abs(tiley);
 
-		tilex /= TILE_SIZE;
-		tiley /= TILE_SIZE;
+		tilex /= TILE_SIZE * SCALE;
+		tiley /= TILE_SIZE * SCALE;
+
+		if(mouseX % TILE_SIZE > TILE_SIZE/2){
+			tilex += 1;
+		}
 
 		return new Vector2f(tilex, tiley + 1);
 	}

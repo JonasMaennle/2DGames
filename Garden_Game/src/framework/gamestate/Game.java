@@ -43,13 +43,11 @@ public class Game extends GameScreen{
 
 	private void checkForUserInput(){
 		if(Mouse.isButtonDown(1) && mouseReleased){
-			// get clicked tile coords
-			Vector2f point = convertMouseCoordsToIsometricGrid(Mouse.getX(), Mouse.getY());
-
-			// System.out.println("Info: " + point.x + " : " + point.y);
-			handler.getPlayer().setCurrentTask(new WalkTo(point.x, point.y, handler.getPlayer()));
-			// System.out.println("Player x: " + handler.getPlayer().getX() + "      y: " + handler.getPlayer().getY()); // player position
-
+			int mouseX = Mouse.getX();
+			int mouseY = Mouse.getY();
+			Vector2f mouseTile = convertMouseCoordsToIsometricGrid(mouseX, mouseY);
+			if(handler.getGraph().getNode((int)mouseTile.x, (int)mouseTile.y) != null)
+				handler.getPlayer().setCurrentTask(new WalkTo(mouseX, mouseY, handler.getPlayer()));
 			mouseReleased = false;
 		}
 		if(!Mouse.isButtonDown(1)){

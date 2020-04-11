@@ -6,6 +6,7 @@ import framework.helper.Leveler;
 import object.player.Player;
 import object.player.PlayerTask;
 import object.player.WalkTo;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
@@ -24,12 +25,13 @@ public class PathfinderService {
 	}
 
 	public LinkedList<Node> getPath(WalkTo walkTo, int targetX, int targetY) {
-		LinkedList<Node> tmp = null;
+		LinkedList<Node> tmp = new LinkedList<>();
 		try {
 			int playerX = (int)(walkTo.getPlayer().getX());
 			int playerY = (int)(walkTo.getPlayer().getY());
 
 			Vector2f point = convertObjectCoordinatesToIsometricGrid(playerX, playerY);
+			Vector2f mousePoint = convertMouseCoordsToIsometricGrid(targetX, targetY);
 
 			// System.out.println("Player Tile: " + point.x + " y: " + point.y);
 			// System.out.println("Target Tile: " + targetX + " y: " + targetY);
@@ -40,8 +42,11 @@ public class PathfinderService {
 				// System.out.println("Alternative Tile for Player found!");
 			}
 
-			if(graph.getNodeID((int)point.x, (int)point.y) != -1 && graph.getNodeID(targetX, targetY) != -1) {
-				tmp = graph.astar(graph.getNodeID((int)point.x, (int)point.y), graph.getNodeID(targetX, targetY));
+			if(graph.getNodeID((int)point.x, (int)point.y) != -1 && graph.getNodeID((int)mousePoint.x, (int)mousePoint.y) != -1) {
+				// add original mouse target position
+				// tmp.add(new Node(targetX, targetY));
+				tmp.addAll(graph.astar(graph.getNodeID((int)point.x, (int)point.y), graph.getNodeID((int)mousePoint.x, (int)mousePoint.y)));
+
 			}else{
 				// System.out.println("!!! no path found !!!");
 				// System.out.println("Player Tile: " + point.x + " y: " + point.y);

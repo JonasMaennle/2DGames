@@ -13,13 +13,7 @@ public abstract class PlayerTask {
 
     public abstract void renderTask();
 
-    public boolean isTaskDone() { return this.taskDone; }
-
     public Player getPlayer() {
         return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }

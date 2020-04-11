@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import framework.core.pathfinding.Graph;
 import framework.core.pathfinding.Node;
@@ -46,9 +48,11 @@ public class Leveler {
 		}
 		TILES_WIDTH = t_map.getWidth();
 		TILES_HEIGHT = t_map.getHeight();
-		TileGrid[] map_layer = new TileGrid[2];
+		TileGrid[] map_layer = new TileGrid[4];
 		map_layer[0] = new TileGrid(handler); // ground
-		map_layer[1] = new TileGrid(handler); // trees
+		map_layer[1] = new TileGrid(handler); // hight
+		map_layer[2] = new TileGrid(handler); // hight
+		map_layer[3] = new TileGrid(handler); // tree
 		
 		//t_map.getTileImage(0, 0, 0).
 		//System.out.println(t_map.getTileId(0, 0, t_map.getLayerIndex("Background")));
@@ -71,23 +75,35 @@ public class Leveler {
 							if(map_layer[0].getTile(x,y).getID() != 34)
 								graph.addNode(new Node(x, y));
 						}
-						// tree layer
-						if(layer == 1){
-							map_layer[1].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
-							//handler.getObstacleList().add(grid.getTile(x, y));
-							shadowObstacleList.add(map_layer[1].getTile(x, y));
+						// hight layer
+						if(layer == 1 || layer == 2){
+							map_layer[layer].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
+							graph.addNode(new Node(x, y));
 						}
-						// shadow layer
-//						if(layer == 2){
-//							grid.setTile(x, y, list.getImage(tileIndex-1));
-//							handler.getObstacleList().add(grid.getTile(x, y));
-//							shadowObstacleList.add(grid.getTile(x, y));
-//						}
-//						// border layer
-//						if(layer == 3){
-//							grid.setTile(x, y, list.getImage(tileIndex-1));
-//							handler.getObstacleList().add(grid.getTile(x, y));
-//						}
+					}
+				}
+			}
+		}
+
+		List<Integer> excludesNodeTiles = new ArrayList<>();
+		excludesNodeTiles.add(93); // tree
+		excludesNodeTiles.add(60); // tree
+		// Add layer 2 Tiles
+		for(int x = 0; x < TILES_WIDTH; x++){
+			for(int y = 0; y < TILES_HEIGHT; y++){
+				for(int layer = 0; layer < t_map.getLayerCount(); layer++){
+					int tileIndex = t_map.getTileId(x, y, layer);
+					if(tileIndex > 0){
+						int transformedX = (int) getIsometricCoordinates(x, y).x; // get real coordinates
+						int transformedY = (int) getIsometricCoordinates(x, y).y;
+						// tree layer
+						if(layer == 3){
+							map_layer[3].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
+							// remove node if tree placed at tile
+							if(graph.getNode(x,y) != null && excludesNodeTiles.contains(map_layer[3].getTile(x,y).getID())){
+								graph.removeNode(graph.getNode(x + 1,y + 1));
+							}
+						}
 					}
 				}
 			}
