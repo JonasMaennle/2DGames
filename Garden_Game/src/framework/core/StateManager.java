@@ -95,8 +95,9 @@ public class StateManager {
 			framesInCurrentSecond = 0;
 		}
 		framesInCurrentSecond++;
-		
-		drawCursor();
+
+		if(gameState != GameState.GAME)
+			drawCursor();
 	}
 	
 	private void loadLevel(){

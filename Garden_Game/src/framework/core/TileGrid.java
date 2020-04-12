@@ -1,6 +1,9 @@
 package framework.core;
 
 import static framework.helper.Collection.*;
+
+import object.player.Player;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 import framework.core.service.WaveManager;
 import object.other.Tile;

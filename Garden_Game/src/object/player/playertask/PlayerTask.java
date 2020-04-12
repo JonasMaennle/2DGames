@@ -1,8 +1,9 @@
-package object.player;
+package object.player.playertask;
+
+import object.player.Player;
 
 public abstract class PlayerTask {
 
-    protected boolean taskDone;
     protected Player player;
 
     public PlayerTask(Player player){

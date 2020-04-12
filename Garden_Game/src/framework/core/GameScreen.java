@@ -70,11 +70,15 @@ public abstract class GameScreen{
 	}
 	
 	private void zoomIn(float amount) {
-		if(amount > 0 && SCALE < 5) {
+		if(amount > 0 && SCALE < 2) {
 			SCALE+= amount;
+			MOVEMENT_X /= 2;
+			MOVEMENT_Y *= 2;
 		}	
 		else if(amount < 0 && SCALE > 1){
 			SCALE+=amount;
+			MOVEMENT_X *= 2;
+			MOVEMENT_Y /= 2;
 		}
 	}
 }

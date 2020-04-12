@@ -2,16 +2,12 @@ package framework.core;
 
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glEnable;
 
-import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import framework.core.pathfinding.Graph;
+import object.trees.Tree;
 import object.player.Player;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Image;
 
 import framework.entity.GameEntity;
@@ -34,6 +30,7 @@ public class Handler {
 	private float outOfScreenBorder;
 	
 	private CopyOnWriteArrayList<GameEntity> obstacleList;
+	private CopyOnWriteArrayList<Tree> treeList;
 	private Player player;
 	private Graph graph;
 	
@@ -47,6 +44,7 @@ public class Handler {
 		this.outOfScreenBorder = 512;
 		
 		this.obstacleList = new CopyOnWriteArrayList<GameEntity>();
+		this.treeList = new CopyOnWriteArrayList<>();
 		this.player = null;
 	}
 	
@@ -72,8 +70,23 @@ public class Handler {
 		mapLayers[0].draw();
 		mapLayers[1].draw();
 		mapLayers[2].draw();
-		if(player != null) player.draw();
 		mapLayers[3].draw();
+		// mapLayers[4].draw(); // color graph layer
+
+		// trees behind player
+		for(Tree t : treeList){
+			if(player.getY() >= (t.getY() + t.getHeight()) - player.getHeight()){
+				t.draw();
+			}
+		}
+		if(player != null) player.draw();
+
+		// trees before player
+		for(Tree t : treeList){
+			if(player.getY() < (t.getY() + t.getHeight()) - player.getHeight()){
+				t.draw();
+			}
+		}
 
 		renderLightEntity(shadowObstacleList);
 		
@@ -83,11 +96,10 @@ public class Handler {
 	
 	public void wipe(){
 		mapLayers = null;
-		
 		obstacleList.clear();
 		lightsTopLevel.clear();
 		lightsSecondLevel.clear();
-
+		treeList.clear();
 		info_manager.resetAll();
 	}
 	
@@ -133,4 +145,12 @@ public class Handler {
 	public Graph getGraph() { return graph; }
 
 	public void setGraph(Graph graph) { this.graph = graph; }
+
+	public CopyOnWriteArrayList<Tree> getTreeList() {
+		return treeList;
+	}
+
+	public void setTreeList(CopyOnWriteArrayList<Tree> treeList) {
+		this.treeList = treeList;
+	}
 }

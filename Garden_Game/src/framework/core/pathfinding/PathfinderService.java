@@ -2,17 +2,10 @@ package framework.core.pathfinding;
 
 import java.util.LinkedList;
 import framework.core.Handler;
-import framework.helper.Leveler;
-import object.player.Player;
-import object.player.PlayerTask;
-import object.player.WalkTo;
-import org.lwjgl.input.Mouse;
+import object.player.playertask.WalkTo;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.Image;
 
 import static framework.helper.Collection.*;
-import static framework.helper.Graphics.drawQuadImage;
-import static framework.helper.Graphics.quickLoaderImage;
 
 public class PathfinderService {
 

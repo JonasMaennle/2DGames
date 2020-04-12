@@ -1,22 +1,20 @@
-package object.player;
+package object.player.playertask;
 
 import framework.core.pathfinding.Graph;
 import framework.core.pathfinding.Node;
 import framework.core.pathfinding.PathfinderService;
-import framework.entity.GameEntity;
 import object.TestShot;
+import object.player.Player;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
-import org.w3c.dom.css.Rect;
 
 import java.awt.*;
-import java.awt.geom.Area;
 import java.util.LinkedList;
 
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
-public class WalkTo extends PlayerTask{
+public class WalkTo extends PlayerTask {
 
     private float x, y, velX, velY, speed;
     private LinkedList<Node> path;
@@ -88,11 +86,12 @@ public class WalkTo extends PlayerTask{
 
     @Override
     public void renderTask() {
-        /*
-        if(path != null)
-            drawPath(path);
-        */
-        if(testShot != null) testShot.draw();
+
+        if(path != null){
+            //drawPath(path);
+        }
+
+        //if(testShot != null) testShot.draw();
     }
 
     private boolean collisionTest(){

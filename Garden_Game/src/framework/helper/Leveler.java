@@ -18,8 +18,9 @@ import java.util.List;
 
 import framework.core.pathfinding.Graph;
 import framework.core.pathfinding.Node;
+import object.trees.Tree_00;
 import object.player.Player;
-import org.lwjgl.util.vector.Vector2f;
+import object.trees.Tree_01;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.tiled.TileSet;
@@ -48,7 +49,7 @@ public class Leveler {
 		}
 		TILES_WIDTH = t_map.getWidth();
 		TILES_HEIGHT = t_map.getHeight();
-		TileGrid[] map_layer = new TileGrid[4];
+		TileGrid[] map_layer = new TileGrid[5];
 		map_layer[0] = new TileGrid(handler); // ground
 		map_layer[1] = new TileGrid(handler); // hight
 		map_layer[2] = new TileGrid(handler); // hight
@@ -86,8 +87,8 @@ public class Leveler {
 		}
 
 		List<Integer> excludesNodeTiles = new ArrayList<>();
-		excludesNodeTiles.add(93); // tree
-		excludesNodeTiles.add(60); // tree
+		// excludesNodeTiles.add(93); // tree
+		// excludesNodeTiles.add(60); // tree
 		// Add layer 2 Tiles
 		for(int x = 0; x < TILES_WIDTH; x++){
 			for(int y = 0; y < TILES_HEIGHT; y++){
@@ -99,11 +100,17 @@ public class Leveler {
 						// tree layer
 						if(layer == 3){
 							map_layer[3].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
+						}
+						/*
+						if(layer == 4){
+							map_layer[4].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
 							// remove node if tree placed at tile
-							if(graph.getNode(x,y) != null && excludesNodeTiles.contains(map_layer[3].getTile(x,y).getID())){
+							if(graph.getNode(x,y) != null && excludesNodeTiles.contains(map_layer[4].getTile(x,y).getID())){
 								graph.removeNode(graph.getNode(x + 1,y + 1));
 							}
 						}
+
+						 */
 					}
 				}
 			}
@@ -129,6 +136,12 @@ public class Leveler {
 			if(objName.equals("player")){
 				handler.setPlayer(new Player(transformedX + 16, transformedY - (TILE_SIZE/2),24,48, handler));
 			}
+			if(objName.equals("tree_00")){
+				handler.getTreeList().add(new Tree_00(transformedX, transformedY, graph));
+			}
+			if(objName.equals("tree_01")){
+				handler.getTreeList().add(new Tree_01(transformedX, transformedY, graph));
+			}
 
 //			if(objName.equals("enemy_orange")){
 //				Enemy_Orange tmp = new Enemy_Orange(x, y, TILE_SIZE, TILE_SIZE, handler);
@@ -137,9 +150,26 @@ public class Leveler {
 //			}
 		}
 		graph.createMatrix();
+
+		// map_layer[4] = colorGraph(map_layer[0], graph, handler);
+
 		handler.setGraph(graph);
 		stateManager.getGame().getCamera().reset();
 		return map_layer;
+	}
+
+	private static TileGrid colorGraph(TileGrid map_layer, Graph graph, Handler handler){
+		TileGrid color_layer = new TileGrid(handler);
+		for(int x = 0; x < 50; x++){
+			for(int y = 0; y < 50; y++){
+				if(map_layer.getTile(x,y) != null && graph.getNode(x,y) != null){
+					int transformedX = (int) getIsometricCoordinates(x, y).x; // get real coordinates
+					int transformedY = (int) getIsometricCoordinates(x, y).y;
+					color_layer.setTile(x, y, transformedX, transformedY, Graphics.quickLoaderImage("tiles/basic"), 0);
+				}
+			}
+		}
+		return color_layer;
 	}
 	
 	private static void prepareMap(String path){

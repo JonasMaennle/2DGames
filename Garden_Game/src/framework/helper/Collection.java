@@ -105,10 +105,10 @@ public class Collection {
 		if(mouseX % TILE_SIZE > TILE_SIZE/2){
 			tilex += 1;
 		}
-
 		return new Vector2f(tilex, tiley + 1);
 	}
 
+	// Transforms Map Coordinates [50 / 1540] to TiledMap Grid Object Coordinates [1/49]
 	public static Vector2f convertObjectCoordinatesToIsometricGrid(int objectX, int objectY){
 		int xcoord = (int) Math.floor((objectY / (TILE_SIZE/2)) + (objectX / TILE_SIZE)) + 1;
 		int ycoord = (int) Math.floor((-objectX / TILE_SIZE) + (objectY / (TILE_SIZE / 2))) + 1;

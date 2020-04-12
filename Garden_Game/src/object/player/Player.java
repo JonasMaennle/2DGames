@@ -3,10 +3,9 @@ package object.player;
 import java.awt.*;
 
 import framework.core.Handler;
+import object.player.playertask.PlayerTask;
 import org.lwjgl.util.vector.Vector2f;
 
-import static framework.helper.Collection.*;
-import static framework.helper.Collection.TILE_SIZE;
 import static framework.helper.Graphics.*;
 import framework.entity.GameEntity;
 import org.newdawn.slick.Animation;

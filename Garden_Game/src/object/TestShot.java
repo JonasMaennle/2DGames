@@ -1,7 +1,7 @@
 package object;
 
 import framework.entity.GameEntity;
-import object.player.WalkTo;
+import object.player.playertask.WalkTo;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
 
@@ -41,7 +41,7 @@ public class TestShot implements GameEntity {
 	}
 	
 	public void draw() {
-		// drawQuadImage(image, x, y, width, height);
+		drawQuadImage(image, x, y, width, height);
 	}
 	
 	private void calculateDirection() {
