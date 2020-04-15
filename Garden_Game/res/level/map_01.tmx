@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="isometric" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="32" infinite="0" nextlayerid="69" nextobjectid="12">
+<map version="1.2" tiledversion="1.2.4" orientation="isometric" renderorder="right-down" width="50" height="50" tilewidth="64" tileheight="32" infinite="0" nextlayerid="76" nextobjectid="22">
  <tileset firstgid="1" source="grid.tsx"/>
  <layer id="1" name="Kachelebene 1" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3V2wrCMBCE4bxJBBUKggXf/+HcgoEiQTdrZSbLXPz0KjAfPdVSysmqu+t5wvb75cAnh1L/r5b5n8naCb3pCMOspiwWj2MWz4iF3ZPFEbkv7yYmd8TCfA+zWOTgcngtd+tGbPA4NsNqPazlyzlWRzN4z7E6rtbFcY5xe8/Rs6AdI9+eTw50EQd6c8SxvdvLq5XQ4d3ftrM9T5F3IZMDvfsIB3pz1NL+28wGj4P5+zpiyeRA7/vVgt4kx9yGngW9RSmllFIK0RPgvLA4ECcAAA==
+   H4sIAAAAAAAACu2U2wqDMBAF/ZNSrEUoVPD/P64RDEhI4m4unqSeh3k1M6y74zAMIyGEkO547KA9SjQcQTvluIdAu+b6t9aS6t5Sz5nXs4OeM3+X3jp8DSktvqYa3dqGnJaaM0ztqNlz5w5fyx07pC1fw6diwxUz2RoWw2qYI2+23GEbpLuZ2+F+t1THZHgJ3ivhnzIT6c7aDl8LukNze2IdtfDdk1IdVzVsvAMuKfdp3lkAHWtgJrZF6m/dr/6f3JY50iPdBXTHeHhf2+J2oPzdFu1sELdJM5fQ/ru7gdhpTYukA3FftcTuWE8dkplMDXjmzgTtlsK/dqB9SrWgXQghhBBCEPwAOkreqxAnAAA=
   </data>
  </layer>
  <layer id="2" name="Kachelebene 2" width="50" height="50">
@@ -18,11 +18,19 @@
  </layer>
  <layer id="44" name="Kachelebene 4" width="50" height="50">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3XXQ6EIAwE4J7MFH/uf6UN2SWZsBgfIJbR+RKj8jS1IGomIvIeHh1gsCU6QAdvjKW7QwywGncfUP38l5NxFtiXXIP/DtZ+JePtRZbg3OqB3xelG/bBT66ZMM8rhHOsrompRqasV0otB9w/qT5mHh1AqK3RAQbZ7bsWtuAcPfboAIPhPtHqy9EYm0X539jsf78ra2bm/JgtVeeMbd1jDWUuMa4XfO4O1+zfU6UXTHUwz6MrzPvgU+R3sEeHGGjm/U5ERERE3uUDUp6QuxAnAAA=
+   H4sIAAAAAAAACu2Wiw6DIAxF+TJz0e3/f2khsUnXgbzE4uxJFpBHd22pxTnDMIznAG0BJ7NoC+gAkTF/tYgGSCP5fnX3jMO6txsbk/5fEuPalOrhcQl7sP+040W+Jx1baqHAu/liUYNnbSwGuE7KF9z/pRp4HJDo19rUpPVcyX2lZ/nIHtjzu2E/tVKbT/RnpEUfREvU+jAG2WjRRXu4jZgdNNju4coz8BrwnzjBJrIr/o+RdRSD7B4x8hy/MvNrZl6b0rteeE+4/vo1Crj8dzwXq5ko8TPP09j6M+paDzLvIObC8+Z+vzeUM9r6iVht59p8ZH72vJfwd6CzdId8CXHgd2Lud7D+7PfZHCPuR6O50zmqZdY6+CRC7kNbxInMUu8MwzAMwzAM4wM8Dd5WECcAAA==
   </data>
  </layer>
 <objectgroup name="Objects" width="64" height="64">
-  <object id="1" name="player" type="player" x="872" y="777" width="14" height="14"/>
+  <object id="1" name="player" type="player" x="926" y="757" width="14" height="14"/>
   <object id="5" name="tree_00" type="tree_00" x="576" y="768" width="13" height="13"/>
+  <object id="13" name="stock" type="stock" x="767" y="671" width="96" height="64"/>
+  <object id="15" name="player" type="player" x="920" y="649" width="14" height="14"/>
+  <object id="16" name="tree_00" type="tree_00" x="664" y="333" width="13" height="13"/>
+  <object id="17" name="tree_00" type="tree_00" x="83" y="314" width="13" height="13"/>
+  <object id="18" name="player" type="player" x="922" y="699" width="14" height="14"/>
+  <object id="19" name="tree_01" type="tree_01" x="250" y="704" width="13" height="13"/>
+  <object id="20" name="tree_01" type="tree_01" x="1165" y="379" width="13" height="13"/>
+  <object id="21" name="tree_01" type="tree_01" x="1055" y="422" width="13" height="13"/>
  </objectgroup>
 </map>

@@ -18,6 +18,7 @@ import java.util.List;
 
 import framework.core.pathfinding.Graph;
 import framework.core.pathfinding.Node;
+import object.buildings.Stock;
 import object.trees.Tree_00;
 import object.player.Player;
 import object.trees.Tree_01;
@@ -62,6 +63,9 @@ public class Leveler {
 		list = new TileImageStorage(64, 64, ss.getWidth(), ss.getHeight(), "level/grid.png"); // "res/tiles/Itch release tileset.png"
 
 		// Add Tiles
+		List<Integer> excludesNodeTiles = new ArrayList<>();
+		excludesNodeTiles.add(34);
+		excludesNodeTiles.add(32);
 		for(int x = 0; x < TILES_WIDTH; x++){
 			for(int y = 0; y < TILES_HEIGHT; y++){	
 				for(int layer = 0; layer < t_map.getLayerCount(); layer++){
@@ -73,7 +77,7 @@ public class Leveler {
 						// ground layer
 						if(layer == 0){
 							map_layer[0].setTile(x, y, transformedX, transformedY, list.getImage(tileIndex-1), tileIndex-1);
-							if(map_layer[0].getTile(x,y).getID() != 34)
+							if(!excludesNodeTiles.contains(map_layer[0].getTile(x,y).getID()))
 								graph.addNode(new Node(x, y));
 						}
 						// hight layer
@@ -86,9 +90,6 @@ public class Leveler {
 			}
 		}
 
-		List<Integer> excludesNodeTiles = new ArrayList<>();
-		// excludesNodeTiles.add(93); // tree
-		// excludesNodeTiles.add(60); // tree
 		// Add layer 2 Tiles
 		for(int x = 0; x < TILES_WIDTH; x++){
 			for(int y = 0; y < TILES_HEIGHT; y++){
@@ -134,13 +135,17 @@ public class Leveler {
 			String objName = t_map.getObjectName(objectGroup, objectCount);
 			System.out.println("Object: " + objName + "  X: " + tmpX + " / Y: " + tmpY);
 			if(objName.equals("player")){
-				handler.setPlayer(new Player(transformedX + 16, transformedY - (TILE_SIZE/2),24,48, handler));
+				handler.getPlayerList().add(new Player(transformedX + 16, transformedY - (TILE_SIZE/2),24,48, handler));
 			}
 			if(objName.equals("tree_00")){
 				handler.getTreeList().add(new Tree_00(transformedX, transformedY, graph));
 			}
 			if(objName.equals("tree_01")){
 				handler.getTreeList().add(new Tree_01(transformedX, transformedY, graph));
+			}
+
+			if(objName.equals("stock")){
+				handler.getBuildingList().add(new Stock(transformedX, transformedY));
 			}
 
 //			if(objName.equals("enemy_orange")){

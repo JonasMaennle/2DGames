@@ -6,6 +6,8 @@ import static framework.helper.Graphics.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import framework.core.pathfinding.Graph;
+import object.buildings.Building;
+import object.buildings.Stock;
 import object.trees.Tree;
 import object.player.Player;
 import org.newdawn.slick.Image;
@@ -31,8 +33,11 @@ public class Handler {
 	
 	private CopyOnWriteArrayList<GameEntity> obstacleList;
 	private CopyOnWriteArrayList<Tree> treeList;
-	private Player player;
+	private CopyOnWriteArrayList<Building> buildingList;
+	private CopyOnWriteArrayList<Player> playerList;
 	private Graph graph;
+
+	private Player selectedPlayer;
 	
 	public Handler(){
 		this.enemySpawnManager = new EnemySpawnManager(this);
@@ -45,16 +50,18 @@ public class Handler {
 		
 		this.obstacleList = new CopyOnWriteArrayList<GameEntity>();
 		this.treeList = new CopyOnWriteArrayList<>();
-		this.player = null;
+		this.buildingList = new CopyOnWriteArrayList<>();
+		this.playerList = new CopyOnWriteArrayList<>();
 	}
 	
 	public void update(){	
 		particleManager.update();
 		enemySpawnManager.update();
 		info_manager.update();
-		if(player != null) player.update();
+		for(Player p : playerList)
+			p.update();
 
-		// objectInfo();
+		objectInfo();
 	}
 	
 	public void draw(){
@@ -71,22 +78,31 @@ public class Handler {
 		mapLayers[1].draw();
 		mapLayers[2].draw();
 		mapLayers[3].draw();
+
+		for(Building b : buildingList){
+			b.draw();
+		}
+
 		// mapLayers[4].draw(); // color graph layer
 
-		// trees behind player
-		for(Tree t : treeList){
-			if(player.getY() >= (t.getY() + t.getHeight()) - player.getHeight()){
-				t.draw();
+		for(Tree tree: treeList){
+			boolean transparent = false;
+			for(Player player : playerList){
+				if(tree.getTranparencyBounds().intersects(player.getTotalBounds())){
+					transparent = true;
+				}
 			}
+			if(transparent)
+				tree.drawTransparent();
+			else
+				tree.draw();
 		}
-		if(player != null) player.draw();
 
-		// trees before player
-		for(Tree t : treeList){
-			if(player.getY() < (t.getY() + t.getHeight()) - player.getHeight()){
-				t.draw();
-			}
-		}
+
+		for(Player player : playerList)
+			player.draw();
+
+
 
 		renderLightEntity(shadowObstacleList);
 		
@@ -101,6 +117,8 @@ public class Handler {
 		lightsSecondLevel.clear();
 		treeList.clear();
 		info_manager.resetAll();
+		buildingList.clear();
+		playerList.clear();
 	}
 	
 	//@SuppressWarnings("unused")
@@ -110,11 +128,11 @@ public class Handler {
 		{
 			time2 = time1;
 			// Data output
-			int tileCount = 0;
-			for(TileGrid grid : mapLayers){
-				tileCount += grid.getSetTileCounter();
-			}
-			System.out.println("Accessible Tiles: " + tileCount + "\tFPS: " + StateManager.framesInLastSecond );
+			int tileCount = mapLayers[0].getSetTileCounter();
+			String playerTasks = "";
+			if(getSelectedPlayer() != null) playerTasks = getSelectedPlayer().printTaskList();
+
+			System.out.println("Accessible Tiles: " + tileCount + "\tFPS: " + StateManager.framesInLastSecond + "\t Selected Player " + playerTasks);
 		}
 	}
 
@@ -138,10 +156,6 @@ public class Handler {
 		return particleManager;
 	}
 
-	public Player getPlayer() { return player; }
-
-	public void setPlayer(Player player) { this.player = player; }
-
 	public Graph getGraph() { return graph; }
 
 	public void setGraph(Graph graph) { this.graph = graph; }
@@ -152,5 +166,29 @@ public class Handler {
 
 	public void setTreeList(CopyOnWriteArrayList<Tree> treeList) {
 		this.treeList = treeList;
+	}
+
+	public CopyOnWriteArrayList<Building> getBuildingList() {
+		return buildingList;
+	}
+
+	public void setBuildingList(CopyOnWriteArrayList<Building> buildingList) {
+		this.buildingList = buildingList;
+	}
+
+	public CopyOnWriteArrayList<Player> getPlayerList() {
+		return playerList;
+	}
+
+	public void setPlayerList(CopyOnWriteArrayList<Player> playerList) {
+		this.playerList = playerList;
+	}
+
+	public Player getSelectedPlayer() {
+		return selectedPlayer;
+	}
+
+	public void setSelectedPlayer(Player selectedPlayer) {
+		this.selectedPlayer = selectedPlayer;
 	}
 }

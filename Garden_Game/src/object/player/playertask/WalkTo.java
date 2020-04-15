@@ -27,32 +27,44 @@ public class WalkTo extends PlayerTask {
     private boolean triggerComplexPathFound;
     private float xCoord, yCoord;
     private int transformedMouseX, transformedMouseY;
+    private Rectangle targetRect;
+    private boolean targetCoordsAreMouseCoords;
 
-    public WalkTo(float coordX, float coordY, Player player){
+    public WalkTo(Player player, float xCoord, float yCoord){
         super(player);
         this.speed = 1;
         this.x = player.getX();
         this.y = player.getY();
-        this.xCoord = coordX;
-        this.yCoord = coordY;
         this.absx = x;
         this.absy = y;
         this.image = quickLoaderImage("tiles/path");
         this.movingDirection = "right_front";
         this.triggerComplexPathFound = false;
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+    }
 
-        this.transformedMouseX = (int) (coordX - (MOVEMENT_X * SCALE)  );
-        this.transformedMouseY = (int) (HEIGHT - coordY - (MOVEMENT_Y * SCALE));
-        this.testShot = new TestShot(this, x+player.getWidth()/2, y + player.getHeight() - 6, transformedMouseX, transformedMouseY, 10, 10, 10);
-        calculateDirection(x+player.getWidth()/2, y + player.getHeight() - 6, transformedMouseX, transformedMouseY);
+    public WalkTo(float xCoord, float yCoord, Player player, boolean targetCoordsAreMouseCoords){
+        this(player, xCoord, yCoord);
+        this.targetCoordsAreMouseCoords = targetCoordsAreMouseCoords;
+
+        if(targetCoordsAreMouseCoords){
+            this.transformedMouseX = (int) (xCoord - (MOVEMENT_X * SCALE)  );
+            this.transformedMouseY = (int) (HEIGHT - yCoord - (MOVEMENT_Y * SCALE));
+            this.testShot = new TestShot(this, x+player.getWidth()/2, y + player.getHeight() - 6, transformedMouseX, transformedMouseY, 10, 10, 10);
+            calculateDirection(x+player.getWidth()/2, y + player.getHeight() - 6, transformedMouseX, transformedMouseY);
+            this.targetRect = new Rectangle((int)transformedMouseX, (int)transformedMouseY, 10, 10);
+        }else{
+            this.testShot = new TestShot(this, x+player.getWidth()/2, y + player.getHeight() - 6, xCoord, yCoord, 10, 10, 10);
+            calculateDirection(x+player.getWidth()/2, y + player.getHeight() - 6, (int)xCoord, (int)yCoord);
+            this.targetRect = new Rectangle((int)xCoord, (int)yCoord, 10, 10);
+        }
     }
 
     @Override
     public void performTask() {
         x = player.getX();
         y = player.getY();
-        collisionXCenter = x + player.getWidth() / 2;
-        collisionYCenter = y + player.getHeight() - 6;
         //////////////////
         if(testShot != null){
             testShot.update();
@@ -60,47 +72,48 @@ public class WalkTo extends PlayerTask {
                 triggerComplexPathFound = collisionTest();
             }
         }
+        // normal path finding
         if(!triggerComplexPathFound){
             checkPlayerDirection();
             x += (velX * speed);
             y += (velY * speed);
-        }else{
+        }else{ // do AStar
             doAStarPathfinding();
             if(path.size() == 0){
-                player.setCurrentTask(null);
+                taskDone = true;
                 return;
             }
         }
 
-        player.setShowIdle(false);
-
         /////////////
+        player.setShowIdle(false);
         player.setX(x);
         player.setY(y);
         player.setMovingDirection(this.movingDirection);
         // close task
         if(getMouseTargetBounds().intersects(player.getBounds().getBounds2D())){
-            player.setCurrentTask(null);
+            taskDone = true;
         }
     }
 
     @Override
     public void renderTask() {
-
         if(path != null){
             //drawPath(path);
         }
-
         //if(testShot != null) testShot.draw();
     }
 
     private boolean collisionTest(){
         Graph graph = player.getHandler().getGraph();
         Vector2f point = convertObjectCoordinatesToIsometricGrid((int)testShot.getX(), (int)testShot.getY());
-
+        // if testShot hit tile without a node -> do AStar
         if(graph.getNode((int)point.x, (int)point.y) == null){
             this.pathfinderService = new PathfinderService(player.getHandler().getGraph(), player.getHandler());
-            this.path = pathfinderService.getPath(this, (int)xCoord, (int)yCoord);
+            if(targetCoordsAreMouseCoords)
+                this.path = pathfinderService.getPath(this, (int)xCoord, (int)yCoord);
+            else
+                this.path = pathfinderService.getPath((int)x, (int)y, (int)xCoord - 64, (int)yCoord - 64);
             testShot = null;
             return true;
         }
@@ -133,6 +146,8 @@ public class WalkTo extends PlayerTask {
     }
 
     private void doAStarPathfinding(){
+        collisionXCenter = x + player.getWidth() / 2;
+        collisionYCenter = y + player.getHeight() - 6;
         if(path != null && path.size() > 0) {
             // System.out.println(path.get(path.size() - 1).getX());
             Vector2f point = getIsometricCoordinates(path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY() );
@@ -197,6 +212,6 @@ public class WalkTo extends PlayerTask {
     }
 
     private Rectangle getMouseTargetBounds(){
-        return new Rectangle((int)transformedMouseX, (int)transformedMouseY, 10, 10);
+        return targetRect;
     }
 }

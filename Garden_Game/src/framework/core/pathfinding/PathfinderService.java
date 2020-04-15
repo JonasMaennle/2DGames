@@ -51,6 +51,25 @@ public class PathfinderService {
 		return tmp;
 	}
 
+	// insert normal coordinates
+	public LinkedList<Node> getPath(int startX, int startY, int targetX, int targetY) {
+		LinkedList<Node> tmp = new LinkedList<>();
+		try {
+			Vector2f pointStart = convertObjectCoordinatesToIsometricGrid(startX, startY);
+			Vector2f pointTarget = convertObjectCoordinatesToIsometricGrid(targetX, targetY);
+			if(graph.getNodeID((int)pointStart.x, (int)pointStart.y) == -1){
+				Vector2f altPoint = findEmergencyTile(startX, startY);
+				pointStart = altPoint;
+			}
+			if(graph.getNodeID((int)pointStart.x, (int)pointStart.y) != -1 && graph.getNodeID((int)pointTarget.x, (int)pointTarget.y) != -1) {
+				tmp.addAll(graph.astar(graph.getNodeID((int)pointStart.x, (int)pointStart.y), graph.getNodeID((int)pointTarget.x, (int)pointTarget.y)));
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return tmp;
+	}
+
 	private Vector2f findEmergencyTile(int playerX, int playerY){
 		Vector2f point = convertObjectCoordinatesToIsometricGrid(playerX, playerY);
 		if(graph.getNodeID((int)point.x, (int)point.y-1) != -1){ // top

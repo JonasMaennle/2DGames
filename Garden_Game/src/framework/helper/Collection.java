@@ -38,6 +38,9 @@ public class Collection {
 	public static float MOVEMENT_X, MOVEMENT_Y;
 	public static float SCALE = 1;
 
+	// InGame Resources
+	public static int WOOD_NUMBER = 0;
+
 	public static int TILES_WIDTH;
 	public static int TILES_HEIGHT;
 	

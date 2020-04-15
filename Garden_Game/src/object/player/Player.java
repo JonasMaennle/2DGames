@@ -1,6 +1,7 @@
 package object.player;
 
 import java.awt.*;
+import java.util.LinkedList;
 
 import framework.core.Handler;
 import object.player.playertask.PlayerTask;
@@ -10,6 +11,7 @@ import static framework.helper.Graphics.*;
 import framework.entity.GameEntity;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.util.pathfinding.navmesh.Link;
 
 public class Player implements GameEntity {
 
@@ -23,10 +25,11 @@ public class Player implements GameEntity {
 	private Animation walk_left_back;
 	private Animation currentAnimation;
 
-	private PlayerTask currentTask;
-	private Image collisionBox, left_front_idle, left_back_idle, right_back_idle, right_front_idle, idle_image, player_shadow;
+	private LinkedList<PlayerTask> taskList;
+	private Image collisionBox, left_front_idle, left_back_idle, right_back_idle, right_front_idle, idle_image, player_shadow, player_selected;
 	private String movingDirection;
 	private boolean showIdle;
+	private Carryable carryable;
 
 	public Player(float x, float y, int width, int height, Handler handler){
 		this.x = x;
@@ -46,16 +49,23 @@ public class Player implements GameEntity {
 		this.right_front_idle = quickLoaderImage("player/right_front_idle");
 		this.right_back_idle = quickLoaderImage("player/right_back_idle");
 		this.player_shadow = quickLoaderImage("player/player_shadow");
+		this.player_selected = quickLoaderImage("player/player_selected");
 
 		this.currentAnimation = walk_right_front;
 		this.movingDirection = "right_front";
 		this.idle_image = right_front_idle;
+		this.taskList = new LinkedList<>();
 	}
 
 	@Override
 	public void update() {
 		showIdle = true;
-		if(currentTask != null) currentTask.performTask();
+		for(PlayerTask task : taskList){
+			if(task.isTaskDone()){
+				taskList.remove(task);
+			}
+		}
+		if(taskList.size() > 0) taskList.getFirst().performTask();
 
 		switch (movingDirection){
 			case "right_front":
@@ -74,6 +84,10 @@ public class Player implements GameEntity {
 				currentAnimation = walk_left_back;
 				idle_image = left_back_idle;
 				break;
+			case "none":
+				currentAnimation = null;
+				idle_image = left_back_idle;
+				break;
 		}
 
 		// System.out.println(currentTask);
@@ -81,14 +95,26 @@ public class Player implements GameEntity {
 
 	@Override
 	public void draw() {
-		drawQuadImage(player_shadow, x - 10, y + height - 12, width + 8, 18);
 
-		if(showIdle)
+		if(carryable != null)
+			carryable.draw();
+
+		if(showIdle){
+			if(handler.getSelectedPlayer() != null && handler.getSelectedPlayer().equals(this) && !movingDirection.equals("none"))
+				drawQuadImage(player_selected, x - 10, y + height - 12, width + 8, 18);
+			else
+				drawQuadImage(player_shadow, x - 10, y + height - 12, width + 8, 18);
+
 			drawQuadImage(idle_image, x, y, width, height);
-		else
+		} else if(currentAnimation != null){
+			if(handler.getSelectedPlayer() != null && handler.getSelectedPlayer().equals(this) && !movingDirection.equals("none"))
+				drawQuadImage(player_selected, x - 10, y + height - 12, width + 8, 18);
+			else
+				drawQuadImage(player_shadow, x - 10, y + height - 12, width + 8, 18);
 			drawAnimation(currentAnimation, x, y, width, height);
+		}
 
-		if(currentTask != null)currentTask.renderTask();
+		if(taskList.size() > 0) taskList.getFirst().renderTask();
 
 		// drawQuadImage(collisionBox, x + 4, y + height - 8, 20, 8);
 	}
@@ -112,6 +138,11 @@ public class Player implements GameEntity {
 		p.addPoint((int)x + 20, (int) y + height - 4); // right center
 		return p;
 	}
+
+	public Rectangle getTotalBounds(){
+		return new Rectangle((int)x,(int)y,width,height);
+	}
+
 	@Override
 	public Rectangle getTopBounds() {
 		// TODO Auto-generated method stub
@@ -133,9 +164,18 @@ public class Player implements GameEntity {
 		return null;
 	}
 
-	public PlayerTask getCurrentTask() { return currentTask; }
+	public void deleteAllTasks(){
+		this.taskList.clear();
+	}
 
-	public void setCurrentTask(PlayerTask currentTask) { this.currentTask = currentTask; }
+	public PlayerTask getCurrentTask() { return taskList.getFirst(); }
+
+	public void addTask(PlayerTask task) { this.taskList.add(task); }
+
+	public void removeActiveTask(){
+		if(taskList.size() > 0)
+			this.taskList.remove(0);
+	}
 
 	public void setX(float x) {
 		this.x = x;
@@ -163,5 +203,17 @@ public class Player implements GameEntity {
 
 	public void setShowIdle(boolean showIdle) {
 		this.showIdle = showIdle;
+	}
+	
+	public String printTaskList(){
+		String result = "Tasks: ";
+		for(PlayerTask task : taskList){
+			result += task.getClass().getSimpleName() + ", ";
+		}
+		return result;
+	}
+
+	public void setCarryable(Carryable carryable) {
+		this.carryable = carryable;
 	}
 }
