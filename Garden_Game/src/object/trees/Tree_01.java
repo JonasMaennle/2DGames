@@ -9,9 +9,11 @@ import static framework.helper.Collection.SCALE;
 import static framework.helper.Graphics.*;
 
 public class Tree_01 extends Tree {
-    public Tree_01(int x, int y, Graph graph) {
-        super(quickLoaderImage("trees/tree_01"),quickLoaderImage("trees/tree_01_transparent"), x, y, 128, 128, graph);
-        this.root = new Vector2f(x + 48, y + 128);
+
+    public Tree_01(int x, int y, Graph graph, boolean sapling) {
+        super(quickLoaderImage("trees/tree_01"),quickLoaderImage("trees/tree_01_transparent"), x, y, 128, 128, graph, sapling);
+        this.root = new Vector2f(x + 75, y + 115);
+        this.woodLeft = 3;
     }
 
     @Override

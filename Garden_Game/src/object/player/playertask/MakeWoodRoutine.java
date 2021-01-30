@@ -40,7 +40,7 @@ public class MakeWoodRoutine extends PlayerTask {
             cutTree.performTask();
             currentTask = cutTree;
             Vector2f building = findStockBuilding(handler);
-            walkToStock = new WalkTo(building.x, building.y, player, false);
+            walkToStock = new WalkTo(building.x, building.y, player);
             return;
         }
         // walk to stock
@@ -56,16 +56,40 @@ public class MakeWoodRoutine extends PlayerTask {
             player.setCarryable(null);
         }
 
+        // kill task
         if(WOOD_NUMBER >= 78){
             player.setCarryable(null);
             player.removeActiveTask();
         }
 
+        if(tree.getWoodLeft() == 0) tree = findNextTreeToCut(handler);
+
         // reset walkToTree / cutTree
         if(tree != null){
-            walkToTree = new WalkTo(tree.getRoot().x, tree.getRoot().y, player, false);
+            walkToTree = new WalkTo(tree.getRoot().x, tree.getRoot().y, player);
             cutTree = new CutTree(player, tree);
+        }else{
+            // kill task
+            player.setCarryable(null);
+            player.removeActiveTask();
         }
+    }
+
+    private Tree findNextTreeToCut(Handler handler){
+        Tree closestTree = null;
+        float totalDistanceFromTarget = 10000;
+
+        for(Tree tree : handler.getTreeList()){
+            float xDistanceFromTarget = Math.abs(tree.getRoot().x - (player.getX() + player.getWidth() / 2));
+            float yDistanceFromTarget = Math.abs(tree.getRoot().y - (player.getY() + player.getHeight()));
+            if(totalDistanceFromTarget > (xDistanceFromTarget + yDistanceFromTarget) && !tree.isBlocked() && !tree.isSapling()){
+                totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
+                closestTree = tree;
+            }
+        }
+        if(closestTree != null)
+            closestTree.setBlocked(true);
+        return closestTree;
     }
 
     private Vector2f findStockBuilding(Handler handler){
@@ -81,5 +105,13 @@ public class MakeWoodRoutine extends PlayerTask {
     public void renderTask() {
         if(currentTask != null)
             currentTask.renderTask();
+    }
+
+    public Tree getTree() {
+        return tree;
+    }
+
+    public void setTree(Tree tree) {
+        this.tree = tree;
     }
 }

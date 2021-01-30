@@ -2,7 +2,10 @@ package framework.ui;
 
 import java.awt.Rectangle;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+
+import static framework.helper.Graphics.*;
 
 public class Button{
 
@@ -10,8 +13,7 @@ public class Button{
 	private Image image;
 	private int x, y, width, height;
 	
-	public Button(String name, Image image, int x, int y, int width, int height)
-	{
+	public Button(String name, Image image, int x, int y, int width, int height) {
 		this.name = name;
 		this.image = image;
 		this.x = x;
@@ -19,15 +21,9 @@ public class Button{
 		this.width = width;
 		this.height = height;
 	}
-	
-	public Button(String name, Image image, int x, int y)
-	{
-		this.name = name;
-		this.image = image;
-		this.x = x;
-		this.y = y;
-		this.width = image.getWidth();
-		this.height = image.getHeight();
+
+	public void draw(){
+		drawQuadImageStatic(image, x, y, width, height);
 	}
 	
 	public void changeImage(Image image) {

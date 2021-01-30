@@ -53,10 +53,12 @@ public class PathfinderService {
 
 	// insert normal coordinates
 	public LinkedList<Node> getPath(int startX, int startY, int targetX, int targetY) {
+		//System.out.println(startX + " " + startY + "            " + targetX + " " + targetY);
 		LinkedList<Node> tmp = new LinkedList<>();
 		try {
 			Vector2f pointStart = convertObjectCoordinatesToIsometricGrid(startX, startY);
 			Vector2f pointTarget = convertObjectCoordinatesToIsometricGrid(targetX, targetY);
+			//System.out.println("Target Tile: " + pointTarget.x + " y: " + pointTarget.y);
 			if(graph.getNodeID((int)pointStart.x, (int)pointStart.y) == -1){
 				Vector2f altPoint = findEmergencyTile(startX, startY);
 				pointStart = altPoint;

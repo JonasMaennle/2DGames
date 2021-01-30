@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import framework.core.pathfinding.Graph;
 import object.buildings.Building;
 import object.buildings.Stock;
+import object.farming.Field;
 import object.trees.Tree;
 import object.player.Player;
 import org.newdawn.slick.Image;
@@ -33,6 +34,7 @@ public class Handler {
 	
 	private CopyOnWriteArrayList<GameEntity> obstacleList;
 	private CopyOnWriteArrayList<Tree> treeList;
+	private CopyOnWriteArrayList<Field> fieldList;
 	private CopyOnWriteArrayList<Building> buildingList;
 	private CopyOnWriteArrayList<Player> playerList;
 	private Graph graph;
@@ -48,8 +50,9 @@ public class Handler {
 		this.time2 = time1;
 		this.outOfScreenBorder = 512;
 		
-		this.obstacleList = new CopyOnWriteArrayList<GameEntity>();
+		this.obstacleList = new CopyOnWriteArrayList<>();
 		this.treeList = new CopyOnWriteArrayList<>();
+		this.fieldList = new CopyOnWriteArrayList<>();
 		this.buildingList = new CopyOnWriteArrayList<>();
 		this.playerList = new CopyOnWriteArrayList<>();
 	}
@@ -60,6 +63,15 @@ public class Handler {
 		info_manager.update();
 		for(Player p : playerList)
 			p.update();
+
+		for(Tree t : treeList){
+			if(t.getWoodLeft() == 0){
+				treeList.remove(t);
+			}
+		}
+
+		for(Field field : fieldList)
+			field.update();
 
 		objectInfo();
 	}
@@ -79,12 +91,14 @@ public class Handler {
 		mapLayers[2].draw();
 		mapLayers[3].draw();
 
+		for(Field field : fieldList)
+			field.draw();
+
 		for(Building b : buildingList){
 			b.draw();
 		}
 
 		// mapLayers[4].draw(); // color graph layer
-
 		for(Tree tree: treeList){
 			boolean transparent = false;
 			for(Player player : playerList){
@@ -97,12 +111,8 @@ public class Handler {
 			else
 				tree.draw();
 		}
-
-
 		for(Player player : playerList)
 			player.draw();
-
-
 
 		renderLightEntity(shadowObstacleList);
 		
@@ -119,6 +129,7 @@ public class Handler {
 		info_manager.resetAll();
 		buildingList.clear();
 		playerList.clear();
+		fieldList.clear();
 	}
 	
 	//@SuppressWarnings("unused")
@@ -129,10 +140,10 @@ public class Handler {
 			time2 = time1;
 			// Data output
 			int tileCount = mapLayers[0].getSetTileCounter();
-			String playerTasks = "";
-			if(getSelectedPlayer() != null) playerTasks = getSelectedPlayer().printTaskList();
+			String playerTasks = selectedPlayer == null ? "" : "Selected Player ";
+			if(getSelectedPlayer() != null) playerTasks += getSelectedPlayer().printTaskList();
 
-			System.out.println("Accessible Tiles: " + tileCount + "\tFPS: " + StateManager.framesInLastSecond + "\t Selected Player " + playerTasks);
+			System.out.println("Accessible Tiles: " + tileCount + "\tFPS: " + StateManager.framesInLastSecond + "\t" + playerTasks);
 		}
 	}
 
@@ -190,5 +201,17 @@ public class Handler {
 
 	public void setSelectedPlayer(Player selectedPlayer) {
 		this.selectedPlayer = selectedPlayer;
+	}
+
+	public TileGrid getLayer(int layer){
+		return mapLayers[layer];
+	}
+
+	public CopyOnWriteArrayList<Field> getFieldList() {
+		return fieldList;
+	}
+
+	public void setFieldList(CopyOnWriteArrayList<Field> fieldList) {
+		this.fieldList = fieldList;
 	}
 }

@@ -132,10 +132,10 @@ public class Player implements GameEntity {
 	@Override
 	public Polygon getBounds() {
 		Polygon p = new Polygon();
-		p.addPoint((int)x + 12, (int)y + height - 8); // top center
-		p.addPoint((int)x + 12, (int)y + height); // bottom center
-		p.addPoint((int)x + 4, (int)y + height - 4); // left center
-		p.addPoint((int)x + 20, (int) y + height - 4); // right center
+		p.addPoint((int)x, (int)y + height - 6);
+		p.addPoint((int)x, (int)y + height);
+		p.addPoint((int)x + width, (int)y + height);
+		p.addPoint((int)x + width, (int)y + height - 6);
 		return p;
 	}
 
@@ -215,5 +215,13 @@ public class Player implements GameEntity {
 
 	public void setCarryable(Carryable carryable) {
 		this.carryable = carryable;
+	}
+
+	public LinkedList<PlayerTask> getTaskList() {
+		return taskList;
+	}
+
+	public void setTaskList(LinkedList<PlayerTask> taskList) {
+		this.taskList = taskList;
 	}
 }

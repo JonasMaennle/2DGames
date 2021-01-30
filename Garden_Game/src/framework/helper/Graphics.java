@@ -78,17 +78,17 @@ public class Graphics {
 		img.bind();
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE); // Removes weird line above texture
 		GL11.glTexParameteri (GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-		glTranslatef(x, y, 0);
+		glTranslatef(x * SCALE, y * SCALE, 0);
 		
 		glBegin(GL_QUADS);
 		glTexCoord2f(0, 0);
 		glVertex2f(0, 0);
 		glTexCoord2f(1, 0);
-		glVertex2f(width, 0);
+		glVertex2f(width * SCALE, 0);
 		glTexCoord2f(1, 1);
-		glVertex2f(width, height);
+		glVertex2f(width * SCALE, height * SCALE);
 		glTexCoord2f(0, 1);
-		glVertex2f(0, height);
+		glVertex2f(0, height * SCALE);
 		glEnd();
 		
 		glLoadIdentity();
@@ -125,6 +125,13 @@ public class Graphics {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		anim.draw((x + MOVEMENT_X) * SCALE, (y + MOVEMENT_Y) * SCALE, width * SCALE, height * SCALE);
+		glDisable(GL_BLEND);
+	}
+
+	public static void drawAnimationStatic(Animation anim, float x, float y, float width, float height){
+		glEnable(GL_BLEND);
+		glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		anim.draw((x) * SCALE, (y) * SCALE, width * SCALE, height * SCALE);
 		glDisable(GL_BLEND);
 	}
 	

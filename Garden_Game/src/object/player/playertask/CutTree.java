@@ -38,6 +38,7 @@ public class CutTree extends PlayerTask {
 
         if(System.currentTimeMillis() - timer > 5000){
             // bring wood to stock
+            tree.setWoodLeft(tree.getWoodLeft() - 1);
             taskDone = true;
         }
     }
@@ -45,11 +46,10 @@ public class CutTree extends PlayerTask {
     @Override
     public void renderTask() {
         if(player.getHandler().getSelectedPlayer() != null && player.getHandler().getSelectedPlayer().equals(player)){
-            drawQuadImage(player_selected, player.getX() + 12, player.getY() + player.getHeight() - 12, player.getWidth() + 8, 18);
+            drawQuadImage(player_selected, player.getX() + 12 - player.getWidth(), player.getY() + player.getHeight() - 12, player.getWidth() + 8, 18);
         }else{
-            drawQuadImage(player_shadow, player.getX() + 12, player.getY() + player.getHeight() - 12, player.getWidth() + 8, 18);
+            drawQuadImage(player_shadow, player.getX() + 12 - player.getWidth(), player.getY() + player.getHeight() - 12, player.getWidth() + 8, 18);
         }
-
-        drawAnimation(axe_swing, player.getX(), player.getY(), player.getWidth() * 2, player.getHeight());
+        drawAnimation(axe_swing, player.getX() - player.getWidth(), player.getY(), player.getWidth() * 2, player.getHeight());
     }
 }

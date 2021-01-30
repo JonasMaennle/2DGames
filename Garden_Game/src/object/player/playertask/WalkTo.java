@@ -1,16 +1,13 @@
 package object.player.playertask;
 
-import framework.core.pathfinding.Graph;
 import framework.core.pathfinding.Node;
 import framework.core.pathfinding.PathfinderService;
 import object.TestShot;
 import object.player.Player;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.Image;
-
 import java.awt.*;
 import java.util.LinkedList;
-
 import static framework.helper.Collection.*;
 import static framework.helper.Graphics.*;
 
@@ -24,13 +21,10 @@ public class WalkTo extends PlayerTask {
     private float collisionXCenter, collisionYCenter;
     private String movingDirection;
     private TestShot testShot;
-    private boolean triggerComplexPathFound;
+    private boolean doComplexPathfinding, doSimplePathfinding;
     private float xCoord, yCoord;
-    private int transformedMouseX, transformedMouseY;
-    private Rectangle targetRect;
-    private boolean targetCoordsAreMouseCoords;
 
-    public WalkTo(Player player, float xCoord, float yCoord){
+    public WalkTo(float xCoord, float yCoord, Player player){
         super(player);
         this.speed = 1;
         this.x = player.getX();
@@ -39,26 +33,14 @@ public class WalkTo extends PlayerTask {
         this.absy = y;
         this.image = quickLoaderImage("tiles/path");
         this.movingDirection = "right_front";
-        this.triggerComplexPathFound = false;
+        this.doComplexPathfinding = false;
+        this.doSimplePathfinding = false;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
-    }
+        this.pathfinderService = new PathfinderService(player.getHandler().getGraph(), player.getHandler());
 
-    public WalkTo(float xCoord, float yCoord, Player player, boolean targetCoordsAreMouseCoords){
-        this(player, xCoord, yCoord);
-        this.targetCoordsAreMouseCoords = targetCoordsAreMouseCoords;
-
-        if(targetCoordsAreMouseCoords){
-            this.transformedMouseX = (int) (xCoord - (MOVEMENT_X * SCALE)  );
-            this.transformedMouseY = (int) (HEIGHT - yCoord - (MOVEMENT_Y * SCALE));
-            this.testShot = new TestShot(this, x+player.getWidth()/2, y + player.getHeight() - 6, transformedMouseX, transformedMouseY, 10, 10, 10);
-            calculateDirection(x+player.getWidth()/2, y + player.getHeight() - 6, transformedMouseX, transformedMouseY);
-            this.targetRect = new Rectangle((int)transformedMouseX, (int)transformedMouseY, 10, 10);
-        }else{
-            this.testShot = new TestShot(this, x+player.getWidth()/2, y + player.getHeight() - 6, xCoord, yCoord, 10, 10, 10);
-            calculateDirection(x+player.getWidth()/2, y + player.getHeight() - 6, (int)xCoord, (int)yCoord);
-            this.targetRect = new Rectangle((int)xCoord, (int)yCoord, 10, 10);
-        }
+        this.testShot = new TestShot(this, x+player.getWidth()/2, y + player.getHeight(), xCoord + 32, yCoord, 5, 5, 10);
+        calculateDirection(x+player.getWidth()/2, y + player.getHeight(), (int)xCoord + 32, (int)yCoord);
     }
 
     @Override
@@ -66,83 +48,28 @@ public class WalkTo extends PlayerTask {
         x = player.getX();
         y = player.getY();
         //////////////////
-        if(testShot != null){
-            testShot.update();
-            if(testShot != null) {
-                triggerComplexPathFound = collisionTest();
-            }
-        }
+        if(testShot != null) testShot.update();
+
         // normal path finding
-        if(!triggerComplexPathFound){
-            checkPlayerDirection();
+        if(doSimplePathfinding){
             x += (velX * speed);
             y += (velY * speed);
-        }else{ // do AStar
+        }
+        if(doComplexPathfinding){
             doAStarPathfinding();
-            if(path.size() == 0){
-                taskDone = true;
-                return;
-            }
         }
 
         /////////////
         player.setShowIdle(false);
         player.setX(x);
         player.setY(y);
+        checkPlayerDirection();
         player.setMovingDirection(this.movingDirection);
         // close task
-        if(getMouseTargetBounds().intersects(player.getBounds().getBounds2D())){
+        Rectangle target = new Rectangle((int)xCoord + 28, (int)yCoord - 2, 4, 4);
+        if(player.getBounds().getBounds2D().intersects(target)){
             taskDone = true;
         }
-    }
-
-    @Override
-    public void renderTask() {
-        if(path != null){
-            //drawPath(path);
-        }
-        //if(testShot != null) testShot.draw();
-    }
-
-    private boolean collisionTest(){
-        Graph graph = player.getHandler().getGraph();
-        Vector2f point = convertObjectCoordinatesToIsometricGrid((int)testShot.getX(), (int)testShot.getY());
-        // if testShot hit tile without a node -> do AStar
-        if(graph.getNode((int)point.x, (int)point.y) == null){
-            this.pathfinderService = new PathfinderService(player.getHandler().getGraph(), player.getHandler());
-            if(targetCoordsAreMouseCoords)
-                this.path = pathfinderService.getPath(this, (int)xCoord, (int)yCoord);
-            else
-                this.path = pathfinderService.getPath((int)x, (int)y, (int)xCoord - 64, (int)yCoord - 64);
-            testShot = null;
-            return true;
-        }
-        return false;
-    }
-
-    private void drawPath(LinkedList<Node> tmp){
-        for(int i = 0; i < tmp.size(); i++){
-            Vector2f point = getIsometricCoordinates(tmp.get(i).getX(), tmp.get(i).getY());
-            // System.out.println(tmp.get(i).getX() + "  :  " + tmp.get(i).getY());
-            drawQuadImage(image, point.x, point.y, TILE_SIZE, TILE_SIZE/2);
-        }
-    }
-
-    private void calculateDirection(float playerX, float playerY, int destX, int destY) {
-        float totalAllowedMovement = 1.0f;
-        float xDistanceFromTarget = Math.abs(destX - playerX);
-        float yDistanceFromTarget = Math.abs(destY - playerY);
-        float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
-        float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
-
-        velX = xPercentOfMovement;
-        velY = totalAllowedMovement - xPercentOfMovement;
-
-        if(destY < playerY)
-            velY *= -1;
-
-        if(destX < playerX)
-            velX *= -1;
     }
 
     private void doAStarPathfinding(){
@@ -173,8 +100,6 @@ public class WalkTo extends PlayerTask {
             velY = 0;
         }
 
-        checkPlayerDirection();
-
         x += (velX * speed);
         y += ((velY * speed) / 2);
 
@@ -192,9 +117,13 @@ public class WalkTo extends PlayerTask {
                 path.remove(path.size() - 1);
             }
         }
-    }
 
-    public void setTestShot(TestShot testShot) { this.testShot = testShot; }
+        if(path.size() == 0){
+            doComplexPathfinding = false;
+            doSimplePathfinding = true;
+            calculateDirection(x+player.getWidth()/2, y + player.getHeight(), (int)xCoord+32, (int)yCoord);
+        }
+    }
 
     private void checkPlayerDirection(){
         if(velY >= 0 && velY <= 1 && (velX <= 1 && velX >= 0)){
@@ -211,7 +140,50 @@ public class WalkTo extends PlayerTask {
         }
     }
 
-    private Rectangle getMouseTargetBounds(){
-        return targetRect;
+    private void calculateDirection(float playerX, float playerY, int destX, int destY) {
+        float totalAllowedMovement = 1.0f;
+        float xDistanceFromTarget = Math.abs(destX - playerX);
+        float yDistanceFromTarget = Math.abs(destY - playerY);
+        float totalDistanceFromTarget = xDistanceFromTarget + yDistanceFromTarget;
+        float xPercentOfMovement = xDistanceFromTarget / totalDistanceFromTarget;
+
+        velX = xPercentOfMovement;
+        velY = totalAllowedMovement - xPercentOfMovement;
+
+        if(destY < playerY)
+            velY *= -1;
+
+        if(destX < playerX)
+            velX *= -1;
     }
+
+    @Override
+    public void renderTask() {
+        if(path != null){
+            //drawPath(path);
+        }
+        //if(testShot != null) testShot.draw();
+    }
+
+    private void drawPath(LinkedList<Node> tmp){
+        for(int i = 0; i < tmp.size(); i++){
+            Vector2f point = getIsometricCoordinates(tmp.get(i).getX(), tmp.get(i).getY());
+            // System.out.println(tmp.get(i).getX() + "  :  " + tmp.get(i).getY());
+            drawQuadImage(image, point.x, point.y, TILE_SIZE, TILE_SIZE/2);
+        }
+    }
+
+    public void setTestShot(TestShot testShot) { this.testShot = testShot; }
+
+    public void setDoComplexPathfinding(boolean doComplexPathfinding) {
+        this.doComplexPathfinding = doComplexPathfinding;
+        // create a path
+        this.path = pathfinderService.getPath((int)x + player.getWidth()/2, (int)y + player.getHeight() - 6, (int)xCoord, (int)yCoord);
+    }
+
+    public void setDoSimplePathfinding(boolean doSimplePathfinding) {
+        this.doSimplePathfinding = doSimplePathfinding;
+    }
+
+
 }

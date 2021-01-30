@@ -39,7 +39,7 @@ public class Collection {
 	public static float SCALE = 1;
 
 	// InGame Resources
-	public static int WOOD_NUMBER = 0;
+	public static int WOOD_NUMBER = 30;
 
 	public static int TILES_WIDTH;
 	public static int TILES_HEIGHT;
@@ -93,31 +93,41 @@ public class Collection {
 		return awtFont;
 	}
 
+	// Transforms Mouse.getX() Coords to Map Coordinates [50 / 1540]
+	public static Vector2f convertMouseCoordsToMapCoords(int mouseX, int mouseY){
+		int x = (int) ((mouseX - (32*SCALE)) - (MOVEMENT_X * SCALE));
+		int y = (int) (HEIGHT - mouseY - (MOVEMENT_Y * SCALE));
+		return new Vector2f(x, y);
+	}
+
+	// Transforms Mouse.getX() Coords to Map Coordinates [1/49]
 	public static Vector2f convertMouseCoordsToIsometricGrid(int mouseX, int mouseY){
-		int x = (int) (mouseX - (MOVEMENT_X * SCALE)  );
+		int x = (int) ((mouseX - (32*SCALE)) - (MOVEMENT_X * SCALE));
 		int y = (int) (HEIGHT - mouseY - (MOVEMENT_Y * SCALE));
 
-		int tiley = ((x - 2 * y + TILE_SIZE) );
-		int tilex = ((x + 2*y - TILE_SIZE) );
+		int tiley = ((x - 2 * y + TILE_SIZE) ) - TILE_SIZE;
+		int tilex = ((x + 2*y - TILE_SIZE) ) + TILE_SIZE;
+
 		tilex = Math.abs(tilex);
 		tiley = Math.abs(tiley);
 
 		tilex /= TILE_SIZE * SCALE;
 		tiley /= TILE_SIZE * SCALE;
-
-		if(mouseX % TILE_SIZE > TILE_SIZE/2){
-			tilex += 1;
-		}
-		return new Vector2f(tilex, tiley + 1);
+		return new Vector2f(tilex, tiley); // maybe -1 / -1
 	}
 
 	// Transforms Map Coordinates [50 / 1540] to TiledMap Grid Object Coordinates [1/49]
-	public static Vector2f convertObjectCoordinatesToIsometricGrid(int objectX, int objectY){
-		int xcoord = (int) Math.floor((objectY / (TILE_SIZE/2)) + (objectX / TILE_SIZE)) + 1;
-		int ycoord = (int) Math.floor((-objectX / TILE_SIZE) + (objectY / (TILE_SIZE / 2))) + 1;
-		return new Vector2f(xcoord, ycoord);
-	}
+	public static Vector2f convertObjectCoordinatesToIsometricGrid(int x, int y){
+		int tiley = ((x - 2 * y + TILE_SIZE) ) - TILE_SIZE;
+		int tilex = ((x + 2*y - TILE_SIZE) ) + TILE_SIZE;
 
+		tilex = Math.abs(tilex);
+		tiley = Math.abs(tiley);
+
+		tilex /= TILE_SIZE * SCALE;
+		tiley /= TILE_SIZE * SCALE;
+		return new Vector2f(tilex, tiley);
+	}
 	// Transforms TiledMap Grid Object Coordinates [1/49] to Map Coordinates [50 / 1540]
 	public static Vector2f getIsometricCoordinates(int x, int y){
 		int tmpX = (x * (TILE_SIZE/2) - y * (TILE_SIZE/2));

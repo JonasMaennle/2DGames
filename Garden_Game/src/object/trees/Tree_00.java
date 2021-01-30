@@ -10,9 +10,10 @@ import static framework.helper.Graphics.*;
 
 public class Tree_00 extends Tree {
 
-    public Tree_00(int x, int y, Graph graph) {
-        super(quickLoaderImage("trees/tree_00"),quickLoaderImage("trees/tree_00_transparent"), x, y, 192, 192, graph);
-        this.root = new Vector2f(x + 96, y + 192);
+    public Tree_00(int x, int y, Graph graph, boolean sapling) {
+        super(quickLoaderImage("trees/tree_00"),quickLoaderImage("trees/tree_00_transparent"), x, y, 192, 192, graph, sapling);
+        this.root = new Vector2f(x + 115, y + 185);
+        this.woodLeft = 5;
     }
 
     @Override
@@ -22,7 +23,7 @@ public class Tree_00 extends Tree {
 
     @Override
     public Rectangle getTranparencyBounds() {
-        return new Rectangle(x, y, width, 140);
+        return new Rectangle(x, y, width, 130);
     }
 
     @Override

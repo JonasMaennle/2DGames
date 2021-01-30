@@ -128,6 +128,7 @@ public class Leveler {
 			int tmpX = (x / (TILE_SIZE / 2));     //(x * (TILE_SIZE/2) - y * (TILE_SIZE/2)) / TILE_SIZE; // transform coordinates
 			int tmpY = (y / (TILE_SIZE / 2)) + 1; //(x * (TILE_SIZE/2) + y * (TILE_SIZE/2)) / TILE_SIZE;
 
+
 			// transform grid coords to map coords
 			int transformedX = (int) getIsometricCoordinates(tmpX, tmpY).x; // get real coordinates
 			int transformedY = (int) getIsometricCoordinates(tmpX, tmpY).y;
@@ -138,10 +139,16 @@ public class Leveler {
 				handler.getPlayerList().add(new Player(transformedX + 16, transformedY - (TILE_SIZE/2),24,48, handler));
 			}
 			if(objName.equals("tree_00")){
-				handler.getTreeList().add(new Tree_00(transformedX, transformedY, graph));
+				handler.getTreeList().add(new Tree_00(transformedX, transformedY, graph, false));
+			}
+			if(objName.equals("tree_00_young")){
+				handler.getTreeList().add(new Tree_00(transformedX, transformedY, graph, true));
 			}
 			if(objName.equals("tree_01")){
-				handler.getTreeList().add(new Tree_01(transformedX, transformedY, graph));
+				handler.getTreeList().add(new Tree_01(transformedX, transformedY, graph, false));
+			}
+			if(objName.equals("tree_01_young")){
+				handler.getTreeList().add(new Tree_01(transformedX, transformedY, graph, true));
 			}
 
 			if(objName.equals("stock")){

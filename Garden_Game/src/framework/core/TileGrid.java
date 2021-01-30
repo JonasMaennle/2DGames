@@ -30,6 +30,10 @@ public class TileGrid {
 		if(ID != 34)
 			setTileCounter++;
 	}
+
+	public void removeTile(int x, int y){
+		map[x][y] = null;
+	}
 	
 	public Tile getTile(int xPlace, int yPlace){
 		if(xPlace < tilesWide && yPlace < tilesHigh && xPlace >= 0 && yPlace >= 0)

@@ -1,5 +1,6 @@
 package object;
 
+import framework.core.pathfinding.Graph;
 import framework.entity.GameEntity;
 import object.player.playertask.WalkTo;
 import org.lwjgl.util.vector.Vector2f;
@@ -7,18 +8,21 @@ import org.newdawn.slick.Image;
 
 import java.awt.*;
 
+import static framework.helper.Collection.convertObjectCoordinatesToIsometricGrid;
 import static framework.helper.Graphics.drawQuadImage;
 import static framework.helper.Graphics.quickLoaderImage;
 
-public class TestShot implements GameEntity {
+public class TestShot {
 	
 	private float x, y, width, height, destX, destY, speed;
 	private float velX, velY;
 	private Image image;
 	private WalkTo walkTo;
+	private Graph graph;
 	
 	public TestShot(WalkTo walkTo, float x, float y, float destX, float destY, float width, float height, int speed) {
 		this.walkTo = walkTo;
+		this.graph = walkTo.getPlayer().getHandler().getGraph();
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -32,11 +36,22 @@ public class TestShot implements GameEntity {
 	}
 	
 	public void update() {
+		// test if testShot is over empty node -> doComplexPathfinding
+		Vector2f point = convertObjectCoordinatesToIsometricGrid((int)x, (int)y);
+		if(graph.getNode((int)point.x, (int)point.y) == null){
+			walkTo.setDoComplexPathfinding(true);
+			walkTo.setTestShot(null);
+			return;
+		}
+
 		y += (velY * speed);
 		x += velX * speed;;
 
+		// mouse target hit? -> doSimplePathfinding
 		if(getBounds().getBounds2D().intersects(getTargetBounds())){
+			walkTo.setDoSimplePathfinding(true);
 			walkTo.setTestShot(null);
+			return;
 		}
 	}
 	
@@ -65,63 +80,27 @@ public class TestShot implements GameEntity {
 		return new Rectangle((int)(destX - (width / 2)), (int)(destY - (height/2)), (int)width, (int)height);
 	}
 
-	@Override
 	public float getX() 
 	{
 		return x;
 	}
 
-	@Override
 	public float getY() 
 	{
 		return y;
 	}
 
-	@Override
 	public int getWidth()
 	{
 		return (int) width;
 	}
 
-	@Override
 	public int getHeight() 
 	{
 		return (int) height;
 	}
 
-	@Override
-	public Vector2f[] getVertices() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Polygon getBounds() {
-		Polygon p = new Polygon();
-		p.addPoint((int)x,(int)y);
-		p.addPoint((int)(x + width),(int)y);
-		p.addPoint((int)(x + width),(int)(y+height));
-		p.addPoint((int)x,(int)(y + height));
-		return p;
-	}
-
-	@Override
-	public Rectangle getTopBounds() {
-		return null;
-	}
-
-	@Override
-	public Rectangle getBottomBounds() {
-		return null;
-	}
-
-	@Override
-	public Rectangle getLeftBounds() {
-		return null;
-	}
-
-	@Override
-	public Rectangle getRightBounds() {
-		return null;
+	public Rectangle getBounds() {
+		return new Rectangle((int)x,(int)y,(int)width,(int)height);
 	}
 }
