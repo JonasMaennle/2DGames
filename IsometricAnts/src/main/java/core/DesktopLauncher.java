@@ -9,8 +9,8 @@ public class DesktopLauncher {
         config.setIdleFPS(60);
         config.useVsync(true);
 
-        config.setWindowedMode(960, 640);
-        //config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+        //config.setWindowedMode(960, 640);
+        config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 
         new Lwjgl3Application(new Boot(), config);
     }
