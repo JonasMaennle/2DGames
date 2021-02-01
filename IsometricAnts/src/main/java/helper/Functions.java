@@ -64,6 +64,21 @@ public class Functions {
         return new Vector2(newX, newY);
     }
 
+    /**
+     * transform grid coordinates [2][5] into game coordinates (234,754)
+     * @param x
+     * @param y
+     * @param mapWidth
+     * @param mapHeight
+     * @return
+     */
+    public static Vector2 transformGridToCoordinatesWithoutAdjustment(float x, float y, int mapWidth, int mapHeight){
+        float newX = (mapWidth / 2 + (x * TILE_WIDTH / 2)) - ((mapHeight + (y * TILE_HEIGHT)) - mapWidth / 2);
+        float newY = (((mapHeight / 2) - y * TILE_HEIGHT) * 2) - ((newX / 2)- (y * TILE_HEIGHT));
+
+        return new Vector2(newX, newY);
+    }
+
 
     /**
      * transform game coordinates (234,754) into grid coordinates [2][5]
@@ -108,7 +123,7 @@ public class Functions {
      * @param camera gamescreen camera object
      * @return vector3 (use only x and y)
      */
-    private static Vector3 transformMouseToWorldCoordinates(Camera camera) {
+    public static Vector3 transformMouseToWorldCoordinates(Camera camera) {
         return camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     }
 

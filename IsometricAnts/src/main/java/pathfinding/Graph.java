@@ -9,8 +9,9 @@ public class Graph {
 	private LinkedList<Node> nodes;
 	private int[][] matrix;
 	private long t1,t2;
-	public static int count = 0;
-	static int count2 = 0;
+
+	private int heuristicDirectMove = 2;
+	private int heuristicDiagonalMove = 3;
 	
 	public Graph(){
 		nodes = new LinkedList<Node>();
@@ -47,6 +48,7 @@ public class Graph {
 		t1 = System.currentTimeMillis();
 		matrix = new int[nodes.size()][nodes.size()];
 		for(int i = 0; i < nodes.size(); i++){
+
             // core
 			int rightID =   getNodeID(nodes.get(i).getX() + 1, nodes.get(i).getY());
 			int leftID =    getNodeID(nodes.get(i).getX() - 1, nodes.get(i).getY());
@@ -54,13 +56,14 @@ public class Graph {
 			int topID =     getNodeID(nodes.get(i).getX(), nodes.get(i).getY() - 1);
 
 			if(rightID != -1)
-			    addBorder(i, rightID, 1);
+			    addBorder(i, rightID, heuristicDirectMove);
             if(leftID != -1)
-                addBorder(i, leftID, 1);
+                addBorder(i, leftID, heuristicDirectMove);
             if(topID != -1)
-                addBorder(i, topID, 1);
+                addBorder(i, topID, heuristicDirectMove);
             if(bottomID != -1)
-                addBorder(i, bottomID, 1);
+                addBorder(i, bottomID, heuristicDirectMove);
+
 
             // corners
             int rightBottomID = getNodeID(nodes.get(i).getX() + 1, nodes.get(i).getY() + 1);
@@ -69,13 +72,15 @@ public class Graph {
             int leftTopID =     getNodeID(nodes.get(i).getX() - 1, nodes.get(i).getY() - 1);
 
             if(rightID != -1 && bottomID != -1 && rightBottomID != -1)
-                addBorder(i, rightBottomID, 2);
+                addBorder(i, rightBottomID, heuristicDiagonalMove);
             if(rightID != -1 && topID != -1 && rightTopID != -1)
-                addBorder(i, rightTopID, 2);
+                addBorder(i, rightTopID, heuristicDiagonalMove);
             if(leftID != -1 && bottomID != -1 && leftBottomID != -1)
-                addBorder(i, leftBottomID, 2);
+                addBorder(i, leftBottomID, heuristicDiagonalMove);
             if(leftID != -1 && topID != -1 && leftTopID != -1)
-                addBorder(i, leftTopID, 2);
+                addBorder(i, leftTopID, heuristicDiagonalMove);
+
+
 		}
 		t2 = System.currentTimeMillis();
 		System.out.printf("Nodes: " + nodes.size() + "\tMatrix loading time: %dms\n",(t2 - t1));

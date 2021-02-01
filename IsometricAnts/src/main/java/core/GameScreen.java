@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import helper.Const;
+import objects.Character;
 import org.lwjgl.opengl.GL20;
 import pathfinding.Graph;
 import pathfinding.Node;
@@ -45,6 +46,8 @@ public class GameScreen extends ScreenAdapter {
     private LinkedList<Node> nodes;
     private Texture texture;
 
+    private Character character;
+
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera;
         this.batch = new SpriteBatch();
@@ -65,6 +68,9 @@ public class GameScreen extends ScreenAdapter {
         userInput();
         this.camera.update();
         batch.setProjectionMatrix(camera.combined);
+
+        if(character != null) character.update();
+
         isometricTiledMapRenderer.setView(camera);
     }
 
@@ -112,7 +118,7 @@ public class GameScreen extends ScreenAdapter {
             for(int y = 0; y < height; y++){
                 TiledMapTileLayer.Cell cell = ((TiledMapTileLayer) mapLayers.get("layer0")).getCell(x, y);
                 if(cell != null) {
-                    int ty = 10 - y - 1;
+                    int ty = height - y - 1;
                     graph.addNode(new Node(x, ty));
                 }
             }
@@ -135,6 +141,15 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isButtonJustPressed(0)) {
             Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
             nodes = pathfinder.getPath(vec2.x, vec2.y, 575, 290);
+
+
+            // transform to center of tile
+            Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
+            Vector2 normalPos = transformGridToCoordinatesWithoutAdjustment(gridPos.x, gridPos.y, mapWidth, mapHeight);
+
+            // create character
+            character = new Character(normalPos.x, normalPos.y, this);
+            character.setPath(nodes);
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {

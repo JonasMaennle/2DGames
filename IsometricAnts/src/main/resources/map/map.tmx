@@ -3,12 +3,12 @@
  <tileset firstgid="1" source="grid_tiles.tsx"/>
  <layer id="2" name="layer" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYIAAVjRMDEBXx4rGZsXDxsfHZiYht2GzC90tuNyHzV586rCpxaWO2LCEAQCnRADE
+   eJxjYBgFgwkAAAGQAAE=
   </data>
  </layer>
  <layer id="1" name="layer0" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYWBgYGHABCxEYHR1DGhsBjxsfHxsZhJyGza70N2Cy33Y7MWnDptaXOpwmYsLAwC4oAD1
+   eJxjZmBgYCYSIwNmLDQ+tcw41GIzEx2gq8XGx2UGNnfhsh/dbHQam3m4/E1sOKKrBQCOnACy
   </data>
  </layer>
  <layer id="3" name="layer1" width="10" height="10">
