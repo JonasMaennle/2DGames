@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -16,13 +15,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import helper.Const;
-import objects.Character;
+import objects.ants.AntAbstract;
+import objects.ants.AntWorker;
+import objects.ants.task.WalkToTask;
 import org.lwjgl.opengl.GL20;
 import pathfinding.Graph;
 import pathfinding.Node;
-import pathfinding.Pathfinder;
-
-import java.util.LinkedList;
 
 import static helper.Const.TILE_HEIGHT;
 import static helper.Const.TILE_WIDTH;
@@ -42,11 +40,9 @@ public class GameScreen extends ScreenAdapter {
     private IsometricTiledMapRenderer isometricTiledMapRenderer;
 
     private Graph graph;
-    private Pathfinder pathfinder;
-    private LinkedList<Node> nodes;
-    private Texture texture;
+    private Handler handler;
 
-    private Character character;
+    private AntAbstract antAbstract;
 
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera;
@@ -56,11 +52,10 @@ public class GameScreen extends ScreenAdapter {
 
         Gdx.input.setInputProcessor(new helper.Input(camera));
         this.graph = new Graph();
-        this.nodes = new LinkedList<>();
-        this.texture = new Texture("testing/debug.png");
 
         this.setUpTiledMap();
         this.camera.position.set(new Vector3(mapWidth / 2, 0, 0));
+        this.handler = new Handler();
     }
 
     public void update() {
@@ -69,7 +64,7 @@ public class GameScreen extends ScreenAdapter {
         this.camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        if(character != null) character.update();
+        handler.update();
 
         isometricTiledMapRenderer.setView(camera);
     }
@@ -84,15 +79,7 @@ public class GameScreen extends ScreenAdapter {
         isometricTiledMapRenderer.render();
 
         batch.begin();
-
-        if(nodes != null && nodes.size() > 0) {
-            for(int i = 0; i < nodes.size(); i++) {
-                Node n = nodes.get(i);
-                Vector2 vec = transformGridToCoordinates(n.getX(), n.getY(), mapWidth, mapHeight);
-                batch.draw(texture, vec.x, vec.y, 64, 32);
-            }
-        }
-
+        handler.render(batch);
         batch.end();
 
         this.box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
@@ -103,20 +90,20 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void setUpTiledMap() {
-        tiledMap = new TmxMapLoader().load("map/map.tmx");
+        tiledMap = new TmxMapLoader().load("map/mapTest.tmx");
         isometricTiledMapRenderer = new IsometricTiledMapRenderer(tiledMap);
 
         // add nodes
         MapLayers mapLayers = tiledMap.getLayers();
-        int width = ((TiledMapTileLayer) mapLayers.get("layer0")).getWidth();
-        int height = ((TiledMapTileLayer) mapLayers.get("layer0")).getHeight();
+        int width = ((TiledMapTileLayer) mapLayers.get("layer1")).getWidth();
+        int height = ((TiledMapTileLayer) mapLayers.get("layer1")).getHeight();
 
         mapWidth = width * TILE_WIDTH;
         mapHeight = height * TILE_HEIGHT;
 
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
-                TiledMapTileLayer.Cell cell = ((TiledMapTileLayer) mapLayers.get("layer0")).getCell(x, y);
+                TiledMapTileLayer.Cell cell = ((TiledMapTileLayer) mapLayers.get("layer1")).getCell(x, y);
                 if(cell != null) {
                     int ty = height - y - 1;
                     graph.addNode(new Node(x, ty));
@@ -124,7 +111,6 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         graph.createMatrix();
-        pathfinder = new Pathfinder(graph, this);
     }
 
     private void userInput() {
@@ -137,20 +123,47 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.S))
             camera.position.y -= 10;
 
-
-        if (Gdx.input.isButtonJustPressed(0)) {
+        // spawn ant
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
-            nodes = pathfinder.getPath(vec2.x, vec2.y, 575, 290);
-
-
             // transform to center of tile
             Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
             Vector2 normalPos = transformGridToCoordinatesWithoutAdjustment(gridPos.x, gridPos.y, mapWidth, mapHeight);
 
-            // create character
-            character = new Character(normalPos.x, normalPos.y, this);
-            character.setPath(nodes);
+            AntWorker antWorker = new AntWorker(normalPos.x, normalPos.y, 64, 32, this);
+            handler.addEntity(antWorker);
         }
+
+        // select ant
+        if (Gdx.input.isButtonJustPressed(0)) {
+            Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
+
+            Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
+            Vector2 normalPos = transformGridToCoordinates(gridPos.x, gridPos.y, mapWidth, mapHeight);
+
+            if(gridPos != null) {
+                handler.entities.forEach(e -> {
+                    if(e instanceof AntAbstract) {
+                        if(normalPos.x == ((AntAbstract) e).getX() && normalPos.y == ((AntAbstract) e).getY()) {
+                            System.out.println("found");
+                            antAbstract = (AntAbstract) e;
+                        }
+                    }
+                });
+            }
+        }
+
+        // target select
+        if (Gdx.input.isButtonJustPressed(1)) {
+            Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
+            Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
+
+            if(antAbstract != null && gridPos != null) {
+                WalkToTask walkToTask = new WalkToTask(vec2.x, vec2.y, antAbstract, 2f);
+                antAbstract.setTask(walkToTask);
+            }
+        }
+
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
@@ -163,5 +176,9 @@ public class GameScreen extends ScreenAdapter {
 
     public int getMapHeight() {
         return mapHeight;
+    }
+
+    public Graph getGraph() {
+        return graph;
     }
 }

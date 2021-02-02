@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.4" orientation="isometric" renderorder="right-down" width="10" height="10" tilewidth="64" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
  <tileset firstgid="1" source="grid_tiles.tsx"/>
- <layer id="2" name="layer" width="10" height="10">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFgwkAAAGQAAE=
-  </data>
- </layer>
  <layer id="1" name="layer0" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjZmBgYCYSIwNmLDQ+tcw41GIzEx2gq8XGx2UGNnfhsh/dbHQam3m4/E1sOKKrBQCOnACy
+   eJxjYBgFgwkAAAGQAAE=
   </data>
  </layer>
  <layer id="3" name="layer1" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgwkAAAGQAAE=
+   eJxjZmBgYAJiZiw0MiZGDS615KpBV4tPnhg1xNpDbb+REp4A21gBFQ==
   </data>
  </layer>
 </map>

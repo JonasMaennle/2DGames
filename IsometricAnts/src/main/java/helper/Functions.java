@@ -47,7 +47,7 @@ public class Functions {
      */
 
     /**
-     * transform grid coordinates [2][5] into game coordinates (234,754)
+     * transform grid coordinates [2][5] into game coordinates (234,754) -> returns center of quader
      * @param x
      * @param y
      * @param mapWidth
@@ -65,7 +65,7 @@ public class Functions {
     }
 
     /**
-     * transform grid coordinates [2][5] into game coordinates (234,754)
+     * transform grid coordinates [2][5] into game coordinates (234,754) -> returns left bottom corner
      * @param x
      * @param y
      * @param mapWidth
@@ -115,6 +115,19 @@ public class Functions {
         Vector3 vec3 = transformMouseToWorldCoordinates(camera);
         float newX = (vec3.x - (mapWidth / 2)) - ((vec3.y - (mapHeight / 2)) * 2);
         float newY = (((mapHeight / 2) - vec3.y) * 2) - (newX / 2);
+        return new Vector2(newX, newY);
+    }
+
+    /**
+     * turns position into isometric coordinates where 0,0 is top of map
+     * @param vector start position
+     * @param mapWidth (TileWidth * TileCountWidth) example: 64 * 50
+     * @param mapHeight (TileHeight * TileCountHeight) example: 32 * 50
+     * @return
+     */
+    public static Vector2 transformCoordinatesToIso(Vector2 vector, int mapWidth, int mapHeight) {
+        float newX = (vector.x - (mapWidth / 2)) - ((vector.y - (mapHeight / 2)) * 2);
+        float newY = (((mapHeight / 2) - vector.y) * 2) - (newX / 2) - TILE_HEIGHT;
         return new Vector2(newX, newY);
     }
 

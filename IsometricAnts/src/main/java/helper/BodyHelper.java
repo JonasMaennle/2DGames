@@ -7,7 +7,7 @@ import static helper.Const.PPM;
 
 public class BodyHelper {
 
-    public static Body createIsometricBox(float x, float y, float width, float height, boolean isStatic, float density, World world) {
+    public static Body createIsometricBody(float x, float y, float width, float height, boolean isStatic, float density, World world) {
         Body body = defineBody(x, y, isStatic, world);
 
         Vector2 left = new Vector2(-width / 2 / PPM, 0);
