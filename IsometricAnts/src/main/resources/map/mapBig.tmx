@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.4" orientation="isometric" renderorder="right-down" width="50" height="50" tilewidth="128" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="7">
+ <tileset firstgid="1" source="grid128.tsx"/>
+ <layer id="2" name="layer0" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+ <layer id="1" name="layer1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt1t0KwzAIBeCQ5q57/+fdTQdDNNGsVh3ngBT6A34ktu2ttR5Ud+bXXo6rLNc84unozDWvWHqVeqbnD+Y5T4PGQQ2SSXNfpENjquawrFMVh8XjPeN3ODT7rYpDsmR2nFdZLFkcp1DaOcngkAycp4rjRY7UMvuuZHLMDJIjy3ysDKt9lcWhWZMKc66Zd41jJHGs3r8zx0jgoHtDMxsj0KH5H5e+6VzPgzn3hMNqmT0TuR7af4ydinB4Gaqux+dd+4SBc0izsLsGEQ5pli0VYaCOar1/Z7f3bKnYM5fq/SMIgiAIgiAIgiDIP+QNEXYJ7Q==
+  </data>
+ </layer>
+ <layer id="3" name="layer2" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt1UEKgDAMRNHs9Q56/1OKi0IY0oq7TPkPRNCN37QaAQAAAAD7OdLhbDSc4d3i1nFPrueOcXR1Le5pg8NMKnmfd5/Hiu4P15ns0KENO3Q4fK8qswaHjiPq75Ouq270ubVh1tTNV0M+d/8PrvZBtaa6zuSl77nqyD0udA7O/47uawgAAAAA/ngAHCMGHQ==
+  </data>
+ </layer>
+ <objectgroup id="4" name="Objektebene">
+  <object id="6" name="hive" x="1408" y="1344">
+   <polygon points="0,0 0,-64 -64,-64 -64,0"/>
+  </object>
+ </objectgroup>
+</map>

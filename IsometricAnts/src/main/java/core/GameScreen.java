@@ -91,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void setUpTiledMap() {
-        tiledMap = new TmxMapLoader().load("map/mapTest.tmx");
+        tiledMap = new TmxMapLoader().load("map/mapBig.tmx");
         isometricTiledMapRenderer = new IsometricTiledMapRenderer(tiledMap);
 
         // add nodes
@@ -105,7 +105,9 @@ public class GameScreen extends ScreenAdapter {
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
                 TiledMapTileLayer.Cell cell = ((TiledMapTileLayer) mapLayers.get("layer1")).getCell(x, y);
-                if(cell != null) {
+
+                // no node for water tiles
+                if(cell != null && cell.getTile().getId() != 11 && cell.getTile().getId() != 12) {
                     int ty = height - y - 1;
                     graph.addNode(new Node(x, ty));
                 }
@@ -154,7 +156,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         // target select
-        if (Gdx.input.isButtonJustPressed(1)) {
+        if (Gdx.input.isButtonJustPressed(1) && antAbstract != null) {
             Vector2 targetPosition = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
             antAbstract.addTask(new WalkToTask(targetPosition.x, targetPosition.y, antAbstract, 2f));
         }
