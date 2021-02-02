@@ -18,6 +18,7 @@ import helper.Const;
 import objects.ants.AntAbstract;
 import objects.ants.AntWorker;
 import objects.ants.task.WalkToTask;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL20;
 import pathfinding.Graph;
 import pathfinding.Node;
@@ -90,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void setUpTiledMap() {
-        tiledMap = new TmxMapLoader().load("map/mapTest.tmx");
+        tiledMap = new TmxMapLoader().load("map/mapBig.tmx");
         isometricTiledMapRenderer = new IsometricTiledMapRenderer(tiledMap);
 
         // add nodes
@@ -137,38 +138,26 @@ public class GameScreen extends ScreenAdapter {
         // select ant
         if (Gdx.input.isButtonJustPressed(0)) {
             Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
-
             Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
+            if(gridPos == null)
+                return;
             Vector2 normalPos = transformGridToCoordinates(gridPos.x, gridPos.y, mapWidth, mapHeight);
 
-            if(gridPos != null) {
-                handler.entities.forEach(e -> {
-                    if(e instanceof AntAbstract) {
-                        if(normalPos.x == ((AntAbstract) e).getX() && normalPos.y == ((AntAbstract) e).getY()) {
-                            System.out.println("found");
-                            antAbstract = (AntAbstract) e;
-                        }
+            handler.entities.forEach(e -> {
+                if(e instanceof AntAbstract) {
+                    if(normalPos.x == ((AntAbstract) e).getX() && normalPos.y == ((AntAbstract) e).getY()) {
+                        System.out.println("found ant");
+                        antAbstract = (AntAbstract) e;
                     }
-                });
-            }
+                }
+            });
         }
 
         // target select
         if (Gdx.input.isButtonJustPressed(1)) {
-            Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
-            Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
-
-            // get target node
-            Node target = graph.getNode((int)gridPos.x, (int)gridPos.y);
-            boolean result = testIfTargetNodeAvailable(handler.targetNodeList, target, handler.entities, mapWidth,mapHeight);
-
-            if(antAbstract != null && gridPos != null && result) {
-                handler.targetNodeList.add(target);
-                WalkToTask walkToTask = new WalkToTask(vec2.x, vec2.y, antAbstract, 2f);
-                antAbstract.setTask(walkToTask);
-            }
+            Vector2 targetPosition = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
+            antAbstract.addTask(new WalkToTask(targetPosition.x, targetPosition.y, antAbstract, 2f));
         }
-
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();

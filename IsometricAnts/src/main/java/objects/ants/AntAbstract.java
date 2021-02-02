@@ -1,12 +1,19 @@
 package objects.ants;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import core.GameScreen;
 import helper.BodyHelper;
 import objects.GameEntity;
 import objects.ants.task.Task;
+import objects.ants.task.WalkToTask;
+import pathfinding.Node;
+
+import java.util.LinkedList;
+
 import static helper.Const.*;
+import static helper.Functions.*;
 
 public abstract class AntAbstract implements GameEntity {
 
@@ -14,7 +21,7 @@ public abstract class AntAbstract implements GameEntity {
     protected int width, height;
     protected Body body;
     protected GameScreen gameScreen;
-    protected Task task;
+    protected LinkedList<Task> tasks;
 
     public AntAbstract(float x, float y, int width, int height, GameScreen gameScreen) {
         this.x = x;
@@ -22,7 +29,8 @@ public abstract class AntAbstract implements GameEntity {
         this.width = width;
         this.height = height;
         this.gameScreen = gameScreen;
-        this.body = BodyHelper.createCircularBody(x, y, 8, false, 0, gameScreen.getWorld());
+        this.tasks = new LinkedList<>();
+        this.body = BodyHelper.createCircularBody(x, y, 8, false, 0, true, gameScreen.getWorld());
     }
 
     @Override
@@ -31,15 +39,42 @@ public abstract class AntAbstract implements GameEntity {
         y = body.getPosition().y * PPM - (TILE_HEIGHT / 2);
         body.setLinearVelocity(0,0);
 
-        if(task != null) {
-            task.executeTask();
-            if(task.isDone()) task = null;
+        if(tasks.size() > 0) {
+            tasks.getFirst().executeTask();
+            if(tasks.getFirst().isDone()) tasks.removeFirst();
+        }
+
+        // move to center of tile if ant got lost
+        if(tasks.size() == 0) {
+            Node currentTile = getNodeFromPosition(x, y, gameScreen.getMapWidth(), gameScreen.getMapHeight(), gameScreen.getGraph());
+            if(currentTile != null) {
+                Vector2 correctPos = transformGridToCoordinates(currentTile.getX(), currentTile.getY(), gameScreen.getMapWidth(), gameScreen.getMapHeight());
+                if(correctPos.x != x && correctPos.y != y) {
+                    body.setTransform((correctPos.x + (TILE_WIDTH / 2)) / PPM, (correctPos.y + (TILE_HEIGHT / 2)) / PPM, 0);
+                }
+            }
         }
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        if(task != null) task.renderTask(batch);
+        if(tasks.size() > 0) tasks.getFirst().renderTask(batch);
+    }
+
+    public void addTask(Task task) {
+        if(tasks.size() > 0 && tasks.getFirst() instanceof WalkToTask) {
+            // remove target from handler
+            WalkToTask currentActive = (WalkToTask) tasks.getFirst();
+            Node targetNode = currentActive.getFinalTargetNode();
+            gameScreen.getHandler().targetNodeList.remove(targetNode);
+
+            tasks.clear();
+        }
+        this.tasks.add(task);
+    }
+
+    public void clearTasks() {
+        this.tasks.clear();
     }
 
     public float getX() { return x; }
@@ -50,15 +85,9 @@ public abstract class AntAbstract implements GameEntity {
 
     public Body getBody() { return body; }
 
-    public Task getTask() { return task; }
+    public Task getCurrentTask() { return (tasks.size() == 0) ? null : tasks.getFirst(); }
 
-    public void setTask(Task task) { this.task = task; }
+    public void setX(float x) { this.x = x; }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
+    public void setY(float y) { this.y = y; }
 }

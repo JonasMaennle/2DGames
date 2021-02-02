@@ -11,8 +11,7 @@ import java.util.LinkedList;
 
 import static helper.Const.*;
 import static helper.Const.PPM;
-import static helper.Functions.testNextNodeAvailable;
-import static helper.Functions.transformGridToCoordinates;
+import static helper.Functions.*;
 
 public class WalkToTask extends Task {
 
@@ -20,6 +19,7 @@ public class WalkToTask extends Task {
     private LinkedList<Node> path;
     private float x, y, velX, velY, speed;
     private float xTarget, yTarget;
+    private Node finalTargetNode;
 
     public WalkToTask(float xTarget, float yTarget, AntAbstract antAbstract, float speed) {
         super(antAbstract);
@@ -29,7 +29,26 @@ public class WalkToTask extends Task {
         this.speed = speed;
         this.x = owner.getX();
         this.y = owner.getY();
-        new Pathfinder(owner.getGameScreen().getGraph(), owner.getGameScreen(), this).start();
+        validateTarget();
+        if(!done) new Pathfinder(owner.getGameScreen().getGraph(), owner.getGameScreen(), this).start();
+    }
+
+    private void validateTarget() {
+        Vector2 gridPos = transformCoordinatesToGrid(xTarget, yTarget, owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
+        if(gridPos == null) {
+            done = true;
+            return;
+        }
+        Node targetNode = owner.getGameScreen().getGraph().getNode((int)gridPos.x, (int)gridPos.y);
+        if(targetNode == null) {
+            done = true;
+            return;
+        }
+        boolean result = testIfTargetNodeAvailable(owner.getGameScreen().getHandler().targetNodeList, targetNode, owner.getGameScreen().getHandler().entities, owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
+        if(!result)
+            done = true;
+        else
+            owner.getGameScreen().getHandler().targetNodeList.add(targetNode);
     }
 
     @Override
@@ -62,16 +81,6 @@ public class WalkToTask extends Task {
         if(path == null || path.size() == 0) return;
 
         Node target = path.get(path.size() - 1);
-
-        // check if node is blocked
-        boolean result = testNextNodeAvailable(owner, target, owner.getGameScreen().getHandler().entities, owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
-        if(!result) {
-            // get alternative path
-            new Pathfinder(owner.getGameScreen().getGraph(), owner.getGameScreen(), this, target).start();
-            return;
-        }
-
-
         Vector2 targetPosition = transformGridToCoordinates(target.getX(), target.getY(), owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
 
         if(x < targetPosition.x) velX = 1;
@@ -103,7 +112,10 @@ public class WalkToTask extends Task {
 
     public LinkedList<Node> getPath() { return path; }
 
-    public void setPath(LinkedList<Node> path) { this.path = path; }
+    public void setPath(LinkedList<Node> path) {
+        this.path = path;
+        this.finalTargetNode = path.getFirst();
+    }
 
     public float getxTarget() {
         return xTarget;
@@ -111,5 +123,9 @@ public class WalkToTask extends Task {
 
     public float getyTarget() {
         return yTarget;
+    }
+
+    public Node getFinalTargetNode() {
+        return finalTargetNode;
     }
 }

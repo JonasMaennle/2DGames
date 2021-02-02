@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import objects.GameEntity;
 import objects.ants.AntAbstract;
+import pathfinding.Graph;
 import pathfinding.Node;
 
 import java.util.List;
@@ -50,6 +51,21 @@ public class Functions {
         return false;
     }
      */
+
+    /**
+     * get Node from coordionates -> f.e. ant coordinates
+     * @param x
+     * @param y
+     * @param mapWidth
+     * @param mapHeight
+     * @param graph
+     * @return
+     */
+    public static Node getNodeFromPosition(float x, float y, int mapWidth, int mapHeight, Graph graph) {
+        Vector2 normalize = transformCoordinatesToIso(new Vector2(x,y), mapWidth, mapHeight);
+        Vector2 posGrid = transformCoordinatesToGrid(normalize.x, normalize.y, mapWidth, mapHeight);
+        return graph.getNode((int)posGrid.x, (int)posGrid.y);
+    }
 
     /**
      * transform grid coordinates [2][5] into game coordinates (234,754) -> returns center of quader
@@ -146,34 +162,17 @@ public class Functions {
     }
 
     /**
-     * test if next node is already blocked
-     * @param node
-     * @param entries
-     * @return
-     */
-    public static boolean testNextNodeAvailable(GameEntity self, Node node, List<GameEntity> entries, int mapWidth, int mapHeight) {
-        Vector2 nextPosGrid = new Vector2(node.getX(), node.getY());
-        Vector2 nextPos = transformGridToCoordinates(nextPosGrid.x, nextPosGrid.y, mapWidth, mapHeight);
-
-        for(GameEntity e : entries) {
-            if(e instanceof AntAbstract && !(e.equals(self))) {
-                if(nextPos.x == ((AntAbstract) e).getX() && nextPos.y == ((AntAbstract) e).getY()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * check if node is already a target || target of blocked by ant
+     *  check if target if available -> not blocked by ant or ant pathtarget
      * @param targetNodes
-     * @param node
+     * @param targetNode
+     * @param entries
+     * @param mapWidth
+     * @param mapHeight
      * @return
      */
-    public static boolean testIfTargetNodeAvailable(List<Node> targetNodes, Node node, List<GameEntity> entries, int mapWidth, int mapHeight) {
+    public static boolean testIfTargetNodeAvailable(List<Node> targetNodes, Node targetNode, List<GameEntity> entries, int mapWidth, int mapHeight) {
         // is blocked by ant?
-        Vector2 targetPos = transformGridToCoordinates(node.getX(), node.getY(), mapWidth, mapHeight);
+        Vector2 targetPos = transformGridToCoordinates(targetNode.getX(), targetNode.getY(), mapWidth, mapHeight);
         for(GameEntity e : entries) {
             if(e instanceof AntAbstract) {
                 if(targetPos.x == ((AntAbstract) e).getX() && targetPos.y == ((AntAbstract) e).getY()) {
@@ -182,7 +181,7 @@ public class Functions {
             }
         }
         // is blocked as target node path
-        return !targetNodes.contains(node);
+        return !targetNodes.contains(targetNode);
     }
 
     /**

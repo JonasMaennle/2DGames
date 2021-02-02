@@ -7,7 +7,7 @@ import static helper.Const.PPM;
 
 public class BodyHelper {
 
-    public static Body createIsometricBody(float x, float y, float width, float height, boolean isStatic, float density, World world) {
+    public static Body createIsometricBody(float x, float y, float width, float height, boolean isStatic, float density, boolean sensor, World world) {
         Body body = defineBody(x, y, isStatic, world);
 
         Vector2 left = new Vector2(-width / 2 / PPM, 0);
@@ -24,19 +24,19 @@ public class BodyHelper {
         PolygonShape shape = new PolygonShape();
         shape.set(vertices);
 
-        defineFixture(shape, body, density);
+        defineFixture(shape, body, density, sensor);
 
         shape.dispose();
         return body;
     }
 
-    public static Body createCircularBody(float x, float y, float radius, boolean isStatic, float density, World world) {
+    public static Body createCircularBody(float x, float y, float radius, boolean isStatic, float density, boolean sensor, World world) {
         Body body = defineBody(x, y, isStatic, world);
 
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(radius / PPM);
 
-        defineFixture(circleShape, body, density);
+        defineFixture(circleShape, body, density, sensor);
         circleShape.dispose();
 
         return body;
@@ -51,12 +51,12 @@ public class BodyHelper {
         return world.createBody(def);
     }
 
-    private static void defineFixture(Shape shape, Body body, float density) {
+    private static void defineFixture(Shape shape, Body body, float density, boolean sensor) {
         FixtureDef groundFixture = new FixtureDef();
         groundFixture.shape = shape;
         groundFixture.density=density; // dichte
         groundFixture.restitution = 0;
         groundFixture.friction=0; // reibung
-        body.createFixture(groundFixture);
+        body.createFixture(groundFixture).setSensor(sensor);
     }
 }
