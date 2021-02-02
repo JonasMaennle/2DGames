@@ -91,7 +91,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void setUpTiledMap() {
-        tiledMap = new TmxMapLoader().load("map/mapBig.tmx");
+        tiledMap = new TmxMapLoader().load("map/mapTest.tmx");
         isometricTiledMapRenderer = new IsometricTiledMapRenderer(tiledMap);
 
         // add nodes
