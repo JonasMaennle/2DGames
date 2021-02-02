@@ -158,7 +158,12 @@ public class GameScreen extends ScreenAdapter {
             Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
             Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
 
-            if(antAbstract != null && gridPos != null) {
+            // get target node
+            Node target = graph.getNode((int)gridPos.x, (int)gridPos.y);
+            boolean result = testIfTargetNodeAvailable(handler.targetNodeList, target, handler.entities, mapWidth,mapHeight);
+
+            if(antAbstract != null && gridPos != null && result) {
+                handler.targetNodeList.add(target);
                 WalkToTask walkToTask = new WalkToTask(vec2.x, vec2.y, antAbstract, 2f);
                 antAbstract.setTask(walkToTask);
             }
@@ -180,5 +185,9 @@ public class GameScreen extends ScreenAdapter {
 
     public Graph getGraph() {
         return graph;
+    }
+
+    public Handler getHandler() {
+        return handler;
     }
 }

@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import objects.GameEntity;
+import objects.ants.AntAbstract;
+import pathfinding.Node;
+
+import java.util.List;
 
 import static helper.Const.TILE_HEIGHT;
 import static helper.Const.TILE_WIDTH;
@@ -138,6 +143,46 @@ public class Functions {
      */
     public static Vector3 transformMouseToWorldCoordinates(Camera camera) {
         return camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+    }
+
+    /**
+     * test if next node is already blocked
+     * @param node
+     * @param entries
+     * @return
+     */
+    public static boolean testNextNodeAvailable(GameEntity self, Node node, List<GameEntity> entries, int mapWidth, int mapHeight) {
+        Vector2 nextPosGrid = new Vector2(node.getX(), node.getY());
+        Vector2 nextPos = transformGridToCoordinates(nextPosGrid.x, nextPosGrid.y, mapWidth, mapHeight);
+
+        for(GameEntity e : entries) {
+            if(e instanceof AntAbstract && !(e.equals(self))) {
+                if(nextPos.x == ((AntAbstract) e).getX() && nextPos.y == ((AntAbstract) e).getY()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * check if node is already a target || target of blocked by ant
+     * @param targetNodes
+     * @param node
+     * @return
+     */
+    public static boolean testIfTargetNodeAvailable(List<Node> targetNodes, Node node, List<GameEntity> entries, int mapWidth, int mapHeight) {
+        // is blocked by ant?
+        Vector2 targetPos = transformGridToCoordinates(node.getX(), node.getY(), mapWidth, mapHeight);
+        for(GameEntity e : entries) {
+            if(e instanceof AntAbstract) {
+                if(targetPos.x == ((AntAbstract) e).getX() && targetPos.y == ((AntAbstract) e).getY()) {
+                    return false;
+                }
+            }
+        }
+        // is blocked as target node path
+        return !targetNodes.contains(node);
     }
 
     /**

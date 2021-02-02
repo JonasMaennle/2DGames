@@ -11,6 +11,7 @@ import java.util.LinkedList;
 
 import static helper.Const.*;
 import static helper.Const.PPM;
+import static helper.Functions.testNextNodeAvailable;
 import static helper.Functions.transformGridToCoordinates;
 
 public class WalkToTask extends Task {
@@ -61,6 +62,16 @@ public class WalkToTask extends Task {
         if(path == null || path.size() == 0) return;
 
         Node target = path.get(path.size() - 1);
+
+        // check if node is blocked
+        boolean result = testNextNodeAvailable(owner, target, owner.getGameScreen().getHandler().entities, owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
+        if(!result) {
+            // get alternative path
+            new Pathfinder(owner.getGameScreen().getGraph(), owner.getGameScreen(), this, target).start();
+            return;
+        }
+
+
         Vector2 targetPosition = transformGridToCoordinates(target.getX(), target.getY(), owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
 
         if(x < targetPosition.x) velX = 1;
@@ -82,6 +93,9 @@ public class WalkToTask extends Task {
                 owner.getBody().setTransform((targetPosition.x + (TILE_WIDTH / 2)) / PPM, (targetPosition.y + (TILE_HEIGHT / 2)) / PPM, 0);
                 done = true;
                 owner.getBody().setLinearVelocity(0, 0);
+
+                // remove target node from list
+                owner.getGameScreen().getHandler().targetNodeList.remove(target);
             }
             path.removeLast();
         }
