@@ -21,7 +21,7 @@ public class WalkToTask extends Task {
     private float xTarget, yTarget;
     private Node finalTargetNode;
 
-    public WalkToTask(float xTarget, float yTarget, AntAbstract antAbstract, float speed) {
+    public WalkToTask(float xTarget, float yTarget, AntAbstract antAbstract, float speed, boolean isResource) {
         super(antAbstract);
         this.xTarget = xTarget;
         this.yTarget = yTarget;
@@ -29,11 +29,12 @@ public class WalkToTask extends Task {
         this.speed = speed;
         this.x = owner.getX();
         this.y = owner.getY();
-        validateTarget();
+        validateTarget(isResource);
         if(!done) new Pathfinder(owner.getGameScreen().getGraph(), owner.getGameScreen(), this).start();
     }
 
-    private void validateTarget() {
+
+    private void validateTarget(boolean isTargetAResourceTile) {
         Vector2 gridPos = transformCoordinatesToGrid(xTarget, yTarget, owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
         if(gridPos == null) {
             done = true;
@@ -45,10 +46,17 @@ public class WalkToTask extends Task {
             return;
         }
         boolean result = testIfTargetNodeAvailable(owner.getGameScreen().getHandler().targetNodeList, targetNode, owner.getGameScreen().getHandler().entities, owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
-        if(!result)
+
+        // ignore target node
+        if(isTargetAResourceTile && !result) {
+            return;
+        }
+
+        if(!result) {
             done = true;
-        else
+        } else {
             owner.getGameScreen().getHandler().targetNodeList.add(targetNode);
+        }
     }
 
     @Override
@@ -104,9 +112,17 @@ public class WalkToTask extends Task {
                 owner.getBody().setLinearVelocity(0, 0);
 
                 // remove target node from list
-                owner.getGameScreen().getHandler().targetNodeList.remove(target);
+                if(owner.getGameScreen().getHandler().targetNodeList.contains(target))
+                    owner.getGameScreen().getHandler().targetNodeList.remove(target);
             }
             path.removeLast();
+        }
+    }
+
+    public void removeTargetFromTargetNodeList() {
+        if(path != null && path.size() > 0) {
+            Node target = path.get(0);
+            owner.getGameScreen().getHandler().targetNodeList.remove(target);
         }
     }
 

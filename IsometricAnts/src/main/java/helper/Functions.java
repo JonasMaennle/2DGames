@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import core.GameScreen;
 import objects.GameEntity;
 import objects.ants.AntAbstract;
 import pathfinding.Graph;
@@ -173,6 +174,33 @@ public class Functions {
         float xT = x / (TILE_WIDTH / 2);
         float yT = height - (y / TILE_HEIGHT) - 1;
         return new Vector2(xT, yT);
+    }
+
+    /**
+     * usecase: are mouse position and object on same tile
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @param mapWidth
+     * @param mapHeight
+     * @return
+     */
+    public static boolean validateTargetOnSameSpot(float x1, float y1, float x2, float y2, int mapWidth, int mapHeight) {
+        // transform to grid
+        Vector2 gridPos1 = transformCoordinatesToGrid(x1, y1, mapWidth,mapHeight);
+        Vector2 gridPos2 = transformCoordinatesToGrid(x2, y2, mapWidth,mapHeight);
+
+        if(gridPos1 == null || gridPos2 == null)
+            return false;
+
+        Vector2 normalCenterPos1 = transformGridToCoordinates(gridPos1.x, gridPos1.y, mapWidth, mapHeight);
+        Vector2 normalCenterPos2 =transformGridToCoordinates(gridPos2.x, gridPos2.y, mapWidth, mapHeight);
+
+        if(normalCenterPos1.x == normalCenterPos2.x && normalCenterPos1.y == normalCenterPos2.y)
+            return true;
+
+        return false;
     }
 
     /**

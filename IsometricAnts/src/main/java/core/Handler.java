@@ -3,6 +3,8 @@ package core;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import objects.GameEntity;
 import objects.building.Building;
+import objects.building.Hive;
+import objects.resource.Resource;
 import pathfinding.Node;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,6 +14,7 @@ public class Handler {
     public CopyOnWriteArrayList<GameEntity> entities;
     public CopyOnWriteArrayList<Node> targetNodeList;
     public CopyOnWriteArrayList<Building> buildings;
+    public CopyOnWriteArrayList<Resource> resources;
 
     private Building selectedBuilding;
 
@@ -19,6 +22,7 @@ public class Handler {
         this.entities = new CopyOnWriteArrayList<>();
         this.targetNodeList = new CopyOnWriteArrayList<>();
         this.buildings = new CopyOnWriteArrayList<>();
+        this.resources = new CopyOnWriteArrayList<>();
     }
 
     public void update() {
@@ -47,5 +51,13 @@ public class Handler {
 
     public void setSelectedBuilding(Building selectedBuilding) {
         this.selectedBuilding = selectedBuilding;
+    }
+
+    public Hive getHive() {
+        for(Building building : buildings) {
+            if(building instanceof Hive)
+                return (Hive) building;
+        }
+        return null;
     }
 }

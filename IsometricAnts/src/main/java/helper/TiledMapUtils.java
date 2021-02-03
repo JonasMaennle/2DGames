@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import core.GameScreen;
 import objects.building.Hive;
+import objects.resource.StoneResource;
 import org.lwjgl.Sys;
 import pathfinding.Graph;
 import pathfinding.Node;
@@ -52,6 +53,17 @@ public class TiledMapUtils {
                 if(cell != null && cell.getTile().getId() != 11 && cell.getTile().getId() != 12) {
                     int ty = height - y - 1;
                     graph.addNode(new Node(x, ty));
+                }
+
+                // resource tiles //
+                // stone
+                if(cell != null && cell.getTile().getId() == 13) {
+                    int ty = height - y - 1;
+
+                    Vector2 vec = transformGridToCoordinates(x,ty,gameScreen.getMapWidth(), gameScreen.getMapHeight());
+                    Vector2 isoCoords = transformCoordinatesToIso(vec, gameScreen.getMapWidth(), gameScreen.getMapHeight());
+
+                    gameScreen.getHandler().resources.add(new StoneResource(isoCoords.x, isoCoords.y));
                 }
             }
         }

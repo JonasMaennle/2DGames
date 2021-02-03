@@ -20,8 +20,10 @@ import helper.Const;
 import helper.TiledMapUtils;
 import objects.ants.AntAbstract;
 import objects.ants.AntWorker;
+import objects.ants.task.HarvestResource;
 import objects.ants.task.WalkToTask;
 import objects.building.Hive;
+import objects.resource.Resource;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL20;
 import pathfinding.Graph;
@@ -57,7 +59,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(new helper.Input(camera));
         this.graph = new Graph();
         this.tiledMapUtils = new TiledMapUtils(this, graph);
-        this.isometricTiledMapRenderer = this.tiledMapUtils.setUpTiledMap("map/mapBig.tmx");
+        this.isometricTiledMapRenderer = this.tiledMapUtils.setUpTiledMap("map/mapTest.tmx");
 
         this.camera.position.set(new Vector3(mapWidth / 2, 0, 0));
     }
@@ -110,19 +112,23 @@ public class GameScreen extends ScreenAdapter {
             handler.addEntity(antWorker);
         }
 
-        // select ant
+        // left click
         if (Gdx.input.isButtonJustPressed(0)) {
+            antAbstract = null;
             Vector2 vec2 = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
             Vector2 gridPos = transformCoordinatesToGrid(vec2.x, vec2.y, mapWidth, mapHeight);
             if(gridPos == null)
                 return;
             Vector2 normalPos = transformGridToCoordinates(gridPos.x, gridPos.y, mapWidth, mapHeight);
 
+            // pick ant
             handler.entities.forEach(e -> {
                 if(e instanceof AntAbstract) {
-                    if(normalPos.x == ((AntAbstract) e).getX() && normalPos.y == ((AntAbstract) e).getY()) {
-                        System.out.println("found ant");
+                    Vector2 vecIso = transformCoordinatesToIso(new Vector2(((AntAbstract) e).getX(), ((AntAbstract) e).getY()), mapWidth, mapHeight);
+                    boolean res = validateTargetOnSameSpot(vecIso.x, vecIso.y, vec2.x, vec2.y, mapWidth, mapHeight);
+                    if(res) {
                         antAbstract = (AntAbstract) e;
+                        System.out.println("Ant selected!");
                     }
                 }
             });
@@ -137,10 +143,23 @@ public class GameScreen extends ScreenAdapter {
             });
         }
 
-        // target select
+        // right click
         if (Gdx.input.isButtonJustPressed(1) && antAbstract != null) {
+            // current mouse position
             Vector2 targetPosition = transformTiledMapCoordinatesLeftToTop(camera, mapWidth, mapHeight);
-            antAbstract.addTask(new WalkToTask(targetPosition.x, targetPosition.y, antAbstract, 2f));
+
+            // is tile a resource?
+            for(Resource res : handler.resources) {
+                boolean testIfSameSpot = validateTargetOnSameSpot(targetPosition.x, targetPosition.y, res.getX(), res.getY(), mapWidth, mapHeight);
+                if(testIfSameSpot) {
+                    System.out.println(res.getClass().getSimpleName() + " found!");
+                    antAbstract.addTask(new HarvestResource(res, antAbstract));
+                    return;
+                }
+            }
+
+            // walk to tile
+            antAbstract.addTask(new WalkToTask(targetPosition.x, targetPosition.y, antAbstract, 2f, false));
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {

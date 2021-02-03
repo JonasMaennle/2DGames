@@ -21,13 +21,12 @@ public abstract class AntAbstract implements GameEntity {
     protected int width, height;
     protected Body body;
     protected GameScreen gameScreen;
-    protected LinkedList<Task> tasks;
+    protected Task task;
 
     public AntAbstract(float x, float y, int width, int height, GameScreen gameScreen) {
         this.width = width;
         this.height = height;
         this.gameScreen = gameScreen;
-        this.tasks = new LinkedList<>();
         this.body = BodyHelper.createCircularBody(x, y, 8, false, 0, true, gameScreen.getWorld());
         this.x = body.getPosition().x * PPM - (TILE_WIDTH / 2);
         this.y = body.getPosition().y * PPM - (TILE_HEIGHT / 2);
@@ -39,13 +38,13 @@ public abstract class AntAbstract implements GameEntity {
         y = body.getPosition().y * PPM - (TILE_HEIGHT / 2);
         body.setLinearVelocity(0,0);
 
-        if(tasks.size() > 0) {
-            tasks.getFirst().executeTask();
-            if(tasks.getFirst().isDone()) tasks.removeFirst();
+        if(task != null) {
+            task.executeTask();
+            if(task.isDone()) task = null;
         }
 
         // move to center of tile if ant got lost
-        if(tasks.size() == 0) {
+        if(task == null) {
             Node currentTile = getNodeFromPosition(x, y, gameScreen.getMapWidth(), gameScreen.getMapHeight(), gameScreen.getGraph());
             if(currentTile != null) {
                 Vector2 correctPos = transformGridToCoordinates(currentTile.getX(), currentTile.getY(), gameScreen.getMapWidth(), gameScreen.getMapHeight());
@@ -58,23 +57,20 @@ public abstract class AntAbstract implements GameEntity {
 
     @Override
     public void render(SpriteBatch batch) {
-        if(tasks.size() > 0) tasks.getFirst().renderTask(batch);
+        if(task != null) task.renderTask(batch);
     }
 
     public void addTask(Task task) {
-        if(tasks.size() > 0 && tasks.getFirst() instanceof WalkToTask) {
-            // remove target from handler
-            WalkToTask currentActive = (WalkToTask) tasks.getFirst();
-            Node targetNode = currentActive.getFinalTargetNode();
-            gameScreen.getHandler().targetNodeList.remove(targetNode);
-
-            tasks.clear();
+        // clear blocked nodes if last task was walkTo
+        if(this.task != null && this.task instanceof WalkToTask) {
+            ((WalkToTask) this.task).removeTargetFromTargetNodeList();
         }
-        this.tasks.add(task);
+
+        this.task = task;
     }
 
     public void clearTasks() {
-        this.tasks.clear();
+        this.task = null;
     }
 
     public float getX() { return x; }
@@ -84,8 +80,6 @@ public abstract class AntAbstract implements GameEntity {
     public GameScreen getGameScreen() { return gameScreen; }
 
     public Body getBody() { return body; }
-
-    public Task getCurrentTask() { return (tasks.size() == 0) ? null : tasks.getFirst(); }
 
     public void setX(float x) { this.x = x; }
 

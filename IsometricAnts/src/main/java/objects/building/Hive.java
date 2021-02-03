@@ -81,7 +81,7 @@ public class Hive extends Building {
             Vector2 normal = transformGridToCoordinates(nodeToTest.getX(), nodeToTest.getY(), gameScreen.getMapWidth(), gameScreen.getMapHeight());
             Vector2 coords = transformCoordinatesToIso(new Vector2(normal.x, normal.y), gameScreen.getMapWidth(), gameScreen.getMapHeight());
 
-            antWorker.addTask(new WalkToTask(coords.x, coords.y, antWorker, 2f));
+            antWorker.addTask(new WalkToTask(coords.x, coords.y, antWorker, 2f, false));
         }
     }
 
