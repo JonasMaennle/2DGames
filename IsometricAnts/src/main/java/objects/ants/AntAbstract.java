@@ -24,13 +24,13 @@ public abstract class AntAbstract implements GameEntity {
     protected LinkedList<Task> tasks;
 
     public AntAbstract(float x, float y, int width, int height, GameScreen gameScreen) {
-        this.x = x;
-        this.y = y;
         this.width = width;
         this.height = height;
         this.gameScreen = gameScreen;
         this.tasks = new LinkedList<>();
         this.body = BodyHelper.createCircularBody(x, y, 8, false, 0, true, gameScreen.getWorld());
+        this.x = body.getPosition().x * PPM - (TILE_WIDTH / 2);
+        this.y = body.getPosition().y * PPM - (TILE_HEIGHT / 2);
     }
 
     @Override

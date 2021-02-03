@@ -57,7 +57,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(new helper.Input(camera));
         this.graph = new Graph();
         this.tiledMapUtils = new TiledMapUtils(this, graph);
-        this.isometricTiledMapRenderer = this.tiledMapUtils.setUpTiledMap("map/mapTest.tmx");
+        this.isometricTiledMapRenderer = this.tiledMapUtils.setUpTiledMap("map/mapBig.tmx");
 
         this.camera.position.set(new Vector3(mapWidth / 2, 0, 0));
     }
@@ -171,4 +171,6 @@ public class GameScreen extends ScreenAdapter {
     public void setMapWidth(int mapWidth) { this.mapWidth = mapWidth; }
 
     public void setMapHeight(int mapHeight) { this.mapHeight = mapHeight; }
+
+    public OrthographicCamera getCamera() { return camera; }
 }
