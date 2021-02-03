@@ -12,7 +12,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import core.GameScreen;
 import objects.building.Hive;
+import objects.resource.FoodResource;
 import objects.resource.StoneResource;
+import objects.resource.WoodResource;
 import org.lwjgl.Sys;
 import pathfinding.Graph;
 import pathfinding.Node;
@@ -56,15 +58,16 @@ public class TiledMapUtils {
                 }
 
                 // resource tiles //
+                int ty = height - y - 1;
+                Vector2 vec = transformGridToCoordinates(x,ty,gameScreen.getMapWidth(), gameScreen.getMapHeight());
+                Vector2 isoCoords = transformCoordinatesToIso(vec, gameScreen.getMapWidth(), gameScreen.getMapHeight());
+
                 // stone
-                if(cell != null && cell.getTile().getId() == 13) {
-                    int ty = height - y - 1;
-
-                    Vector2 vec = transformGridToCoordinates(x,ty,gameScreen.getMapWidth(), gameScreen.getMapHeight());
-                    Vector2 isoCoords = transformCoordinatesToIso(vec, gameScreen.getMapWidth(), gameScreen.getMapHeight());
-
-                    gameScreen.getHandler().resources.add(new StoneResource(isoCoords.x, isoCoords.y));
-                }
+                if(cell != null && cell.getTile().getId() == 13) gameScreen.getHandler().resources.add(new StoneResource(isoCoords.x, isoCoords.y, gameScreen));
+                // wood
+                if(cell != null && cell.getTile().getId() == 14) gameScreen.getHandler().resources.add(new WoodResource(isoCoords.x, isoCoords.y, gameScreen));
+                // food
+                if(cell != null && cell.getTile().getId() == 15) gameScreen.getHandler().resources.add(new FoodResource(isoCoords.x, isoCoords.y, gameScreen));
             }
         }
 

@@ -73,7 +73,7 @@ public class Hive extends Building {
             return;
 
         // create worker ant
-        AntWorker antWorker = new AntWorker(x + (TILE_WIDTH / 2), y + (TILE_HEIGHT / 2), 64, 32, gameScreen);
+        AntWorker antWorker = new AntWorker(x + (TILE_WIDTH / 2), y + (TILE_HEIGHT / 2), 96, 48, gameScreen);
         gameScreen.getHandler().addEntity(antWorker);
 
         // add new walkTo task to ant

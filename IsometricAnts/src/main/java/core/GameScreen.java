@@ -46,6 +46,8 @@ public class GameScreen extends ScreenAdapter {
     private IsometricTiledMapRenderer isometricTiledMapRenderer;
     private TiledMapUtils tiledMapUtils;
     private Graph graph;
+    private long timer;
+    private int stoneCount, woodCount, foodCount;
 
     private AntAbstract antAbstract;
 
@@ -59,7 +61,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(new helper.Input(camera));
         this.graph = new Graph();
         this.tiledMapUtils = new TiledMapUtils(this, graph);
-        this.isometricTiledMapRenderer = this.tiledMapUtils.setUpTiledMap("map/mapTest.tmx");
+        this.isometricTiledMapRenderer = this.tiledMapUtils.setUpTiledMap("map/mapBig.tmx");
 
         this.camera.position.set(new Vector3(mapWidth / 2, 0, 0));
     }
@@ -71,12 +73,12 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         handler.update();
-
         isometricTiledMapRenderer.setView(camera);
+        printInfoToConsole();
     }
 
     @Override
-    public void render(float delta){
+    public void render(float delta) {
         update();
 
         Gdx.gl.glClearColor(0,0,0,1);
@@ -91,15 +93,23 @@ public class GameScreen extends ScreenAdapter {
         this.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }
 
+    private void printInfoToConsole() {
+        if(System.currentTimeMillis() - timer > 2000) {
+            timer = System.currentTimeMillis();
+            System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond() + "\tStones: " + stoneCount + "\tWood: " + woodCount + "\tFood: " + foodCount);
+        }
+    }
+
     private void userInput() {
+        float amount = camera.zoom * 10;
         if(Gdx.input.isKeyPressed(Input.Keys.D))
-            camera.position.x += 10;
+            camera.position.x += amount;
         if(Gdx.input.isKeyPressed(Input.Keys.A))
-            camera.position.x -= 10;
+            camera.position.x -= amount;
         if(Gdx.input.isKeyPressed(Input.Keys.W))
-            camera.position.y += 10;
+            camera.position.y += amount;
         if(Gdx.input.isKeyPressed(Input.Keys.S))
-            camera.position.y -= 10;
+            camera.position.y -= amount;
 
         // spawn ant
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -192,4 +202,16 @@ public class GameScreen extends ScreenAdapter {
     public void setMapHeight(int mapHeight) { this.mapHeight = mapHeight; }
 
     public OrthographicCamera getCamera() { return camera; }
+
+    public int getStoneCount() { return stoneCount; }
+
+    public void setStoneCount(int stoneCount) { this.stoneCount = stoneCount; }
+
+    public int getWoodCount() { return woodCount; }
+
+    public void setWoodCount(int woodCount) { this.woodCount = woodCount; }
+
+    public int getFoodCount() { return foodCount; }
+
+    public void setFoodCount(int foodCount) { this.foodCount = foodCount; }
 }

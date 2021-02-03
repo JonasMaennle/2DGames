@@ -44,7 +44,8 @@ public class Graph {
 		return null;
 	}
 	
-	public void createMatrix(){
+	public void createMatrix() {
+	    //System.out.println(getNodeID(nodes.get(1).getX(), nodes.get(1).getY()));
 		t1 = System.currentTimeMillis();
 		matrix = new int[nodes.size()][nodes.size()];
 		for(int i = 0; i < nodes.size(); i++){
@@ -64,7 +65,6 @@ public class Graph {
             if(bottomID != -1)
                 addBorder(i, bottomID, heuristicDirectMove);
 
-
             // corners
             int rightBottomID = getNodeID(nodes.get(i).getX() + 1, nodes.get(i).getY() + 1);
             int rightTopID =    getNodeID(nodes.get(i).getX() + 1, nodes.get(i).getY() - 1);
@@ -79,7 +79,6 @@ public class Graph {
                 addBorder(i, leftBottomID, heuristicDiagonalMove);
             if(leftID != -1 && topID != -1 && leftTopID != -1)
                 addBorder(i, leftTopID, heuristicDiagonalMove);
-
 
 		}
 		t2 = System.currentTimeMillis();
@@ -103,50 +102,49 @@ public class Graph {
 		int id, newDis;
 		int maxValue = Integer.MAX_VALUE - (int)Math.sqrt(Boot.INSTANCE.getScreenWidth() * Boot.INSTANCE.getScreenWidth() + Boot.INSTANCE.getScreenHeight() * Boot.INSTANCE.getScreenHeight());
 
-		// set max range (screen width and height to every node)
-		for(int i = 0; i < nodes.size(); i++){
-			try {
-				int absx = nodes.get(i).getX() - nodes.get(endnode).getX();
-				int absy = nodes.get(i).getY() - nodes.get(endnode).getY();
-				nodes.get(i).setHeuristic((int)Math.sqrt(absx * absx + absy * absy));
-				nodes.get(i).setVisited(false);
-				nodes.get(i).setRange(maxValue);
-			} catch (IndexOutOfBoundsException e) {
-				System.out.println("ERROR in PathfindingThread: " + startnode + "   " + endnode);
-				return new LinkedList<Node>();
-			}
-		}
-		//System.out.println(nodes.get(startnode).getX() + " " + nodes.get(startnode).getY() );
-		nodes.get(startnode).setRange(0);
-		for(int i = 0; i < nodes.size(); i++)
-		{
-			id = getNextNode();
-			if(id == -1) break;
-			nodes.get(id).setVisited(true);
-			for(int ab = 0; ab < nodes.size(); ab++)
-			{	
-				//System.out.print(matrix[ab][i]);
-				if(!nodes.get(ab).isVisited() && matrix[ab][id] > 0)
-				{
-					newDis = nodes.get(id).getRange() + matrix[ab][id];
-					if(newDis < nodes.get(ab).getRange())
-					{
-						nodes.get(ab).setRange(newDis);
-						nodes.get(ab).setCmgfrom(id);
-						if(ab == endnode) break;
-					}
-				}
-			}
-		}
-		
-		LinkedList<Node> way = new LinkedList<Node>();
-		id = endnode;
-		way.add(nodes.get(id));
-		
-		while(id != startnode){
-			id = nodes.get(id).getCmgfrom();
-			way.add(nodes.get(id));
-		}
-		return way;
+        for(int i = 0; i < nodes.size(); i++){
+            try {
+                int absx = nodes.get(i).getX() - nodes.get(endnode).getX();
+                int absy = nodes.get(i).getY() - nodes.get(endnode).getY();
+                nodes.get(i).setHeuristic((int)Math.sqrt(absx * absx + absy * absy));
+                nodes.get(i).setVisited(false);
+                nodes.get(i).setRange(maxValue);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("ERROR in PathfindingThread: " + startnode + "   " + endnode);
+                return new LinkedList<Node>();
+            }
+        }
+        //System.out.println(nodes.get(startnode).getX() + " " + nodes.get(startnode).getY() );
+        nodes.get(startnode).setRange(0);
+        outer : for(int i = 0; i < nodes.size(); i++)
+        {
+            id = getNextNode();
+            if(id == -1) break;
+            nodes.get(id).setVisited(true);
+            for(int ab = 0; ab < nodes.size(); ab++)
+            {
+                //System.out.print(matrix[ab][i]);
+                if(!nodes.get(ab).isVisited() && matrix[ab][id] > 0)
+                {
+                    newDis = nodes.get(id).getRange() + matrix[ab][id];
+                    if(newDis < nodes.get(ab).getRange())
+                    {
+                        nodes.get(ab).setRange(newDis);
+                        nodes.get(ab).setCmgfrom(id);
+                        if(ab == endnode) break outer;
+                    }
+                }
+            }
+        }
+
+        LinkedList<Node> way = new LinkedList<Node>();
+        id = endnode;
+        way.add(nodes.get(id));
+
+        while(id != startnode){
+            id = nodes.get(id).getCmgfrom();
+            way.add(nodes.get(id));
+        }
+        return way;
 	}
 }

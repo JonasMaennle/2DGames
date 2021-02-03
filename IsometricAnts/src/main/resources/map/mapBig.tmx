@@ -3,15 +3,15 @@
  <tileset firstgid="1" source="grid128.tsx"/>
  <layer id="1" name="layer1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1tsKwzAIBuCQ5q7b+7/ubjoIolXXHHT8P0ihB/AjsW0tpdRNNTJPezmu8lybkZmOylybFU+vUs/0/ME8N9NgcVCDZLLct9NhMWVzeNYpi8PjmT3jIxyW/ZbFIVkiO86rPJYojlMo65xEcEgGzpPF8SJHarn7rkRy3Bn6nt8l3nxoBm1fRXFY1iTDnFvm3eJoQRza+/fbc+uKntvpoHvjbjaaUisclv9x6ZvOrcUuh9ciPRPBYfnH0CqK44lBs6x0jLCsNnAOaRYyOaRZ9tQOA3Vk673Pr71HS8aeuWTvH0EQBEEQBEEQBEH+IR+JIwoS
+   eJzt112rwjAMBuDS7W51/v9/K14MSmi+umSNmIsXQc7BPE3i6lFKOTIZYVqAGjTZB1nh2bpYGCiTV/0VON5KT+2yyrIx0ToiW6rSEc1Syz0L5XnSAveGm7XIfRlZrPqycr5+2aKdL29LA6+c4/u5L8QwsyuYZeasJfeDvnasF5yFcty1UAasXvi+dFc4B7RY9YR7DsJYOHqLxV5zs3N9HubALNQ59A4LA3T0vYbvaXtyWU7CY2m4auLu3lgvuJ6cZdwbD4PEsRd+BrHZOp0M2F5IeyLpy2iWLOuHZ2Xt8N4FicNiT56q39OBfb9GdGAW6jnh6ZDeRy0cnhZt7dEdGg9215Lep56aK84jrTey465BY5H+5qMc3tGcdeuC/Y3HWXvOF2aZdUTZk1bmdyDazs88Myj3zP9Gcljlnx2ra05HOtKRjnSsTzpiJR2x8gHVa0Nv
   </data>
  </layer>
  <layer id="3" name="layer2" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1bEKgDAMRdHsuur/f6o4FMIjrbjllXtABF28ptUIAAAAANjPkQ5no+EM7xa3jntyPXeMo6trcU8bHGZSyfu8+zxWdH+4zmSHDm3YocPhe1WZNTh0HFF/n3RddaPPrQ2zpm6+GvK5+39wtQ+qNdV1Ji99z1VH7nGhc3D+d3RfQwAAAADwxwNF3QYJ
+   eJztzkENAAAIBCBLaP+odnBu94EEVAEAAADAzaQDDzodAAAAAADeLJFlACw=
   </data>
  </layer>
  <objectgroup id="4" name="objects">
-  <object id="11" name="hive" x="1344" y="1280" width="64" height="64"/>
+  <object id="11" name="hive" x="1600" y="1536" width="64" height="64"/>
  </objectgroup>
 </map>

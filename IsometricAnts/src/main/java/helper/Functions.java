@@ -20,6 +20,17 @@ import static helper.Const.TILE_WIDTH;
  */
 public class Functions {
 
+    private static long time1, time2;
+
+    public static void timerStart(){
+        time1 = System.currentTimeMillis();
+    }
+
+    public static void timerEnd(){
+        time2 = System.currentTimeMillis();
+        System.out.println("Time difference: " + ((time2 - time1)) + "\tms");
+    }
+
     /**
      * get the current angle between object and target position in degree
      * @param x The x coordinate in pixels

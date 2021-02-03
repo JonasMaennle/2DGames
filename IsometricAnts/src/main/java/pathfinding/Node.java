@@ -13,6 +13,16 @@ public class Node {
 		this.x = x;
 		this.y = y;
 	}
+
+	// copy constructor
+	public Node(Node copy) {
+	    this.x = copy.getX();
+	    this.y = copy.getY();
+	    this.heuristic = copy.getHeuristic();
+	    this.range = copy.getRange();
+	    this.cmgfrom = copy.getCmgfrom();
+	    this.visited = copy.isVisited();
+    }
 	
 	public int getX() {
 		return x;

@@ -21,6 +21,9 @@ public class WalkToTask extends Task {
     private float xTarget, yTarget;
     private Node finalTargetNode;
 
+    private HarvestResource harvestResource;
+    private String targetLocation;
+
     public WalkToTask(float xTarget, float yTarget, AntAbstract antAbstract, float speed, boolean isResource) {
         super(antAbstract);
         this.xTarget = xTarget;
@@ -33,6 +36,25 @@ public class WalkToTask extends Task {
         if(!done) new Pathfinder(owner.getGameScreen().getGraph(), owner.getGameScreen(), this).start();
     }
 
+    // only for resource collecting
+    public WalkToTask(float xTarget, float yTarget, AntAbstract antAbstract, float speed, boolean isResource, String targetLocation, HarvestResource harvestResource, LinkedList<Node> savedPath) {
+        super(antAbstract);
+        this.xTarget = xTarget;
+        this.yTarget = yTarget;
+        this.targetLocation = targetLocation;
+        this.harvestResource = harvestResource;
+        this.texture = new Texture("testing/debug.png");
+        this.speed = speed;
+        this.x = owner.getX();
+        this.y = owner.getY();
+        validateTarget(isResource);
+
+        if(savedPath.size() == 0) {
+            if(!done) new Pathfinder(owner.getGameScreen().getGraph(), owner.getGameScreen(), this).start();
+        }else{
+            this.path = savedPath;
+        }
+    }
 
     private void validateTarget(boolean isTargetAResourceTile) {
         Vector2 gridPos = transformCoordinatesToGrid(xTarget, yTarget, owner.getGameScreen().getMapWidth(), owner.getGameScreen().getMapHeight());
@@ -61,10 +83,10 @@ public class WalkToTask extends Task {
 
     @Override
     public void executeTask() {
-        x = (int)owner.getX();
-        y = (int)owner.getY();
-        owner.setX(x);
-        owner.setY(y);
+        x = owner.getX();
+        y = owner.getY();
+        //owner.setX(x);
+        //owner.setY(y);
         velX = 0;
         velY = 0;
 
@@ -131,6 +153,14 @@ public class WalkToTask extends Task {
     public void setPath(LinkedList<Node> path) {
         this.path = path;
         this.finalTargetNode = path.getFirst();
+
+        // save path for later
+        if(harvestResource != null && targetLocation != null && targetLocation.equals("hive")) {
+            harvestResource.setResourceToHive(harvestResource.getDeepCopyOfPath(path));
+        }
+        if(harvestResource != null && targetLocation != null && targetLocation.equals("resource")) {
+            harvestResource.setHiveToResource(harvestResource.getDeepCopyOfPath(path));
+        }
     }
 
     public float getxTarget() {
@@ -144,4 +174,6 @@ public class WalkToTask extends Task {
     public Node getFinalTargetNode() {
         return finalTargetNode;
     }
+
+    public HarvestResource getHarvestResource() { return harvestResource; }
 }
