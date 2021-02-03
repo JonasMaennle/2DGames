@@ -6,25 +6,28 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import helper.Const;
+import helper.TiledMapUtils;
 import objects.ants.AntAbstract;
 import objects.ants.AntWorker;
 import objects.ants.task.WalkToTask;
+import objects.building.Hive;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL20;
 import pathfinding.Graph;
 import pathfinding.Node;
 
-import static helper.Const.TILE_HEIGHT;
-import static helper.Const.TILE_WIDTH;
+import static helper.Const.*;
 import static helper.Functions.*;
 
 
@@ -34,14 +37,13 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch batch;
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
+    private Handler handler;
 
-    private TiledMap tiledMap;
     private int mapWidth;
     private int mapHeight;
     private IsometricTiledMapRenderer isometricTiledMapRenderer;
-
+    private TiledMapUtils tiledMapUtils;
     private Graph graph;
-    private Handler handler;
 
     private AntAbstract antAbstract;
 
@@ -50,13 +52,14 @@ public class GameScreen extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,0), false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
+        this.handler = new Handler();
 
         Gdx.input.setInputProcessor(new helper.Input(camera));
         this.graph = new Graph();
+        this.tiledMapUtils = new TiledMapUtils(this, graph);
+        this.isometricTiledMapRenderer = this.tiledMapUtils.setUpTiledMap("map/mapTest.tmx");
 
-        this.setUpTiledMap();
         this.camera.position.set(new Vector3(mapWidth / 2, 0, 0));
-        this.handler = new Handler();
     }
 
     public void update() {
@@ -83,37 +86,7 @@ public class GameScreen extends ScreenAdapter {
         handler.render(batch);
         batch.end();
 
-        this.box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    private void setUpTiledMap() {
-        tiledMap = new TmxMapLoader().load("map/mapBig.tmx");
-        isometricTiledMapRenderer = new IsometricTiledMapRenderer(tiledMap);
-
-        // add nodes
-        MapLayers mapLayers = tiledMap.getLayers();
-        int width = ((TiledMapTileLayer) mapLayers.get("layer1")).getWidth();
-        int height = ((TiledMapTileLayer) mapLayers.get("layer1")).getHeight();
-
-        mapWidth = width * TILE_WIDTH;
-        mapHeight = height * TILE_HEIGHT;
-
-        for(int x = 0; x < width; x++){
-            for(int y = 0; y < height; y++){
-                TiledMapTileLayer.Cell cell = ((TiledMapTileLayer) mapLayers.get("layer1")).getCell(x, y);
-
-                // no node for water tiles
-                if(cell != null && cell.getTile().getId() != 11 && cell.getTile().getId() != 12) {
-                    int ty = height - y - 1;
-                    graph.addNode(new Node(x, ty));
-                }
-            }
-        }
-        graph.createMatrix();
+        this.box2DDebugRenderer.render(world, camera.combined.scl(PPM));
     }
 
     private void userInput() {
@@ -153,6 +126,15 @@ public class GameScreen extends ScreenAdapter {
                     }
                 }
             });
+
+            // select building
+            handler.buildings.forEach(building -> {
+                if(building instanceof Hive) {
+                    if(normalPos.x == building.getX() && normalPos.y == building.getY()) {
+                        building.selected();
+                    }
+                }
+            });
         }
 
         // target select
@@ -164,6 +146,10 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     public int getMapWidth() {
@@ -181,4 +167,8 @@ public class GameScreen extends ScreenAdapter {
     public Handler getHandler() {
         return handler;
     }
+
+    public void setMapWidth(int mapWidth) { this.mapWidth = mapWidth; }
+
+    public void setMapHeight(int mapHeight) { this.mapHeight = mapHeight; }
 }

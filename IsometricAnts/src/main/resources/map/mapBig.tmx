@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="isometric" renderorder="right-down" width="50" height="50" tilewidth="128" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="7">
+<map version="1.2" tiledversion="1.3.4" orientation="isometric" renderorder="right-down" width="50" height="50" tilewidth="128" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="14">
  <tileset firstgid="1" source="grid128.tsx"/>
  <layer id="2" name="layer0" width="50" height="50">
   <data encoding="base64" compression="zlib">
@@ -8,17 +8,15 @@
  </layer>
  <layer id="1" name="layer1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1t0KwzAIBeCQ5q57/+fdTQdDNNGsVh3ngBT6A34ktu2ttR5Ud+bXXo6rLNc84unozDWvWHqVeqbnD+Y5T4PGQQ2SSXNfpENjquawrFMVh8XjPeN3ODT7rYpDsmR2nFdZLFkcp1DaOcngkAycp4rjRY7UMvuuZHLMDJIjy3ysDKt9lcWhWZMKc66Zd41jJHGs3r8zx0jgoHtDMxsj0KH5H5e+6VzPgzn3hMNqmT0TuR7af4ydinB4Gaqux+dd+4SBc0izsLsGEQ5pli0VYaCOar1/Z7f3bKnYM5fq/SMIgiAIgiAIgiDIP+QNEXYJ7Q==
+   eJzt1tkKxDAIBdCQ5q3z/987Lx0oolHbLDrcC1LoAh4S29ZSSt1UI/O2l+Mqz7UZmemozLVZ8fQq9UzPH8xzMw0WBzVIJst9Ox0WUzaHZ52yODye2TM+wmHZb1kckiWy47zKY4niOIWyzkkEh2TgPFkcH3Kklt53JZKjZ5AcUeZDM2j7KorDsiYZ5twy7xZHC+LQ3r+/ntut6LmdDro3erPRlFrhsPyPS990bi12ObwW6ZkIDss/hlZRHG8MmmWlY4RltYFzSLOQySHNsqd2GKgjW+/3PO09WjL2zCV7/wiCIAiCIAiCIAjyD/kCV1gKBw==
   </data>
  </layer>
  <layer id="3" name="layer2" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1UEKgDAMRNHs9Q56/1OKi0IY0oq7TPkPRNCN37QaAQAAAAD7OdLhbDSc4d3i1nFPrueOcXR1Le5pg8NMKnmfd5/Hiu4P15ns0KENO3Q4fK8qswaHjiPq75Ouq270ubVh1tTNV0M+d/8PrvZBtaa6zuSl77nqyD0udA7O/47uawgAAAAA/ngAHCMGHQ==
+   eJzt1bEKgDAMRdHsuur/f6o4FMIjrbjllXtABF28ptUIAAAAANjPkQ5no+EM7xa3jntyPXeMo6trcU8bHGZSyfu8+zxWdH+4zmSHDm3YocPhe1WZNTh0HFF/n3RddaPPrQ2zpm6+GvK5+39wtQ+qNdV1Ji99z1VH7nGhc3D+d3RfQwAAAADwxwNF3QYJ
   </data>
  </layer>
- <objectgroup id="4" name="Objektebene">
-  <object id="6" name="hive" x="1408" y="1344">
-   <polygon points="0,0 0,-64 -64,-64 -64,0"/>
-  </object>
+ <objectgroup id="4" name="objects">
+  <object id="11" name="hive" x="1344" y="1280" width="64" height="64"/>
  </objectgroup>
 </map>

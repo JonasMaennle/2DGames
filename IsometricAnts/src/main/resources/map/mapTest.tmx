@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="isometric" renderorder="right-down" width="10" height="10" tilewidth="128" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.4" orientation="isometric" renderorder="right-down" width="10" height="10" tilewidth="128" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="4">
  <tileset firstgid="1" source="grid128.tsx"/>
  <layer id="1" name="layer1" width="10" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYBzFgwYDAFB4AGU=
+   eJxjYWBgYBnFgwYDAD0/AZE=
   </data>
  </layer>
+ <layer id="2" name="layer2" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFMCBGhBpRGrsBABTIACw=
+  </data>
+ </layer>
+ <objectgroup id="3" name="objects">
+  <object id="2" name="hive" x="448" y="448" width="64" height="64"/>
+ </objectgroup>
 </map>

@@ -161,6 +161,20 @@ public class Functions {
         return camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
     }
 
+
+    /**
+     * transform tiledMap object to grid position
+     * @param x
+     * @param y
+     * @param height number of tiles for y-direction
+     * @return
+     */
+    public static Vector2 transformTiledMapObjectToGrid(float x, float y, int height) {
+        float xT = x / (TILE_WIDTH / 2);
+        float yT = height - (y / TILE_HEIGHT) - 1;
+        return new Vector2(xT, yT);
+    }
+
     /**
      *  check if target if available -> not blocked by ant or ant pathtarget
      * @param targetNodes
